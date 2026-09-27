@@ -1,0 +1,13 @@
+{
+  "name": "powered-by-digital",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node menubuilder.js",
+    "dev": "node menubuilder.js && wrangler dev",
+    "deploy": "node menubuilder.js && wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4"
+  }
+}
