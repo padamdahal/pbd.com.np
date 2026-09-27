@@ -1,1 +1,1200 @@
-It works...
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#c3dcea">
+
+  <title>PBD — Digital Tools, Nepal Guides & Practical Technology</title>
+
+  <meta name="description"
+        content="PBD provides useful online tools, Nepal-focused digital guides, calculators, converters and practical technology information for everyday life.">
+
+  <meta name="robots" content="index, follow, max-image-preview:large">
+
+  <link rel="canonical" href="https://pbd.com.np/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="PBD — Digital Tools, Nepal Guides & Practical Technology">
+  <meta property="og:description"
+        content="Useful online tools, Nepal-focused digital guides, calculators, converters and practical technology information.">
+  <meta property="og:url" content="https://pbd.com.np/">
+  <meta property="og:site_name" content="PBD">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="PBD — Digital Tools, Nepal Guides & Practical Technology">
+  <meta name="twitter:description"
+        content="Useful digital tools, Nepal guides and practical technology information.">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230b7285'/%3E%3Ctext x='50' y='67' text-anchor='middle' font-size='48' font-family='Arial' font-weight='700' fill='white'%3EP%3C/text%3E%3C/svg%3E">
+
+  <!-- Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "PBD",
+    "url": "https://pbd.com.np/",
+    "description": "Useful online tools, Nepal-focused digital guides and practical technology information.",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://pbd.com.np/search/?q={search_term_string}"
+      },
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "PBD",
+    "url": "https://pbd.com.np/"
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg: #f7fafb;
+      --surface: #ffffff;
+      --surface-soft: #eef7f8;
+      --text: #13232b;
+      --muted: #61727b;
+      --primary: #0b7285;
+      --primary-dark: #075866;
+      --border: #dce7ea;
+      --accent: #f0b429;
+      --shadow: 0 10px 35px rgba(19, 35, 43, .07);
+      --radius: 18px;
+      --max-width: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: min(calc(100% - 32px), var(--max-width));
+      margin-inline: auto;
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    header {
+      background: rgba(255,255,255,.94);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+
+    .nav {
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 25px;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 1.45rem;
+      letter-spacing: -.04em;
+    }
+
+    .logo-mark {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 11px;
+      background: var(--primary);
+      color: white;
+      font-weight: 800;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      font-size: .93rem;
+      font-weight: 600;
+    }
+
+    .nav-links a {
+      color: #40545c;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .nav-button {
+      padding: 9px 15px;
+      border-radius: 10px;
+      background: var(--primary);
+      color: white !important;
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      padding: 75px 0 55px;
+      background:
+        radial-gradient(circle at 80% 15%, rgba(11,114,133,.12), transparent 30%),
+        linear-gradient(180deg, #edf8fa 0%, var(--bg) 100%);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 55px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--primary);
+      font-size: .82rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .09em;
+      margin-bottom: 16px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 22px;
+      height: 2px;
+      background: var(--primary);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.4rem, 5vw, 4.4rem);
+      line-height: 1.06;
+      letter-spacing: -.055em;
+      max-width: 750px;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 1.12rem;
+      max-width: 680px;
+      margin: 22px 0 28px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 18px;
+      border-radius: 11px;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      background: white;
+    }
+
+    .button-primary {
+      color: white;
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .button-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .hero-panel {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 25px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-panel-title {
+      font-weight: 800;
+      margin-bottom: 15px;
+    }
+
+    .quick-tool {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 13px 4px;
+      border-bottom: 1px solid #edf1f2;
+    }
+
+    .quick-tool:last-child {
+      border-bottom: 0;
+    }
+
+    .tool-icon {
+      width: 42px;
+      height: 42px;
+      flex: 0 0 42px;
+      display: grid;
+      place-items: center;
+      background: var(--surface-soft);
+      color: var(--primary);
+      border-radius: 12px;
+      font-size: 1.15rem;
+    }
+
+    .quick-tool strong {
+      display: block;
+      font-size: .94rem;
+    }
+
+    .quick-tool span {
+      display: block;
+      color: var(--muted);
+      font-size: .78rem;
+    }
+
+    /* =========================
+       SECTION
+    ========================= */
+
+    section {
+      padding: 65px 0;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 25px;
+      margin-bottom: 25px;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      font-size: clamp(1.65rem, 3vw, 2.25rem);
+      line-height: 1.15;
+      letter-spacing: -.035em;
+    }
+
+    .section-heading p {
+      max-width: 580px;
+      margin: 8px 0 0;
+      color: var(--muted);
+    }
+
+    .view-all {
+      color: var(--primary);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    /* =========================
+       TOOLS
+    ========================= */
+
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .tool-card {
+      display: block;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+
+    .tool-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+    }
+
+    .tool-card .icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 13px;
+      display: grid;
+      place-items: center;
+      background: var(--surface-soft);
+      color: var(--primary);
+      font-size: 1.25rem;
+      margin-bottom: 16px;
+    }
+
+    .tool-card h3 {
+      margin: 0 0 7px;
+      font-size: 1.05rem;
+    }
+
+    .tool-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .88rem;
+    }
+
+    /* =========================
+       FEATURED CONTENT
+    ========================= */
+
+    .content-layout {
+      display: grid;
+      grid-template-columns: 1.4fr .6fr;
+      gap: 20px;
+    }
+
+    .featured {
+      min-height: 300px;
+      background: linear-gradient(135deg, #075866, #0b7285);
+      color: white;
+      border-radius: 22px;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: end;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .featured::after {
+      content: "PBD";
+      position: absolute;
+      right: -25px;
+      top: -45px;
+      font-size: 11rem;
+      font-weight: 800;
+      opacity: .07;
+    }
+
+    .label {
+      font-size: .75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 10px;
+      opacity: .8;
+    }
+
+    .featured h3 {
+      font-size: clamp(1.6rem, 3vw, 2.3rem);
+      line-height: 1.15;
+      max-width: 650px;
+      margin: 0 0 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .featured p {
+      margin: 0;
+      max-width: 650px;
+      color: rgba(255,255,255,.82);
+      position: relative;
+      z-index: 1;
+    }
+
+    .side-content {
+      display: grid;
+      gap: 16px;
+    }
+
+    .article-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 21px;
+    }
+
+    .article-card .category {
+      color: var(--primary);
+      font-size: .74rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+    }
+
+    .article-card h3 {
+      font-size: 1rem;
+      line-height: 1.35;
+      margin: 8px 0;
+    }
+
+    .article-card p {
+      color: var(--muted);
+      font-size: .82rem;
+      margin: 0;
+    }
+
+    /* =========================
+       CATEGORIES
+    ========================= */
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+    }
+
+    .category-card {
+      padding: 22px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .category-card strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .category-card span {
+      color: var(--muted);
+      font-size: .82rem;
+    }
+
+    /* =========================
+       ABOUT / SEO CONTENT
+    ========================= */
+
+    .about {
+      background: #eef7f8;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: .75fr 1.25fr;
+      gap: 55px;
+      align-items: start;
+    }
+
+    .about h2 {
+      font-size: 2rem;
+      line-height: 1.2;
+      margin: 0;
+      letter-spacing: -.04em;
+    }
+
+    .about-copy {
+      color: #53666e;
+    }
+
+    .about-copy p:first-child {
+      margin-top: 0;
+    }
+
+    .principles {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 25px;
+    }
+
+    .principle {
+      background: white;
+      border-radius: 13px;
+      padding: 17px;
+      border: 1px solid var(--border);
+    }
+
+    .principle strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .principle span {
+      color: var(--muted);
+      font-size: .82rem;
+    }
+
+    /* =========================
+       NEWSLETTER / CTA
+    ========================= */
+
+    .cta {
+      padding: 55px 0;
+    }
+
+    .cta-box {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .cta-box h2 {
+      margin: 0 0 7px;
+      font-size: 1.7rem;
+    }
+
+    .cta-box p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      background: #10242c;
+      color: #d7e3e6;
+      padding: 45px 0 25px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.4fr repeat(3, 1fr);
+      gap: 35px;
+    }
+
+    .footer-brand p {
+      color: #9eb1b8;
+      font-size: .88rem;
+      max-width: 350px;
+    }
+
+    footer h3 {
+      font-size: .9rem;
+      color: white;
+      margin: 0 0 12px;
+    }
+
+    footer a {
+      display: block;
+      color: #aebfc4;
+      font-size: .84rem;
+      margin: 7px 0;
+    }
+
+    footer a:hover {
+      color: white;
+    }
+
+    .copyright {
+      border-top: 1px solid rgba(255,255,255,.1);
+      margin-top: 35px;
+      padding-top: 20px;
+      color: #91a4aa;
+      font-size: .78rem;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 900px) {
+      .hero-grid,
+      .about-grid,
+      .content-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .tool-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 650px) {
+      .container {
+        width: min(calc(100% - 24px), var(--max-width));
+      }
+
+      .nav-links a:not(.nav-button) {
+        display: none;
+      }
+
+      .hero {
+        padding: 50px 0 35px;
+      }
+
+      section {
+        padding: 45px 0;
+      }
+
+      .tool-grid,
+      .category-grid,
+      .principles,
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-heading {
+        display: block;
+      }
+
+      .view-all {
+        display: inline-block;
+        margin-top: 12px;
+      }
+
+      .cta-box {
+        display: block;
+      }
+
+      .cta-box .button {
+        margin-top: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================
+       HEADER
+  ========================== -->
+
+  <header>
+    <div class="container nav">
+
+      <a class="logo" href="/" aria-label="PBD Home">
+        <span class="logo-mark">P</span>
+        <span>PBD</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="/tools/">Tools</a>
+        <a href="/nepal/">Nepal</a>
+        <a href="/guides/">Guides</a>
+        <a href="/about/">About</a>
+        <a class="nav-button" href="/tools/">Explore Tools</a>
+      </nav>
+
+    </div>
+  </header>
+
+
+  <main>
+
+    <!-- =========================
+         HERO
+    ========================== -->
+
+    <section class="hero">
+
+      <div class="container hero-grid">
+
+        <div>
+
+          <div class="eyebrow">
+            Practical digital information
+          </div>
+
+          <h1>
+            Useful technology for everyday life.
+          </h1>
+
+          <p>
+            PBD brings together practical online tools, Nepal-focused
+            digital information and easy-to-follow technology guides —
+            designed to help you get things done.
+          </p>
+
+          <div class="hero-actions">
+            <a class="button button-primary" href="/tools/">
+              Explore online tools
+            </a>
+
+            <a class="button" href="/guides/">
+              Read practical guides
+            </a>
+          </div>
+
+        </div>
+
+
+        <aside class="hero-panel" aria-label="Popular tools">
+
+          <div class="hero-panel-title">
+            Popular tools
+          </div>
+
+          <a class="quick-tool" href="/tools/nepali-date-converter/">
+            <div class="tool-icon">📅</div>
+            <div>
+              <strong>Nepali Date Converter</strong>
+              <span>Convert Nepali and Gregorian dates</span>
+            </div>
+          </a>
+
+          <a class="quick-tool" href="/tools/roman-to-nepali/">
+            <div class="tool-icon">क</div>
+            <div>
+              <strong>Roman to Nepali</strong>
+              <span>Type Nepali using English letters</span>
+            </div>
+          </a>
+
+          <a class="quick-tool" href="/tools/emi-calculator/">
+            <div class="tool-icon">₨</div>
+            <div>
+              <strong>EMI Calculator</strong>
+              <span>Calculate monthly loan payments</span>
+            </div>
+          </a>
+
+          <a class="quick-tool" href="/tools/unit-converter/">
+            <div class="tool-icon">↔</div>
+            <div>
+              <strong>Unit Converter</strong>
+              <span>Convert common units quickly</span>
+            </div>
+          </a>
+
+        </aside>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         TOOLS
+    ========================== -->
+
+    <section>
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <div>
+            <h2>Free online tools</h2>
+            <p>
+              Simple tools and calculators for common tasks,
+              conversions and everyday needs.
+            </p>
+          </div>
+
+          <a class="view-all" href="/tools/">
+            View all tools →
+          </a>
+
+        </div>
+
+
+        <div class="tool-grid">
+
+          <a class="tool-card" href="/tools/nepali-date-converter/">
+            <div class="icon">📅</div>
+            <h3>Nepali Date Converter</h3>
+            <p>
+              Convert dates between Bikram Sambat and Gregorian calendars.
+            </p>
+          </a>
+
+          <a class="tool-card" href="/tools/roman-to-nepali/">
+            <div class="icon">क</div>
+            <h3>Roman to Nepali Unicode</h3>
+            <p>
+              Type Nepali words using English letters and convert them to Unicode.
+            </p>
+          </a>
+
+          <a class="tool-card" href="/tools/emi-calculator/">
+            <div class="icon">₨</div>
+            <h3>EMI Calculator</h3>
+            <p>
+              Estimate monthly payments, total interest and loan cost.
+            </p>
+          </a>
+
+          <a class="tool-card" href="/tools/unit-converter/">
+            <div class="icon">↔</div>
+            <h3>Unit Converter</h3>
+            <p>
+              Convert length, weight, temperature and other common units.
+            </p>
+          </a>
+
+          <a class="tool-card" href="/tools/ev-tax/">
+            <div class="icon">⚡</div>
+            <h3>EV Tax Calculator</h3>
+            <p>
+              Explore electric vehicle tax and cost calculations for Nepal.
+            </p>
+          </a>
+
+          <a class="tool-card" href="/tools/vehicle-renewal/">
+            <div class="icon">🚗</div>
+            <h3>Vehicle Renewal Calculator</h3>
+            <p>
+              Estimate vehicle renewal-related costs and applicable fees.
+            </p>
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         NEPAL
+    ========================== -->
+
+    <section>
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <div>
+            <h2>Digital life in Nepal</h2>
+            <p>
+              Practical information about digital services, vehicles,
+              payments, technology and everyday tasks in Nepal.
+            </p>
+          </div>
+
+          <a class="view-all" href="/nepal/">
+            Explore Nepal guides →
+          </a>
+
+        </div>
+
+
+        <div class="category-grid">
+
+          <a class="category-card" href="/nepal/digital-services/">
+            <strong>Digital Services</strong>
+            <span>Online services, government platforms and digital processes.</span>
+          </a>
+
+          <a class="category-card" href="/nepal/vehicles/">
+            <strong>Vehicles</strong>
+            <span>Vehicle tax, renewal, registration and useful information.</span>
+          </a>
+
+          <a class="category-card" href="/nepal/ev/">
+            <strong>Electric Vehicles</strong>
+            <span>EV ownership, charging, taxes and practical information.</span>
+          </a>
+
+          <a class="category-card" href="/nepal/finance/">
+            <strong>Finance & Calculators</strong>
+            <span>Useful financial information and everyday calculations.</span>
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         FEATURED GUIDES
+    ========================== -->
+
+    <section>
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <div>
+            <h2>Practical technology guides</h2>
+            <p>
+              Straightforward explanations that help you solve common
+              technology problems.
+            </p>
+          </div>
+
+          <a class="view-all" href="/guides/">
+            Browse guides →
+          </a>
+
+        </div>
+
+
+        <div class="content-layout">
+
+          <a class="featured" href="/guides/">
+
+            <div class="label">
+              PBD Guides
+            </div>
+
+            <h3>
+              Technology explained without the unnecessary complexity.
+            </h3>
+
+            <p>
+              Learn how to use everyday technology, solve common problems,
+              understand digital services and make better use of your devices.
+            </p>
+
+          </a>
+
+
+          <div class="side-content">
+
+            <a class="article-card" href="/guides/android/">
+              <div class="category">Android</div>
+              <h3>
+                Practical Android tips, settings and troubleshooting
+              </h3>
+              <p>
+                Useful guides for getting more from your Android phone.
+              </p>
+            </a>
+
+            <a class="article-card" href="/guides/windows/">
+              <div class="category">Windows</div>
+              <h3>
+                Windows guides and everyday PC solutions
+              </h3>
+              <p>
+                Clear instructions for common Windows tasks and problems.
+              </p>
+            </a>
+
+            <a class="article-card" href="/guides/ai/">
+              <div class="category">Artificial Intelligence</div>
+              <h3>
+                Practical ways to use AI tools
+              </h3>
+              <p>
+                Useful explanations, workflows and everyday AI applications.
+              </p>
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         WHY PBD
+    ========================== -->
+
+    <section class="about">
+
+      <div class="container about-grid">
+
+        <div>
+
+          <div class="eyebrow">
+            About PBD
+          </div>
+
+          <h2>
+            Technology should solve problems, not create more of them.
+          </h2>
+
+        </div>
+
+
+        <div class="about-copy">
+
+          <p>
+            PBD is a practical technology and digital information website
+            focused on useful tools, understandable guides and information
+            relevant to people in Nepal.
+          </p>
+
+          <p>
+            Instead of simply following every technology headline, we focus
+            on information that remains useful: tools that solve everyday
+            problems, guides that explain how things work and Nepal-specific
+            information that can be difficult to find in one place.
+          </p>
+
+          <div class="principles">
+
+            <div class="principle">
+              <strong>Useful first</strong>
+              <span>Tools and information designed around real problems.</span>
+            </div>
+
+            <div class="principle">
+              <strong>Clear explanations</strong>
+              <span>Simple language without unnecessary technical jargon.</span>
+            </div>
+
+            <div class="principle">
+              <strong>Made for Nepal</strong>
+              <span>Local information where location and context matter.</span>
+            </div>
+
+            <div class="principle">
+              <strong>Practical technology</strong>
+              <span>Technology that people can actually use.</span>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         CTA
+    ========================== -->
+
+    <section class="cta">
+
+      <div class="container">
+
+        <div class="cta-box">
+
+          <div>
+            <h2>Looking for a useful tool?</h2>
+            <p>
+              Browse calculators, converters and practical digital utilities.
+            </p>
+          </div>
+
+          <a class="button button-primary" href="/tools/">
+            Explore PBD Tools →
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================
+       FOOTER
+  ========================== -->
+
+  <footer>
+
+    <div class="container">
+
+      <div class="footer-grid">
+
+        <div class="footer-brand">
+
+          <div class="logo">
+            <span class="logo-mark">P</span>
+            <span>PBD</span>
+          </div>
+
+          <p>
+            Practical digital tools, Nepal-focused information and
+            straightforward technology guides.
+          </p>
+
+        </div>
+
+
+        <div>
+
+          <h3>Tools</h3>
+          <a href="/tools/nepali-date-converter/">Nepali Date Converter</a>
+          <a href="/tools/roman-to-nepali/">Roman to Nepali</a>
+          <a href="/tools/emi-calculator/">EMI Calculator</a>
+          <a href="/tools/unit-converter/">Unit Converter</a>
+
+        </div>
+
+
+        <div>
+
+          <h3>Nepal</h3>
+          <a href="/nepal/digital-services/">Digital Services</a>
+          <a href="/nepal/vehicles/">Vehicles</a>
+          <a href="/nepal/ev/">Electric Vehicles</a>
+          <a href="/nepal/finance/">Finance</a>
+
+        </div>
+
+
+        <div>
+
+          <h3>PBD</h3>
+          <a href="/guides/">Guides</a>
+          <a href="/about/">About</a>
+          <a href="/contact/">Contact</a>
+          <a href="/privacy/">Privacy</a>
+
+        </div>
+
+      </div>
+
+
+      <div class="copyright">
+        © 2026 PBD. Practical technology and digital information.
+      </div>
+
+    </div>
+
+  </footer>
+
+</body>
+</html>
