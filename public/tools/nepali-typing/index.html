@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nepali Typing Online – Roman to Nepali Unicode Converter</title>
+  <meta name="description" content="Free Nepali typing tool: type in English letters and get Nepali Unicode instantly. Live word suggestions, undo, Nepali digits, copy and WhatsApp share. Works on phone and PC.">
+  <link rel="canonical" href="https://pbd.com.np/tools/nepali-typing/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="menu-title" content="Nepali typing (Roman → Unicode)">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="PBD">
+  <meta property="og:title" content="Nepali Typing Online – Roman to Nepali Unicode Converter">
+  <meta property="og:description" content="Free Nepali typing tool: type in English letters and get Nepali Unicode instantly. Live word suggestions, undo, Nepali digits, copy and WhatsApp share. Works on phone and PC.">
+  <meta property="og:url" content="https://pbd.com.np/tools/nepali-typing/">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ne_NP">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Nepali Typing Online – Roman to Nepali Unicode Converter">
+  <meta name="twitter:description" content="Free Nepali typing tool: type in English letters and get Nepali Unicode instantly. Live word suggestions, undo, Nepali digits, copy and WhatsApp share. Works on phone and PC.">
+  <meta name="theme-color" content="#c3dcea">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230b7285'/%3E%3Ctext x='50' y='68' text-anchor='middle' font-size='56' font-family='sans-serif' fill='white'%3E%E0%A4%A8%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Nepali Typing – Roman to Nepali Unicode", "url": "https://pbd.com.np/tools/nepali-typing/", "description": "Free online Nepali typing tool that converts Roman (English letters) to Nepali Unicode with live suggestions.", "applicationCategory": "UtilityApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "NPR"}, "inLanguage": ["ne", "en"], "isPartOf": {"@type": "WebSite", "name": "PBD", "url": "https://pbd.com.np/"}}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How do I type Nepali using English letters?", "acceptedAnswer": {"@type": "Answer", "text": "Click the box and type a word phonetically, for example ramro. When you press space it becomes राम्रो. Press Backspace straight after to turn it back into Roman letters and edit it, or tap one of the suggestions above the box to pick another spelling."}}, {"@type": "Question", "name": "Is this Nepali Unicode?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The text is standard Unicode Devanagari, so it can be pasted into Facebook, WhatsApp, Viber, Google Docs, Word, email and websites and will display correctly on phones and computers."}}, {"@type": "Question", "name": "How do I type ट, ठ, ड, ढ, ण and ष?", "acceptedAnswer": {"@type": "Answer", "text": "Use capital letters for the retroflex sounds: T = ट, Th = ठ, D = ड, Dh = ढ, N = ण and Sh = ष. Lowercase t, th, d, dh, n and sh give त, थ, द, ध, न and श."}}, {"@type": "Question", "name": "How do I type conjuncts like क्ष, त्र and ज्ञ?", "acceptedAnswer": {"@type": "Answer", "text": "Type them as they sound. ksh or x gives क्ष, tr gives त्र, gy gives ज्ञ, and any two consonants typed together join automatically, for example ramro gives राम्रो and swatantra gives स्वतन्त्र. Add ^ after a consonant to force a halant, for example k^ gives क्।"}}, {"@type": "Question", "name": "How can I type English words inside Nepali text?", "acceptedAnswer": {"@type": "Answer", "text": "Press Ctrl+Space or use the mode button to switch between Nepali and English while typing. To convert a pasted or existing paragraph, wrap any English words in curly braces, like {WhatsApp}, and press Convert all Roman text."}}, {"@type": "Question", "name": "Does it work on mobile phones, and is my text private?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, it works in any modern mobile or desktop browser. Everything runs in your browser; your text is not sent to a server. A draft is kept only in your own browser storage so you do not lose it, and the Clear button removes it."}}]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "PBD", "item": "https://pbd.com.np/"}, {"@type": "ListItem", "position": 2, "name": "Nepali Typing", "item": "https://pbd.com.np/tools/nepali-typing/"}]}</script>
+  <style>
+    .np-box{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-sm);padding:var(--s-4)}
+    #np-text{min-height:260px;padding:14px;font-size:1.3rem;line-height:1.7;resize:vertical}
+    .np-sugg{display:flex;flex-wrap:wrap;gap:8px;align-items:center;min-height:44px;margin-bottom:10px;color:var(--muted);font-size:.9rem}
+    .sugg{font:inherit;font-size:1.15rem;padding:6px 14px;border:1px solid var(--line-strong);border-radius:999px;background:#fff;cursor:pointer}
+    .sugg.first{background:var(--primary);color:#fff;border-color:var(--primary)}
+    .np-tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;align-items:center}
+    .np-tools .grow{flex:1}
+    .np-opts{display:flex;flex-wrap:wrap;gap:16px;margin-top:12px;font-size:.92rem;color:var(--muted)}
+    .np-opts label{display:inline-flex;gap:6px;align-items:center} .np-opts input{width:auto}
+    .btn-primary{background:var(--primary);color:#fff;border-color:var(--primary)}
+    a.btn{text-decoration:none;display:inline-block;color:var(--text)}
+    #np-mode[aria-pressed=false]{background:#fff3cd}
+    .tbl{overflow-x:auto} table{border-collapse:collapse;width:100%;background:var(--surface);font-size:1rem}
+    th,td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top} th{background:#eef7f8}
+    section.block{margin-top:34px} section.block h2{font-size:1.4rem;margin:0 0 10px}
+    .cols{display:grid;grid-template-columns:1fr 1fr;gap:16px} @media(max-width:700px){.cols{grid-template-columns:1fr}}
+    .faq-item{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:8px}
+    .faq-item summary{cursor:pointer;font-weight:600} .faq-item p{margin:8px 0 4px;color:var(--muted)}
+    kbd{background:#eef7f8;border:1px solid var(--line-strong);border-radius:5px;padding:0 6px}
+  </style>
+</head>
+<body>
+  <a class="skip" href="#tool">Skip to tool</a>
+  <header class="site-header"><div class="bar"><a class="brand" href="/">PBD</a><nav id="menu" aria-label="Tools"></nav></div></header>
+  <main class="narrow" id="tool" style="max-width:860px">
+    <div class="page-intro">
+      <h1>Nepali Typing – Roman to Nepali Unicode</h1>
+      <p class="lead">Type Nepali with English letters. Write <strong>ramro</strong>, press space, get <strong lang="ne">राम्रो</strong>. Live suggestions, one-key undo, Nepali digits and instant copy – free, in your browser.</p>
+    </div>
+
+    <div class="np-box">
+      <div class="np-sugg" id="np-sugg" aria-live="polite"></div>
+      <label for="np-text" class="muted" style="display:block;margin-bottom:4px">Type here (Roman letters → Nepali)</label>
+      <textarea id="np-text" lang="ne" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" placeholder="mero naam ... ho. Ma nepali hu."></textarea>
+      <div class="np-tools">
+        <button type="button" class="btn btn-primary" id="np-copy">Copy</button>
+        <button type="button" class="btn" id="np-mode" aria-pressed="true">नेपाली ✓ (Ctrl+Space)</button>
+        <button type="button" class="btn" id="np-convert" title="Converts existing Roman text; put {English} in braces to keep it">Convert all Roman text</button>
+        <button type="button" class="btn" id="np-dl">Download .txt</button>
+        <a class="btn" id="np-wa" href="https://wa.me/" target="_blank" rel="noopener">WhatsApp</a>
+        <span class="grow"></span>
+        <button type="button" class="btn" id="np-clear">Clear</button>
+      </div>
+      <div class="np-opts">
+        <label><input type="checkbox" id="opt-digits"> Nepali digits (०१२३)</label>
+        <label><input type="checkbox" id="opt-danda"> Full stop → purna biram (।)</label>
+        <span id="np-count" aria-live="off"></span>
+      </div>
+      <noscript><p>This tool needs JavaScript. Enable it to type Nepali.</p></noscript>
+    </div>
+
+    <section class="block">
+      <h2>How it works</h2>
+      <ol>
+        <li>Type a word the way it sounds – <code>namaste</code>.</li>
+        <li>Press <kbd>Space</kbd> or punctuation and it turns into Nepali: <span lang="ne">नमस्ते</span>.</li>
+        <li>Wrong spelling? Tap a suggestion while you are still typing, or press <kbd>Backspace</kbd> right after to get your Roman letters back.</li>
+        <li>Switch to English any time with <kbd>Ctrl</kbd>+<kbd>Space</kbd>, then copy the result anywhere.</li>
+      </ol>
+    </section>
+
+    <section class="block">
+      <h2>Roman to Nepali typing chart</h2>
+      <div class="cols">
+        <div class="tbl"><table><caption class="muted" style="text-align:left">Vowels</caption>
+          <thead><tr><th>Type</th><th>Letter</th><th>Sign after consonant</th></tr></thead><tbody>
+        <tr><td>a</td><td>अ</td><td>(none)</td></tr>
+        <tr><td>aa / A</td><td>आ</td><td>ा</td></tr>
+        <tr><td>i</td><td>इ</td><td>ि</td></tr>
+        <tr><td>ee / ii / I</td><td>ई</td><td>ी</td></tr>
+        <tr><td>u</td><td>उ</td><td>ु</td></tr>
+        <tr><td>oo / uu / U</td><td>ऊ</td><td>ू</td></tr>
+        <tr><td>e</td><td>ए</td><td>े</td></tr>
+        <tr><td>ai</td><td>ऐ</td><td>ै</td></tr>
+        <tr><td>o</td><td>ओ</td><td>ो</td></tr>
+        <tr><td>au</td><td>औ</td><td>ौ</td></tr>
+        <tr><td>Ri</td><td>ऋ</td><td>ृ</td></tr>
+        </tbody></table></div>
+        <div class="tbl"><table><caption class="muted" style="text-align:left">Consonants</caption>
+          <thead><tr><th>Type</th><th>Letters</th></tr></thead><tbody>
+        <tr><td>k kh g gh ng</td><td>क ख ग घ ङ</td></tr>
+        <tr><td>c ch chh j jh Yn</td><td>च छ छ ज झ ञ</td></tr>
+        <tr><td>T Th D Dh N</td><td>ट ठ ड ढ ण</td></tr>
+        <tr><td>t th d dh n</td><td>त थ द ध न</td></tr>
+        <tr><td>p ph b bh m</td><td>प फ ब भ म</td></tr>
+        <tr><td>y r l w / v</td><td>य र ल व</td></tr>
+        <tr><td>s sh Sh h</td><td>स श ष ह</td></tr>
+        <tr><td>ksh / x, gy</td><td>क्ष, ज्ञ</td></tr>
+        </tbody></table></div>
+      </div>
+      <p class="note" lang="en">Extras: <code>M</code> after a letter gives ं (anusvara), <code>MM</code> gives ँ (chandrabindu), <code>H</code> gives ः, <code>^</code> gives a halant (्). Capital letters matter: <code>T D N Sh</code> are ट ड ण ष.</p>
+    </section>
+
+    <section class="block">
+      <h2>Examples</h2>
+      <div class="tbl"><table><thead><tr><th>You type</th><th>You get</th></tr></thead><tbody>
+        <tr><td><code>ramro</code></td><td><span lang="ne">राम्रो</span></td></tr>
+        <tr><td><code>namaste</code></td><td><span lang="ne">नमस्ते</span></td></tr>
+        <tr><td><code>dhanyabad</code></td><td><span lang="ne">धन्यवाद</span></td></tr>
+        <tr><td><code>kaam</code></td><td><span lang="ne">काम</span></td></tr>
+        <tr><td><code>sundar</code></td><td><span lang="ne">सुन्दर</span></td></tr>
+        <tr><td><code>swatantra</code></td><td><span lang="ne">स्वतन्त्र</span></td></tr>
+        <tr><td><code>gyaan</code></td><td><span lang="ne">ज्ञान</span></td></tr>
+        <tr><td><code>kshetra</code></td><td><span lang="ne">क्षेत्र</span></td></tr>
+        <tr><td><code>Thulo</code></td><td><span lang="ne">ठुलो</span></td></tr>
+        <tr><td><code>vidyaalaya</code></td><td><span lang="ne">विद्यालय</span></td></tr>
+        <tr><td><code>saMsad</code></td><td><span lang="ne">संसद</span></td></tr>
+        <tr><td><code>prakRiti</code></td><td><span lang="ne">प्रकृति</span></td></tr>
+      </tbody></table></div>
+    </section>
+
+    <section class="block faq">
+      <h2>Nepali typing – frequently asked questions</h2>
+      <details class="faq-item"><summary>How do I type Nepali using English letters?</summary><p>Click the box and type a word phonetically, for example ramro. When you press space it becomes राम्रो. Press Backspace straight after to turn it back into Roman letters and edit it, or tap one of the suggestions above the box to pick another spelling.</p></details>
+      <details class="faq-item"><summary>Is this Nepali Unicode?</summary><p>Yes. The text is standard Unicode Devanagari, so it can be pasted into Facebook, WhatsApp, Viber, Google Docs, Word, email and websites and will display correctly on phones and computers.</p></details>
+      <details class="faq-item"><summary>How do I type ट, ठ, ड, ढ, ण and ष?</summary><p>Use capital letters for the retroflex sounds: T = ट, Th = ठ, D = ड, Dh = ढ, N = ण and Sh = ष. Lowercase t, th, d, dh, n and sh give त, थ, द, ध, न and श.</p></details>
+      <details class="faq-item"><summary>How do I type conjuncts like क्ष, त्र and ज्ञ?</summary><p>Type them as they sound. ksh or x gives क्ष, tr gives त्र, gy gives ज्ञ, and any two consonants typed together join automatically, for example ramro gives राम्रो and swatantra gives स्वतन्त्र. Add ^ after a consonant to force a halant, for example k^ gives क्।</p></details>
+      <details class="faq-item"><summary>How can I type English words inside Nepali text?</summary><p>Press Ctrl+Space or use the mode button to switch between Nepali and English while typing. To convert a pasted or existing paragraph, wrap any English words in curly braces, like {WhatsApp}, and press Convert all Roman text.</p></details>
+      <details class="faq-item"><summary>Does it work on mobile phones, and is my text private?</summary><p>Yes, it works in any modern mobile or desktop browser. Everything runs in your browser; your text is not sent to a server. A draft is kept only in your own browser storage so you do not lose it, and the Clear button removes it.</p></details>
+    </section>
+
+    <p class="related-tools" style="margin-top:28px"><strong>Related:</strong> <a href="/tools/nepali-date-converter/">BS ↔ AD date converter</a> · <a href="/">All tools</a></p>
+    <p class="note">Spelling is phonetic, so common words may need a second look – use the suggestions for alternatives.</p>
+  </main>
+  <footer class="site-footer"><div class="bar"><p>© <span id="yr"></span> PBD</p>
+    <div class="footer-nav"><nav id="footer-menu" aria-label="Footer tools"></nav><nav class="legal" aria-label="Legal"><a href="/about/">About</a> <a href="/privacy/">Privacy</a></nav></div></div></footer>
+  <script src="nepali-typing.js" defer></script>
+  <script src="/assets/menu.js" defer></script>
+</body>
+</html>
