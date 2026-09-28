@@ -1,7 +1,4 @@
 User-agent: *
 Allow: /
 
-# Privacy policy is noindex; keep crawlers off it
-Disallow: /privacy/
-
-Sitemap: https://pbd-com-np.padam-dahal.workers.dev/sitemap.xml
+Sitemap: https://pbd.com.np/sitemap.xml

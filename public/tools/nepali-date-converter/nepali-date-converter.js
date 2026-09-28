@@ -205,8 +205,10 @@
       });
     });
 
-    const now = new Date();
-    const todayAd = { y: now.getFullYear(), m: now.getMonth() + 1, d: now.getDate() };
+    // Use Nepal's date regardless of the visitor's timezone
+    const [tY, tM, tD] = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kathmandu", year: "numeric", month: "2-digit", day: "2-digit" })
+      .format(new Date()).split("-").map(Number);
+    const todayAd = { y: tY, m: tM, d: tD };
     const todayBs = adToBs(todayAd.y, todayAd.m, todayAd.d);
 
     if (todayBs) {

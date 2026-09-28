@@ -15,14 +15,14 @@ public/robots.txt  — points crawlers at the sitemap
 
 /******************* Update before deploy ***********************
 SITE_URL=https://pbd.com.np npm run deploy
-or edit DEFAULT_SITE_URL below.
+or edit DEFAULT_SITE_URL below (defaults to production).
 *****************************************************************/
 
 import fs from "node:fs";
 import path from "node:path";
 
 const root = "public";
-const DEFAULT_SITE_URL = "https://pbd-com-np.padam-dahal.workers.dev/";
+const DEFAULT_SITE_URL = "https://pbd.com.np";
 const siteUrl = (process.env.SITE_URL || DEFAULT_SITE_URL).replace(/\/$/, "");
 
 const meta = (html, name) =>
@@ -31,7 +31,12 @@ const meta = (html, name) =>
 const isNoindex = (html) =>
   /<meta\s+name=["']robots["']\s+content=["'][^"']*noindex/i.test(html);
 
+import { execSync } from "node:child_process";
 const isoDate = (filePath) => {
+  try {
+    const g = execSync(`git log -1 --format=%cs -- "${filePath}"`, { stdio: ["ignore", "pipe", "ignore"] }).toString().trim();
+    if (g) return g;
+  } catch {}
   try {
     return fs.statSync(filePath).mtime.toISOString().slice(0, 10);
   } catch {
@@ -45,9 +50,14 @@ const escapeXml = (s) => {
 };
 
 // --- collect pages ---
-const dirs = fs
-  .readdirSync(root, { withFileTypes: true })
-  .filter((d) => d.isDirectory() && fs.existsSync(path.join(root, d.name, "index.html")));
+const walk = (dir) =>
+  fs.readdirSync(dir, { withFileTypes: true }).flatMap((d) => {
+    if (!d.isDirectory()) return [];
+    const rel = path.join(dir, d.name);
+    const here = fs.existsSync(path.join(rel, "index.html")) ? [rel] : [];
+    return [...here, ...walk(rel)];
+  });
+const dirs = walk(root).map((p) => ({ name: path.relative(root, p).split(path.sep).join("/") }));
 
 const toolItems = [];
 const sitemapEntries = [];
@@ -60,7 +70,7 @@ if (fs.existsSync(homePath)) {
     sitemapEntries.push({
       loc: `${siteUrl}/`,
       lastmod: isoDate(homePath),
-      changefreq: "daily",
+      changefreq: "weekly",
       priority: "1.0",
     });
   }
@@ -81,7 +91,6 @@ for (const d of dirs) {
   }
 
   if (!isNoindex(html)) {
-    // Tools rank higher than legal/info pages
     const priority = hideFromMenu ? "0.5" : "0.8";
     const changefreq = hideFromMenu ? "monthly" : "weekly";
     sitemapEntries.push({
@@ -129,9 +138,6 @@ console.log(`sitemap.xml: ${sitemapEntries.length} URL(s) → ${siteUrl}`);
 // --- robots.txt ---
 const robots = `User-agent: *
 Allow: /
-
-# Privacy policy is noindex; keep crawlers off it
-Disallow: /privacy/
 
 Sitemap: ${siteUrl}/sitemap.xml
 `;

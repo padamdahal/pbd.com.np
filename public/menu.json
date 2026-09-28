@@ -1,1 +1,7 @@
-[]
+[
+  {
+    "title": "BS ↔ AD date converter",
+    "description": "Free BS to AD and AD to BS date converter for Nepal. Convert Bikram Sambat to Gregorian (and back) for banks, forms and official documents.",
+    "path": "/tools/nepali-date-converter/"
+  }
+]
