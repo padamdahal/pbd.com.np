@@ -5,6 +5,11 @@
     "path": "/tools/nepali-date-converter/"
   },
   {
+    "title": "BS age calculator",
+    "description": "Free Nepali age calculator. Enter your date of birth in BS or AD and get your exact age, next Nepali and English birthday countdown, and fun facts like heartbeats and birthdays on other planets.",
+    "path": "/tools/bs-age-calculator/"
+  },
+  {
     "title": "Nepali typing (Roman → Unicode)",
     "description": "Free Nepali typing tool: type in English letters and get Nepali Unicode instantly. Live word suggestions, undo, Nepali digits, copy and WhatsApp share. Works on phone and PC.",
     "path": "/tools/nepali-typing/"

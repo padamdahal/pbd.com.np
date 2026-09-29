@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BS Age Calculator – Nepali Age from Date of Birth (BS/AD)</title>
+  <meta name="description" content="Free Nepali age calculator. Enter your date of birth in BS or AD and get your exact age, next Nepali and English birthday countdown, and fun facts like heartbeats and birthdays on other planets.">
+  <link rel="canonical" href="https://pbd.com.np/tools/bs-age-calculator/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="menu-title" content="BS age calculator">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="PBD">
+  <meta property="og:title" content="BS Age Calculator – Nepali Age from Date of Birth (BS/AD)">
+  <meta property="og:description" content="Free Nepali age calculator. Enter your date of birth in BS or AD and get your exact age, next Nepali and English birthday countdown, and fun facts like heartbeats and birthdays on other planets.">
+  <meta property="og:url" content="https://pbd.com.np/tools/bs-age-calculator/">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ne_NP">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="BS Age Calculator – Nepali Age from Date of Birth (BS/AD)">
+  <meta name="twitter:description" content="Free Nepali age calculator. Enter your date of birth in BS or AD and get your exact age, next Nepali and English birthday countdown, and fun facts like heartbeats and birthdays on other planets.">
+  <meta name="theme-color" content="#c3dcea">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "BS Age Calculator", "url": "https://pbd.com.np/tools/bs-age-calculator/", "description": "Free online age calculator for Nepal that works out exact age from a Bikram Sambat or AD date of birth, with birthday countdowns.", "applicationCategory": "UtilityApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "NPR"}, "inLanguage": ["en", "ne"], "isPartOf": {"@type": "WebSite", "name": "PBD", "url": "https://pbd.com.np/"}}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How does this calculator find my age from a BS date of birth?", "acceptedAnswer": {"@type": "Answer", "text": "Enter your birth date on the Bikram Sambat (BS) side using the same calendar table as our BS to AD date converter. It converts your birth date to AD internally, compares it with today's date in Nepal, and works out your exact age in both calendars at the same time."}}, {"@type": "Question", "name": "Why does my BS age differ slightly from my AD age?", "acceptedAnswer": {"@type": "Answer", "text": "Bikram Sambat months don't line up with Gregorian months, so partway through the year your BS age and AD age can show a different number of months or days even though the year is usually the same or one apart. Both are shown so you can use whichever your document or form asks for."}}, {"@type": "Question", "name": "Can I enter my birth date in AD (English calendar) instead?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Fill in the AD side with your Gregorian date of birth and the BS side fills in automatically — enter either one."}}, {"@type": "Question", "name": "How is the age shown — years, months and days?", "acceptedAnswer": {"@type": "Answer", "text": "The calculator finds the difference between your birth date and today the way people count age by hand: whole years first, then whole months, then the remaining days, borrowing from the previous month's length where needed. This is standard calendar age, not just total days divided out."}}, {"@type": "Question", "name": "What is the countdown to my next birthday?", "acceptedAnswer": {"@type": "Answer", "text": "It shows the number of days left to your next BS birthday (based on your BS date of birth) and separately to your next AD birthday, so you can see both even when they fall on different days."}}, {"@type": "Question", "name": "Are the 'birthdays on other planets' and heartbeat numbers accurate?", "acceptedAnswer": {"@type": "Answer", "text": "They're for fun, not medical or scientific use. Planetary birthdays use each planet's real orbital period, and heartbeats/sleep are rough estimates from typical averages, so treat them as playful facts rather than precise figures."}}]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "PBD", "item": "https://pbd.com.np/"}, {"@type": "ListItem", "position": 2, "name": "BS Age Calculator", "item": "https://pbd.com.np/tools/bs-age-calculator/"}]}</script>
+  <style>
+    .calc-box{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-sm);padding:var(--s-4)}
+    .tabs{display:flex;gap:8px;margin-bottom:var(--s-4)}
+    .row3{display:grid;grid-template-columns:1fr 1.6fr 1fr;gap:10px}
+    @media(max-width:520px){.row3{grid-template-columns:1fr}}
+    .panel{margin-bottom:var(--s-4)}
+    .panel h3{margin:0 0 8px;font-size:1rem;color:var(--muted)}
+    #hint{min-height:1.2em;margin-bottom:8px}
+    #result{border-top:1px dashed var(--line-strong);padding-top:var(--s-4);margin-top:var(--s-4)}
+    #headline{font-size:1.8rem;line-height:1.3}
+    #headline-ad{color:var(--muted);margin-top:2px}
+    #born-line{color:var(--muted);margin-top:6px;font-size:.95rem}
+    .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin-top:var(--s-5)}
+    .stat{background:#eef7f8;border-radius:var(--radius-sm);padding:10px 12px;text-align:center}
+    .stat strong{display:block;font-size:1.25rem}
+    .stat span{color:var(--muted);font-size:.8rem}
+    .next-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:var(--s-5)}
+    @media(max-width:520px){.next-grid{grid-template-columns:1fr}}
+    .next-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius-sm);padding:12px}
+    .next-card h4{margin:0 0 4px;font-size:.85rem;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
+    .planet-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-top:8px}
+    .planet{background:#fff;border:1px solid var(--line);border-radius:var(--radius-sm);padding:10px;text-align:center}
+    .planet strong{display:block;font-size:1.3rem;color:var(--primary-dark)}
+    .planet span{color:var(--muted);font-size:.8rem}
+    #milestone{margin-top:var(--s-4);color:var(--muted);font-size:.92rem}
+    section.block{margin-top:34px} section.block h2{font-size:1.4rem;margin:0 0 10px}
+    .faq-item{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:8px}
+    .faq-item summary{cursor:pointer;font-weight:600} .faq-item p{margin:8px 0 4px;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <a class="skip" href="#tool">Skip to tool</a>
+  <header class="site-header"><div class="bar"><a class="brand" href="/">PBD</a><nav id="menu" aria-label="Tools"></nav></div></header>
+  <main class="narrow" id="tool" style="max-width:820px">
+    <div class="page-intro">
+      <h1>BS Age Calculator</h1>
+      <p class="lead">Enter your date of birth in Bikram Sambat or AD and get your exact age in both calendars, a countdown to your next birthday, and a few fun facts along the way.</p>
+    </div>
+
+    <div class="calc-box">
+      <div class="panel">
+        <h3>Date of birth — Bikram Sambat (BS)</h3>
+        <div class="row3">
+          <div class="field" style="margin:0"><label for="bs-y">Year</label>
+            <input id="bs-y" type="number" inputmode="numeric" min="2000" max="2090" placeholder="2058"></div>
+          <div class="field" style="margin:0"><label for="bs-m">Month</label><select id="bs-m"></select></div>
+          <div class="field" style="margin:0"><label for="bs-d">Day</label><select id="bs-d"></select></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Date of birth — AD (English)</h3>
+        <div class="row3">
+          <div class="field" style="margin:0"><label for="ad-y">Year</label>
+            <input id="ad-y" type="number" inputmode="numeric" min="1943" max="2034" placeholder="2001"></div>
+          <div class="field" style="margin:0"><label for="ad-m">Month</label><select id="ad-m"></select></div>
+          <div class="field" style="margin:0"><label for="ad-d">Day</label><select id="ad-d"></select></div>
+        </div>
+      </div>
+
+      <p id="hint" class="hint" aria-live="polite"></p>
+
+      <div id="result" hidden>
+        <div id="headline"></div>
+        <div id="headline-ad"></div>
+        <div id="born-line"></div>
+
+        <div class="stat-grid" aria-label="Time lived">
+          <div class="stat"><strong id="stat-days"></strong><span>days</span></div>
+          <div class="stat"><strong id="stat-weeks"></strong><span>weeks</span></div>
+          <div class="stat"><strong id="stat-months"></strong><span>months</span></div>
+          <div class="stat"><strong id="stat-hours"></strong><span>hours</span></div>
+          <div class="stat"><strong id="stat-minutes"></strong><span>minutes</span></div>
+        </div>
+
+        <div class="next-grid">
+          <div class="next-card"><h4>Next birthday · BS</h4><div id="next-bs"></div></div>
+          <div class="next-card"><h4>Next birthday · AD</h4><div id="next-ad"></div></div>
+        </div>
+
+        <div class="panel" style="margin-top:var(--s-5)">
+          <h3>Just for fun</h3>
+          <p class="muted" style="margin:0 0 4px">Roughly <strong id="stat-heartbeats"></strong> heartbeats and about <strong id="stat-sleep"></strong> days asleep so far.</p>
+          <p class="muted" style="margin:0 0 6px">Birthdays you've had if you lived on other planets:</p>
+          <div class="planet-grid" id="planets"></div>
+        </div>
+        <p id="milestone"></p>
+      </div>
+    </div>
+
+    <section class="block">
+      <h2>About this calculator</h2>
+      <p>Age is worked out the way people count it by hand — whole years, then whole months, then the leftover days — using the same Bikram Sambat calendar table as our <a href="/tools/nepali-date-converter/">BS to AD date converter</a>. Enter either calendar; the other fills in automatically.</p>
+    </section>
+
+    <section class="block faq">
+      <h2>BS age calculator – frequently asked questions</h2>
+      <details class="faq-item"><summary>How does this calculator find my age from a BS date of birth?</summary><p>Enter your birth date on the Bikram Sambat (BS) side using the same calendar table as our BS to AD date converter. It converts your birth date to AD internally, compares it with today's date in Nepal, and works out your exact age in both calendars at the same time.</p></details>
+      <details class="faq-item"><summary>Why does my BS age differ slightly from my AD age?</summary><p>Bikram Sambat months don't line up with Gregorian months, so partway through the year your BS age and AD age can show a different number of months or days even though the year is usually the same or one apart. Both are shown so you can use whichever your document or form asks for.</p></details>
+      <details class="faq-item"><summary>Can I enter my birth date in AD (English calendar) instead?</summary><p>Yes. Fill in the AD side with your Gregorian date of birth and the BS side fills in automatically — enter either one.</p></details>
+      <details class="faq-item"><summary>How is the age shown — years, months and days?</summary><p>The calculator finds the difference between your birth date and today the way people count age by hand: whole years first, then whole months, then the remaining days, borrowing from the previous month's length where needed. This is standard calendar age, not just total days divided out.</p></details>
+      <details class="faq-item"><summary>What is the countdown to my next birthday?</summary><p>It shows the number of days left to your next BS birthday (based on your BS date of birth) and separately to your next AD birthday, so you can see both even when they fall on different days.</p></details>
+      <details class="faq-item"><summary>Are the 'birthdays on other planets' and heartbeat numbers accurate?</summary><p>They're for fun, not medical or scientific use. Planetary birthdays use each planet's real orbital period, and heartbeats/sleep are rough estimates from typical averages, so treat them as playful facts rather than precise figures.</p></details>
+    </section>
+
+    <p class="related-tools" style="margin-top:28px"><strong>Related:</strong> <a href="/tools/nepali-date-converter/">BS ↔ AD date converter</a> · <a href="/tools/nepali-typing/">Nepali typing</a> · <a href="/">All tools</a></p>
+    <p class="note">Supports birth dates roughly AD 1943–2034 (BS 2000–2090). Always double-check ages used in legal or official documents.</p>
+  </main>
+  <footer class="site-footer"><div class="bar"><p>© <span id="yr"></span> PBD</p>
+    <div class="footer-nav"><nav id="footer-menu" aria-label="Footer tools"></nav><nav class="legal" aria-label="Legal"><a href="/about/">About</a> <a href="/privacy/">Privacy</a></nav></div></div></footer>
+  <script src="age-calculator.js" defer></script>
+  <script src="/assets/menu.js" defer></script>
+</body>
+</html>
