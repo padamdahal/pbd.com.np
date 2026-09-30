@@ -34,6 +34,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
 
   <!-- Structured data -->
   <script type="application/ld+json">
@@ -102,27 +103,12 @@
       margin-inline: auto;
     }
 
-    /* =========================
-       HEADER
-    ========================= */
-
-    header {
-      background: rgba(255,255,255,.94);
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(12px);
+    /* Header nav (brand, dropdown menu) is shared via /assets/style.css
+       — see .site-header/.brand/.site-nav there, kept in sync across all pages.
+       Widen it here to match this page's own container width. */
+    .site-header .bar {
+      width: min(calc(100% - 32px), var(--max-width));
     }
-
-    .nav {
-      min-height: 70px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 25px;
-    }
-
     .logo {
       display: inline-flex;
       align-items: center;
@@ -132,7 +118,7 @@
       letter-spacing: -.04em;
     }
 
-    .logo-mark {
+    .logo .logo-mark {
       width: 38px;
       height: 38px;
       display: grid;
@@ -141,29 +127,6 @@
       background: var(--primary);
       color: white;
       font-weight: 800;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 25px;
-      font-size: .93rem;
-      font-weight: 600;
-    }
-
-    .nav-links a {
-      color: #40545c;
-    }
-
-    .nav-links a:hover {
-      color: var(--primary);
-    }
-
-    .nav-button {
-      padding: 9px 15px;
-      border-radius: 10px;
-      background: var(--primary);
-      color: white !important;
     }
 
     /* =========================
@@ -652,10 +615,6 @@
         width: min(calc(100% - 24px), var(--max-width));
       }
 
-      .nav-links a:not(.nav-button) {
-        display: none;
-      }
-
       .hero {
         padding: 50px 0 35px;
       }
@@ -699,19 +658,11 @@
        HEADER
   ========================== -->
 
-  <header>
-    <div class="container nav">
-
-      <a class="logo" href="/" aria-label="PBD Home">
-        <span class="logo-mark">P</span>
-        <span>PBD</span>
-      </a>
-
-      <nav class="nav-links" aria-label="Main navigation">
-        <a href="/about/">About</a>
-        <a class="nav-button" href="#tools">Explore Tools</a>
-      </nav>
-
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="/" aria-label="PBD Home"><span class="logo-mark">P</span><span>PBD</span></a>
+      <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
+      <nav id="menu" aria-label="Main navigation"></nav>
     </div>
   </header>
 
@@ -898,9 +849,7 @@
         <div>
 
           <h3>Tools</h3>
-          <a href="/tools/nepali-typing/">Nepali Typing</a>
-          <a href="/tools/nepali-date-converter/">Nepali Date Converter</a>
-          <a href="/tools/bs-age-calculator/">BS Age Calculator</a>
+          <nav id="footer-menu" aria-label="Footer tools"></nav>
 
         </div>
 
@@ -917,12 +866,13 @@
 
 
       <div class="copyright">
-        © 2026 PBD. Practical technology and digital information.
+        © <span id="yr"></span> PBD. Free online tools for Nepal.
       </div>
 
     </div>
 
   </footer>
 
+  <script src="/assets/menu.js" defer></script>
 </body>
 </html>

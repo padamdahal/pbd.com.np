@@ -1,17 +1,32 @@
-[
-  {
-    "title": "BS ↔ AD date converter",
-    "description": "Free BS to AD and AD to BS date converter for Nepal. Convert Bikram Sambat to Gregorian (and back) for banks, forms and official documents.",
-    "path": "/tools/nepali-date-converter/"
-  },
-  {
-    "title": "BS age calculator",
-    "description": "Free Nepali age calculator. Enter your date of birth in BS or AD and get your exact age, next Nepali and English birthday countdown, and fun facts like heartbeats and birthdays on other planets.",
-    "path": "/tools/bs-age-calculator/"
-  },
-  {
-    "title": "Nepali typing (Roman → Unicode)",
-    "description": "Free Nepali typing tool: type in English letters and get Nepali Unicode instantly. Live word suggestions, undo, Nepali digits, copy and WhatsApp share. Works on phone and PC.",
-    "path": "/tools/nepali-typing/"
-  }
-]
+{
+  "categories": [
+    {
+      "key": "tools",
+      "label": "Tools",
+      "items": [
+        {
+          "title": "BS ↔ AD date converter",
+          "description": "Free BS to AD and AD to BS date converter for Nepal. Convert Bikram Sambat to Gregorian (and back) for banks, forms and official documents.",
+          "path": "/tools/nepali-date-converter/"
+        },
+        {
+          "title": "BS age calculator",
+          "description": "Free Nepali age calculator. Enter your date of birth in BS or AD and get your exact age, next Nepali and English birthday countdown, and fun facts like heartbeats and birthdays on other planets.",
+          "path": "/tools/bs-age-calculator/"
+        },
+        {
+          "title": "Nepali typing (Roman → Unicode)",
+          "description": "Free Nepali typing tool: type in English letters and get Nepali Unicode instantly. Live word suggestions, undo, Nepali digits, copy and WhatsApp share. Works on phone and PC.",
+          "path": "/tools/nepali-typing/"
+        }
+      ]
+    }
+  ],
+  "top": [
+    {
+      "title": "About PBD",
+      "description": "PBD builds free, simple online utilities for everyday tasks in Nepal, starting with a BS to AD date converter.",
+      "path": "/about/"
+    }
+  ]
+}
