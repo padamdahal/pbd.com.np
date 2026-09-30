@@ -5,16 +5,11 @@
 
   const here = location.pathname.replace(/index\.html$/, "");
 
-  const link = (item, { withDesc } = {}) => {
+  const link = (item) => {
     const a = document.createElement("a");
     a.href = item.path;
     a.textContent = item.title;
     if (item.path === here) a.setAttribute("aria-current", "page");
-    if (withDesc && item.description) {
-      const s = document.createElement("small");
-      s.textContent = item.description;
-      a.appendChild(s);
-    }
     return a;
   };
 
@@ -50,7 +45,7 @@
       sub.className = "submenu";
       sub.setAttribute("role", "menu");
       for (const it of cat.items) {
-        const a = link(it, { withDesc: true });
+        const a = link(it);
         a.setAttribute("role", "menuitem");
         sub.appendChild(a);
       }
@@ -61,6 +56,26 @@
         closeAll();
         if (!isOpen) { li.classList.add("open"); btn.setAttribute("aria-expanded", "true"); }
       });
+
+      // Mouse-driven open/close as a robust backup to the CSS :hover rule
+      // (covers any sub-pixel gap some browsers introduce between the
+      // button and the submenu, which is what causes it to flicker shut).
+      let closeTimer = null;
+      const openNow = () => {
+        clearTimeout(closeTimer);
+        if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+        nav.querySelectorAll(".nav-item.open").forEach((other) => {
+          if (other !== li) { other.classList.remove("open"); other.querySelector(".nav-link")?.setAttribute("aria-expanded", "false"); }
+        });
+        li.classList.add("open");
+        btn.setAttribute("aria-expanded", "true");
+      };
+      const closeSoon = () => {
+        clearTimeout(closeTimer);
+        closeTimer = setTimeout(() => { li.classList.remove("open"); btn.setAttribute("aria-expanded", "false"); }, 150);
+      };
+      li.addEventListener("mouseenter", openNow);
+      li.addEventListener("mouseleave", closeSoon);
 
       li.append(btn, sub);
       nav.appendChild(li);
