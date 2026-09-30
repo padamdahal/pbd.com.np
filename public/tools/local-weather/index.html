@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Local Weather Forecast – Current Conditions & 7-Day Outlook</title>
+  <meta name="description" content="Free local weather tool for Nepal and worldwide. Check current conditions, hourly forecast and 7-day outlook using your location or any city search.">
+  <link rel="canonical" href="https://pbd.com.np/tools/local-weather/">
+  <meta name="robots" content="index, follow">
+  <meta name="keywords" content="weather Nepal, local weather, Kathmandu weather, weather forecast, temperature, rain forecast">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="PBD">
+  <meta property="og:title" content="Local Weather Forecast – Current Conditions & 7-Day Outlook">
+  <meta property="og:description" content="Free local weather tool. Current conditions, hourly forecast and 7-day outlook for your location or any city.">
+  <meta property="og:url" content="https://pbd.com.np/tools/local-weather/">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ne_NP">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Local Weather Forecast – Current Conditions & 7-Day Outlook">
+  <meta name="twitter:description" content="Free local weather tool. Current conditions, hourly forecast and 7-day outlook.">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebApplication","name":"Local Weather Forecast","url":"https://pbd.com.np/tools/local-weather/","description":"Free local weather tool with current conditions, hourly and 7-day forecast.","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"NPR"},"inLanguage":["ne","en"]}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does the local weather tool get my location?","acceptedAnswer":{"@type":"Answer","text":"It can use your browser’s location permission, or you can search for any city. Location data stays in your browser and is only sent to the weather service to fetch the forecast."}},{"@type":"Question","name":"Is this weather data free?","acceptedAnswer":{"@type":"Answer","text":"Yes. The tool uses the free Open-Meteo weather API. No account or API key is required."}},{"@type":"Question","name":"Does it work for places outside Nepal?","acceptedAnswer":{"@type":"Answer","text":"Yes. You can search any city worldwide. Default quick picks focus on major cities in Nepal."}},{"@type":"Question","name":"How often is the forecast updated?","acceptedAnswer":{"@type":"Answer","text":"Open-Meteo updates model data regularly (typically hourly). Refresh the page or search again for the latest values."}}]}
+  </script>
+  <meta name="menu-title" content="Local weather">
+  <meta name="theme-color" content="#c3dcea">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🌤️%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="/assets/style.css">
+  <style>
+    .wx-search {
+      display: flex; flex-wrap: wrap; gap: 10px; align-items: stretch;
+      margin-bottom: var(--s-5);
+    }
+    .wx-search .field { flex: 1 1 220px; margin: 0; position: relative; }
+    .wx-search input { padding: 11px 14px; font-size: 1.05rem; }
+    .wx-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .wx-actions .btn { white-space: nowrap; }
+    .btn-primary {
+      background: var(--primary); color: #fff; border-color: var(--primary);
+    }
+    .btn-primary:hover { background: var(--primary-dark); border-color: var(--primary-dark); }
+    .suggestions {
+      position: absolute; left: 0; right: 0; top: 100%; z-index: 30;
+      background: #fff; border: 1px solid var(--line); border-radius: var(--radius-sm);
+      box-shadow: var(--shadow-sm); margin-top: 4px; max-height: 260px; overflow: auto;
+      display: none;
+    }
+    .suggestions.open { display: block; }
+    .suggestions button {
+      display: block; width: 100%; text-align: left; border: 0; background: none;
+      padding: 10px 12px; font: inherit; cursor: pointer; color: var(--text);
+    }
+    .suggestions button:hover, .suggestions button[aria-selected="true"] { background: #eef7f8; }
+    .suggestions .sub { color: var(--muted); font-size: .85rem; }
+    .quick-cities {
+      display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 var(--s-5);
+    }
+    .chip {
+      font: inherit; font-weight: 600; font-size: .88rem;
+      border: 1px solid var(--line); background: #fff; border-radius: 999px;
+      padding: 6px 12px; cursor: pointer; color: var(--text);
+    }
+    .chip:hover, .chip.active { background: #eef7f8; border-color: var(--primary); color: var(--primary-dark); }
+
+    .wx-hero {
+      background: linear-gradient(135deg, #075866, #0b7285);
+      color: #fff; border-radius: var(--radius); padding: 28px;
+      box-shadow: var(--shadow-sm); margin-bottom: var(--s-5);
+      position: relative; overflow: hidden;
+    }
+    .wx-hero::after {
+      content: ""; position: absolute; right: -40px; top: -50px;
+      width: 180px; height: 180px; border-radius: 50%;
+      background: rgba(255,255,255,.08); pointer-events: none;
+    }
+    .wx-place { font-size: .95rem; opacity: .9; margin: 0 0 6px; font-weight: 600; }
+    .wx-temp-row { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; }
+    .wx-temp { font-size: clamp(3rem, 10vw, 4.2rem); font-weight: 700; line-height: 1; letter-spacing: -.04em; }
+    .wx-cond { font-size: 1.15rem; font-weight: 600; margin: 0 0 4px; }
+    .wx-feels { margin: 0; opacity: .85; font-size: .95rem; }
+    .wx-icon { font-size: 3.2rem; line-height: 1; }
+
+    .stat-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+      margin-bottom: var(--s-5);
+    }
+    @media (max-width: 640px) { .stat-grid { grid-template-columns: repeat(2, 1fr); } }
+    .stat {
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: var(--radius-sm); padding: 14px; text-align: center;
+      box-shadow: var(--shadow-sm);
+    }
+    .stat strong { display: block; font-size: 1.2rem; color: var(--primary-dark); }
+    .stat span { color: var(--muted); font-size: .82rem; }
+
+    .section-block { margin-bottom: var(--s-5); }
+    .section-block h2 { font-size: 1.15rem; margin: 0 0 12px; }
+
+    .hourly {
+      display: flex; gap: 10px; overflow-x: auto; padding-bottom: 6px;
+      scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+    }
+    .hour-card {
+      flex: 0 0 88px; scroll-snap-align: start;
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: var(--radius-sm); padding: 12px 8px; text-align: center;
+      box-shadow: var(--shadow-sm);
+    }
+    .hour-card .t { font-weight: 700; font-size: 1.05rem; margin: 6px 0 2px; }
+    .hour-card .h { color: var(--muted); font-size: .8rem; }
+    .hour-card .ico { font-size: 1.4rem; line-height: 1; }
+    .hour-card .p { color: var(--primary); font-size: .75rem; font-weight: 600; min-height: 1.1em; }
+
+    .daily { display: grid; gap: 8px; }
+    .day-row {
+      display: grid; grid-template-columns: 1.2fr .6fr 1fr 1fr;
+      gap: 8px; align-items: center;
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: var(--radius-sm); padding: 12px 14px;
+      box-shadow: var(--shadow-sm);
+    }
+    @media (max-width: 520px) {
+      .day-row { grid-template-columns: 1fr 1fr; }
+      .day-row .hide-sm { display: none; }
+    }
+    .day-row .name { font-weight: 700; }
+    .day-row .range { font-weight: 700; color: var(--primary-dark); text-align: right; }
+    .day-row .meta { color: var(--muted); font-size: .88rem; text-align: right; }
+    .day-row .ico { font-size: 1.35rem; text-align: center; }
+
+    .unit-toggle {
+      display: inline-flex; border: 1px solid var(--line-strong);
+      border-radius: var(--radius-sm); overflow: hidden; margin-left: auto;
+    }
+    .unit-toggle button {
+      font: inherit; font-weight: 700; font-size: .85rem; border: 0;
+      background: #fff; padding: 6px 12px; cursor: pointer; color: var(--text);
+    }
+    .unit-toggle button.active { background: var(--primary); color: #fff; }
+
+    .toolbar {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+      margin-bottom: 12px;
+    }
+    .toolbar h2 { margin: 0; }
+
+    .status {
+      padding: 14px 16px; border-radius: var(--radius-sm);
+      background: #eef7f8; border: 1px solid var(--line);
+      color: var(--muted); margin-bottom: var(--s-5);
+    }
+    .status.error { background: #fef3f2; border-color: #fecdca; color: #b42318; }
+    .status.loading { display: flex; align-items: center; gap: 10px; }
+    .spinner {
+      width: 18px; height: 18px; border: 2px solid var(--line-strong);
+      border-top-color: var(--primary); border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    #wx-results { display: none; }
+    #wx-results.show { display: block; }
+
+    .faq h2 { font-size: 1.15rem; margin-bottom: var(--s-3); }
+    .faq-item { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 10px 14px; margin-bottom: 8px; }
+    .faq-item summary { cursor: pointer; font-weight: 600; list-style: none; }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item p { margin: 8px 0 4px; color: var(--muted); font-size: 0.95rem; }
+    .related-tools { margin-top: var(--s-4); font-size: 0.95rem; }
+    .related-tools a { margin-right: 12px; }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632604868005505"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip" href="#tool">Skip to tool</a>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="/"><span class="logo-mark">P</span><span>PBD</span></a>
+      <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+      <nav id="menu" aria-label="Main navigation"></nav>
+    </div>
+  </header>
+
+  <main class="narrow" id="tool">
+    <div class="page-intro">
+      <h1>Local weather</h1>
+      <p class="lead">Check current conditions, the next hours and a 7-day outlook for your location or any city. Built for everyday use in Nepal — works worldwide.</p>
+    </div>
+
+    <div class="wx-search">
+      <div class="field">
+        <label for="city-q">City or place</label>
+        <input id="city-q" type="search" autocomplete="off" placeholder="e.g. Kathmandu, Pokhara, Biratnagar" aria-autocomplete="list" aria-controls="suggestions" aria-expanded="false">
+        <div id="suggestions" class="suggestions" role="listbox" aria-label="Place suggestions"></div>
+      </div>
+      <div class="wx-actions" style="align-self:flex-end">
+        <button type="button" class="btn btn-primary" id="btn-search">Search</button>
+        <button type="button" class="btn" id="btn-locate" title="Use my location">📍 Near me</button>
+      </div>
+    </div>
+
+    <div class="quick-cities" aria-label="Quick cities in Nepal">
+      <button type="button" class="chip" data-lat="27.7172" data-lon="85.3240" data-name="Kathmandu, Nepal">Kathmandu</button>
+      <button type="button" class="chip" data-lat="28.2096" data-lon="83.9856" data-name="Pokhara, Nepal">Pokhara</button>
+      <button type="button" class="chip" data-lat="26.4525" data-lon="87.2718" data-name="Biratnagar, Nepal">Biratnagar</button>
+      <button type="button" class="chip" data-lat="27.7000" data-lon="83.4500" data-name="Butwal, Nepal">Butwal</button>
+      <button type="button" class="chip" data-lat="26.8167" data-lon="87.2833" data-name="Dharan, Nepal">Dharan</button>
+      <button type="button" class="chip" data-lat="28.2669" data-lon="83.9685" data-name="Lekhnath, Nepal">Lekhnath</button>
+    </div>
+
+    <div id="status" class="status" role="status" aria-live="polite">Search a city or use your location to load the forecast.</div>
+
+    <div id="wx-results">
+      <div class="wx-hero" id="wx-hero">
+        <p class="wx-place" id="wx-place">—</p>
+        <div class="wx-temp-row">
+          <div class="wx-icon" id="wx-icon" aria-hidden="true">🌤️</div>
+          <div>
+            <div class="wx-temp" id="wx-temp">—°</div>
+            <p class="wx-cond" id="wx-cond">—</p>
+            <p class="wx-feels" id="wx-feels"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="stat-grid" id="wx-stats" aria-label="Current details"></div>
+
+      <section class="section-block" aria-labelledby="hourly-h">
+        <div class="toolbar">
+          <h2 id="hourly-h">Next 24 hours</h2>
+          <div class="unit-toggle" role="group" aria-label="Temperature unit">
+            <button type="button" id="unit-c" class="active" aria-pressed="true">°C</button>
+            <button type="button" id="unit-f" aria-pressed="false">°F</button>
+          </div>
+        </div>
+        <div class="hourly" id="hourly" tabindex="0"></div>
+      </section>
+
+      <section class="section-block" aria-labelledby="daily-h">
+        <h2 id="daily-h">7-day outlook</h2>
+        <div class="daily" id="daily"></div>
+      </section>
+
+      <p class="note">Weather data from <a href="https://open-meteo.com/" rel="noopener noreferrer" target="_blank">Open-Meteo</a>. Times follow the location’s local timezone. Not a substitute for official severe-weather warnings.</p>
+    </div>
+
+    <section class="faq" aria-label="Frequently asked questions">
+      <h2>Frequently asked questions</h2>
+      <details class="faq-item"><summary>How does the local weather tool get my location?</summary><p>It can use your browser’s location permission, or you can search for any city. Coordinates are only sent to the weather service to fetch the forecast and are not stored by PBD.</p></details>
+      <details class="faq-item"><summary>Is this weather data free?</summary><p>Yes. The tool uses the free Open-Meteo API. No account or API key is required on your side.</p></details>
+      <details class="faq-item"><summary>Does it work outside Nepal?</summary><p>Yes. Quick chips focus on Nepali cities, but the search works worldwide.</p></details>
+      <details class="faq-item"><summary>How often is the forecast updated?</summary><p>Underlying models refresh regularly (often hourly). Search again or use “Near me” for the latest values.</p></details>
+    </section>
+
+    <p class="related-tools"><strong>Related:</strong>
+      <a href="/tools/nepali-date-converter/">BS ↔ AD date converter</a>
+      <a href="/tools/bs-age-calculator/">BS Age Calculator</a>
+      <a href="/tools/nepali-typing/">Nepali typing</a>
+      <a href="/">All tools</a>
+    </p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="bar">
+      <p>© <span id="yr"></span> PBD</p>
+      <div class="footer-nav">
+        <nav id="footer-menu" aria-label="Footer tools"></nav>
+        <nav class="legal" aria-label="Legal">
+          <a href="/about/">About</a>
+          <a href="/privacy/">Privacy</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <script src="local-weather.js" defer></script>
+  <script src="/assets/menu.js" defer></script>
+</body>
+</html>
