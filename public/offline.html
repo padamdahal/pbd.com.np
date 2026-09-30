@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b7285">
+  <meta name="robots" content="noindex">
+  <title>Offline — PBD</title>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/assets/icons/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="/assets/style.css">
+  <style>
+    .offline-wrap {
+      min-height: 60vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 32px 16px;
+      gap: 12px;
+    }
+    .offline-wrap h1 { margin: 0; font-size: 1.6rem; }
+    .offline-wrap p { margin: 0; color: var(--muted); max-width: 28rem; }
+    .offline-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 16px; }
+    .offline-actions a, .offline-actions button {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 10px 16px; border-radius: 10px; font-weight: 600;
+      border: 1px solid var(--line); background: #fff; color: var(--text);
+      cursor: pointer; font: inherit; text-decoration: none;
+    }
+    .offline-actions a.primary, .offline-actions button.primary {
+      background: var(--primary); color: #fff; border-color: var(--primary);
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="/"><span class="logo-mark">P</span><span>PBD</span></a>
+    </div>
+  </header>
+  <main class="offline-wrap">
+    <div class="logo-mark" style="width:56px;height:56px;font-size:1.5rem;border-radius:14px;display:grid;place-items:center;background:var(--primary);color:#fff;font-weight:800;">P</div>
+    <h1>You’re offline</h1>
+    <p>PBD needs a network connection for some tools. Cached pages may still work. Check your connection and try again.</p>
+    <div class="offline-actions">
+      <button type="button" class="primary" onclick="location.reload()">Retry</button>
+      <a href="/">Home</a>
+      <a href="/tools/nepali-date-converter/">Date converter</a>
+      <a href="/tools/nepali-typing/">Nepali typing</a>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="bar">
+      <p>© <span id="yr"></span> PBD</p>
+    </div>
+  </footer>
+  <script>document.getElementById("yr").textContent = new Date().getFullYear();</script>
+</body>
+</html>
