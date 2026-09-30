@@ -108,7 +108,7 @@
       closeSuggestions();
       return;
     }
-    suggestItems.forEach((r, i) => {
+    suggestItems.forEach((r) => {
       const btn = document.createElement("button");
       btn.type = "button";
       btn.setAttribute("role", "option");
@@ -116,7 +116,12 @@
       const parts = [r.name];
       if (r.admin1) parts.push(r.admin1);
       if (r.country) parts.push(r.country);
-      btn.innerHTML = `<strong>${escapeHtml(r.name)}</strong> <span class="sub">${escapeHtml(parts.slice(1).join(", "))}</span>`;
+      btn.innerHTML =
+        "<strong>" +
+        escapeHtml(r.name) +
+        '</strong> <span class="sub">' +
+        escapeHtml(parts.slice(1).join(", ")) +
+        "</span>";
       btn.addEventListener("click", () => {
         closeSuggestions();
         loadWeather({
@@ -135,10 +140,10 @@
 
   function escapeHtml(s) {
     return String(s)
-      .replace(/&/g, "&")
-      .replace(/</g, "<")
-      .replace(/>/g, ">")
-      .replace(/"/g, """);
+      .replace(/&/g, String.fromCharCode(38) + "amp;")
+      .replace(/</g, String.fromCharCode(38) + "lt;")
+      .replace(/>/g, String.fromCharCode(38) + "gt;")
+      .replace(/"/g, String.fromCharCode(38) + "quot;");
   }
 
   function formatPlace(r) {
@@ -200,7 +205,7 @@
   }
 
   async function loadWeather({ lat, lon, name, tz }) {
-    setStatus("Loading forecast…", "loading");
+    setStatus("Loading forecast...", "loading");
     els.results.classList.remove("show");
     try {
       const wx = await fetchWeather(lat, lon, tz);
@@ -279,10 +284,15 @@
       ],
     ];
     els.stats.innerHTML = stats
-      .map(
-        ([k, v]) =>
-          `<div class="stat"><strong>${escapeHtml(String(v))}</strong><span>${escapeHtml(k)}</span></div>`
-      )
+      .map(function (pair) {
+        return (
+          '<div class="stat"><strong>' +
+          escapeHtml(String(pair[1])) +
+          "</strong><span>" +
+          escapeHtml(pair[0]) +
+          "</span></div>"
+        );
+      })
       .join("");
 
     renderHourly(wx);
@@ -306,19 +316,25 @@
     const end = Math.min(start + 24, h.time.length);
     const frag = document.createDocumentFragment();
     for (let i = start; i < end; i++) {
-      const [, emoji] = wmo(h.weather_code[i]);
+      const pair = wmo(h.weather_code[i]);
+      const emoji = pair[1];
       const t = new Date(h.time[i]);
       const hourLabel = t.toLocaleTimeString(undefined, {
         hour: "numeric",
       });
-      const pop = h.precipitation_probability?.[i];
+      const pop = h.precipitation_probability ? h.precipitation_probability[i] : null;
       const card = document.createElement("div");
       card.className = "hour-card";
-      card.innerHTML = `
-        <div class="h">${escapeHtml(hourLabel)}</div>
-        <div class="ico" aria-hidden="true">${emoji}</div>
-        <div class="t">${fmtTemp(h.temperature_2m[i])}</div>
-        <div class="p">${pop != null && pop > 0 ? pop + "%" : ""}</div>`;
+      card.innerHTML =
+        '<div class="h">' +
+        escapeHtml(hourLabel) +
+        '</div><div class="ico" aria-hidden="true">' +
+        emoji +
+        '</div><div class="t">' +
+        fmtTemp(h.temperature_2m[i]) +
+        '</div><div class="p">' +
+        (pop != null && pop > 0 ? pop + "%" : "") +
+        "</div>";
       frag.appendChild(card);
     }
     els.hourly.innerHTML = "";
@@ -342,18 +358,31 @@
               month: "short",
               day: "numeric",
             });
-      const [label, emoji] = wmo(d.weather_code[i]);
-      const pop = d.precipitation_probability_max?.[i];
-      const rain = d.precipitation_sum?.[i];
+      const pair = wmo(d.weather_code[i]);
+      const label = pair[0];
+      const emoji = pair[1];
+      const pop = d.precipitation_probability_max
+        ? d.precipitation_probability_max[i]
+        : null;
+      const rain = d.precipitation_sum ? d.precipitation_sum[i] : null;
       const row = document.createElement("div");
       row.className = "day-row";
-      row.innerHTML = `
-        <div class="name">${escapeHtml(name)}</div>
-        <div class="ico" title="${escapeHtml(label)}" aria-label="${escapeHtml(label)}">${emoji}</div>
-        <div class="range">${fmtTemp(d.temperature_2m_max[i])} / ${fmtTemp(d.temperature_2m_min[i])}</div>
-        <div class="meta hide-sm">${
-          pop != null ? pop + "% rain" : rain != null ? rain + " mm" : ""
-        }</div>`;
+      row.innerHTML =
+        '<div class="name">' +
+        escapeHtml(name) +
+        '</div><div class="ico" title="' +
+        escapeHtml(label) +
+        '" aria-label="' +
+        escapeHtml(label) +
+        '">' +
+        emoji +
+        '</div><div class="range">' +
+        fmtTemp(d.temperature_2m_max[i]) +
+        " / " +
+        fmtTemp(d.temperature_2m_min[i]) +
+        '</div><div class="meta hide-sm">' +
+        (pop != null ? pop + "% rain" : rain != null ? rain + " mm" : "") +
+        "</div>";
       frag.appendChild(row);
     }
     els.daily.innerHTML = "";
@@ -366,7 +395,7 @@
       setStatus("Type a city name, or use Near me.", "error");
       return;
     }
-    setStatus("Searching…", "loading");
+    setStatus("Searching...", "loading");
     try {
       const results = await searchPlaces(q);
       if (!results.length) {
@@ -399,7 +428,7 @@
       try {
         const results = await searchPlaces(q);
         renderSuggestions(results);
-      } catch {
+      } catch (e) {
         closeSuggestions();
       }
     }, 280);
@@ -455,22 +484,31 @@
       setStatus("Geolocation is not supported in this browser.", "error");
       return;
     }
-    setStatus("Getting your location…", "loading");
+    setStatus("Getting your location...", "loading");
     navigator.geolocation.getCurrentPosition(
       async (pos) => {
-        const { latitude, longitude } = pos.coords;
+        const latitude = pos.coords.latitude;
+        const longitude = pos.coords.longitude;
         await loadWeather({
           lat: latitude,
           lon: longitude,
-          name: "Your location (" + latitude.toFixed(2) + ", " + longitude.toFixed(2) + ")",
+          name:
+            "Your location (" +
+            latitude.toFixed(2) +
+            ", " +
+            longitude.toFixed(2) +
+            ")",
           tz: "auto",
         });
       },
       (err) => {
         let msg = "Could not get your location.";
-        if (err.code === 1) msg = "Location permission denied. Search for a city instead.";
-        else if (err.code === 2) msg = "Location unavailable. Search for a city instead.";
-        else if (err.code === 3) msg = "Location request timed out. Try again or search.";
+        if (err.code === 1)
+          msg = "Location permission denied. Search for a city instead.";
+        else if (err.code === 2)
+          msg = "Location unavailable. Search for a city instead.";
+        else if (err.code === 3)
+          msg = "Location request timed out. Try again or search.";
         setStatus(msg, "error");
       },
       { enableHighAccuracy: false, timeout: 12000, maximumAge: 300000 }
