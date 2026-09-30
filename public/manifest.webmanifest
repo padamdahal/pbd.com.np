@@ -1,0 +1,100 @@
+{
+  "name": "PBD — Free Online Tools for Nepal",
+  "short_name": "PBD",
+  "description": "Free online tools for Nepal: BS↔AD date converter, BS age calculator, Nepali typing, local weather and more.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f7fafb",
+  "theme_color": "#0b7285",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": [
+    "utilities",
+    "productivity",
+    "lifestyle"
+  ],
+  "icons": [
+    {
+      "src": "/assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icons/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/assets/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/assets/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "BS ↔ AD Date Converter",
+      "short_name": "Date Converter",
+      "description": "Convert Bikram Sambat to Gregorian and back",
+      "url": "/tools/nepali-date-converter/",
+      "icons": [
+        {
+          "src": "/assets/icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "BS Age Calculator",
+      "short_name": "Age Calculator",
+      "description": "Exact age in BS and AD with birthday countdowns",
+      "url": "/tools/bs-age-calculator/",
+      "icons": [
+        {
+          "src": "/assets/icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Nepali Typing",
+      "short_name": "Nepali Type",
+      "description": "Roman to Unicode Nepali typing",
+      "url": "/tools/nepali-typing/",
+      "icons": [
+        {
+          "src": "/assets/icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Local Weather",
+      "short_name": "Weather",
+      "description": "Current weather and forecast",
+      "url": "/tools/local-weather/",
+      "icons": [
+        {
+          "src": "/assets/icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+}
