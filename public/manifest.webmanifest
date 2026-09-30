@@ -1,7 +1,7 @@
 {
-  "name": "PBD — Free Online Tools for Nepal",
+  "name": "Powered By Digital (PBD)",
   "short_name": "PBD",
-  "description": "Free online tools for Nepal: BS↔AD date converter, BS age calculator, Nepali typing, local weather and more.",
+  "description": "Empowering people by digital means. Free online tools for Nepal: BS↔AD date converter, BS age calculator, Nepali typing, local weather and more.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
