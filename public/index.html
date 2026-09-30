@@ -1,1 +1,665 @@
-PLACEHOLDER
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#c3dcea">
+
+  <title>PBD — Free Online Tools for Nepal</title>
+
+  <meta name="description"
+        content="Free online tools for Nepal, Nepali typing (Roman to Unicode) and a Bikram Sambat (BS) to AD date converter. Simple, fast and works in your browser.">
+
+  <meta name="robots" content="index, follow, max-image-preview:large">
+
+  <link rel="canonical" href="https://pbd.com.np/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="PBD — Free Online Tools for Nepal">
+  <meta property="og:description"
+        content="Free online tools for Nepal, starting with a BS to AD date converter.">
+  <meta property="og:url" content="https://pbd.com.np/">
+  <meta property="og:site_name" content="PBD">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="PBD — Free Online Tools for Nepal">
+  <meta name="twitter:description"
+        content="Free online tools for Nepal.">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230b7285'/%3E%3Ctext x='50' y='67' text-anchor='middle' font-size='48' font-family='Arial' font-weight='700' fill='white'%3EP%3C/text%3E%3C/svg%3E">
+
+  <!-- Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "PBD",
+    "url": "https://pbd.com.np/",
+    "description": "Free online tools for Nepal."
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "PBD",
+    "url": "https://pbd.com.np/"
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg: #f7fafb;
+      --surface: #ffffff;
+      --surface-soft: #eef7f8;
+      --text: #13232b;
+      --muted: #61727b;
+      --primary: #0b7285;
+      --primary-dark: #075866;
+      --border: #dce7ea;
+      --accent: #f0b429;
+      --shadow: 0 10px 35px rgba(19, 35, 43, .07);
+      --radius: 18px;
+      --max-width: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: min(calc(100% - 32px), var(--max-width));
+      margin-inline: auto;
+    }
+
+    .site-header .bar {
+      width: min(calc(100% - 32px), var(--max-width));
+    }
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 1.45rem;
+      letter-spacing: -.04em;
+    }
+
+    .logo .logo-mark {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 11px;
+      background: var(--primary);
+      color: white;
+      font-weight: 800;
+    }
+
+    .hero {
+      padding: 75px 0 55px;
+      background:
+        radial-gradient(circle at 80% 15%, rgba(11,114,133,.12), transparent 30%),
+        linear-gradient(180deg, #edf8fa 0%, var(--bg) 100%);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 55px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--primary);
+      font-size: .82rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .09em;
+      margin-bottom: 16px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 22px;
+      height: 2px;
+      background: var(--primary);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.4rem, 5vw, 4.4rem);
+      line-height: 1.06;
+      letter-spacing: -.055em;
+      max-width: 750px;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 1.12rem;
+      max-width: 680px;
+      margin: 22px 0 28px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 18px;
+      border-radius: 11px;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      background: white;
+    }
+
+    .button-primary {
+      color: white;
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .button-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .hero-panel {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 25px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-panel-title {
+      font-weight: 800;
+      margin-bottom: 15px;
+    }
+
+    .quick-tool {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 13px 4px;
+      border-bottom: 1px solid #edf1f2;
+    }
+
+    .quick-tool:last-child {
+      border-bottom: 0;
+    }
+
+    .tool-icon {
+      width: 42px;
+      height: 42px;
+      flex: 0 0 42px;
+      display: grid;
+      place-items: center;
+      background: var(--surface-soft);
+      color: var(--primary);
+      border-radius: 12px;
+      font-size: 1.15rem;
+    }
+
+    .quick-tool strong {
+      display: block;
+      font-size: .94rem;
+    }
+
+    .quick-tool span {
+      display: block;
+      color: var(--muted);
+      font-size: .78rem;
+    }
+
+    section {
+      padding: 65px 0;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 25px;
+      margin-bottom: 25px;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      font-size: clamp(1.65rem, 3vw, 2.25rem);
+      line-height: 1.15;
+      letter-spacing: -.035em;
+    }
+
+    .section-heading p {
+      max-width: 580px;
+      margin: 8px 0 0;
+      color: var(--muted);
+    }
+
+    .view-all {
+      color: var(--primary);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .tool-card {
+      display: block;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+
+    .tool-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+    }
+
+    .tool-card .icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 13px;
+      display: grid;
+      place-items: center;
+      background: var(--surface-soft);
+      color: var(--primary);
+      font-size: 1.25rem;
+      margin-bottom: 16px;
+    }
+
+    .tool-card h3 {
+      margin: 0 0 7px;
+      font-size: 1.05rem;
+    }
+
+    .tool-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .88rem;
+    }
+
+    .cta {
+      padding: 55px 0;
+    }
+
+    .cta-box {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .cta-box h2 {
+      margin: 0 0 7px;
+      font-size: 1.7rem;
+    }
+
+    .cta-box p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    footer {
+      background: #10242c;
+      color: #d7e3e6;
+      padding: 45px 0 25px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.4fr repeat(3, 1fr);
+      gap: 35px;
+    }
+
+    .footer-brand p {
+      color: #9eb1b8;
+      font-size: .88rem;
+      max-width: 350px;
+    }
+
+    footer h3 {
+      font-size: .9rem;
+      color: white;
+      margin: 0 0 12px;
+    }
+
+    footer a {
+      display: block;
+      color: #aebfc4;
+      font-size: .84rem;
+      margin: 7px 0;
+    }
+
+    footer a:hover {
+      color: white;
+    }
+
+    .copyright {
+      border-top: 1px solid rgba(255,255,255,.1);
+      margin-top: 35px;
+      padding-top: 20px;
+      color: #91a4aa;
+      font-size: .78rem;
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .tool-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 650px) {
+      .container {
+        width: min(calc(100% - 24px), var(--max-width));
+      }
+
+      .hero {
+        padding: 50px 0 35px;
+      }
+
+      section {
+        padding: 45px 0;
+      }
+
+      .tool-grid,
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-heading {
+        display: block;
+      }
+
+      .view-all {
+        display: inline-block;
+        margin-top: 12px;
+      }
+
+      .cta-box {
+        display: block;
+      }
+
+      .cta-box .button {
+        margin-top: 20px;
+      }
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632604868005505"
+     crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="/" aria-label="PBD Home"><span class="logo-mark">P</span><span>PBD</span></a>
+      <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
+      <nav id="menu" aria-label="Main navigation"></nav>
+    </div>
+  </header>
+
+
+  <main>
+
+    <section class="hero">
+
+      <div class="container hero-grid">
+
+        <div>
+
+          <div class="eyebrow">
+            Practical digital information
+          </div>
+
+          <h1>
+            Useful technology for everyday life.
+          </h1>
+
+          <p>
+            Free, simple online utilities for everyday tasks in Nepal — including Nepali typing, a BS to AD date converter and a BS age calculator, with more on the way.
+          </p>
+
+          <div class="hero-actions">
+            <a class="button button-primary" href="#tools">
+              Explore online tools
+            </a>
+
+            <a class="button" href="/about/">About PBD</a>
+          </div>
+
+        </div>
+
+
+        <aside class="hero-panel" aria-label="Popular tools">
+
+          <div class="hero-panel-title">
+            Popular tools
+          </div>
+
+          <a class="quick-tool" href="/tools/local-weather/">
+            <div class="tool-icon">🌤️</div>
+            <div>
+              <strong>Local Weather</strong>
+              <span>Current conditions &amp; 7-day forecast</span>
+            </div>
+          </a>
+
+          <a class="quick-tool" href="/tools/nepali-typing/">
+            <div class="tool-icon">क</div>
+            <div>
+              <strong>Nepali Typing</strong>
+              <span>Roman to Nepali Unicode</span>
+            </div>
+          </a>
+
+          <a class="quick-tool" href="/tools/bs-age-calculator/">
+            <div class="tool-icon">🎂</div>
+            <div>
+              <strong>BS Age Calculator</strong>
+              <span>Exact age + birthday countdown</span>
+            </div>
+          </a>
+
+          <a class="quick-tool" href="/tools/nepali-date-converter/">
+            <div class="tool-icon">📅</div>
+            <div>
+              <strong>Nepali Date Converter</strong>
+              <span>Convert Nepali and Gregorian dates</span>
+            </div>
+          </a>
+
+        </aside>
+
+      </div>
+
+    </section>
+
+
+    <section>
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <div>
+            <h2>Free online tools</h2>
+            <p>
+              Simple tools and calculators for common tasks,
+              conversions and everyday needs.
+            </p>
+          </div>
+
+          <a class="view-all" href="#tools">
+            View all tools →
+          </a>
+
+        </div>
+
+
+        <div class="tool-grid" id="tools">
+
+          <a class="tool-card" href="/tools/local-weather/">
+            <div class="icon">🌤️</div>
+            <h3>Local Weather</h3>
+            <p>Current conditions, hourly forecast and 7-day outlook for your city.</p>
+          </a>
+
+          <a class="tool-card" href="/tools/nepali-typing/">
+            <div class="icon">क</div>
+            <h3>Nepali Typing (Roman → Unicode)</h3>
+            <p>Type Nepali with English letters. Live suggestions, undo and instant copy.</p>
+          </a>
+
+          <a class="tool-card" href="/tools/bs-age-calculator/">
+            <div class="icon">🎂</div>
+            <h3>BS Age Calculator</h3>
+            <p>Find your exact age from a BS or AD birth date, plus a birthday countdown and fun facts.</p>
+          </a>
+
+          <a class="tool-card" href="/tools/nepali-date-converter/">
+            <div class="icon">📅</div>
+            <h3>Nepali Date Converter</h3>
+            <p>Convert dates between Bikram Sambat and Gregorian calendars.</p>
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <section class="cta">
+
+      <div class="container">
+
+        <div class="cta-box">
+
+          <div>
+            <h2>Looking for a useful tool?</h2>
+            <p>
+              Browse calculators, converters and practical digital utilities.
+            </p>
+          </div>
+
+          <a class="button button-primary" href="#tools">
+            Explore PBD Tools →
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <footer>
+
+    <div class="container">
+
+      <div class="footer-grid">
+
+        <div class="footer-brand">
+
+          <div class="logo">
+            <span class="logo-mark">P</span>
+            <span>PBD</span>
+          </div>
+
+          <p>
+            Free online tools for Nepal — simple, fast and
+            private by design.
+          </p>
+
+        </div>
+
+
+        <div>
+
+          <h3>Tools</h3>
+          <nav id="footer-menu" aria-label="Footer tools"></nav>
+
+        </div>
+
+
+        <div>
+
+          <h3>PBD</h3>
+          <a href="/about/">About</a>
+          <a href="/privacy/">Privacy</a>
+
+        </div>
+
+      </div>
+
+
+      <div class="copyright">
+        © <span id="yr"></span> PBD. Free online tools for Nepal.
+      </div>
+
+    </div>
+
+  </footer>
+
+  <script src="/assets/menu.js" defer></script>
+</body>
+</html>
