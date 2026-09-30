@@ -23,6 +23,11 @@
           "title": "Nepali typing (Roman → Unicode)",
           "description": "Free Nepali typing tool: type in English letters and get Nepali Unicode instantly. Live word suggestions, undo, Nepali digits, copy and WhatsApp share. Works on phone and PC.",
           "path": "/tools/nepali-typing/"
+        },
+        {
+          "title": "Today Nepali Date",
+          "description": "Today Nepali date (Bikram Sambat) live. Check आजको नेपाली मिति, aaja kati gate, tithi and weekday. Free auto-updating Nepali calendar date card.",
+          "path": "/tools/today-nepali-date/"
         }
       ]
     }

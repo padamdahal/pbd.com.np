@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b7285">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="PBD">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/icon-512.png">
+
+  <title>Today Nepali Date – आजको नेपाली मिति | Aaja Kati Gate?</title>
+  <meta name="description" content="Today Nepali date (Bikram Sambat) live. Check आजको नेपाली मिति, aaja kati gate, tithi and weekday. Free auto-updating Nepali calendar date card.">
+  <link rel="canonical" href="https://pbd.com.np/tools/today-nepali-date/">
+  <meta name="robots" content="index, follow">
+  <meta name="keywords" content="today nepali date, nepali date today, आजको नेपाली मिति, aaja kati gate, आज कति गते, today nepali date, nepali calendar today, bikram sambat today, aaj ko miti, आजको मिति, nepali patro today">
+  <meta name="menu-title" content="Today Nepali Date">
+  <meta name="menu-description" content="Live today Nepali date (Bikram Sambat). आजको नेपाली मिति, aaja kati gate, tithi and weekday — free auto-updating date card.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="PBD">
+  <meta property="og:title" content="Today Nepali Date – आजको नेपाली मिति | Aaja Kati Gate?">
+  <meta property="og:description" content="Today Nepali date (Bikram Sambat) live. Check आजको नेपाली मिति, aaja kati gate, tithi and weekday.">
+  <meta property="og:url" content="https://pbd.com.np/tools/today-nepali-date/">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ne_NP">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Today Nepali Date – आजको नेपाली मिति | Aaja Kati Gate?">
+  <meta name="twitter:description" content="Today Nepali date (Bikram Sambat) live. Check आजको नेपाली मिति, aaja kati gate, tithi and weekday.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Today Nepali Date",
+    "url": "https://pbd.com.np/tools/today-nepali-date/",
+    "description": "Live today's Nepali date (Bikram Sambat). आजको नेपाली मिति, aaja kati gate, tithi and weekday.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "NPR" },
+    "inLanguage": ["ne", "en"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is today's Nepali date?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Today's Nepali date is shown live on this page in Bikram Sambat (BS). The date updates according to Nepal Standard Time (UTC+5:45) and changes at midnight in Kathmandu."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What does aaja kati gate mean?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Aaja kati gate (आज कति गते) means \"what is today's date\" in Nepali. People use this phrase when asking for the current Bikram Sambat day of the month."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is Bikram Sambat the same as the Nepali calendar?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Bikram Sambat (BS / विक्रम संवत्) is the official calendar of Nepal. It runs roughly 56–57 years ahead of the Gregorian (AD) calendar."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "When does the Nepali date change?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Nepali (BS) date changes at midnight Kathmandu time (Nepal Standard Time, UTC+5:45). This page uses a live widget that follows that timezone."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I convert today's Nepali date to English (AD)?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Use our free BS ↔ AD date converter. It converts any Bikram Sambat date to Gregorian and vice versa for forms, banks and official documents."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+
+  <style>
+    .date-card-wrap {
+      display: flex;
+      justify-content: center;
+      margin: 0 0 var(--s-5);
+    }
+    .date-card-wrap iframe {
+      width: 100%;
+      max-width: 420px;
+      height: 155px;
+      border: none;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      background: var(--surface);
+    }
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: var(--s-5);
+    }
+    @media (max-width: 560px) {
+      .info-grid { grid-template-columns: 1fr; }
+    }
+    .info-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      box-shadow: var(--shadow-sm);
+    }
+    .info-card h3 {
+      margin: 0 0 6px;
+      font-size: 0.95rem;
+      color: var(--primary-dark);
+    }
+    .info-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+    .keyword-block {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: var(--s-4) var(--s-5);
+      margin-bottom: var(--s-5);
+      box-shadow: var(--shadow-sm);
+    }
+    .keyword-block h2 {
+      margin: 0 0 10px;
+      font-size: 1.15rem;
+    }
+    .keyword-block p {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    .keyword-block ul {
+      margin: 0;
+      padding-left: 1.2em;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    .faq { margin-top: var(--s-5); }
+    .faq h2 { font-size: 1.15rem; margin-bottom: var(--s-3); }
+    .faq-item {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      margin-bottom: 8px;
+    }
+    .faq-item summary {
+      cursor: pointer;
+      font-weight: 600;
+      list-style: none;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item p {
+      margin: 8px 0 4px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    .related-tools { margin-top: var(--s-4); font-size: 0.95rem; }
+    .related-tools a { margin-right: 12px; }
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: var(--s-4) 0 var(--s-5);
+    }
+    .cta-row a.btn {
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .cta-row a.btn-primary {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    .cta-row a.btn-primary:hover {
+      background: var(--primary-dark);
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632604868005505"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip" href="#tool">Skip to tool</a>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="/"><span class="logo-mark">P</span><span>PBD</span></a>
+      <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+      <nav id="menu" aria-label="Main navigation"></nav>
+    </div>
+  </header>
+
+  <main class="narrow" id="tool">
+    <div class="page-intro">
+      <h1>Today Nepali Date – आजको नेपाली मिति</h1>
+      <p class="lead">Live Bikram Sambat date for today. Check <strong>aaja kati gate</strong>, आज कति गते, tithi and weekday — updated in Nepal Standard Time.</p>
+    </div>
+
+    <div class="date-card-wrap" aria-label="Today's Nepali date card">
+      <iframe
+        src="https://meromiti.com/widget/today"
+        width="100%"
+        height="155"
+        style="border:none; max-width:420px; overflow:hidden;"
+        title="Today's Nepali Date"
+        loading="lazy"
+      ></iframe>
+    </div>
+
+    <div class="cta-row">
+      <a class="btn btn-primary" href="/tools/nepali-date-converter/">Convert BS ↔ AD</a>
+      <a class="btn" href="/tools/bs-age-calculator/">BS Age Calculator</a>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>Nepal Standard Time</h3>
+        <p>The date follows Kathmandu midnight (UTC+5:45). It may differ from your local calendar day if you are outside Nepal.</p>
+      </div>
+      <div class="info-card">
+        <h3>Bikram Sambat (BS)</h3>
+        <p>Nepal’s official calendar. Roughly 56–57 years ahead of the Gregorian (AD) calendar. Month lengths vary from 29 to 32 days.</p>
+      </div>
+    </div>
+
+    <section class="keyword-block" aria-labelledby="about-h">
+      <h2 id="about-h">What is today’s Nepali date?</h2>
+      <p>
+        People search for <strong>today nepali date</strong>, <strong>nepali date today</strong>,
+        <strong>आजको नेपाली मिति</strong>, <strong>aaja kati gate</strong> and
+        <strong>आज कति गते</strong> when they need the current Bikram Sambat day.
+        This page shows a live date card with the BS year, month, day (गते), weekday and tithi.
+      </p>
+      <p>
+        The widget above is powered by Mero Miti and refreshes automatically. For converting any
+        BS date to English (AD) or the other way around, use our
+        <a href="/tools/nepali-date-converter/">BS ↔ AD date converter</a>.
+      </p>
+      <ul>
+        <li><strong>Primary keywords:</strong> today nepali date, nepali date today, आजको नेपाली मिति</li>
+        <li><strong>Common phrases:</strong> aaja kati gate, आज कति गते, aaj ko miti, आजको मिति</li>
+        <li><strong>Related:</strong> nepali calendar today, bikram sambat today, nepali patro today</li>
+      </ul>
+    </section>
+
+    <section class="faq" aria-label="Frequently asked questions">
+      <h2>Frequently asked questions</h2>
+      <details class="faq-item">
+        <summary>What is today's Nepali date?</summary>
+        <p>Today’s Nepali date is shown live in the card above in Bikram Sambat (BS). It updates according to Nepal Standard Time (UTC+5:45) and changes at midnight in Kathmandu.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What does “aaja kati gate” mean?</summary>
+        <p>Aaja kati gate (आज कति गते) means “what is today’s date” in Nepali. It specifically asks for the current day of the month in the Bikram Sambat calendar.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Is Bikram Sambat the same as the Nepali calendar?</summary>
+        <p>Yes. Bikram Sambat (BS / विक्रम संवत्) is the official calendar of Nepal. It runs roughly 56–57 years ahead of the Gregorian (AD) calendar.</p>
+      </details>
+      <details class="faq-item">
+        <summary>When does the Nepali date change?</summary>
+        <p>The Nepali (BS) date changes at midnight Kathmandu time (Nepal Standard Time, UTC+5:45). This page uses a live widget that follows that timezone.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How do I convert today’s Nepali date to English (AD)?</summary>
+        <p>Use our free <a href="/tools/nepali-date-converter/">BS ↔ AD date converter</a>. It converts any Bikram Sambat date to Gregorian and vice versa for forms, banks and official documents.</p>
+      </details>
+    </section>
+
+    <p class="related-tools"><strong>Related:</strong>
+      <a href="/tools/nepali-date-converter/">BS ↔ AD date converter</a>
+      <a href="/tools/bs-age-calculator/">BS Age Calculator</a>
+      <a href="/tools/nepali-typing/">Nepali typing</a>
+      <a href="/">All tools</a>
+    </p>
+
+    <p class="note">Date card powered by <a href="https://meromiti.com/widgets" rel="noopener" target="_blank">Mero Miti widgets</a>. The BS date follows Nepal Standard Time. Always verify critical dates for legal or official use.</p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="bar">
+      <p>© <span id="yr"></span> PBD</p>
+      <div class="footer-nav">
+        <nav id="footer-menu" aria-label="Footer tools"></nav>
+        <nav class="legal" aria-label="Legal">
+          <a href="/about/">About</a>
+          <a href="/privacy/">Privacy</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/menu.js" defer></script>
+  <script src="/assets/pwa.js" defer></script>
+</body>
+</html>
