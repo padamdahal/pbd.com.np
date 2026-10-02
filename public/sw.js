@@ -1,5 +1,5 @@
 /* PBD service worker — full offline shell + tools */
-var CACHE_VERSION = "pbd-v2";
+var CACHE_VERSION = "pbd-v3";
 var PRECACHE = [
   "/",
   "/offline.html",
@@ -11,6 +11,7 @@ var PRECACHE = [
   "/assets/icons/icon-192.png",
   "/assets/icons/icon-512.png",
   "/assets/icons/apple-touch-icon.png",
+  "/assets/og-default.png",
   "/menu.json",
   "/about/",
   "/privacy/",
@@ -21,7 +22,9 @@ var PRECACHE = [
   "/tools/nepali-typing/",
   "/tools/nepali-typing/nepali-typing.js",
   "/tools/local-weather/",
-  "/tools/local-weather/local-weather.js"
+  "/tools/local-weather/local-weather.js",
+  "/tools/today-nepali-date/",
+  "/tools/today-nepali-date/index.html"
 ];
 
 self.addEventListener("install", function (event) {
