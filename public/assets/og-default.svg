@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#0b7285"/>
+  <rect x="0" y="0" width="80" height="630" fill="#075866"/>
+  <rect x="1120" y="0" width="80" height="630" fill="#075866"/>
+  <rect y="618" width="1200" height="12" fill="#f0b429"/>
+  <circle cx="200" cy="315" r="70" fill="#ffffff"/>
+  <text x="200" y="340" text-anchor="middle" font-family="Arial,sans-serif" font-size="72" font-weight="700" fill="#0b7285">P</text>
+  <text x="320" y="270" font-family="Arial,sans-serif" font-size="56" font-weight="700" fill="#ffffff">Powered By Digital</text>
+  <text x="320" y="340" font-family="Arial,sans-serif" font-size="32" fill="#e0f2f5">Free online tools for Nepal</text>
+  <text x="320" y="395" font-family="Arial,sans-serif" font-size="24" fill="#a8d5de">Nepali typing · BS dates · Weather · More</text>
+  <text x="320" y="500" font-family="Arial,sans-serif" font-size="24" fill="#7ec8d4">Empowering people by digital means</text>
+</svg>
