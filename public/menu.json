@@ -30,6 +30,17 @@
           "path": "/tools/today-nepali-date/"
         }
       ]
+    },
+    {
+      "key": "guides",
+      "label": "Guides",
+      "items": [
+        {
+          "title": "Freelancing Guide 2026",
+          "description": "Complete beginner guide to start freelancing in Nepal: best skills, platforms, first clients, payments and 30-day action plan.",
+          "path": "/guides/how-to-start-freelancing-in-nepal-2026/"
+        }
+      ]
     }
   ],
   "top": [
