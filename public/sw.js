@@ -11,7 +11,7 @@ var PRECACHE = [
   "/assets/icons/icon-192.png",
   "/assets/icons/icon-512.png",
   "/assets/icons/apple-touch-icon.png",
-  "/assets/og-default.png",
+  "/assets/og-default.svg",
   "/menu.json",
   "/about/",
   "/privacy/",
