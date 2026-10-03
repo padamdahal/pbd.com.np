@@ -5,7 +5,7 @@
   "scripts": {
     "build": "node menubuilder.js",
     "dev": "SKIP_INDEXNOW=1 node menubuilder.js && wrangler dev",
-    "deploy": "INDEXNOW_ALL=1 node menubuilder.js && wrangler deploy",
+    "deploy": "node menubuilder.js && wrangler deploy",
     "indexnow": "INDEXNOW_ALL=1 node menubuilder.js"
   },
   "devDependencies": {
