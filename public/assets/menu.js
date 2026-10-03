@@ -106,8 +106,29 @@
   }
 
   function buildFooterNav(nav, data) {
-    for (const cat of data.categories) for (const it of cat.items) nav.appendChild(link(it));
-    for (const it of data.top) nav.appendChild(link(it));
+    for (const cat of data.categories) {
+      if (!cat.items.length) continue;
+      const group = document.createElement("div");
+      group.className = "footer-group";
+      const label = document.createElement("span");
+      label.className = "footer-group-label";
+      label.textContent = cat.label;
+      group.appendChild(label);
+      const links = document.createElement("div");
+      links.className = "footer-group-links";
+      for (const it of cat.items) links.appendChild(link(it));
+      group.appendChild(links);
+      nav.appendChild(group);
+    }
+    if (data.top && data.top.length) {
+      const group = document.createElement("div");
+      group.className = "footer-group";
+      const links = document.createElement("div");
+      links.className = "footer-group-links";
+      for (const it of data.top) links.appendChild(link(it));
+      group.appendChild(links);
+      nav.appendChild(group);
+    }
   }
 
   fetch("/menu.json")
