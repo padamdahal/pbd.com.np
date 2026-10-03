@@ -1,7 +1,8 @@
 /************** Updates the following files ***********************
-public/menu.json   — tools nav + home cards
-public/sitemap.xml — SEO sitemap (all indexable pages)
-public/robots.txt  — points crawlers at the sitemap
+public/menu.json        — tools nav + categories
+public/sitemap.xml      — SEO sitemap (all indexable pages)
+public/robots.txt       — points crawlers at the sitemap
+public index.html pages — injects real anchors into #menu and #footer-menu
 ******************************************************************/
 /************ Check the following in each pages ******************
 <meta name="menu-title" content="Number to Nepali words">
@@ -10,7 +11,7 @@ public/robots.txt  — points crawlers at the sitemap
 
 /*********** Ignores the pages with the following *****************
 <meta name="menu-hide" content="true">
-<meta name="robots" content="noindex, …">
+<meta name="robots" content="noindex, …">  (still gets nav links; omitted from sitemap)
 ******************************************************************/
 
 /******************* Update before deploy ***********************
@@ -20,6 +21,7 @@ or edit DEFAULT_SITE_URL below (defaults to production).
 
 import fs from "node:fs";
 import path from "node:path";
+import { execSync } from "node:child_process";
 
 const root = "public";
 const DEFAULT_SITE_URL = "https://pbd.com.np";
@@ -31,7 +33,6 @@ const meta = (html, name) =>
 const isNoindex = (html) =>
   /<meta\s+name=["']robots["']\s+content=["'][^"']*noindex/i.test(html);
 
-import { execSync } from "node:child_process";
 const isoDate = (filePath) => {
   try {
     const g = execSync(`git log -1 --format=%cs -- "${filePath}"`, { stdio: ["ignore", "pipe", "ignore"] }).toString().trim();
@@ -48,6 +49,13 @@ const escapeXml = (s) => {
   const map = { "&": "&" + "amp;", "<": "&" + "lt;", ">": "&" + "gt;", '"': "&" + "quot;", "'": "&" + "apos;" };
   return String(s).replace(/[&<>"']/g, (c) => map[c]);
 };
+
+const escapeHtml = (s) =>
+  String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
 
 // --- collect pages ---
 const walk = (dir) =>
@@ -66,10 +74,12 @@ const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 const categoriesMap = new Map(); // key -> { key, label, items: [] }
 const topItems = [];
 const sitemapEntries = [];
+const htmlFiles = [];
 
 // Home page
 const homePath = path.join(root, "index.html");
 if (fs.existsSync(homePath)) {
+  htmlFiles.push(homePath);
   const homeHtml = fs.readFileSync(homePath, "utf8");
   if (!isNoindex(homeHtml)) {
     sitemapEntries.push({
@@ -83,6 +93,7 @@ if (fs.existsSync(homePath)) {
 
 for (const d of dirs) {
   const filePath = path.join(root, d.name, "index.html");
+  htmlFiles.push(filePath);
   const html = fs.readFileSync(filePath, "utf8");
   const pagePath = `/${d.name}/`;
   const hideFromMenu = /<meta\s+name=["']menu-hide["']\s+content=["']true["']/i.test(html);
@@ -140,6 +151,93 @@ const menuData = { categories, top: topItems };
 fs.writeFileSync(path.join(root, "menu.json"), JSON.stringify(menuData, null, 2) + "\n");
 const totalItems = categories.reduce((n, c) => n + c.items.length, 0) + topItems.length;
 console.log(`menu.json: ${categories.length} categor${categories.length === 1 ? "y" : "ies"}, ${totalItems} page(s)`);
+
+// --- Static header + footer HTML (real <a href> for SEO) ---
+const headerInner = (() => {
+  const parts = [];
+  for (const cat of categories) {
+    if (!cat.items.length) continue;
+    const links = cat.items
+      .map(
+        (it) =>
+          `<a href="${escapeHtml(it.path)}" role="menuitem">${escapeHtml(it.title)}</a>`
+      )
+      .join("");
+    parts.push(
+      `<div class="nav-item"><button type="button" class="nav-link" aria-haspopup="true" aria-expanded="false">${escapeHtml(cat.label)} <span class="nav-caret" aria-hidden="true">\u25BE</span></button><div class="submenu" role="menu">${links}</div></div>`
+    );
+  }
+  for (const it of topItems) {
+    parts.push(
+      `<div class="nav-item"><a href="${escapeHtml(it.path)}">${escapeHtml(it.title)}</a></div>`
+    );
+  }
+  return parts.join("");
+})();
+
+const footerInner = (() => {
+  const parts = [];
+  for (const cat of categories) {
+    if (!cat.items.length) continue;
+    const links = cat.items
+      .map((it) => `<a href="${escapeHtml(it.path)}">${escapeHtml(it.title)}</a>`)
+      .join("");
+    parts.push(
+      `<div class="footer-group"><span class="footer-group-label">${escapeHtml(cat.label)}</span><div class="footer-group-links">${links}</div></div>`
+    );
+  }
+  if (topItems.length) {
+    const links = topItems
+      .map((it) => `<a href="${escapeHtml(it.path)}">${escapeHtml(it.title)}</a>`)
+      .join("");
+    parts.push(`<div class="footer-group"><div class="footer-group-links">${links}</div></div>`);
+  }
+  return parts.join("");
+})();
+
+/** Ensure attr string has class token and optional role without rewriting unrelated attrs. */
+function withClassAndRole(attrs, className, role) {
+  let a = attrs || "";
+  if (/\bclass\s*=/.test(a)) {
+    a = a.replace(/class\s*=\s*(["'])([^"']*)\1/i, (m, q, val) => {
+      const tokens = val.split(/\s+/).filter(Boolean);
+      if (!tokens.includes(className)) tokens.push(className);
+      return `class=${q}${tokens.join(" ")}${q}`;
+    });
+  } else {
+    a += ` class="${className}"`;
+  }
+  if (role && !/\brole\s*=/.test(a)) a += ` role="${role}"`;
+  return a;
+}
+
+function replaceNavContent(html, id, inner, { className, role } = {}) {
+  const re = new RegExp(`<nav(\\s[^>]*\\bid=["']${id}["'][^>]*)>([\\s\\S]*?)<\\/nav>`, "i");
+  if (!re.test(html)) return { html, changed: false };
+  const next = html.replace(re, (_, attrs) => {
+    const a = className ? withClassAndRole(attrs, className, role) : attrs;
+    return `<nav${a}>${inner}</nav>`;
+  });
+  return { html: next, changed: next !== html };
+}
+
+let pagesUpdated = 0;
+for (const filePath of htmlFiles) {
+  let html = fs.readFileSync(filePath, "utf8");
+  const before = html;
+  let r = replaceNavContent(html, "menu", headerInner, {
+    className: "site-nav",
+    role: "navigation",
+  });
+  html = r.html;
+  r = replaceNavContent(html, "footer-menu", footerInner);
+  html = r.html;
+  if (html !== before) {
+    fs.writeFileSync(filePath, html);
+    pagesUpdated++;
+  }
+}
+console.log(`nav HTML: injected into ${pagesUpdated} page(s) (#menu + #footer-menu)`);
 
 // --- sitemap.xml ---
 const urlNodes = sitemapEntries
