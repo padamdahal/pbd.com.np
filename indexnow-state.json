@@ -10,7 +10,7 @@
     "https://pbd.com.np/tools/nepali-typing/",
     "https://pbd.com.np/tools/today-nepali-date/"
   ],
-  "lastRun": "2026-10-03T18:14:32.000Z",
+  "lastRun": "2026-10-03T18:38:00.000Z",
   "lastSubmitted": [
     "https://pbd.com.np/",
     "https://pbd.com.np/about/",
@@ -22,5 +22,11 @@
     "https://pbd.com.np/tools/nepali-typing/",
     "https://pbd.com.np/tools/today-nepali-date/"
   ],
-  "siteUrl": "https://pbd.com.np"
+  "lastOutcome": [
+    { "endpoint": "www.bing.com", "status": 200, "ok": true },
+    { "endpoint": "api.indexnow.org", "status": 200, "ok": true },
+    { "endpoint": "yandex.com", "status": 202, "ok": true }
+  ],
+  "siteUrl": "https://pbd.com.np",
+  "keyLocation": "https://pbd.com.np/4345fb1588698845291f496dde478e33.txt"
 }

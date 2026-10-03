@@ -4,8 +4,9 @@
   "type": "module",
   "scripts": {
     "build": "node menubuilder.js",
-    "dev": "node menubuilder.js && wrangler dev",
-    "deploy": "node menubuilder.js && wrangler deploy"
+    "dev": "SKIP_INDEXNOW=1 node menubuilder.js && wrangler dev",
+    "deploy": "INDEXNOW_ALL=1 node menubuilder.js && wrangler deploy",
+    "indexnow": "INDEXNOW_ALL=1 node menubuilder.js"
   },
   "devDependencies": {
     "wrangler": "^4"
