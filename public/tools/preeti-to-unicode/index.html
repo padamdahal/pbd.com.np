@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b7285">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="PBD">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/icon-512.png">
+  <title>Preeti to Unicode Converter Online – Free Nepali Font Converter</title>
+  <meta name="description" content="Free Preeti to Unicode and Unicode to Preeti converter. Paste Preeti font text and get clean Nepali Unicode instantly. Works offline in your browser – no install needed.">
+  <link rel="canonical" href="https://pbd.com.np/tools/preeti-to-unicode/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="keywords" content="Preeti to Unicode, Unicode to Preeti, Preeti converter, Nepali font converter, Preeti Unicode, प्रीति युनिकोड, Preeti font converter online">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="PBD">
+  <meta property="og:title" content="Preeti to Unicode Converter Online – Free Nepali Font Converter">
+  <meta property="og:description" content="Free Preeti to Unicode and Unicode to Preeti converter. Paste Preeti font text and get clean Nepali Unicode instantly. Works offline in your browser.">
+  <meta property="og:url" content="https://pbd.com.np/tools/preeti-to-unicode/">
+  <meta property="og:image" content="https://pbd.com.np/assets/og-default.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ne_NP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Preeti to Unicode Converter Online – Free Nepali Font Converter">
+  <meta name="twitter:description" content="Free Preeti to Unicode and Unicode to Preeti converter. Paste Preeti font text and get clean Nepali Unicode instantly.">
+  <meta name="twitter:image" content="https://pbd.com.np/assets/og-default.svg">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebApplication","name":"Preeti to Unicode Converter","url":"https://pbd.com.np/tools/preeti-to-unicode/","description":"Free online Preeti to Unicode and Unicode to Preeti converter for Nepali text. Convert legacy Preeti font to standard Unicode Devanagari.","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"NPR"},"inLanguage":["ne","en"],"browserRequirements":"Requires JavaScript"}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is Preeti font?","acceptedAnswer":{"@type":"Answer","text":"Preeti is a popular legacy Nepali font that maps English keyboard keys to Devanagari characters. Without the font installed, Preeti text looks like random English letters. Unicode is the modern standard that displays correctly everywhere."}},{"@type":"Question","name":"How do I convert Preeti to Unicode?","acceptedAnswer":{"@type":"Answer","text":"Paste your Preeti text into the left box. The tool converts it to Unicode instantly. Click the Copy button next to the result to paste it into WhatsApp, Facebook, Word or any app."}},{"@type":"Question","name":"Can I convert Unicode back to Preeti?","acceptedAnswer":{"@type":"Answer","text":"Yes. Switch to the Unicode → Preeti tab, paste Unicode Nepali text, and get the Preeti equivalent. Useful when you need to edit older documents that still use Preeti."}},{"@type":"Question","name":"Does this tool work offline?","acceptedAnswer":{"@type":"Answer","text":"Yes. All conversion happens in your browser. Once the page is loaded you can use it without internet. Your text never leaves your device."}},{"@type":"Question","name":"Is Preeti still used in Nepal?","acceptedAnswer":{"@type":"Answer","text":"Yes. Many older documents, newspapers and government files still use Preeti or similar legacy fonts. Converting them to Unicode makes the text searchable, copyable and readable on modern phones and computers."}}]}
+  </script>
+  <meta name="menu-title" content="Preeti ↔ Unicode">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230b7285'/%3E%3Ctext x='50' y='68' text-anchor='middle' font-size='42' font-family='sans-serif' fill='white'%3E%E0%A4%AA%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="/assets/style.css">
+  <style>
+    .mode-tabs { display: flex; gap: 6px; margin-bottom: var(--s-5); flex-wrap: wrap; }
+    .mode-tab {
+      font: inherit; font-weight: 600; border: 1px solid var(--line-strong);
+      background: #fff; border-radius: 999px; padding: 10px 18px; cursor: pointer;
+      color: var(--text);
+    }
+    .mode-tab:hover { background: #eef7f8; }
+    .mode-tab.active {
+      background: var(--primary); color: #fff; border-color: var(--primary);
+    }
+    .conv-box {
+      background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+      padding: var(--s-5); box-shadow: var(--shadow-sm); margin-bottom: var(--s-5);
+    }
+    .conv-panels { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-5); }
+    @media (max-width: 700px) { .conv-panels { grid-template-columns: 1fr; } }
+    .conv-side label {
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: .9rem; font-weight: 600; color: var(--muted); margin-bottom: 6px;
+    }
+    .conv-side textarea {
+      width: 100%; min-height: 180px; font: inherit; font-size: 1.1rem; line-height: 1.55;
+      border: 1px solid var(--line-strong); border-radius: var(--radius-sm);
+      padding: 12px 14px; resize: vertical; background: #fff; color: var(--text);
+    }
+    .conv-side textarea:focus { outline: 2px solid var(--primary); outline-offset: 1px; }
+    .conv-side textarea[readonly] { background: #f4fafb; }
+    .conv-actions {
+      display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+      margin-top: 12px;
+    }
+    .conv-actions .grow { flex: 1; min-width: 8px; }
+    .btn-primary {
+      background: var(--primary); color: #fff; border-color: var(--primary);
+    }
+    .btn-primary:hover { background: var(--primary-dark); border-color: var(--primary-dark); }
+    .btn.copied { background: #0a7a3e; color: #fff; border-color: #0a7a3e; }
+    .char-count { font-size: .85rem; color: var(--muted); font-weight: 500; }
+    .samples { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+    .samples button {
+      font: inherit; font-size: .85rem; padding: 6px 12px; border-radius: 999px;
+      border: 1px solid var(--line); background: #fff; cursor: pointer; color: var(--text);
+    }
+    .samples button:hover { background: #eef7f8; border-color: var(--primary); }
+    .faq { margin-top: var(--s-5); }
+    .faq h2 { font-size: 1.15rem; margin-bottom: var(--s-3); }
+    .faq-item {
+      background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm);
+      padding: 10px 14px; margin-bottom: 8px;
+    }
+    .faq-item summary { cursor: pointer; font-weight: 600; list-style: none; }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item p { margin: 8px 0 4px; color: var(--muted); font-size: 0.95rem; }
+    .related-tools { margin-top: var(--s-4); font-size: 0.95rem; }
+    .related-tools a { margin-right: 12px; }
+    .map-table { width: 100%; border-collapse: collapse; font-size: .95rem; }
+    .map-table th, .map-table td { padding: 6px 10px; border-bottom: 1px solid var(--line); text-align: left; }
+    .map-table th { font-weight: 600; color: var(--muted); }
+    .tip-box {
+      background: #eef7f8; border: 1px solid var(--line); border-radius: var(--radius-sm);
+      padding: 12px 16px; margin: var(--s-4) 0; font-size: .95rem;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632604868005505"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip" href="#tool">Skip to tool</a>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="/"><span class="logo-mark">P</span><span>PBD</span></a>
+      <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+      <nav id="menu" aria-label="Main navigation"></nav>
+    </div>
+  </header>
+
+  <main class="narrow" id="tool">
+    <div class="page-intro">
+      <h1>Preeti to Unicode Converter</h1>
+      <p class="lead">Convert Preeti font text to standard Nepali Unicode (and back). Paste, convert instantly, copy with one click. Free, private, works offline in your browser.</p>
+    </div>
+
+    <div class="mode-tabs" role="tablist" aria-label="Conversion direction">
+      <button type="button" class="mode-tab active" role="tab" aria-selected="true" data-mode="p2u">Preeti → Unicode</button>
+      <button type="button" class="mode-tab" role="tab" aria-selected="false" data-mode="u2p">Unicode → Preeti</button>
+    </div>
+
+    <div id="panel-p2u" class="conv-box">
+      <div class="conv-panels">
+        <div class="conv-side">
+          <label for="preeti-in">
+            <span>Preeti text (paste here)</span>
+            <span class="char-count" id="char-count-p">0 chars</span>
+          </label>
+          <textarea id="preeti-in" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" placeholder="e.g. sf7df08f}  or  g]kfn"></textarea>
+          <div class="samples">
+            <button type="button" data-sample="sf7df08f}" data-target="preeti">काठमाडौं</button>
+            <button type="button" data-sample="g]kfn" data-target="preeti">नेपाल</button>
+            <button type="button" data-sample=";+ljwfg" data-target="preeti">संविधान</button>
+            <button type="button" data-sample="lzIff" data-target="preeti">शिक्षा</button>
+          </div>
+        </div>
+        <div class="conv-side">
+          <label for="unicode-out">
+            <span>Unicode result</span>
+          </label>
+          <textarea id="unicode-out" readonly lang="ne" placeholder="Unicode output appears here…"></textarea>
+          <div class="conv-actions">
+            <button type="button" class="btn btn-primary" id="copy-unicode">Copy Unicode</button>
+            <button type="button" class="btn" id="clear-p2u">Clear</button>
+            <span class="grow"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="panel-u2p" class="conv-box" hidden>
+      <div class="conv-panels">
+        <div class="conv-side">
+          <label for="unicode-in">
+            <span>Unicode Nepali text</span>
+            <span class="char-count" id="char-count-u">0 chars</span>
+          </label>
+          <textarea id="unicode-in" lang="ne" spellcheck="false" placeholder="e.g. काठमाडौं  or  नेपाल"></textarea>
+          <div class="samples">
+            <button type="button" data-sample="काठमाडौं" data-target="unicode">काठमाडौं</button>
+            <button type="button" data-sample="नेपाल" data-target="unicode">नेपाल</button>
+            <button type="button" data-sample="संविधान" data-target="unicode">संविधान</button>
+            <button type="button" data-sample="शिक्षा" data-target="unicode">शिक्षा</button>
+          </div>
+        </div>
+        <div class="conv-side">
+          <label for="preeti-out">
+            <span>Preeti result</span>
+          </label>
+          <textarea id="preeti-out" readonly placeholder="Preeti output appears here…"></textarea>
+          <div class="conv-actions">
+            <button type="button" class="btn btn-primary" id="copy-preeti">Copy Preeti</button>
+            <button type="button" class="btn" id="clear-u2p">Clear</button>
+            <span class="grow"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <strong>Tip:</strong> The <strong>Copy</strong> button sits right under the result so you can convert and paste into WhatsApp, Facebook, Word or email in one step. Conversion runs entirely in your browser – your text stays private.
+    </div>
+
+    <section class="block">
+      <h2>How to use</h2>
+      <ol>
+        <li>Choose <strong>Preeti → Unicode</strong> (most common) or <strong>Unicode → Preeti</strong>.</li>
+        <li>Paste or type text in the left box. Conversion happens live as you type.</li>
+        <li>Click the green <strong>Copy</strong> button under the result and paste anywhere.</li>
+        <li>Use the sample buttons if you want to try common words first.</li>
+      </ol>
+    </section>
+
+    <section class="block">
+      <h2>Common Preeti → Unicode examples</h2>
+      <div class="tbl">
+        <table class="map-table">
+          <thead>
+            <tr><th>Preeti (typed)</th><th>Unicode</th><th>Meaning</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>g]kfn</code></td><td lang="ne">नेपाल</td><td>Nepal</td></tr>
+            <tr><td><code>sf7df08f}</code></td><td lang="ne">काठमाडौं</td><td>Kathmandu</td></tr>
+            <tr><td><code>;+ljwfg</code></td><td lang="ne">संविधान</td><td>Constitution</td></tr>
+            <tr><td><code>lzIff</code></td><td lang="ne">शिक्षा</td><td>Education</td></tr>
+            <tr><td><code>hgtf</code></td><td lang="ne">जनता</td><td>People</td></tr>
+            <tr><td><code>kfgL</code></td><td lang="ne">पानी</td><td>Water</td></tr>
+            <tr><td><code>s</code></td><td lang="ne">क</td><td>ka</td></tr>
+            <tr><td><code>v</code></td><td lang="ne">ख</td><td>kha</td></tr>
+            <tr><td><code>u</code></td><td lang="ne">ग</td><td>ga</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="faq" aria-label="Frequently asked questions">
+      <h2>Frequently asked questions</h2>
+      <details class="faq-item">
+        <summary>What is Preeti font?</summary>
+        <p>Preeti is a popular legacy Nepali font that maps English keyboard keys to Devanagari characters. Without the font installed, Preeti text looks like random English letters. Unicode is the modern standard that displays correctly everywhere.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How do I convert Preeti to Unicode?</summary>
+        <p>Paste your Preeti text into the left box. The tool converts it to Unicode instantly. Click the <strong>Copy Unicode</strong> button next to the result to paste it into WhatsApp, Facebook, Word or any app.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Can I convert Unicode back to Preeti?</summary>
+        <p>Yes. Switch to the <strong>Unicode → Preeti</strong> tab, paste Unicode Nepali text, and get the Preeti equivalent. Useful when you need to edit older documents that still use Preeti.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Does this tool work offline?</summary>
+        <p>Yes. All conversion happens in your browser. Once the page is loaded you can use it without internet. Your text never leaves your device.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Is Preeti still used in Nepal?</summary>
+        <p>Yes. Many older documents, newspapers and government files still use Preeti or similar legacy fonts. Converting them to Unicode makes the text searchable, copyable and readable on modern phones and computers.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Does it support other fonts like Kantipur?</summary>
+        <p>This tool focuses on the classic Preeti mapping, which is the most widely used. Kantipur and PCS Nepali use slightly different key maps; if your text looks wrong, it may have been typed in one of those fonts.</p>
+      </details>
+    </section>
+
+    <p class="related-tools"><strong>Related:</strong>
+      <a href="/tools/nepali-typing/">Nepali typing (Roman → Unicode)</a>
+      <a href="/tools/nepali-date-converter/">BS ↔ AD date converter</a>
+      <a href="/">All tools</a>
+    </p>
+
+    <p class="note">Conversion uses the community Preeti character map and post-processing rules. Results are reliable for everyday Nepali text. Always proof-read important documents after conversion.</p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="bar">
+      <p>© <span id="yr"></span> PBD</p>
+      <div class="footer-nav">
+        <nav id="footer-menu" aria-label="Footer tools"></nav>
+        <nav class="legal" aria-label="Legal">
+          <a href="/about/">About</a>
+          <a href="/privacy/">Privacy</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <script src="preeti-converter.js" defer></script>
+  <script src="/assets/menu.js" defer></script>
+  <script src="/assets/pwa.js" defer></script>
+</body>
+</html>
