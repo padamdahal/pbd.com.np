@@ -27,15 +27,33 @@ const root = "public";
 const DEFAULT_SITE_URL = "https://pbd.com.np";
 const siteUrl = (process.env.SITE_URL || DEFAULT_SITE_URL).replace(/\/$/, "");
 
-const meta = (html, name) =>
-  html.match(new RegExp(`<meta\\s+name=["']${name}["']\\s+content=["']([^"']*)["']`, "i"))?.[1];
+const meta = (html, name) => {
+  const needle = 'name="' + name + '"';
+  const needle2 = "name='" + name + "'";
+  let i = html.toLowerCase().indexOf("<meta");
+  while (i >= 0) {
+    const end = html.indexOf(">", i);
+    if (end < 0) break;
+    const tag = html.slice(i, end + 1);
+    if (tag.includes(needle) || tag.includes(needle2)) {
+      const cm = /content\s*=\s*["']([^"']*)["']/i.exec(tag);
+      if (cm) return cm[1];
+    }
+    i = html.toLowerCase().indexOf("<meta", end + 1);
+  }
+  return undefined;
+};
 
 const isNoindex = (html) =>
   /<meta\s+name=["']robots["']\s+content=["'][^"']*noindex/i.test(html);
 
 const isoDate = (filePath) => {
   try {
-    const g = execSync(`git log -1 --format=%cs -- "${filePath}"`, { stdio: ["ignore", "pipe", "ignore"] }).toString().trim();
+    const g = execSync('git log -1 --format=%cs -- "' + filePath + '"', {
+      stdio: ["ignore", "pipe", "ignore"],
+    })
+      .toString()
+      .trim();
     if (g) return g;
   } catch {}
   try {
@@ -45,17 +63,16 @@ const isoDate = (filePath) => {
   }
 };
 
-const escapeXml = (s) => {
-  const map = { "&": "&" + "amp;", "<": "&" + "lt;", ">": "&" + "gt;", '"': "&" + "quot;", "'": "&" + "apos;" };
-  return String(s).replace(/[&<>"']/g, (c) => map[c]);
+// Entity escape via concatenation — avoids broken quotes if the file is re-encoded.
+const ENT = {
+  "&": "&" + "amp;",
+  "<": "&" + "lt;",
+  ">": "&" + "gt;",
+  '"': "&" + "quot;",
+  "'": "&" + "apos;",
 };
-
-const escapeHtml = (s) =>
-  String(s)
-    .replace(/&/g, "&")
-    .replace(/</g, "<")
-    .replace(/>/g, ">")
-    .replace(/"/g, """);
+const escapeXml = (s) => String(s).replace(/[&<>"']/g, (c) => ENT[c]);
+const escapeHtml = (s) => escapeXml(s);
 
 // --- collect pages ---
 const walk = (dir) =>
@@ -82,7 +99,7 @@ if (fs.existsSync(homePath)) {
   const homeHtml = fs.readFileSync(homePath, "utf8");
   if (!isNoindex(homeHtml)) {
     sitemapEntries.push({
-      loc: `${siteUrl}/`,
+      loc: siteUrl + "/",
       lastmod: isoDate(homePath),
       changefreq: "weekly",
       priority: "1.0",
@@ -94,12 +111,13 @@ for (const d of dirs) {
   const filePath = path.join(root, d.name, "index.html");
   htmlFiles.push(filePath);
   const html = fs.readFileSync(filePath, "utf8");
-  const pagePath = `/${d.name}/`;
+  const pagePath = "/" + d.name + "/";
   const hideFromMenu = /<meta\s+name=["']menu-hide["']\s+content=["']true["']/i.test(html);
 
   if (!hideFromMenu) {
+    const titleMatch = /<title>(.*?)<\/title>/i.exec(html);
     const item = {
-      title: meta(html, "menu-title") ?? html.match(/<title>(.*?)<\/title>/i)?.[1] ?? d.name,
+      title: meta(html, "menu-title") ?? (titleMatch && titleMatch[1]) ?? d.name,
       description: meta(html, "description") ?? "",
       path: pagePath,
     };
@@ -116,13 +134,11 @@ for (const d of dirs) {
   }
 
   if (!isNoindex(html)) {
-    const priority = hideFromMenu ? "0.5" : "0.8";
-    const changefreq = hideFromMenu ? "monthly" : "weekly";
     sitemapEntries.push({
-      loc: `${siteUrl}${pagePath}`,
+      loc: siteUrl + pagePath,
       lastmod: isoDate(filePath),
-      changefreq,
-      priority,
+      changefreq: hideFromMenu ? "monthly" : "weekly",
+      priority: hideFromMenu ? "0.5" : "0.8",
     });
   }
 }
@@ -130,8 +146,8 @@ for (const d of dirs) {
 for (const cat of categoriesMap.values()) cat.items.sort((a, b) => a.title.localeCompare(b.title));
 topItems.sort((a, b) => a.title.localeCompare(b.title));
 sitemapEntries.sort((a, b) => {
-  if (a.loc === `${siteUrl}/`) return -1;
-  if (b.loc === `${siteUrl}/`) return 1;
+  if (a.loc === siteUrl + "/") return -1;
+  if (b.loc === siteUrl + "/") return 1;
   return a.loc.localeCompare(b.loc);
 });
 
@@ -141,7 +157,15 @@ const categories = CATEGORY_ORDER.filter((k) => categoriesMap.has(k))
 const menuData = { categories, top: topItems };
 fs.writeFileSync(path.join(root, "menu.json"), JSON.stringify(menuData, null, 2) + "\n");
 const totalItems = categories.reduce((n, c) => n + c.items.length, 0) + topItems.length;
-console.log(`menu.json: ${categories.length} categor${categories.length === 1 ? "y" : "ies"}, ${totalItems} page(s)`);
+console.log(
+  "menu.json: " +
+    categories.length +
+    " categor" +
+    (categories.length === 1 ? "y" : "ies") +
+    ", " +
+    totalItems +
+    " page(s)"
+);
 
 const caret = "\u25BE";
 
@@ -150,14 +174,25 @@ const headerInner = (() => {
   for (const cat of categories) {
     if (!cat.items.length) continue;
     const links = cat.items
-      .map((it) => `<a href="${escapeHtml(it.path)}" role="menuitem">${escapeHtml(it.title)}</a>`)
+      .map(
+        (it) =>
+          '<a href="' + escapeHtml(it.path) + '" role="menuitem">' + escapeHtml(it.title) + "</a>"
+      )
       .join("");
     parts.push(
-      `<div class="nav-item"><button type="button" class="nav-link" aria-haspopup="true" aria-expanded="false">${escapeHtml(cat.label)} <span class="nav-caret" aria-hidden="true">${caret}</span></button><div class="submenu" role="menu">${links}</div></div>`
+      '<div class="nav-item"><button type="button" class="nav-link" aria-haspopup="true" aria-expanded="false">' +
+        escapeHtml(cat.label) +
+        ' <span class="nav-caret" aria-hidden="true">' +
+        caret +
+        '</span></button><div class="submenu" role="menu">' +
+        links +
+        "</div></div>"
     );
   }
   for (const it of topItems) {
-    parts.push(`<div class="nav-item"><a href="${escapeHtml(it.path)}">${escapeHtml(it.title)}</a></div>`);
+    parts.push(
+      '<div class="nav-item"><a href="' + escapeHtml(it.path) + '">' + escapeHtml(it.title) + "</a></div>"
+    );
   }
   return parts.join("");
 })();
@@ -167,17 +202,21 @@ const footerInner = (() => {
   for (const cat of categories) {
     if (!cat.items.length) continue;
     const links = cat.items
-      .map((it) => `<a href="${escapeHtml(it.path)}">${escapeHtml(it.title)}</a>`)
+      .map((it) => '<a href="' + escapeHtml(it.path) + '">' + escapeHtml(it.title) + "</a>")
       .join("");
     parts.push(
-      `<div class="footer-group"><span class="footer-group-label">${escapeHtml(cat.label)}</span><div class="footer-group-links">${links}</div></div>`
+      '<div class="footer-group"><span class="footer-group-label">' +
+        escapeHtml(cat.label) +
+        '</span><div class="footer-group-links">' +
+        links +
+        "</div></div>"
     );
   }
   if (topItems.length) {
     const links = topItems
-      .map((it) => `<a href="${escapeHtml(it.path)}">${escapeHtml(it.title)}</a>`)
+      .map((it) => '<a href="' + escapeHtml(it.path) + '">' + escapeHtml(it.title) + "</a>")
       .join("");
-    parts.push(`<div class="footer-group"><div class="footer-group-links">${links}</div></div>`);
+    parts.push('<div class="footer-group"><div class="footer-group-links">' + links + "</div></div>");
   }
   return parts.join("");
 })();
@@ -188,27 +227,45 @@ function withClassAndRole(attrs, className, role) {
     a = a.replace(/class\s*=\s*(["'])([^"']*)\1/i, (m, q, val) => {
       const tokens = val.split(/\s+/).filter(Boolean);
       if (!tokens.includes(className)) tokens.push(className);
-      return `class=${q}${tokens.join(" ")}${q}`;
+      return "class=" + q + tokens.join(" ") + q;
     });
   } else {
-    a += ` class="${className}"`;
+    a += ' class="' + className + '"';
   }
-  if (role && !/\brole\s*=/.test(a)) a += ` role="${role}"`;
+  if (role && !/\brole\s*=/.test(a)) a += ' role="' + role + '"';
   return a;
 }
 
-function replaceNavContent(html, id, inner, { className, role } = {}) {
-  const re = new RegExp(`<nav(\\s[^>]*\\bid=["']${id}["'][^>]*)>([\\s\\S]*?)<\\/nav>`, "i");
-  if (!re.test(html)) return { html, changed: false };
-  const next = html.replace(re, (_, attrs) => {
-    const a = className ? withClassAndRole(attrs, className, role) : attrs;
-    return `<nav${a}>${inner}</nav>`;
-  });
-  return { html: next, changed: next !== html };
+function replaceNavContent(html, id, inner, opts) {
+  const className = opts && opts.className;
+  const role = opts && opts.role;
+  const markers = ['id="' + id + '"', "id='" + id + "'"];
+  for (let mi = 0; mi < markers.length; mi++) {
+    const marker = markers[mi];
+    const idPos = html.indexOf(marker);
+    if (idPos < 0) continue;
+    const navStart = html.lastIndexOf("<nav", idPos);
+    if (navStart < 0) continue;
+    const tagEnd = html.indexOf(">", idPos);
+    if (tagEnd < 0) continue;
+    if (html.slice(navStart, tagEnd + 1).indexOf(marker) < 0) continue;
+    const close = "</nav>";
+    const navEnd = html.indexOf(close, tagEnd);
+    if (navEnd < 0) continue;
+    let attrs = html.slice(navStart + 4, tagEnd);
+    if (className) attrs = withClassAndRole(attrs, className, role);
+    const replacement = "<nav" + attrs + ">" + inner + close;
+    return {
+      html: html.slice(0, navStart) + replacement + html.slice(navEnd + close.length),
+      changed: true,
+    };
+  }
+  return { html: html, changed: false };
 }
 
 let pagesUpdated = 0;
-for (const filePath of htmlFiles) {
+for (let fi = 0; fi < htmlFiles.length; fi++) {
+  const filePath = htmlFiles[fi];
   let html = fs.readFileSync(filePath, "utf8");
   const before = html;
   let r = replaceNavContent(html, "menu", headerInner, {
@@ -216,27 +273,42 @@ for (const filePath of htmlFiles) {
     role: "navigation",
   });
   html = r.html;
-  r = replaceNavContent(html, "footer-menu", footerInner);
+  r = replaceNavContent(html, "footer-menu", footerInner, {});
   html = r.html;
   if (html !== before) {
     fs.writeFileSync(filePath, html);
     pagesUpdated++;
   }
 }
-console.log(`nav HTML: injected into ${pagesUpdated} page(s) (#menu + #footer-menu)`);
+console.log("nav HTML: injected into " + pagesUpdated + " page(s) (#menu + #footer-menu)");
 
 const urlNodes = sitemapEntries
-  .map(
-    (e) => `  <url>\n    <loc>${escapeXml(e.loc)}</loc>\n    <lastmod>${e.lastmod}</lastmod>\n    <changefreq>${e.changefreq}</changefreq>\n    <priority>${e.priority}</priority>\n  </url>`
-  )
+  .map(function (e) {
+    return (
+      "  <url>\n    <loc>" +
+      escapeXml(e.loc) +
+      "</loc>\n    <lastmod>" +
+      e.lastmod +
+      "</lastmod>\n    <changefreq>" +
+      e.changefreq +
+      "</changefreq>\n    <priority>" +
+      e.priority +
+      "</priority>\n  </url>"
+    );
+  })
   .join("\n");
 
-const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urlNodes}\n</urlset>\n`;
+const sitemap =
+  '<?xml version="1.0" encoding="UTF-8"?>\n' +
+  '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
+  urlNodes +
+  "\n</urlset>\n";
 
 fs.writeFileSync(path.join(root, "sitemap.xml"), sitemap);
-console.log(`sitemap.xml: ${sitemapEntries.length} URL(s) -> ${siteUrl}`);
+console.log("sitemap.xml: " + sitemapEntries.length + " URL(s) -> " + siteUrl);
 
-const robots = `User-agent: *\nAllow: /\n\nSitemap: ${siteUrl}/sitemap.xml\n`;
+const robots =
+  "User-agent: *\nAllow: /\n\nSitemap: " + siteUrl + "/sitemap.xml\n";
 
 fs.writeFileSync(path.join(root, "robots.txt"), robots);
-console.log(`robots.txt: Sitemap -> ${siteUrl}/sitemap.xml`);
+console.log("robots.txt: Sitemap -> " + siteUrl + "/sitemap.xml");
