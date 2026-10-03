@@ -48,3 +48,6 @@ input:focus,select:focus,button:focus-visible{outline:2px solid var(--primary);o
 .hint{color:var(--muted)}.hint.error{color:#b42318}
 .note{color:var(--muted);font-size:.88rem;margin-top:var(--s-5)}
 .site-footer{border-top:1px solid var(--line);background:#fff;color:var(--muted);font-size:.9rem}
+.site-footer .legal{display:flex;flex-direction:column;gap:4px;min-width:100px}
+.site-footer .legal a{text-decoration:none;font-weight:600;color:var(--text)}
+.site-footer .legal a:hover{color:var(--primary-dark)}
