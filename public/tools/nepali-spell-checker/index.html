@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b7285">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="PBD">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/icon-512.png">
+  <title>Nepali Spell Checker Online – Check Spelling of Nepali Unicode Words</title>
+  <meta name="description" content="Free online Nepali spell checker for Unicode text. Paste Nepali words or paragraphs, find spelling mistakes instantly, and get suggestions. Works offline in your browser – private and free.">
+  <link rel="canonical" href="https://pbd.com.np/tools/nepali-spell-checker/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="keywords" content="Nepali spell checker, नेपाली हिज्जे जाँच, Nepali spelling, Unicode spell check, Nepali word checker, हिज्जे सुधार, Nepali dictionary checker">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="PBD">
+  <meta property="og:title" content="Nepali Spell Checker Online – Check Spelling of Nepali Unicode Words">
+  <meta property="og:description" content="Free online Nepali spell checker for Unicode text. Paste Nepali words or paragraphs, find spelling mistakes instantly, and get suggestions. Works offline in your browser.">
+  <meta property="og:url" content="https://pbd.com.np/tools/nepali-spell-checker/">
+  <meta property="og:image" content="https://pbd.com.np/assets/og-default.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ne_NP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Nepali Spell Checker Online – Check Spelling of Nepali Unicode Words">
+  <meta name="twitter:description" content="Free online Nepali spell checker for Unicode text. Paste Nepali words, find mistakes, get suggestions. Private and works offline.">
+  <meta name="twitter:image" content="https://pbd.com.np/assets/og-default.svg">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebApplication","name":"Nepali Spell Checker","url":"https://pbd.com.np/tools/nepali-spell-checker/","description":"Free online tool to check spelling of Nepali Unicode words and text. Highlights possible errors and offers suggestions using a community dictionary.","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"NPR"},"inLanguage":["ne","en"],"browserRequirements":"Requires JavaScript"}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does the Nepali spell checker work?","acceptedAnswer":{"@type":"Answer","text":"Paste or type Nepali Unicode text. The tool checks each word against a dictionary of tens of thousands of Nepali stems derived from the Madan Puraskar Pustakalaya Hunspell dictionary. Misspelled words are highlighted; click them for suggestions."}},{"@type":"Question","name":"Does it work offline?","acceptedAnswer":{"@type":"Answer","text":"Yes. After the page and dictionary load, all checking happens in your browser. Your text never leaves your device."}},{"@type":"Question","name":"Why are some correct words marked wrong?","acceptedAnswer":{"@type":"Answer","text":"The dictionary mainly contains base forms (stems). Many inflected verb and noun forms, proper names, and rare technical terms may not be present. Always use human judgment for final proofreading."}},{"@type":"Question","name":"Is this tool free?","acceptedAnswer":{"@type":"Answer","text":"Yes. Completely free, no sign-up, no limits. Built by Powered By Digital (PBD) for everyday use in Nepal."}},{"@type":"Question","name":"What dictionary is used?","acceptedAnswer":{"@type":"Answer","text":"Word stems come from the open Nepali Hunspell dictionary originally compiled by Madan Puraskar Pustakalaya (LGPL 2.1), distributed via community packages. Common short/long vowel and स/श style confusions are prioritized in suggestions."}}]}
+  </script>
+  <meta name="menu-title" content="Nepali Spell Checker">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230b7285'/%3E%3Ctext x='50' y='68' text-anchor='middle' font-size='38' font-family='sans-serif' fill='white'%3E%E0%A4%B9%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="/assets/style.css">
+  <style>
+    .conv-box {
+      background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+      padding: var(--s-5); box-shadow: var(--shadow-sm); margin-bottom: var(--s-5);
+    }
+    .spell-label {
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: .9rem; font-weight: 600; color: var(--muted); margin-bottom: 6px;
+    }
+    #spell-input {
+      width: 100%; min-height: 160px; font: inherit; font-size: 1.15rem; line-height: 1.6;
+      border: 1px solid var(--line-strong); border-radius: var(--radius-sm);
+      padding: 12px 14px; resize: vertical; background: #fff; color: var(--text);
+    }
+    #spell-input:focus { outline: 2px solid var(--primary); outline-offset: 1px; }
+    .result-box {
+      margin-top: 16px; min-height: 80px; padding: 14px 16px;
+      border: 1px solid var(--line); border-radius: var(--radius-sm);
+      background: #f4fafb; font-size: 1.15rem; line-height: 1.7; white-space: pre-wrap; word-break: break-word;
+    }
+    .misspelled {
+      background: #fde8e8; color: #9b1c1c; border-bottom: 2px wavy #e02424;
+      cursor: pointer; border-radius: 3px; padding: 0 2px;
+    }
+    .misspelled:hover, .misspelled:focus { background: #fbd5d5; outline: none; }
+    .conv-actions {
+      display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 12px;
+    }
+    .conv-actions .grow { flex: 1; min-width: 8px; }
+    .btn-primary {
+      background: var(--primary); color: #fff; border-color: var(--primary);
+    }
+    .btn-primary:hover { background: var(--primary-dark); border-color: var(--primary-dark); }
+    .btn.copied { background: #0a7a3e; color: #fff; border-color: #0a7a3e; }
+    .samples { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .samples button {
+      font: inherit; font-size: .85rem; padding: 6px 12px; border-radius: 999px;
+      border: 1px solid var(--line); background: #fff; cursor: pointer; color: var(--text);
+    }
+    .samples button:hover { background: #eef7f8; border-color: var(--primary); }
+    .faq { margin-top: var(--s-5); }
+    .faq h2 { font-size: 1.15rem; margin-bottom: var(--s-3); }
+    .faq-item {
+      background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm);
+      padding: 10px 14px; margin-bottom: 8px;
+    }
+    .faq-item summary { cursor: pointer; font-weight: 600; list-style: none; }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item p { margin: 8px 0 4px; color: var(--muted); font-size: 0.95rem; }
+    .related-tools { margin-top: var(--s-4); font-size: 0.95rem; }
+    .related-tools a { margin-right: 12px; }
+    .tip-box {
+      background: #eef7f8; border: 1px solid var(--line); border-radius: var(--radius-sm);
+      padding: 12px 16px; margin: var(--s-4) 0; font-size: .95rem;
+    }
+    .hint.ok { color: #0a7a3e; }
+    .sug-popup {
+      position: absolute; z-index: 200; background: #fff; border: 1px solid var(--line-strong);
+      border-radius: var(--radius-sm); box-shadow: var(--shadow-sm); min-width: 180px; max-width: 280px;
+      padding: 8px; font-size: 0.95rem;
+    }
+    .sug-head { font-weight: 600; padding: 4px 8px 8px; color: var(--muted); border-bottom: 1px solid var(--line); margin-bottom: 6px; }
+    .sug-item {
+      display: block; width: 100%; text-align: left; font: inherit; padding: 8px 10px;
+      border: none; background: none; border-radius: 6px; cursor: pointer; color: var(--text);
+    }
+    .sug-item:hover { background: #eef7f8; color: var(--primary-dark); }
+    .sug-none { padding: 8px 10px; color: var(--muted); }
+    #spell-status { margin-top: 10px; font-size: 0.95rem; }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632604868005505"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip" href="#tool">Skip to tool</a>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="/"><span class="logo-mark">P</span><span>PBD</span></a>
+      <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+      <nav id="menu" aria-label="Main navigation"></nav>
+    </div>
+  </header>
+
+  <main class="narrow" id="tool">
+    <div class="page-intro">
+      <h1>Nepali Spell Checker</h1>
+      <p class="lead">Check the spelling of Nepali Unicode words and text. Paste or type, see possible mistakes highlighted, and get suggestions with one click. Free, private, works offline in your browser.</p>
+    </div>
+
+    <div class="conv-box">
+      <div class="spell-label">
+        <label for="spell-input">Nepali Unicode text</label>
+      </div>
+      <textarea id="spell-input" lang="ne" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" placeholder="यहाँ नेपाली युनिकोड टेक्स्ट टाइप वा पेस्ट गर्नुहोस्…"></textarea>
+      <div class="samples">
+        <button type="button" data-sample="नेपालको राजधानी काठमाडौं हो। यो देश हिमालको देश हो।">Sample paragraph</button>
+        <button type="button" data-sample="शिक्षा महत्वपूर्ण छ। विद्यार्थीहरु पढ्नु पर्छ।">Education sample</button>
+        <button type="button" data-sample="म आज बजार गएर तरकारी किने। पानी पनि खरिद गरे।">Daily text</button>
+        <button type="button" data-sample="सही शब्द: नेपाल, काठमाडौं, शिक्षा। गलत: नेपाल्, काठमान्डु, सिच्छा।">Correct vs wrong</button>
+      </div>
+      <div class="conv-actions">
+        <button type="button" class="btn btn-primary" id="btn-check">Check spelling</button>
+        <button type="button" class="btn" id="btn-clear">Clear</button>
+        <button type="button" class="btn" id="btn-copy">Copy text</button>
+        <span class="grow"></span>
+      </div>
+      <p id="spell-status" class="hint">Loading dictionary…</p>
+      <div class="spell-label" style="margin-top:16px">
+        <span>Result (click red words for suggestions)</span>
+      </div>
+      <div id="spell-result" class="result-box" aria-live="polite"></div>
+    </div>
+
+    <div class="tip-box">
+      <strong>Tip:</strong> The dictionary covers tens of thousands of Nepali base words. Inflected forms, names and rare terms may be marked even if they look right. Click a highlighted word to see possible corrections, then pick one to replace it in the box above.
+    </div>
+
+    <section class="block">
+      <h2>How to use</h2>
+      <ol>
+        <li>Paste or type Nepali Unicode text in the box.</li>
+        <li>Spelling is checked automatically (or click <strong>Check spelling</strong>).</li>
+        <li>Possible mistakes appear with a red wavy underline.</li>
+        <li>Click a highlighted word to see suggestions and replace it.</li>
+        <li>Use <strong>Copy text</strong> when you are happy with the result.</li>
+      </ol>
+    </section>
+
+    <section class="faq" aria-label="Frequently asked questions">
+      <h2>Frequently asked questions</h2>
+      <details class="faq-item">
+        <summary>How does the Nepali spell checker work?</summary>
+        <p>It checks each Devanagari word against a dictionary of Nepali stems. Words not found are highlighted. Suggestions are generated using common vowel-length and consonant confusions (ि/ी, स/श, etc.) plus edit-distance candidates.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Does it work offline?</summary>
+        <p>Yes. After the page and dictionary finish loading, everything runs in your browser. Your text never leaves your device.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Why are some correct words marked wrong?</summary>
+        <p>The dictionary mainly contains base forms (stems). Many conjugated verbs, plural/case forms, proper names and specialised terms are missing. Treat the tool as a helper, not a final authority.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Is this tool free?</summary>
+        <p>Yes. Completely free, no account required, no usage limits. Made by Powered By Digital (PBD).</p>
+      </details>
+      <details class="faq-item">
+        <summary>What dictionary is used?</summary>
+        <p>Word stems come from the open Nepali Hunspell dictionary originally compiled by Madan Puraskar Pustakalaya (LGPL 2.1) and distributed by the community. Suggestions prioritise frequent short/long vowel and स/श style mistakes.</p>
+      </details>
+    </section>
+
+    <p class="related-tools"><strong>Related:</strong>
+      <a href="/tools/preeti-to-unicode/">Preeti ↔ Unicode</a>
+      <a href="/tools/nepali-typing/">Nepali typing (Roman → Unicode)</a>
+      <a href="/tools/nepali-date-converter/">BS ↔ AD date converter</a>
+      <a href="/">All tools</a>
+    </p>
+
+    <p class="note">Dictionary based on Madan Puraskar Pustakalaya Nepali Hunspell data (LGPL 2.1). This tool is a helper for everyday text; always proof-read important documents yourself.</p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="bar">
+      <p>© <span id="yr"></span> PBD</p>
+      <div class="footer-nav">
+        <nav id="footer-menu" aria-label="Footer tools"></nav>
+        <nav class="legal" aria-label="Legal">
+          <a href="/about/">About</a>
+          <a href="/privacy/">Privacy</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <script src="nepali-words.js" defer></script>
+  <script src="spell-checker.js" defer></script>
+  <script src="/assets/menu.js" defer></script>
+  <script src="/assets/pwa.js" defer></script>
+  <script>document.getElementById("yr").textContent = new Date().getFullYear();</script>
+</body>
+</html>
