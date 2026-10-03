@@ -1,8 +1,8 @@
 /************** Updates the following files ***********************
-public/menu.json        — tools nav + categories
-public/sitemap.xml      — SEO sitemap (all indexable pages)
-public/robots.txt       — points crawlers at the sitemap
-public index.html pages — injects real anchors into #menu and #footer-menu
+public/menu.json        - tools nav + categories
+public/sitemap.xml      - SEO sitemap (all indexable pages)
+public/robots.txt       - points crawlers at the sitemap
+public index.html pages - injects real anchors into #menu and #footer-menu
 ******************************************************************/
 /************ Check the following in each pages ******************
 <meta name="menu-title" content="Number to Nepali words">
@@ -11,7 +11,7 @@ public index.html pages — injects real anchors into #menu and #footer-menu
 
 /*********** Ignores the pages with the following *****************
 <meta name="menu-hide" content="true">
-<meta name="robots" content="noindex, …">  (still gets nav links; omitted from sitemap)
+<meta name="robots" content="noindex, ...">  (still gets nav links; omitted from sitemap)
 ******************************************************************/
 
 /******************* Update before deploy ***********************
@@ -52,10 +52,10 @@ const escapeXml = (s) => {
 
 const escapeHtml = (s) =>
   String(s)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
+    .replace(/&/g, "&")
+    .replace(/</g, "<")
+    .replace(/>/g, ">")
+    .replace(/"/g, """);
 
 // --- collect pages ---
 const walk = (dir) =>
@@ -71,12 +71,11 @@ const CATEGORY_LABELS = { tools: "Tools", guides: "Guides" };
 const CATEGORY_ORDER = ["tools", "guides"];
 const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
-const categoriesMap = new Map(); // key -> { key, label, items: [] }
+const categoriesMap = new Map();
 const topItems = [];
 const sitemapEntries = [];
 const htmlFiles = [];
 
-// Home page
 const homePath = path.join(root, "index.html");
 if (fs.existsSync(homePath)) {
   htmlFiles.push(homePath);
@@ -106,9 +105,6 @@ for (const d of dirs) {
     };
     const segments = d.name.split("/");
     if (segments.length > 1) {
-      // Nested page (e.g. tools/nepali-typing) → grouped under its first
-      // path segment as a submenu category. A new category (e.g. guides/*)
-      // appears automatically once its first page exists — no code change needed.
       const key = segments[0];
       if (!categoriesMap.has(key)) {
         categoriesMap.set(key, { key, label: CATEGORY_LABELS[key] ?? cap(key), items: [] });
@@ -133,17 +129,12 @@ for (const d of dirs) {
 
 for (const cat of categoriesMap.values()) cat.items.sort((a, b) => a.title.localeCompare(b.title));
 topItems.sort((a, b) => a.title.localeCompare(b.title));
-// Home first, then tools by path, then the rest
 sitemapEntries.sort((a, b) => {
   if (a.loc === `${siteUrl}/`) return -1;
   if (b.loc === `${siteUrl}/`) return 1;
   return a.loc.localeCompare(b.loc);
 });
 
-// --- menu.json ---
-// { categories: [{ key, label, items:[{title,description,path}] }], top: [{title,description,path}] }
-// A category is only present once it has at least one page, so e.g. "Guides"
-// appears in the nav automatically the first time a public/guides/*/index.html exists.
 const categories = CATEGORY_ORDER.filter((k) => categoriesMap.has(k))
   .map((k) => categoriesMap.get(k))
   .concat([...categoriesMap.values()].filter((c) => !CATEGORY_ORDER.includes(c.key)));
@@ -152,25 +143,21 @@ fs.writeFileSync(path.join(root, "menu.json"), JSON.stringify(menuData, null, 2)
 const totalItems = categories.reduce((n, c) => n + c.items.length, 0) + topItems.length;
 console.log(`menu.json: ${categories.length} categor${categories.length === 1 ? "y" : "ies"}, ${totalItems} page(s)`);
 
-// --- Static header + footer HTML (real <a href> for SEO) ---
+const caret = "\u25BE";
+
 const headerInner = (() => {
   const parts = [];
   for (const cat of categories) {
     if (!cat.items.length) continue;
     const links = cat.items
-      .map(
-        (it) =>
-          `<a href="${escapeHtml(it.path)}" role="menuitem">${escapeHtml(it.title)}</a>`
-      )
+      .map((it) => `<a href="${escapeHtml(it.path)}" role="menuitem">${escapeHtml(it.title)}</a>`)
       .join("");
     parts.push(
-      `<div class="nav-item"><button type="button" class="nav-link" aria-haspopup="true" aria-expanded="false">${escapeHtml(cat.label)} <span class="nav-caret" aria-hidden="true">\u25BE</span></button><div class="submenu" role="menu">${links}</div></div>`
+      `<div class="nav-item"><button type="button" class="nav-link" aria-haspopup="true" aria-expanded="false">${escapeHtml(cat.label)} <span class="nav-caret" aria-hidden="true">${caret}</span></button><div class="submenu" role="menu">${links}</div></div>`
     );
   }
   for (const it of topItems) {
-    parts.push(
-      `<div class="nav-item"><a href="${escapeHtml(it.path)}">${escapeHtml(it.title)}</a></div>`
-    );
+    parts.push(`<div class="nav-item"><a href="${escapeHtml(it.path)}">${escapeHtml(it.title)}</a></div>`);
   }
   return parts.join("");
 })();
@@ -195,7 +182,6 @@ const footerInner = (() => {
   return parts.join("");
 })();
 
-/** Ensure attr string has class token and optional role without rewriting unrelated attrs. */
 function withClassAndRole(attrs, className, role) {
   let a = attrs || "";
   if (/\bclass\s*=/.test(a)) {
@@ -239,33 +225,18 @@ for (const filePath of htmlFiles) {
 }
 console.log(`nav HTML: injected into ${pagesUpdated} page(s) (#menu + #footer-menu)`);
 
-// --- sitemap.xml ---
 const urlNodes = sitemapEntries
   .map(
-    (e) => `  <url>
-    <loc>${escapeXml(e.loc)}</loc>
-    <lastmod>${e.lastmod}</lastmod>
-    <changefreq>${e.changefreq}</changefreq>
-    <priority>${e.priority}</priority>
-  </url>`
+    (e) => `  <url>\n    <loc>${escapeXml(e.loc)}</loc>\n    <lastmod>${e.lastmod}</lastmod>\n    <changefreq>${e.changefreq}</changefreq>\n    <priority>${e.priority}</priority>\n  </url>`
   )
   .join("\n");
 
-const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urlNodes}
-</urlset>
-`;
+const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urlNodes}\n</urlset>\n`;
 
 fs.writeFileSync(path.join(root, "sitemap.xml"), sitemap);
-console.log(`sitemap.xml: ${sitemapEntries.length} URL(s) → ${siteUrl}`);
+console.log(`sitemap.xml: ${sitemapEntries.length} URL(s) -> ${siteUrl}`);
 
-// --- robots.txt ---
-const robots = `User-agent: *
-Allow: /
-
-Sitemap: ${siteUrl}/sitemap.xml
-`;
+const robots = `User-agent: *\nAllow: /\n\nSitemap: ${siteUrl}/sitemap.xml\n`;
 
 fs.writeFileSync(path.join(root, "robots.txt"), robots);
-console.log(`robots.txt: Sitemap → ${siteUrl}/sitemap.xml`);
+console.log(`robots.txt: Sitemap -> ${siteUrl}/sitemap.xml`);
