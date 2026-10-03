@@ -5,14 +5,14 @@
       "label": "Tools",
       "items": [
         {
-          "title": "BS ↔ AD date converter",
-          "description": "Free BS to AD and AD to BS date converter for Nepal. Convert Bikram Sambat to Gregorian (and back) for banks, forms and official documents.",
-          "path": "/tools/nepali-date-converter/"
-        },
-        {
           "title": "BS age calculator",
           "description": "Free Nepali age calculator. Enter your date of birth in BS or AD and get your exact age, next Nepali and English birthday countdown, and fun facts like heartbeats and birthdays on other planets.",
           "path": "/tools/bs-age-calculator/"
+        },
+        {
+          "title": "BS ↔ AD date converter",
+          "description": "Free BS to AD and AD to BS date converter for Nepal. Convert Bikram Sambat to Gregorian (and back) for banks, forms and official documents.",
+          "path": "/tools/nepali-date-converter/"
         },
         {
           "title": "Local weather",
@@ -23,6 +23,11 @@
           "title": "Nepali typing (Roman → Unicode)",
           "description": "Free Nepali typing tool: type in English letters and get Nepali Unicode instantly. Live word suggestions, undo, Nepali digits, copy and WhatsApp share. Works on phone and PC.",
           "path": "/tools/nepali-typing/"
+        },
+        {
+          "title": "Preeti ↔ Unicode",
+          "description": "Free Preeti to Unicode and Unicode to Preeti converter. Paste Preeti font text and get clean Nepali Unicode instantly. Works offline in your browser – no install needed.",
+          "path": "/tools/preeti-to-unicode/"
         },
         {
           "title": "Today Nepali Date",
@@ -36,14 +41,14 @@
       "label": "Guides",
       "items": [
         {
-          "title": "Freelancing Guide 2026",
-          "description": "Complete beginner guide to start freelancing in Nepal: best skills, platforms, first clients, payments and 30-day action plan.",
-          "path": "/guides/how-to-start-freelancing-in-nepal-2026/"
-        },
-        {
           "title": "AI Beginner Guide 2026",
           "description": "Practical AI guide for absolute beginners in Nepal: free tools, prompting, real examples and a 7-day plan.",
           "path": "/guides/how-to-use-ai-as-a-complete-beginner-2026/"
+        },
+        {
+          "title": "Freelancing Guide 2026",
+          "description": "Complete beginner guide to start freelancing in Nepal: best skills, platforms, first clients, payments and 30-day action plan.",
+          "path": "/guides/how-to-start-freelancing-in-nepal-2026/"
         }
       ]
     }
