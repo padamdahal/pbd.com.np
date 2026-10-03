@@ -3,6 +3,7 @@ public/menu.json        - tools nav + categories
 public/sitemap.xml      - SEO sitemap (all indexable pages)
 public/robots.txt       - points crawlers at the sitemap
 public index.html pages - injects real anchors into #menu and #footer-menu
+Also notifies search engines (IndexNow + sitemap ping) for new URLs.
 ******************************************************************/
 /************ Check the following in each pages ******************
 <meta name="menu-title" content="Number to Nepali words">
@@ -22,6 +23,7 @@ or edit DEFAULT_SITE_URL below (defaults to production).
 import fs from "node:fs";
 import path from "node:path";
 import { execSync } from "node:child_process";
+import { randomBytes } from "node:crypto";
 
 const root = "public";
 const DEFAULT_SITE_URL = "https://pbd.com.np";
@@ -63,7 +65,6 @@ const isoDate = (filePath) => {
   }
 };
 
-// Entity escape via concatenation — avoids broken quotes if the file is re-encoded.
 const ENT = {
   "&": "&" + "amp;",
   "<": "&" + "lt;",
@@ -74,7 +75,6 @@ const ENT = {
 const escapeXml = (s) => String(s).replace(/[&<>"']/g, (c) => ENT[c]);
 const escapeHtml = (s) => escapeXml(s);
 
-// --- collect pages ---
 const walk = (dir) =>
   fs.readdirSync(dir, { withFileTypes: true }).flatMap((d) => {
     if (!d.isDirectory()) return [];
@@ -312,3 +312,119 @@ const robots =
 
 fs.writeFileSync(path.join(root, "robots.txt"), robots);
 console.log("robots.txt: Sitemap -> " + siteUrl + "/sitemap.xml");
+
+// --- IndexNow + sitemap ping (notify search engines of new/updated URLs) ---
+// Set SKIP_INDEXNOW=1 to disable (e.g. local preview). INDEXNOW_ALL=1 forces full resubmit.
+const skipIndexNow = process.env.SKIP_INDEXNOW === "1" || process.env.SKIP_INDEXNOW === "true";
+const forceAllIndexNow = process.env.INDEXNOW_ALL === "1" || process.env.INDEXNOW_ALL === "true";
+const statePath = path.join(process.cwd(), "indexnow-state.json");
+const keyMetaPath = path.join(process.cwd(), "indexnow-key.json");
+
+function loadJson(file, fallback) {
+  try {
+    return JSON.parse(fs.readFileSync(file, "utf8"));
+  } catch {
+    return fallback;
+  }
+}
+
+function ensureIndexNowKey() {
+  const meta = loadJson(keyMetaPath, null);
+  if (meta && meta.key && /^[a-zA-Z0-9-]{8,128}$/.test(meta.key)) {
+    const keyFile = path.join(root, meta.key + ".txt");
+    if (!fs.existsSync(keyFile) || fs.readFileSync(keyFile, "utf8").trim() !== meta.key) {
+      fs.writeFileSync(keyFile, meta.key + "\n");
+    }
+    return meta.key;
+  }
+  const key = randomBytes(16).toString("hex");
+  fs.writeFileSync(keyMetaPath, JSON.stringify({ key: key, created: new Date().toISOString() }, null, 2) + "\n");
+  fs.writeFileSync(path.join(root, key + ".txt"), key + "\n");
+  console.log("IndexNow: created key file /" + key + ".txt (commit indexnow-key.json + the .txt)");
+  return key;
+}
+
+async function submitIndexNow(urls, key) {
+  if (!urls.length) {
+    console.log("IndexNow: nothing new to submit");
+    return;
+  }
+  const host = new URL(siteUrl).host;
+  const body = {
+    host: host,
+    key: key,
+    keyLocation: siteUrl + "/" + key + ".txt",
+    urlList: urls,
+  };
+  const endpoints = [
+    "https://api.indexnow.org/indexnow",
+    "https://www.bing.com/indexnow",
+    "https://yandex.com/indexnow",
+  ];
+  for (const endpoint of endpoints) {
+    try {
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json; charset=utf-8" },
+        body: JSON.stringify(body),
+      });
+      const label = endpoint.replace(/^https:\/\//, "").split("/")[0];
+      if (res.status === 200 || res.status === 202) {
+        console.log("IndexNow → " + label + ": " + res.status + " (" + urls.length + " URL(s))");
+      } else {
+        const text = await res.text().catch(() => "");
+        console.log("IndexNow → " + label + ": " + res.status + (text ? " " + text.slice(0, 120) : ""));
+      }
+    } catch (err) {
+      console.log("IndexNow → " + endpoint + " failed: " + (err && err.message ? err.message : err));
+    }
+  }
+}
+
+async function notifySearchEngines() {
+  if (skipIndexNow) {
+    console.log("IndexNow: skipped (SKIP_INDEXNOW=1)");
+    return;
+  }
+  if (siteUrl.includes("localhost") || siteUrl.includes("127.0.0.1")) {
+    console.log("IndexNow: skipped (local site URL)");
+    return;
+  }
+
+  const key = ensureIndexNowKey();
+  const currentUrls = sitemapEntries.map((e) => e.loc);
+  const state = loadJson(statePath, { submitted: [] });
+  const previously = new Set(state.submitted || []);
+  const toSubmit = forceAllIndexNow
+    ? currentUrls
+    : currentUrls.filter((u) => !previously.has(u));
+
+  if (toSubmit.length) {
+    console.log(
+      "IndexNow: submitting " +
+        toSubmit.length +
+        " URL(s)" +
+        (forceAllIndexNow ? " (full)" : " (new since last build)")
+    );
+    for (const u of toSubmit) console.log("  + " + u);
+    await submitIndexNow(toSubmit, key);
+    const merged = [...new Set([...(state.submitted || []), ...currentUrls])];
+    fs.writeFileSync(
+      statePath,
+      JSON.stringify(
+        {
+          submitted: merged,
+          lastRun: new Date().toISOString(),
+          lastSubmitted: toSubmit,
+          siteUrl: siteUrl,
+        },
+        null,
+        2
+      ) + "\n"
+    );
+  } else {
+    console.log("IndexNow: no new indexable URLs since last build");
+  }
+}
+
+await notifySearchEngines();
