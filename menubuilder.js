@@ -3,7 +3,7 @@ public/menu.json        - tools nav + categories
 public/sitemap.xml      - SEO sitemap (all indexable pages)
 public/robots.txt       - points crawlers at the sitemap
 public index.html pages - injects real anchors into #menu and #footer-menu
-Also notifies search engines (IndexNow + sitemap ping) for new URLs.
+Also notifies search engines (IndexNow) for new URLs only.
 ******************************************************************/
 /************ Check the following in each pages ******************
 <meta name="menu-title" content="Number to Nepali words">
@@ -18,6 +18,8 @@ Also notifies search engines (IndexNow + sitemap ping) for new URLs.
 /******************* Update before deploy ***********************
 SITE_URL=https://pbd.com.np npm run deploy
 or edit DEFAULT_SITE_URL below (defaults to production).
+INDEXNOW_ALL=1 npm run indexnow  — force resubmit all URLs
+SKIP_INDEXNOW=1  — skip submissions (e.g. local preview)
 *****************************************************************/
 
 import fs from "node:fs";
@@ -313,8 +315,8 @@ const robots =
 fs.writeFileSync(path.join(root, "robots.txt"), robots);
 console.log("robots.txt: Sitemap -> " + siteUrl + "/sitemap.xml");
 
-// --- IndexNow + sitemap ping (notify search engines of new/updated URLs) ---
-// Set SKIP_INDEXNOW=1 to disable (e.g. local preview). INDEXNOW_ALL=1 forces full resubmit.
+// --- IndexNow (notify search engines of NEW URLs only) ---
+// SKIP_INDEXNOW=1 to disable. INDEXNOW_ALL=1 to force full resubmit.
 const skipIndexNow = process.env.SKIP_INDEXNOW === "1" || process.env.SKIP_INDEXNOW === "true";
 const forceAllIndexNow = process.env.INDEXNOW_ALL === "1" || process.env.INDEXNOW_ALL === "true";
 const statePath = path.join(process.cwd(), "indexnow-state.json");
@@ -347,7 +349,7 @@ function ensureIndexNowKey() {
 async function submitIndexNow(urls, key) {
   if (!urls.length) {
     console.log("IndexNow: nothing new to submit");
-    return;
+    return { ok: false, results: [] };
   }
   const host = new URL(siteUrl).host;
   const body = {
@@ -357,28 +359,38 @@ async function submitIndexNow(urls, key) {
     urlList: urls,
   };
   const endpoints = [
-    "https://api.indexnow.org/indexnow",
     "https://www.bing.com/indexnow",
+    "https://api.indexnow.org/indexnow",
     "https://yandex.com/indexnow",
   ];
+  const results = [];
   for (const endpoint of endpoints) {
+    const label = endpoint.replace(/^https:\/\//, "").split("/")[0];
     try {
       const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json; charset=utf-8" },
         body: JSON.stringify(body),
       });
-      const label = endpoint.replace(/^https:\/\//, "").split("/")[0];
-      if (res.status === 200 || res.status === 202) {
-        console.log("IndexNow → " + label + ": " + res.status + " (" + urls.length + " URL(s))");
+      const ok = res.status === 200 || res.status === 202;
+      if (ok) {
+        console.log("IndexNow → " + label + ": " + res.status + " accepted (" + urls.length + " URL(s))");
       } else {
         const text = await res.text().catch(() => "");
         console.log("IndexNow → " + label + ": " + res.status + (text ? " " + text.slice(0, 120) : ""));
       }
+      results.push({ endpoint: label, status: res.status, ok: ok });
     } catch (err) {
-      console.log("IndexNow → " + endpoint + " failed: " + (err && err.message ? err.message : err));
+      console.log("IndexNow → " + label + " failed: " + (err && err.message ? err.message : err));
+      results.push({
+        endpoint: label,
+        status: 0,
+        ok: false,
+        error: String(err && err.message ? err.message : err),
+      });
     }
   }
+  return { ok: results.some((r) => r.ok), results: results };
 }
 
 async function notifySearchEngines() {
@@ -404,10 +416,10 @@ async function notifySearchEngines() {
       "IndexNow: submitting " +
         toSubmit.length +
         " URL(s)" +
-        (forceAllIndexNow ? " (full)" : " (new since last build)")
+        (forceAllIndexNow ? " (full resubmit)" : " (new since last build)")
     );
     for (const u of toSubmit) console.log("  + " + u);
-    await submitIndexNow(toSubmit, key);
+    const outcome = await submitIndexNow(toSubmit, key);
     const merged = [...new Set([...(state.submitted || []), ...currentUrls])];
     fs.writeFileSync(
       statePath,
@@ -416,14 +428,21 @@ async function notifySearchEngines() {
           submitted: merged,
           lastRun: new Date().toISOString(),
           lastSubmitted: toSubmit,
+          lastOutcome: outcome.results,
           siteUrl: siteUrl,
+          keyLocation: siteUrl + "/" + key + ".txt",
         },
         null,
         2
       ) + "\n"
     );
+    if (outcome.ok) {
+      console.log(
+        "IndexNow: OK — accepted. Bing Webmaster Tools → IndexNow (site must be verified)."
+      );
+    }
   } else {
-    console.log("IndexNow: no new indexable URLs since last build");
+    console.log("IndexNow: no new indexable URLs since last build (use INDEXNOW_ALL=1 to resubmit all)");
   }
 }
 
