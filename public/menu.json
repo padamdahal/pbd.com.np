@@ -1,0 +1,73 @@
+{
+  "categories": [
+    {
+      "key": "tools",
+      "label": "Tools",
+      "items": [
+        {
+          "title": "BS ↔ AD date converter",
+          "description": "Free BS to AD and AD to BS date converter for Nepal. Convert Bikram Sambat to Gregorian (and back) for banks, forms and official documents.",
+          "path": "/tools/nepali-date-converter/"
+        },
+        {
+          "title": "BS age calculator",
+          "description": "Free Nepali age calculator. Enter your date of birth in BS or AD and get your exact age, next Nepali and English birthday countdown, and fun facts like heartbeats and birthdays on other planets.",
+          "path": "/tools/bs-age-calculator/"
+        },
+        {
+          "title": "Income Tax Calculator",
+          "description": "Free Nepal income tax calculator for FY 2083/84 (2026/27). Unified slabs, SSF 1% waiver, retirement & insurance deductions. Instant tax, take-home and slab breakdown. Works offline.",
+          "path": "/tools/income-tax-calculator/"
+        },
+        {
+          "title": "Local weather",
+          "description": "Free local weather tool for Nepal and worldwide. Check current conditions, hourly forecast and 7-day outlook using your location or any city search.",
+          "path": "/tools/local-weather/"
+        },
+        {
+          "title": "Nepali Spell Checker",
+          "description": "Free online Nepali spell checker for Unicode text. Paste Nepali words or paragraphs, find spelling mistakes instantly, and get suggestions. Works offline in your browser – private and free.",
+          "path": "/tools/nepali-spell-checker/"
+        },
+        {
+          "title": "Nepali typing (Roman → Unicode)",
+          "description": "Free Nepali typing tool: type in English letters and get Nepali Unicode instantly. Live word suggestions, undo, Nepali digits, copy and WhatsApp share. Works on phone and PC.",
+          "path": "/tools/nepali-typing/"
+        },
+        {
+          "title": "Preeti ↔ Unicode",
+          "description": "Free Preeti to Unicode and Unicode to Preeti converter. Paste Preeti font text and get clean Nepali Unicode instantly. Works offline in your browser – no install needed.",
+          "path": "/tools/preeti-to-unicode/"
+        },
+        {
+          "title": "Today Nepali Date",
+          "description": "Today Nepali date (Bikram Sambat) live. Check आजको नेपाली मिति, aaja kati gate, tithi and weekday. Free auto-updating Nepali calendar date card.",
+          "path": "/tools/today-nepali-date/"
+        }
+      ]
+    },
+    {
+      "key": "guides",
+      "label": "Guides",
+      "items": [
+        {
+          "title": "AI Beginner Guide 2026",
+          "description": "Complete beginner guide to using AI tools in 2026 for people in Nepal. ChatGPT, Claude, Gemini and free tools explained simply. Prompting basics, practical examples, freelancing tips and a 7-day starter plan.",
+          "path": "/guides/how-to-use-ai-as-a-complete-beginner-2026/"
+        },
+        {
+          "title": "Freelancing Guide 2026",
+          "description": "Complete beginner guide to start freelancing in Nepal in 2026. Best skills, Upwork & Fiverr setup, first clients, payments, pricing and a 30-day action plan. Free practical steps for students and beginners.",
+          "path": "/guides/how-to-start-freelancing-in-nepal-2026/"
+        }
+      ]
+    }
+  ],
+  "top": [
+    {
+      "title": "About Powered By Digital (PBD)",
+      "description": "Powered By Digital (PBD) — empowering people by digital means. Free, simple online utilities for everyday tasks in Nepal.",
+      "path": "/about/"
+    }
+  ]
+}
