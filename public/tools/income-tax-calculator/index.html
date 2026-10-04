@@ -1,1 +1,210 @@
-PLACEHOLDER
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b7285">
+  <title>Nepal Income Tax Calculator FY 2083/84 – Free Salary Tax & SSF Tool</title>
+  <meta name="description" content="Free Nepal income tax calculator for FY 2083/84 (2026/27). Unified slabs, SSF 1% waiver, retirement & insurance deductions. Instant tax, take-home and slab breakdown. Works offline.">
+  <link rel="canonical" href="https://pbd.com.np/tools/income-tax-calculator/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="keywords" content="Nepal income tax calculator, salary tax calculator Nepal, FY 2083/84 tax slabs, SSF tax waiver, income tax Nepal 2026, TDS calculator Nepal, social security fund tax">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="PBD">
+  <meta property="og:title" content="Nepal Income Tax Calculator FY 2083/84 – Free Salary Tax & SSF Tool">
+  <meta property="og:description" content="Calculate Nepal income tax for FY 2083/84 with unified slabs, SSF waiver, retirement and insurance deductions. Instant take-home estimate.">
+  <meta property="og:url" content="https://pbd.com.np/tools/income-tax-calculator/">
+  <meta property="og:image" content="https://pbd.com.np/assets/og-default.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Nepal Income Tax Calculator FY 2083/84">
+  <meta name="twitter:description" content="Calculate Nepal income tax for FY 2083/84 with unified slabs and SSF waiver.">
+  <meta name="twitter:image" content="https://pbd.com.np/assets/og-default.svg">
+  <meta name="menu-title" content="Income Tax Calculator">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="/assets/style.css">
+  <style>
+    .conv-box { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: var(--s-5); box-shadow: var(--shadow-sm); margin-bottom: var(--s-5); }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 18px; }
+    @media (max-width: 640px) { .form-grid { grid-template-columns: 1fr; } }
+    .field label { display: block; font-size: .85rem; font-weight: 600; color: var(--muted); margin-bottom: 4px; }
+    .field input, .field select { width: 100%; font: inherit; border: 1px solid var(--line-strong); border-radius: var(--radius-sm); padding: 10px 12px; background: #fff; color: var(--text); }
+    .toggle-row { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; margin: 12px 0 4px; }
+    .toggle-row label { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; cursor: pointer; font-size: .95rem; }
+    .toggle-row input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--primary); }
+    .result-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-top: 8px; }
+    .stat { background: #eef7f8; border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 12px 14px; }
+    .stat .label { font-size: .8rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .03em; }
+    .stat .value { font-size: 1.25rem; font-weight: 700; color: var(--text); margin-top: 2px; }
+    .stat.highlight { background: var(--primary); border-color: var(--primary); color: #fff; }
+    .stat.highlight .label { color: rgba(255,255,255,.85); }
+    .stat.highlight .value { color: #fff; }
+    .slab-table { width: 100%; border-collapse: collapse; font-size: .95rem; margin-top: 8px; }
+    .slab-table th, .slab-table td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: left; }
+    .slab-table th { font-weight: 600; color: var(--muted); font-size: .85rem; }
+    .slab-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+    .slab-table tr.active { background: #eef7f8; }
+    .tip-box { background: #eef7f8; border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 12px 16px; margin: var(--s-4) 0; font-size: .95rem; }
+    .faq-item { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 10px 14px; margin-bottom: 8px; }
+    .faq-item summary { cursor: pointer; font-weight: 600; list-style: none; }
+    .faq-item p { margin: 8px 0 4px; color: var(--muted); font-size: 0.95rem; }
+    .section-title { font-size: 1rem; font-weight: 700; margin: 18px 0 10px; }
+    .btn-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+    .btn-primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .note-sm { font-size: .88rem; color: var(--muted); margin-top: 6px; }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#tool">Skip to tool</a>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="/"><span class="logo-mark">P</span><span>PBD</span></a>
+      <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+      <nav id="menu" aria-label="Main navigation"></nav>
+    </div>
+  </header>
+  <main class="narrow" id="tool">
+    <div class="page-intro">
+      <h1>Nepal Income Tax Calculator (FY 2083/84)</h1>
+      <p class="lead">Estimate personal income tax and take-home pay under the unified FY 2083/84 slabs. Includes SSF 1% waiver, retirement fund and insurance deductions. Free, private, works offline in your browser.</p>
+    </div>
+    <div class="conv-box">
+      <div class="section-title">Income</div>
+      <div class="form-grid">
+        <div class="field"><label for="period">Income period</label><select id="period"><option value="monthly">Monthly</option><option value="annual" selected>Annual</option></select></div>
+        <div class="field"><label for="gross">Gross taxable income (NPR)</label><input type="number" id="gross" min="0" step="1000" value="1200000"></div>
+        <div class="field"><label for="basic">Basic salary (for SSF, NPR)</label><input type="number" id="basic" min="0" step="1000" value="80000"></div>
+        <div class="field"><label for="other">Other annual income (NPR)</label><input type="number" id="other" min="0" step="1000" value="0"></div>
+      </div>
+      <div class="section-title">Social Security & contributions</div>
+      <div class="toggle-row"><label><input type="checkbox" id="ssf" checked> I contribute to SSF (waives 1% on first ₹10 lakh)</label></div>
+      <div class="form-grid" style="margin-top:10px">
+        <div class="field"><label for="retire">Annual retirement contribution (SSF + PF + CIT, NPR)</label><input type="number" id="retire" min="0" step="1000" value="0"></div>
+        <div class="field"><label for="life">Life insurance premium (max 40,000)</label><input type="number" id="life" min="0" step="1000" value="0" max="40000"></div>
+        <div class="field"><label for="health">Health insurance premium (max 20,000)</label><input type="number" id="health" min="0" step="1000" value="0" max="20000"></div>
+      </div>
+      <p class="note-sm">Retirement deduction capped at lower of actual, NPR 500,000, or ⅓ of assessable income. SSF employee share typically 11% of basic.</p>
+      <div class="btn-row"><button type="button" class="btn btn-primary" id="btn-calc">Calculate tax</button><button type="button" class="btn" id="btn-reset">Reset</button></div>
+    </div>
+    <div class="conv-box" id="results" hidden>
+      <div class="section-title">Results (annual)</div>
+      <div class="result-grid">
+        <div class="stat"><div class="label">Assessable income</div><div class="value" id="r-assessable">—</div></div>
+        <div class="stat"><div class="label">Deductions</div><div class="value" id="r-deductions">—</div></div>
+        <div class="stat"><div class="label">Taxable income</div><div class="value" id="r-taxable">—</div></div>
+        <div class="stat highlight"><div class="label">Tax payable</div><div class="value" id="r-tax">—</div></div>
+        <div class="stat"><div class="label">Effective rate</div><div class="value" id="r-rate">—</div></div>
+        <div class="stat"><div class="label">Est. monthly take-home*</div><div class="value" id="r-takehome">—</div></div>
+      </div>
+      <p class="note-sm" id="ssf-note"></p>
+      <div class="section-title">Slab breakdown</div>
+      <table class="slab-table" id="slab-table"><thead><tr><th>Income band</th><th>Rate</th><th class="num">Income in band</th><th class="num">Tax</th></tr></thead><tbody></tbody></table>
+      <p class="note-sm">*Rough estimate: (gross − employee SSF − tax) ÷ 12. Confirm with IRD.</p>
+    </div>
+    <div class="tip-box"><strong>FY 2083/84 note:</strong> Separate single vs married slabs were removed. Everyone uses one unified table. First NPR 10 lakh at 1% (0% with SSF). Top rate 29% above NPR 40 lakh.</div>
+    <section class="block">
+      <h2>Income tax slabs – FY 2083/84</h2>
+      <table class="slab-table"><thead><tr><th>Annual taxable income (NPR)</th><th>Rate</th><th>Note</th></tr></thead><tbody>
+        <tr><td>Up to 10,00,000</td><td>1%</td><td>0% if SSF contributor</td></tr>
+        <tr><td>10,00,001 – 15,00,000</td><td>10%</td><td></td></tr>
+        <tr><td>15,00,001 – 25,00,000</td><td>20%</td><td></td></tr>
+        <tr><td>25,00,001 – 40,00,000</td><td>27%</td><td></td></tr>
+        <tr><td>Above 40,00,000</td><td>29%</td><td>27% + 2% surcharge</td></tr>
+      </tbody></table>
+    </section>
+    <section class="faq" aria-label="FAQ">
+      <h2>Frequently asked questions</h2>
+      <details class="faq-item"><summary>What are the income tax slabs for FY 2083/84?</summary><p>1% on first NPR 1,000,000 (0% with SSF), 10% next 500k, 20% next 1M, 27% next 1.5M, 29% above 4M. Unified for all residents.</p></details>
+      <details class="faq-item"><summary>Is there still a separate married couple slab?</summary><p>No. FY 2083/84 removed separate single/couple schedules.</p></details>
+      <details class="faq-item"><summary>Does SSF waive the 1% Social Security Tax?</summary><p>Yes. SSF contributors get 0% on the first NPR 10 lakh.</p></details>
+      <details class="faq-item"><summary>Is this calculator official?</summary><p>No. Independent estimate only. Verify with IRD Nepal or a tax adviser.</p></details>
+    </section>
+    <p class="note">Estimates only. PBD is not affiliated with the Inland Revenue Department of Nepal.</p>
+  </main>
+  <footer class="site-footer"><div class="bar"><p>© <span id="yr"></span> PBD</p><div class="footer-nav" id="footer-menu"></div><div class="legal"><a href="/about/">About</a> <a href="/privacy/">Privacy</a></div></div></footer>
+  <script src="/assets/menu.js" defer></script>
+  <script>
+  (function () {
+    const fmt = n => (n == null || isNaN(n)) ? '—' : '₹ ' + Math.round(n).toLocaleString('en-IN');
+    const pct = n => (n * 100).toFixed(2) + '%';
+    const $ = id => document.getElementById(id);
+    function getSlabs(isSsf) {
+      return [
+        { limit: 1000000, rate: isSsf ? 0 : 0.01, label: 'Up to 10,00,000' },
+        { limit: 1500000, rate: 0.10, label: '10,00,001 – 15,00,000' },
+        { limit: 2500000, rate: 0.20, label: '15,00,001 – 25,00,000' },
+        { limit: 4000000, rate: 0.27, label: '25,00,001 – 40,00,000' },
+        { limit: Infinity, rate: 0.29, label: 'Above 40,00,000' }
+      ];
+    }
+    function computeTax(taxable, isSsf) {
+      const slabs = getSlabs(isSsf);
+      let remaining = Math.max(0, taxable), prev = 0, total = 0;
+      const rows = [];
+      for (const s of slabs) {
+        const bandWidth = s.limit === Infinity ? remaining : Math.max(0, Math.min(remaining, s.limit - prev));
+        const tax = bandWidth * s.rate;
+        total += tax;
+        rows.push({ label: s.label, rate: s.rate, income: bandWidth, tax, active: bandWidth > 0 });
+        remaining -= bandWidth; prev = s.limit;
+        if (remaining <= 0) break;
+      }
+      while (rows.length < slabs.length) {
+        const s = slabs[rows.length];
+        rows.push({ label: s.label, rate: s.rate, income: 0, tax: 0, active: false });
+      }
+      return { total, rows };
+    }
+    function calculate() {
+      const isMonthly = $('period').value === 'monthly';
+      let g = parseFloat($('gross').value) || 0;
+      let b = parseFloat($('basic').value) || 0;
+      const o = parseFloat($('other').value) || 0;
+      if (isMonthly) { g *= 12; b *= 12; }
+      const assessable = g + o;
+      let ret = parseFloat($('retire').value);
+      if ((!ret || ret === 0) && $('ssf').checked && b > 0) {
+        ret = Math.round(b * 0.11);
+        $('retire').value = isMonthly ? Math.round(ret / 12) : ret;
+      } else if (isMonthly && ret) ret = ret * 12;
+      ret = Math.max(0, ret || 0);
+      const lifePrem = Math.min(40000, Math.max(0, parseFloat($('life').value) || 0));
+      const healthPrem = Math.min(20000, Math.max(0, parseFloat($('health').value) || 0));
+      const retireCap = Math.min(ret, 500000, Math.floor(assessable / 3));
+      const totalDed = retireCap + lifePrem + healthPrem;
+      const taxable = Math.max(0, assessable - totalDed);
+      const isSsf = $('ssf').checked;
+      const { total: tax, rows } = computeTax(taxable, isSsf);
+      const empSsf = isSsf && b > 0 ? Math.round(b * 0.11) : 0;
+      const takeHomeMonthly = Math.max(0, (assessable - empSsf - tax) / 12);
+      $('r-assessable').textContent = fmt(assessable);
+      $('r-deductions').textContent = fmt(totalDed);
+      $('r-taxable').textContent = fmt(taxable);
+      $('r-tax').textContent = fmt(tax);
+      $('r-rate').textContent = assessable > 0 ? pct(tax / assessable) : '—';
+      $('r-takehome').textContent = fmt(takeHomeMonthly);
+      $('ssf-note').textContent = isSsf
+        ? 'SSF contributor: first ₹10 lakh taxed at 0%. Employee SSF (~11% of basic) reflected in take-home.'
+        : 'Not SSF: first ₹10 lakh taxed at 1% Social Security Tax.';
+      document.querySelector('#slab-table tbody').innerHTML = rows.map(r =>
+        `<tr class="${r.active ? 'active' : ''}"><td>${r.label}</td><td>${(r.rate*100).toFixed(0)}%</td><td class="num">${fmt(r.income)}</td><td class="num">${fmt(r.tax)}</td></tr>`
+      ).join('');
+      $('results').hidden = false;
+    }
+    function reset() {
+      $('period').value = 'annual'; $('gross').value = '1200000'; $('basic').value = '80000';
+      $('other').value = '0'; $('ssf').checked = true; $('retire').value = '0';
+      $('life').value = '0'; $('health').value = '0'; $('results').hidden = true;
+    }
+    $('btn-calc').addEventListener('click', calculate);
+    $('btn-reset').addEventListener('click', reset);
+    ['period','gross','basic','other','ssf','retire','life','health'].forEach(id => {
+      const el = $(id);
+      el.addEventListener('change', () => { if (!$('results').hidden) calculate(); });
+      el.addEventListener('input', () => { if (!$('results').hidden) calculate(); });
+    });
+    document.getElementById('yr').textContent = new Date().getFullYear();
+    calculate();
+  })();
+  </script>
+</body>
+</html>
