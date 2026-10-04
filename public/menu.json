@@ -25,6 +25,11 @@
           "path": "/tools/local-weather/"
         },
         {
+          "title": "Nepali Name Generator",
+          "description": "Free online Nepali name generator. Get real, usable Nepali first names for boys and girls. Filter by traditional or modern style. Instant results, works offline – no signup needed.",
+          "path": "/tools/nepali-name-generator/"
+        },
+        {
           "title": "Nepali Spell Checker",
           "description": "Free online Nepali spell checker for Unicode text. Paste Nepali words or paragraphs, find spelling mistakes instantly, and get suggestions. Works offline in your browser – private and free.",
           "path": "/tools/nepali-spell-checker/"

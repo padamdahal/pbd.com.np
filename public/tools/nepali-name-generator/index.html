@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b7285">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="PBD">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/icon-512.png">
+
+  <title>Nepali Name Generator – Free Real Nepali First Names (Male & Female)</title>
+  <meta name="description" content="Free online Nepali name generator. Get real, usable Nepali first names for boys and girls. Filter by traditional or modern style. Instant results, works offline – no signup needed.">
+  <link rel="canonical" href="https://pbd.com.np/tools/nepali-name-generator/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="keywords" content="nepali name generator, nepali baby names, nepali boy names, nepali girl names, traditional nepali names, modern nepali names, nepali first names, नेपाली नाम, baby name nepal">
+  <meta name="menu-title" content="Nepali Name Generator">
+  <meta name="menu-description" content="Free Nepali first name generator. Real usable names for boys and girls. Filter traditional or modern style. Works offline.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="PBD">
+  <meta property="og:title" content="Nepali Name Generator – Free Real Nepali First Names">
+  <meta property="og:description" content="Get real, usable Nepali first names for boys and girls. Filter by traditional or modern style. Instant, offline-friendly.">
+  <meta property="og:url" content="https://pbd.com.np/tools/nepali-name-generator/">
+  <meta property="og:image" content="https://pbd.com.np/assets/og-default.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ne_NP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Nepali Name Generator – Free Real Nepali First Names">
+  <meta name="twitter:description" content="Get real, usable Nepali first names for boys and girls. Filter by traditional or modern style.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Nepali Name Generator",
+    "url": "https://pbd.com.np/tools/nepali-name-generator/",
+    "description": "Free online tool to generate real, usable Nepali first names for boys and girls. Filter by traditional or modern style.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "NPR"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Powered By Digital (PBD)",
+      "url": "https://pbd.com.np/"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Are these real Nepali names?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. The generator uses curated lists of authentic Nepali first names that are commonly used in Nepal for both traditional and modern styles."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does it include surnames?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. This tool focuses only on first names (given names). You can combine them with any surname yourself."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I use these names for a baby?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Many parents use this kind of generator for inspiration. Always check family traditions, meanings and any naming customs (such as Nwaran) before finalising a name."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does the tool work offline?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Once the page is loaded, all name generation happens in your browser. No data is sent to any server."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between traditional and modern names?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Traditional names are classic, often Sanskrit-rooted names that have been used for generations in Nepal. Modern names include more contemporary choices that have become popular in recent years."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+
+  <style>
+    .controls {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr auto;
+      gap: 12px;
+      align-items: end;
+      margin-bottom: var(--s-5);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: var(--s-5);
+      box-shadow: var(--shadow-sm);
+    }
+    @media (max-width: 700px) {
+      .controls {
+        grid-template-columns: 1fr 1fr;
+      }
+      .controls .gen-btn-wrap {
+        grid-column: 1 / -1;
+      }
+    }
+    .controls label {
+      display: block;
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .controls select {
+      width: 100%;
+      font: inherit;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      background: #fff;
+      color: var(--text);
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      width: 100%;
+      padding: 10px 18px;
+    }
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      border-color: var(--primary-dark);
+    }
+    .results-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .results-header h2 {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+    #status {
+      font-size: .9rem;
+      color: var(--muted);
+    }
+    .name-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: var(--s-5);
+    }
+    @media (max-width: 560px) {
+      .name-list { grid-template-columns: 1fr; }
+    }
+    .name-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      box-shadow: var(--shadow-sm);
+    }
+    .name-main {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+    .name-text {
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+    .name-meaning {
+      font-size: .85rem;
+      color: var(--muted);
+    }
+    .btn.copied, .btn-sm.copied {
+      background: #0a7a3e;
+      color: #fff;
+      border-color: #0a7a3e;
+    }
+    .faq { margin-top: var(--s-5); }
+    .faq h2 { font-size: 1.15rem; margin-bottom: var(--s-3); }
+    .faq-item {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      margin-bottom: 8px;
+    }
+    .faq-item summary {
+      cursor: pointer;
+      font-weight: 600;
+      list-style: none;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item p {
+      margin: 8px 0 4px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    .related-tools { margin-top: var(--s-4); font-size: 0.95rem; }
+    .related-tools a { margin-right: 12px; }
+    .tip-box {
+      background: #eef7f8;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      margin: var(--s-4) 0;
+      font-size: .95rem;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632604868005505"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip" href="#tool">Skip to tool</a>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="/"><span class="logo-mark">P</span><span>PBD</span></a>
+      <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+      <nav id="menu" aria-label="Main navigation"></nav>
+    </div>
+  </header>
+
+  <main class="narrow" id="tool">
+    <div class="page-intro">
+      <h1>Nepali Name Generator</h1>
+      <p class="lead">Generate real, usable Nepali first names for boys and girls. Filter by traditional or modern style. Instant results — works offline in your browser.</p>
+    </div>
+
+    <div class="controls">
+      <div>
+        <label for="gender">Gender</label>
+        <select id="gender">
+          <option value="any">Any</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      </div>
+      <div>
+        <label for="style">Style</label>
+        <select id="style">
+          <option value="any">Any</option>
+          <option value="traditional">Traditional</option>
+          <option value="modern">Modern</option>
+        </select>
+      </div>
+      <div>
+        <label for="count">How many</label>
+        <select id="count">
+          <option value="8">8 names</option>
+          <option value="12" selected>12 names</option>
+          <option value="16">16 names</option>
+        </select>
+      </div>
+      <div class="gen-btn-wrap">
+        <label>&nbsp;</label>
+        <button type="button" id="generate" class="btn btn-primary">Generate</button>
+      </div>
+    </div>
+
+    <div class="results-header">
+      <h2>Generated names</h2>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span id="status"></span>
+        <button type="button" id="copy-all" class="btn btn-sm" hidden>Copy all</button>
+      </div>
+    </div>
+
+    <div id="results" class="name-list" aria-live="polite"></div>
+
+    <div class="tip-box">
+      <strong>Tip:</strong> These are first names only (no surnames). Combine with any family name. For baby naming, also consider family tradition and Nwaran customs.
+    </div>
+
+    <section class="faq" aria-labelledby="faq-heading">
+      <h2 id="faq-heading">Frequently asked questions</h2>
+      <details class="faq-item">
+        <summary>Are these real Nepali names?</summary>
+        <p>Yes. The lists are curated from authentic Nepali first names used across Nepal — both classic traditional names and more recent popular choices.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Does it include surnames?</summary>
+        <p>No. This tool focuses only on first names (given names). You can pair any generated name with a surname of your choice.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Can I use these names for a baby?</summary>
+        <p>Yes — many people use name generators for inspiration. Always check meanings, family traditions and any local naming customs (such as the Nwaran ceremony) before deciding.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What is the difference between traditional and modern?</summary>
+        <p>Traditional names are classic, often Sanskrit-rooted names used for generations. Modern names are contemporary choices that have become popular in recent years in Nepal.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Does this tool work offline?</summary>
+        <p>Yes. All generation happens in your browser. Once the page has loaded you can use it without an internet connection. Your selections never leave your device.</p>
+      </details>
+    </section>
+
+    <p class="related-tools"><strong>Related:</strong>
+      <a href="/tools/bs-age-calculator/">BS age calculator</a>
+      <a href="/tools/today-nepali-date/">Today Nepali Date</a>
+      <a href="/tools/nepali-date-converter/">BS ↔ AD date converter</a>
+      <a href="/">All tools</a>
+    </p>
+
+    <p class="note">Names are drawn from curated lists of commonly used Nepali first names. Meanings are provided for popular names only and are simplified. Always verify important naming decisions with family or cultural guidance.</p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="bar">
+      <p>© <span id="yr"></span> PBD</p>
+      <div class="footer-nav">
+        <nav id="footer-menu" aria-label="Footer tools"></nav>
+        <nav class="legal" aria-label="Legal">
+          <a href="/about/">About</a>
+          <a href="/privacy/">Privacy</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <script src="name-generator.js" defer></script>
+  <script src="/assets/menu.js" defer></script>
+  <script src="/assets/pwa.js" defer></script>
+</body>
+</html>
