@@ -20,6 +20,11 @@
           "path": "/tools/income-tax-calculator/"
         },
         {
+          "title": "EV charging stations",
+          "description": "Free map of EV charging stations in Nepal. Search public chargers near you or by city. Data from OpenStreetMap.",
+          "path": "/tools/ev-charging-stations/"
+        },
+        {
           "title": "Local weather",
           "description": "Free local weather tool for Nepal and worldwide. Check current conditions, hourly forecast and 7-day outlook using your location or any city search.",
           "path": "/tools/local-weather/"
@@ -28,6 +33,11 @@
           "title": "Nepal Map",
           "description": "Free interactive map of Nepal. View 7 provinces, 77 districts and local levels (nagarpalika, gaunpalika). Search, select multiple layers, join CSV data and color the map.",
           "path": "/tools/nepal-map/"
+        },
+        {
+          "title": "Number to Nepali words",
+          "description": "Convert any number to Nepali words. English or Nepali digits, लाख, करोड, अर्ब and खर्ब. Free for cheques, bills and forms. Works offline.",
+          "path": "/tools/number-to-nepali-words/"
         },
         {
           "title": "Nepali Name Generator",

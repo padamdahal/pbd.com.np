@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b7285">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="PBD">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/icon-512.png">
+  <title>Number to Nepali Words Converter – अंकबाट नेपाली शब्द</title>
+  <meta name="description" content="Convert any number to Nepali words online. Supports English and Nepali digits, लाख, करोड, अर्ब and खर्ब. Free for cheques, bills and forms. Works offline.">
+  <link rel="canonical" href="https://pbd.com.np/tools/number-to-nepali-words/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="keywords" content="number to Nepali words, Nepali number converter, अंकबाट शब्द, अंकमा शब्द, लाख करोड अर्ब, cheque amount in words Nepal, Nepali digits to words">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="PBD">
+  <meta property="og:title" content="Number to Nepali Words Converter – अंकबाट नेपाली शब्द">
+  <meta property="og:description" content="Type a number in English or Nepali digits and get Nepali words instantly. Useful for cheques, invoices and official forms.">
+  <meta property="og:url" content="https://pbd.com.np/tools/number-to-nepali-words/">
+  <meta property="og:image" content="https://pbd.com.np/assets/og-default.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ne_NP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Number to Nepali Words Converter – अंकबाट नेपाली शब्द">
+  <meta name="twitter:description" content="Free number to Nepali words converter. लाख, करोड, अर्ब, खर्ब. English or Nepali digits.">
+  <meta name="twitter:image" content="https://pbd.com.np/assets/og-default.svg">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebApplication","name":"Number to Nepali Words","url":"https://pbd.com.np/tools/number-to-nepali-words/","description":"Convert numbers to Nepali words for cheques, bills and forms.","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"NPR"},"inLanguage":["ne","en"],"publisher":{"@type":"Organization","name":"Powered By Digital","url":"https://pbd.com.np/"}}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"How do I convert a number to Nepali words?","acceptedAnswer":{"@type":"Answer","text":"Type any number in English or Nepali digits. The tool writes it in Nepali words using लाख, करोड, अर्ब and खर्ब."}},
+    {"@type":"Question","name":"Can I use Nepali digits like १२३?","acceptedAnswer":{"@type":"Answer","text":"Yes. English digits (123) and Nepali digits (१२३) both work, including commas and decimals."}},
+    {"@type":"Question","name":"Is this useful for cheques in Nepal?","acceptedAnswer":{"@type":"Answer","text":"Yes. Banks and offices often ask for the amount in words. Always double-check before signing a cheque or legal paper."}}
+  ]}
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+  <style>
+    .tool-box { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: var(--s-5); box-shadow: var(--shadow-sm); }
+    .tool-box input { font-size: 1.25rem; padding: 12px 14px; }
+    .samples { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .samples button { font: inherit; font-size: .85rem; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: #fff; cursor: pointer; }
+    .result { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--line); }
+    .result .label { font-size: .85rem; font-weight: 600; color: var(--muted); margin: 0; }
+    .digits { font-size: 1.35rem; font-weight: 700; margin: 4px 0 12px; }
+    .words { font-size: 1.35rem; font-weight: 700; margin: 4px 0 12px; line-height: 1.45; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; }
+    .btn-primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .btn.copied { background: #0a7a3e; color: #fff; border-color: #0a7a3e; }
+    .faq { margin-top: var(--s-5); }
+    .faq h2 { font-size: 1.15rem; }
+    .faq-item { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 10px 14px; margin-bottom: 8px; }
+    .faq-item summary { cursor: pointer; font-weight: 600; }
+    .faq-item p { margin: 8px 0 4px; color: var(--muted); }
+    .related-tools a { margin-right: 12px; }
+    .tip-box { background: #eef7f8; border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 12px 16px; margin: 16px 0; }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632604868005505" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip" href="#tool">Skip to tool</a>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="/"><span class="logo-mark">P</span><span>PBD</span></a>
+      <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+      <nav id="menu" aria-label="Main navigation"></nav>
+    </div>
+  </header>
+  <main class="narrow" id="tool">
+    <div class="page-intro">
+      <h1>Number to Nepali words</h1>
+      <p class="lead">Type a number in English or Nepali digits. Get the amount in words for cheques, bills and forms — लाख, करोड, अर्ब, खर्ब. Free and private. Conversion stays in your browser.</p>
+    </div>
+    <div class="tool-box">
+      <div class="field">
+        <label for="num">Number / संख्या</label>
+        <input id="num" type="text" inputmode="decimal" autocomplete="off" placeholder="12,34,567 or १२३४५६७" autofocus>
+      </div>
+      <div class="samples">
+        <button type="button" data-n="1500">१,५००</button>
+        <button type="button" data-n="250000">२,५०,०००</button>
+        <button type="button" data-n="10000000">१ करोड</button>
+        <button type="button" data-n="1234.50">decimals</button>
+      </div>
+      <p id="hint" class="hint" aria-live="polite"></p>
+      <section class="result" id="out" hidden>
+        <p class="label">Formatted</p>
+        <p id="digits" class="digits"></p>
+        <p class="label">In words / अक्षरमा</p>
+        <p id="words" class="words" lang="ne"></p>
+        <div class="actions">
+          <button type="button" class="btn btn-primary" id="copy">Copy words</button>
+          <button type="button" class="btn" id="clear">Clear</button>
+        </div>
+      </section>
+    </div>
+    <div class="tip-box"><strong>Tip:</strong> Copy sits under the result so you can paste into a cheque, Word file or message in one step.</div>
+    <section>
+      <h2>How to use</h2>
+      <ol>
+        <li>Type or paste a number. Commas are fine. Nepali digits work too.</li>
+        <li>Words update as you type, grouped the Nepali way (pairs after the first three).</li>
+        <li>Copy the words. Check them before using on a legal document.</li>
+      </ol>
+    </section>
+    <section class="faq">
+      <h2>Frequently asked questions</h2>
+      <details class="faq-item"><summary>How do I convert a number to Nepali words?</summary><p>Type any number in English or Nepali digits. The tool writes it using लाख, करोड, अर्ब and खर्ब.</p></details>
+      <details class="faq-item"><summary>Can I use Nepali digits like १२३?</summary><p>Yes. English digits and Nepali digits both work, including decimals.</p></details>
+      <details class="faq-item"><summary>Is this useful for cheques in Nepal?</summary><p>Yes. Amounts in words are common on cheques and official forms. Always double-check before you sign.</p></details>
+    </section>
+    <p class="related-tools"><strong>Related:</strong>
+      <a href="/tools/income-tax-calculator/">Income tax calculator</a>
+      <a href="/tools/preeti-to-unicode/">Preeti ↔ Unicode</a>
+      <a href="/tools/nepali-typing/">Nepali typing</a>
+      <a href="/">All tools</a>
+    </p>
+    <p class="note">Some numbers have more than one accepted spelling in Nepali. This tool uses common textbook forms. Up to 19 digits.</p>
+  </main>
+  <footer class="site-footer">
+    <div class="bar">
+      <p>© <span id="yr"></span> PBD</p>
+      <div class="footer-nav">
+        <nav id="footer-menu" aria-label="Footer tools"></nav>
+        <nav class="legal" aria-label="Legal"><a href="/about/">About</a><a href="/privacy/">Privacy</a></nav>
+      </div>
+    </div>
+  </footer>
+  <script src="number-words.js" defer></script>
+  <script src="/assets/menu.js" defer></script>
+  <script src="/assets/pwa.js" defer></script>
+</body>
+</html>
