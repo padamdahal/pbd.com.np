@@ -12,15 +12,15 @@
   <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png">
   <link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/icon-512.png">
-  <title>Nepal Map Online – Provinces, Districts & Local Level Map</title>
-  <meta name="description" content="Free interactive map of Nepal. View 7 provinces, 77 districts and local levels (nagarpalika, gaunpalika). Search, select multiple layers, join CSV data and color the map. नेपालको नक्सा.">
+  <title>Nepal Map Online – Provinces, Districts, Palikas &amp; Rasuwa Flood Layers</title>
+  <meta name="description" content="Free interactive map of Nepal. 7 provinces, 77 districts, local levels, plus optional Rasuwa–Bhotekoshi 2026 flood damage layers (HOT). Search, multi-select, CSV join. नेपालको नक्सा.">
   <link rel="canonical" href="https://pbd.com.np/tools/nepal-map/">
   <meta name="robots" content="index, follow, max-image-preview:large">
-  <meta name="keywords" content="Nepal map, map of Nepal, Nepal district map, province map of Nepal, municipality map Nepal, local level map, palika map, Nepal administrative map, नेपालको नक्सा, जिल्ला नक्सा, प्रदेश नक्सा, पालिका नक्सा, GIS map Nepal">
+  <meta name="keywords" content="Nepal map, map of Nepal, Nepal district map, province map of Nepal, municipality map Nepal, local level map, palika map, Rasuwa flood map, Bhotekoshi flood 2026, Nepal flood damage map, नेपालको नक्सा, जिल्ला नक्सा, प्रदेश नक्सा, पालिका नक्सा, GIS map Nepal">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="PBD">
-  <meta property="og:title" content="Nepal Map Online – Provinces, Districts & Local Level Map">
-  <meta property="og:description" content="Free interactive map of Nepal with provinces, districts and palikas. Search, multi-select layers, and join your own data for a choropleth.">
+  <meta property="og:title" content="Nepal Map Online – Provinces, Districts, Palikas &amp; Rasuwa Flood Layers">
+  <meta property="og:description" content="Free Nepal map with provinces, districts, palikas, and optional Rasuwa–Bhotekoshi 2026 HOT flood damage layers.">
   <meta property="og:url" content="https://pbd.com.np/tools/nepal-map/">
   <meta property="og:image" content="https://pbd.com.np/assets/og-default.svg">
   <meta property="og:image:width" content="1200">
@@ -28,18 +28,19 @@
   <meta property="og:locale" content="en_US">
   <meta property="og:locale:alternate" content="ne_NP">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Nepal Map Online – Provinces, Districts & Local Level Map">
-  <meta name="twitter:description" content="Free Nepal map: 7 provinces, 77 districts and local levels. Search, layer select, CSV join and choropleth.">
+  <meta name="twitter:title" content="Nepal Map Online – Provinces, Districts, Palikas &amp; Rasuwa Flood Layers">
+  <meta name="twitter:description" content="Free Nepal map with provinces, districts, palikas and optional Rasuwa 2026 flood damage layers.">
   <meta name="twitter:image" content="https://pbd.com.np/assets/og-default.svg">
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"WebApplication","name":"Nepal Map","url":"https://pbd.com.np/tools/nepal-map/","description":"Free interactive map of Nepal with provinces, districts and local levels, plus CSV data join and choropleth.","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"NPR"},"inLanguage":["en","ne"],"publisher":{"@type":"Organization","name":"Powered By Digital","url":"https://pbd.com.np/"}}
+  {"@context":"https://schema.org","@type":"WebApplication","name":"Nepal Map","url":"https://pbd.com.np/tools/nepal-map/","description":"Free interactive map of Nepal with provinces, districts, local levels, optional Rasuwa 2026 flood damage layers, and CSV choropleth.","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"NPR"},"inLanguage":["en","ne"],"publisher":{"@type":"Organization","name":"Powered By Digital","url":"https://pbd.com.np/"}}
   </script>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
     {"@type":"Question","name":"Where can I see a map of Nepal with districts?","acceptedAnswer":{"@type":"Answer","text":"Open the Nepal Map tool, turn on the Districts layer, and search any of the 77 districts. You can show provinces and local levels at the same time."}},
     {"@type":"Question","name":"Does this include municipalities and gaunpalikas?","acceptedAnswer":{"@type":"Answer","text":"Yes. The Local levels layer includes nagarpalika, gaunpalika, metropolitan and sub-metropolitan units. Ward boundaries are not included."}},
+    {"@type":"Question","name":"Can I see the Rasuwa Bhotekoshi flood on this map?","acceptedAnswer":{"@type":"Answer","text":"Yes. Under Event layers, turn on Flood extent, Bridge damage, Hydropower or building damage. Data is open HOT mapping of the 26 August 2026 flood, not an official NDRRMA product."}},
     {"@type":"Question","name":"Can I color the Nepal map with my own numbers?","acceptedAnswer":{"@type":"Answer","text":"Yes. Paste or upload a CSV with a name column and a value column. The tool joins the values to provinces, districts or local levels and draws a choropleth."}},
-    {"@type":"Question","name":"Is the Nepal map free?","acceptedAnswer":{"@type":"Answer","text":"Yes. It is free, runs in the browser, and does not need an account. Boundary data is open and attributed on the page."}}
+    {"@type":"Question","name":"Is the Nepal map free?","acceptedAnswer":{"@type":"Answer","text":"Yes. It is free, runs in the browser, and does not need an account. Boundary and flood data are open and attributed on the page."}}
   ]}
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -89,16 +90,31 @@
   <main class="narrow" id="tool">
     <div class="page-intro">
       <h1>Nepal Map</h1>
-      <p class="lead">Interactive map of Nepal — 7 provinces, 77 districts and local levels (nagarpalika / gaunpalika). Select more than one layer, search a place, or join your own numbers to color the map. नेपालको नक्सा, जिल्ला नक्सा, पालिका नक्सा.</p>
+      <p class="lead">Interactive map of Nepal — 7 provinces, 77 districts and local levels (nagarpalika / gaunpalika). Optional Rasuwa–Bhotekoshi 2026 flood damage layers. Search, multi-select, or join your own numbers. नेपालको नक्सा, जिल्ला नक्सा, पालिका नक्सा.</p>
     </div>
 
     <div class="map-layout">
       <aside class="panel">
-        <h2>Layers</h2>
+        <h2>Admin layers</h2>
         <div class="layers">
           <label><input type="checkbox" id="ly-province" checked> Provinces (7)</label>
           <label><input type="checkbox" id="ly-district"> Districts (77)</label>
           <label><input type="checkbox" id="ly-local"> Local levels (palikas)</label>
+        </div>
+        <h2 style="margin-top:14px">Event layers · Rasuwa flood 2026</h2>
+        <p class="muted" style="margin:0 0 8px;font-size:.82rem">Open HOT damage mapping for the 26 Aug 2026 Bhotekoshi–Trishuli flood. Large files load only when checked.</p>
+        <div class="layers">
+          <label><input type="checkbox" id="ly-flood-extent"> Flood extent</label>
+          <label><input type="checkbox" id="ly-bridge-damage"> Bridge damage</label>
+          <label><input type="checkbox" id="ly-hydropower"> Exposed hydropower</label>
+          <label><input type="checkbox" id="ly-aoi"> Area of interest</label>
+          <label><input type="checkbox" id="ly-buildings-ai"> Building damage (AI)</label>
+          <label><input type="checkbox" id="ly-buildings-manual"> Buildings (manual OSM)</label>
+          <label><input type="checkbox" id="ly-destroyed-features"> Destroyed / damaged features</label>
+        </div>
+        <div class="row-actions" style="margin-top:8px">
+          <button type="button" class="btn btn-sm" id="btn-fit-flood">Fit flood</button>
+          <button type="button" class="btn btn-sm" id="btn-clear-flood">Hide flood</button>
         </div>
         <div class="field">
           <label for="q">Search district, province or palika</label>
@@ -131,6 +147,7 @@
       <ol>
         <li>Turn on Provinces, Districts, Local levels — or any mix.</li>
         <li>Search a name and click a result to zoom.</li>
+        <li>For the Rasuwa–Bhotekoshi flood, enable Event layers (extent, bridges, hydropower). Building layers are large and load only when checked.</li>
         <li>Paste a CSV of names and numbers, then Color map. Unmatched names are listed in the status line.</li>
       </ol>
     </section>
@@ -139,8 +156,9 @@
       <h2>Frequently asked questions</h2>
       <details class="faq-item"><summary>Where can I see a map of Nepal with districts?</summary><p>Turn on the Districts layer. All 77 districts load as a preset. Search any district name to zoom to it.</p></details>
       <details class="faq-item"><summary>Does this include municipalities and gaunpalikas?</summary><p>Yes. Local levels covers nagarpalika, gaunpalika, metropolitan and sub-metropolitan units. Ward boundaries are not included.</p></details>
+      <details class="faq-item"><summary>Can I see the Rasuwa Bhotekoshi flood on this map?</summary><p>Yes. Under Event layers, turn on Flood extent, Bridge damage, Hydropower or building damage. Data is open HOT mapping of the 26 August 2026 flood — not an official NDRRMA product. You can also open <code>?flood=1</code> or <code>#rasuwa</code> to pre-enable core flood layers.</p></details>
       <details class="faq-item"><summary>Can I color the map with my own numbers?</summary><p>Paste or upload CSV with a name column and a value column. Values join to the active layer and draw a choropleth.</p></details>
-      <details class="faq-item"><summary>Is this Nepal map free?</summary><p>Yes. It runs in your browser with no account. Boundary files are open data, attributed below.</p></details>
+      <details class="faq-item"><summary>Is this Nepal map free?</summary><p>Yes. It runs in your browser with no account. Boundary and flood files are open data, attributed below.</p></details>
     </section>
 
     <p class="related-tools"><strong>Related:</strong>
@@ -149,7 +167,7 @@
       <a href="/tools/today-nepali-date/">Today Nepali Date</a>
       <a href="/">All tools</a>
     </p>
-    <p class="note">Boundaries: provinces and districts from <a href="https://github.com/Acesmndr/nepal-geojson">nepal-geojson</a> (MIT). Local levels from <a href="https://github.com/younginnovations/nepal-locallevel-map">YoungInnovations nepal-locallevel-map</a>. Simplified for the web. Not a survey-grade cadastral map — confirm official boundaries with the Survey Department for legal use. Basemap © OpenStreetMap contributors.</p>
+    <p class="note">Boundaries: provinces and districts from <a href="https://github.com/Acesmndr/nepal-geojson">nepal-geojson</a> (MIT). Local levels from <a href="https://github.com/younginnovations/nepal-locallevel-map">YoungInnovations nepal-locallevel-map</a>. Rasuwa flood damage layers: Humanitarian OpenStreetMap Team via HDX (hot_flood_npl). Not a survey-grade or official NDRRMA product — verify with authorities for legal or operational use. Basemap © OpenStreetMap contributors.</p>
   </main>
 
   <footer class="site-footer">
