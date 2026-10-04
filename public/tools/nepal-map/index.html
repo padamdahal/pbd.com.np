@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b7285">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="PBD">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/icon-512.png">
+  <title>Nepal Map Online – Provinces, Districts & Local Level Map</title>
+  <meta name="description" content="Free interactive map of Nepal. View 7 provinces, 77 districts and local levels (nagarpalika, gaunpalika). Search, select multiple layers, join CSV data and color the map. नेपालको नक्सा.">
+  <link rel="canonical" href="https://pbd.com.np/tools/nepal-map/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="keywords" content="Nepal map, map of Nepal, Nepal district map, province map of Nepal, municipality map Nepal, local level map, palika map, Nepal administrative map, नेपालको नक्सा, जिल्ला नक्सा, प्रदेश नक्सा, पालिका नक्सा, GIS map Nepal">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="PBD">
+  <meta property="og:title" content="Nepal Map Online – Provinces, Districts & Local Level Map">
+  <meta property="og:description" content="Free interactive map of Nepal with provinces, districts and palikas. Search, multi-select layers, and join your own data for a choropleth.">
+  <meta property="og:url" content="https://pbd.com.np/tools/nepal-map/">
+  <meta property="og:image" content="https://pbd.com.np/assets/og-default.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ne_NP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Nepal Map Online – Provinces, Districts & Local Level Map">
+  <meta name="twitter:description" content="Free Nepal map: 7 provinces, 77 districts and local levels. Search, layer select, CSV join and choropleth.">
+  <meta name="twitter:image" content="https://pbd.com.np/assets/og-default.svg">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebApplication","name":"Nepal Map","url":"https://pbd.com.np/tools/nepal-map/","description":"Free interactive map of Nepal with provinces, districts and local levels, plus CSV data join and choropleth.","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"NPR"},"inLanguage":["en","ne"],"publisher":{"@type":"Organization","name":"Powered By Digital","url":"https://pbd.com.np/"}}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"Where can I see a map of Nepal with districts?","acceptedAnswer":{"@type":"Answer","text":"Open the Nepal Map tool, turn on the Districts layer, and search any of the 77 districts. You can show provinces and local levels at the same time."}},
+    {"@type":"Question","name":"Does this include municipalities and gaunpalikas?","acceptedAnswer":{"@type":"Answer","text":"Yes. The Local levels layer includes nagarpalika, gaunpalika, metropolitan and sub-metropolitan units. Ward boundaries are not included."}},
+    {"@type":"Question","name":"Can I color the Nepal map with my own numbers?","acceptedAnswer":{"@type":"Answer","text":"Yes. Paste or upload a CSV with a name column and a value column. The tool joins the values to provinces, districts or local levels and draws a choropleth."}},
+    {"@type":"Question","name":"Is the Nepal map free?","acceptedAnswer":{"@type":"Answer","text":"Yes. It is free, runs in the browser, and does not need an account. Boundary data is open and attributed on the page."}}
+  ]}
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <style>
+    main.narrow { max-width: 1080px; }
+    .map-layout { display: grid; grid-template-columns: 280px 1fr; gap: 16px; align-items: start; }
+    @media (max-width: 800px) { .map-layout { grid-template-columns: 1fr; } }
+    .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow-sm); }
+    .panel h2 { margin: 0 0 10px; font-size: 1rem; }
+    .layers { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+    .layers label { display: flex; gap: 8px; align-items: center; font-weight: 600; }
+    #map { height: 560px; border-radius: var(--radius); border: 1px solid var(--line); background: #e7eef0; }
+    @media (max-width: 800px) { #map { height: 420px; } }
+    .search-row { display: flex; gap: 8px; }
+    .search-row input { padding: 10px 12px; }
+    #results { list-style: none; margin: 8px 0 0; padding: 0; max-height: 180px; overflow: auto; }
+    #results li { padding: 6px 8px; border-radius: 8px; cursor: pointer; }
+    #results li:hover { background: #eef7f8; }
+    textarea { width: 100%; min-height: 92px; font: inherit; font-size: .9rem; border: 1px solid var(--line-strong); border-radius: var(--radius-sm); padding: 8px 10px; }
+    .row-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+    .legend { display: flex; gap: 4px; align-items: center; margin-top: 8px; font-size: .8rem; color: var(--muted); }
+    .swatch { width: 18px; height: 12px; border-radius: 3px; }
+    .faq { margin-top: var(--s-5); }
+    .faq h2 { font-size: 1.15rem; }
+    .faq-item { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 10px 14px; margin-bottom: 8px; }
+    .faq-item summary { cursor: pointer; font-weight: 600; }
+    .faq-item p { margin: 8px 0 4px; color: var(--muted); }
+    .related-tools a { margin-right: 12px; }
+    .status { font-size: .85rem; color: var(--muted); min-height: 1.2em; }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632604868005505" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip" href="#tool">Skip to tool</a>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="/"><span class="logo-mark">P</span><span>PBD</span></a>
+      <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+      <nav id="menu" aria-label="Main navigation"></nav>
+    </div>
+  </header>
+
+  <main class="narrow" id="tool">
+    <div class="page-intro">
+      <h1>Nepal Map</h1>
+      <p class="lead">Interactive map of Nepal — 7 provinces, 77 districts and local levels (nagarpalika / gaunpalika). Select more than one layer, search a place, or join your own numbers to color the map. नेपालको नक्सा, जिल्ला नक्सा, पालिका नक्सा.</p>
+    </div>
+
+    <div class="map-layout">
+      <aside class="panel">
+        <h2>Layers</h2>
+        <div class="layers">
+          <label><input type="checkbox" id="ly-province" checked> Provinces (7)</label>
+          <label><input type="checkbox" id="ly-district"> Districts (77)</label>
+          <label><input type="checkbox" id="ly-local"> Local levels (palikas)</label>
+        </div>
+        <div class="field">
+          <label for="q">Search district, province or palika</label>
+          <div class="search-row">
+            <input id="q" type="search" placeholder="e.g. Kathmandu, कोशी" autocomplete="off">
+          </div>
+          <ul id="results"></ul>
+        </div>
+        <h2 style="margin-top:16px">Join data</h2>
+        <p class="muted" style="margin:0 0 8px;font-size:.88rem">Paste CSV: name, value. Matches English names. Colors the active layer.</p>
+        <textarea id="csv" spellcheck="false" placeholder="name,value&#10;Kathmandu,120&#10;Lalitpur,80&#10;Koshi,40"></textarea>
+        <div class="row-actions">
+          <button type="button" class="btn btn-primary" id="join">Color map</button>
+          <button type="button" class="btn" id="sample">Sample</button>
+          <button type="button" class="btn" id="clear-join">Clear</button>
+          <label class="btn">Upload CSV<input id="file" type="file" accept=".csv,text/csv" hidden></label>
+        </div>
+        <div class="legend" id="legend" hidden></div>
+        <p class="status" id="status" aria-live="polite"></p>
+        <h2 style="margin-top:16px">Your GeoJSON</h2>
+        <label class="btn">Upload overlay<input id="geo" type="file" accept=".geojson,.json,application/geo+json" hidden></label>
+      </aside>
+      <div>
+        <div id="map" role="application" aria-label="Map of Nepal"></div>
+      </div>
+    </div>
+
+    <section class="block" style="margin-top:24px">
+      <h2>How to use</h2>
+      <ol>
+        <li>Turn on Provinces, Districts, Local levels — or any mix.</li>
+        <li>Search a name and click a result to zoom.</li>
+        <li>Paste a CSV of names and numbers, then Color map. Unmatched names are listed in the status line.</li>
+      </ol>
+    </section>
+
+    <section class="faq" aria-label="Frequently asked questions">
+      <h2>Frequently asked questions</h2>
+      <details class="faq-item"><summary>Where can I see a map of Nepal with districts?</summary><p>Turn on the Districts layer. All 77 districts load as a preset. Search any district name to zoom to it.</p></details>
+      <details class="faq-item"><summary>Does this include municipalities and gaunpalikas?</summary><p>Yes. Local levels covers nagarpalika, gaunpalika, metropolitan and sub-metropolitan units. Ward boundaries are not included.</p></details>
+      <details class="faq-item"><summary>Can I color the map with my own numbers?</summary><p>Paste or upload CSV with a name column and a value column. Values join to the active layer and draw a choropleth.</p></details>
+      <details class="faq-item"><summary>Is this Nepal map free?</summary><p>Yes. It runs in your browser with no account. Boundary files are open data, attributed below.</p></details>
+    </section>
+
+    <p class="related-tools"><strong>Related:</strong>
+      <a href="/tools/nepali-date-converter/">BS ↔ AD date converter</a>
+      <a href="/tools/local-weather/">Local weather</a>
+      <a href="/tools/today-nepali-date/">Today Nepali Date</a>
+      <a href="/">All tools</a>
+    </p>
+    <p class="note">Boundaries: provinces and districts from <a href="https://github.com/Acesmndr/nepal-geojson">nepal-geojson</a> (MIT). Local levels from <a href="https://github.com/younginnovations/nepal-locallevel-map">YoungInnovations nepal-locallevel-map</a>. Simplified for the web. Not a survey-grade cadastral map — confirm official boundaries with the Survey Department for legal use. Basemap © OpenStreetMap contributors.</p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="bar">
+      <p>© <span id="yr"></span> PBD</p>
+      <div class="footer-nav">
+        <nav id="footer-menu" aria-label="Footer tools"></nav>
+        <nav class="legal" aria-label="Legal">
+          <a href="/about/">About</a>
+          <a href="/privacy/">Privacy</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="nepal-map.js" defer></script>
+  <script src="/assets/menu.js" defer></script>
+  <script src="/assets/pwa.js" defer></script>
+</body>
+</html>

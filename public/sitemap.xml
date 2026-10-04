@@ -43,6 +43,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://pbd.com.np/tools/nepal-map/</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://pbd.com.np/tools/nepali-date-converter/</loc>
     <lastmod>2026-10-04</lastmod>
     <changefreq>weekly</changefreq>

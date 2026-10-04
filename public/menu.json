@@ -25,6 +25,11 @@
           "path": "/tools/local-weather/"
         },
         {
+          "title": "Nepal Map",
+          "description": "Free interactive map of Nepal. View 7 provinces, 77 districts and local levels (nagarpalika, gaunpalika). Search, select multiple layers, join CSV data and color the map.",
+          "path": "/tools/nepal-map/"
+        },
+        {
           "title": "Nepali Name Generator",
           "description": "Free online Nepali name generator. Get real, usable Nepali first names for boys and girls. Filter by traditional or modern style. Instant results, works offline – no signup needed.",
           "path": "/tools/nepali-name-generator/"
