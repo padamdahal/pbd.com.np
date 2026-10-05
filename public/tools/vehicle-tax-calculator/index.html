@@ -1,342 +1,182 @@
-<!DOCTYPE html>
+Here is the complete, page-ready index.html file for your Vehicle Tax Calculator, built using the exact same structure, Schema markups, SEO tags, layout classes, and FAQ design as your bs-age-calculator source code.
+public/tools/vehicle-tax-calculator/index.html
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vehicle Tax & Fine Calculator Nepal - Powered By Digital (PBD)</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nepal Vehicle Tax Calculator – Calculate Bike, Scooter & Car Tax</title>
+  <meta name="description" content="Free Nepal vehicle tax calculator. Calculate exact annual road tax, renewal fees, and overdue fine charges for motorcycles, scooters, and cars across all provinces.">
+  <link rel="canonical" href="https://pbd.com.np/tools/vehicle-tax-calculator/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="menu-title" content="Vehicle tax calculator">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="PBD">
+  <meta property="og:title" content="Nepal Vehicle Tax Calculator – Calculate Bike, Scooter & Car Tax">
+  <meta property="og:description" content="Free Nepal vehicle tax calculator. Calculate exact annual road tax, renewal fees, and overdue fine charges for motorcycles, scooters, and cars across all provinces.">
+  <meta property="og:url" content="https://pbd.com.np/tools/vehicle-tax-calculator/">
+  <meta property="og:image" content="https://pbd.com.np/assets/og-default.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ne_NP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Nepal Vehicle Tax Calculator – Calculate Bike, Scooter & Car Tax">
+  <meta name="twitter:description" content="Free Nepal vehicle tax calculator. Calculate exact annual road tax, renewal fees, and overdue fine charges for motorcycles, scooters, and cars across all provinces.">
+  <meta name="twitter:image" content="https://pbd.com.np/assets/og-default.svg">
+  <meta name="theme-color" content="#c3dcea">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Nepal Vehicle Tax Calculator", "url": "https://pbd.com.np/tools/vehicle-tax-calculator/", "description": "Free online vehicle tax calculator for Nepal that calculates annual road tax, bluebook renewal fees, and overdue fines for bikes, scooters, and cars.", "applicationCategory": "UtilityApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "NPR"}, "inLanguage": ["en", "ne"], "isPartOf": {"@type": "WebSite", "name": "PBD", "url": "https://pbd.com.np/"}}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How is vehicle tax calculated in Nepal?", "acceptedAnswer": {"@type": "Answer", "text": "Vehicle tax in Nepal is determined by your province, vehicle type (two-wheeler or four-wheeler), and engine displacement capacity measured in CC or kW for electric vehicles."}}, {"@type": "Question", "name": "What fine is charged for late bluebook renewal?", "acceptedAnswer": {"@type": "Answer", "text": "Late payment penalties depend on the province and duration of delay, starting from 5% for early delays and scaling up to 20% or 30% for delays exceeding a year."}}, {"@type": "Question", "name": "Are EV (Electric Vehicle) tax rates different?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, electric motorcycles, scooters, and cars have separate tax slabs based on motor power output (kW) instead of engine CC."}}, {"@type": "Question", "name": "Does vehicle tax vary by province in Nepal?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Each provincial government (Bagmati, Gandaki, Koshi, etc.) sets its own annual vehicle tax rates and renewal penalty structure."}}, {"@type": "Question", "name": "What additional charges are added to the annual tax?", "acceptedAnswer": {"@type": "Answer", "text": "In addition to road tax, bluebook renewal fees, third-party insurance, and route/fitness permits (for commercial vehicles) may apply."}}, {"@type": "Question", "name": "Where can I pay my vehicle tax in Nepal?", "acceptedAnswer": {"@type": "Answer", "text": "You can pay directly at the Transport Management Office (Yatayat) or online through provincial digital portals and payment gateways like eSewa or Khalti."}}]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "PBD", "item": "https://pbd.com.np/"}, {"@type": "ListItem", "position": 2, "name": "Vehicle Tax Calculator", "item": "https://pbd.com.np/tools/vehicle-tax-calculator/"}]}</script>
   <style>
-    :root {
-      --primary: #2563eb;
-      --bg-slate: #f8fafc;
-      --card-bg: #ffffff;
-      --text-main: #0f172a;
-      --text-muted: #64748b;
-      --border-color: #e2e8f0;
-      --radius: 12px;
-      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    }
-
-    body {
-      background-color: var(--bg-slate);
-      color: var(--text-main);
-      line-height: 1.5;
-      padding: 20px;
-    }
-
-    .container {
-      max-width: 720px;
-      margin: 0 auto;
-    }
-
-    header {
-      margin-bottom: 24px;
-      text-align: center;
-    }
-
-    header h1 {
-      font-size: 1.75rem;
-      font-weight: 700;
-      color: var(--text-main);
-      margin-bottom: 6px;
-    }
-
-    header p {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-    }
-
-    .badge-privacy {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background-color: #e0f2fe;
-      color: #0369a1;
-      padding: 4px 12px;
-      border-radius: 9999px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      margin-top: 8px;
-    }
-
-    .calculator-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius);
-      padding: 24px;
-      box-shadow: var(--shadow);
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 16px;
-    }
-
-    @media (min-width: 640px) {
-      .form-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .form-group.full-width {
-      grid-column: 1 / -1;
-    }
-
-    label {
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: #334155;
-    }
-
-    select {
-      padding: 10px 14px;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      font-size: 0.95rem;
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      background-color: #fff;
-    }
-
-    select:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-    }
-
-    .results-section {
-      margin-top: 24px;
-      padding-top: 20px;
-      border-top: 2px dashed var(--border-color);
-    }
-
-    .total-banner {
-      background: linear-gradient(135deg, #1e293b, #0f172a);
-      color: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .total-banner .label {
-      font-size: 0.875rem;
-      color: #94a3b8;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .total-banner .amount {
-      font-size: 1.75rem;
-      font-weight: 700;
-      color: #38bdf8;
-    }
-
-    .breakdown-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.925rem;
-    }
-
-    .breakdown-table th, .breakdown-table td {
-      padding: 10px 12px;
-      text-align: left;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .breakdown-table th {
-      color: var(--text-muted);
-      font-weight: 600;
-    }
-
-    .breakdown-table td.amount-col {
-      text-align: right;
-      font-weight: 600;
-    }
-
-    .note-box {
-      margin-top: 20px;
-      padding: 12px 16px;
-      background-color: #f1f5f9;
-      border-left: 4px solid var(--primary);
-      border-radius: 4px;
-      font-size: 0.825rem;
-      color: #475569;
-    }
+    .calc-box{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-sm);padding:var(--s-4)}
+    .tabs{display:flex;gap:8px;margin-bottom:var(--s-4)}
+    .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+    @media(max-width:520px){.row3{grid-template-columns:1fr}}
+    .panel{margin-bottom:var(--s-4)}
+    .panel h3{margin:0 0 8px;font-size:1rem;color:var(--muted)}
+    #hint{min-height:1.2em;margin-bottom:8px}
+    #result{border-top:1px dashed var(--line-strong);padding-top:var(--s-4);margin-top:var(--s-4)}
+    #headline{font-size:1.8rem;line-height:1.3}
+    #headline-ad{color:var(--muted);margin-top:2px}
+    #born-line{color:var(--muted);margin-top:6px;font-size:.95rem}
+    .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin-top:var(--s-5)}
+    .stat{background:#eef7f8;border-radius:var(--radius-sm);padding:10px 12px;text-align:center}
+    .stat strong{display:block;font-size:1.25rem}
+    .stat span{color:var(--muted);font-size:.8rem}
+    .next-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:var(--s-5)}
+    @media(max-width:520px){.next-grid{grid-template-columns:1fr}}
+    .next-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius-sm);padding:12px}
+    .next-card h4{margin:0 0 4px;font-size:.85rem;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
+    .planet-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-top:8px}
+    .planet{background:#fff;border:1px solid var(--line);border-radius:var(--radius-sm);padding:10px;text-align:center}
+    .planet strong{display:block;font-size:1.3rem;color:var(--primary-dark)}
+    .planet span{color:var(--muted);font-size:.8rem}
+    #milestone{margin-top:var(--s-4);color:var(--muted);font-size:.92rem}
+    section.block{margin-top:34px} section.block h2{font-size:1.4rem;margin:0 0 10px}
+    .faq-item{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:8px}
+    .faq-item summary{cursor:pointer;font-weight:600} .faq-item p{margin:8px 0 4px;color:var(--muted)}
   </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632604868005505"
+     crossorigin="anonymous"></script>
 </head>
 <body>
+  <a class="skip" href="#tool">Skip to tool</a>
+  <header class="site-header"><div class="bar"><a class="brand" href="/"><span class="logo-mark">P</span><span>PBD</span></a><button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button><nav id="menu" aria-label="Main navigation"></nav></div></header>
+  <main class="narrow" id="tool">
+    <div class="page-intro">
+      <h1>Nepal Vehicle Tax Calculator</h1>
+      <p class="lead">Calculate annual road tax, bluebook renewal fees, and late payment penalties for motorcycles, scooters, electric vehicles, and cars across Nepal's provinces.</p>
+    </div>
 
-<div class="container">
-  <header>
-    <h1>Vehicle Tax & Fine Calculator Nepal</h1>
-    <p>Calculate official vehicle tax rates, renewal charges, and delay fines</p>
-    <span class="badge-privacy">🔒 100% Client-Side & Private</span>
-  </header>
-
-  <main class="calculator-card">
-    <form id="taxForm">
-      <div class="form-grid">
-        <div class="form-group">
-          <label for="vehicleType">Vehicle Type</label>
-          <select id="vehicleType">
-            <option value="bike">Motorcycle / Scooter (Fuel)</option>
-            <option value="car">Car / Jeep / Van (Fuel)</option>
-            <option value="ev_bike">Electric 2-Wheeler (EV)</option>
-            <option value="ev_car">Electric 4-Wheeler (EV)</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="capacity" id="capacityLabel">Engine Capacity (CC)</label>
-          <select id="capacity"></select>
-        </div>
-
-        <div class="form-group full-width">
-          <label for="delayPeriod">Renewal Payment Status / Delay</label>
-          <select id="delayPeriod">
-            <option value="0">On Time / Within Fiscal Year (0% Fine)</option>
-            <option value="0.05">1 – 30 Days Late (5% Fine on Tax)</option>
-            <option value="0.10">31 – 45 Days Late (10% Fine on Tax)</option>
-            <option value="0.20">46 Days to End of Fiscal Year (20% Fine on Tax)</option>
-            <option value="0.32">1 Year Overdue / Crosses Ashad (32% Fine on Tax)</option>
-            <option value="0.64">2 Years Overdue (64% Fine on Tax)</option>
-            <option value="0.96">3 Years Overdue (96% Fine on Tax)</option>
-          </select>
+    <div class="calc-box">
+      <div class="panel">
+        <h3>Vehicle Details</h3>
+        <div class="row3">
+          <div class="field" style="margin:0">
+            <label for="province">Province</label>
+            <select id="province">
+              <option value="bagmati">Bagmati Province</option>
+              <option value="gandaki">Gandaki Province</option>
+              <option value="koshi">Koshi Province</option>
+              <option value="lumbini">Lumbini Province</option>
+              <option value="madesh">Madhesh Province</option>
+              <option value="karnali">Karnali Province</option>
+              <option value="sudurpashchim">Sudurpashchim Province</option>
+            </select>
+          </div>
+          <div class="field" style="margin:0">
+            <label for="v-type">Vehicle Type</label>
+            <select id="v-type">
+              <option value="bike">Two-Wheeler (Bike/Scooter)</option>
+              <option value="car">Car / Jeep / Van</option>
+              <option value="ev-bike">Electric Two-Wheeler</option>
+              <option value="ev-car">Electric Car / SUV</option>
+            </select>
+          </div>
+          <div class="field" style="margin:0">
+            <label for="v-cc">Capacity (CC / kW)</label>
+            <input id="v-cc" type="number" inputmode="numeric" min="50" max="10000" placeholder="150">
+          </div>
         </div>
       </div>
-    </form>
 
-    <div class="results-section">
-      <div class="total-banner">
-        <div>
-          <div class="label">Total Payable Amount</div>
-          <small style="color: #cbd5e1; font-size: 0.75rem;">Tax + Penalty + Bluebook Renewal</small>
+      <div class="panel">
+        <h3>Renewal & Registration Details</h3>
+        <div class="row3">
+          <div class="field" style="margin:0">
+            <label for="reg-year">Registration Year (BS)</label>
+            <input id="reg-year" type="number" inputmode="numeric" min="2050" max="2090" placeholder="2075">
+          </div>
+          <div class="field" style="margin:0">
+            <label for="last-paid">Tax Paid Until (BS Year)</label>
+            <input id="last-paid" type="number" inputmode="numeric" min="2050" max="2090" placeholder="2080">
+          </div>
+          <div class="field" style="margin:0">
+            <label for="insurance">Third-Party Insurance</label>
+            <select id="insurance">
+              <option value="include">Include Insurance Estimate</option>
+              <option value="exclude">Exclude Insurance</option>
+            </select>
+          </div>
         </div>
-        <div class="amount" id="totalPayable">NPR 0</div>
       </div>
 
-      <table class="breakdown-table">
-        <thead>
-          <tr>
-            <th>Description</th>
-            <th style="text-align: right;">Amount (NPR)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Base Vehicle Tax (Annual)</td>
-            <td class="amount-col" id="baseTax">0</td>
-          </tr>
-          <tr>
-            <td>Late Penalty Fine</td>
-            <td class="amount-col" id="fineAmount">0</td>
-          </tr>
-          <tr>
-            <td>Bluebook Renewal Charge</td>
-            <td class="amount-col" id="renewalFee">0</td>
-          </tr>
-        </tbody>
-      </table>
+      <p id="hint" class="hint" aria-live="polite"></p>
 
-      <div class="note-box">
-        <strong>📌 Note:</strong> Fines apply strictly to the base vehicle tax amount (not to renewal charges or third-party insurance). Standard third-party insurance (~NPR 1,500 - 2,000 for bikes, NPR 7,000+ for cars) must be purchased separately before bluebook renewal at the Yatayat (DoTM) office.
+      <div id="result" hidden>
+        <div id="headline"></div>
+        <div id="headline-ad"></div>
+        <div id="born-line"></div>
+
+        <div class="stat-grid" aria-label="Tax breakdown">
+          <div class="stat"><strong id="stat-base-tax"></strong><span>Annual Tax</span></div>
+          <div class="stat"><strong id="stat-renewal"></strong><span>Renewal Fee</span></div>
+          <div class="stat"><strong id="stat-fine"></strong><span>Penalty / Fine</span></div>
+          <div class="stat"><strong id="stat-insurance"></strong><span>Insurance</span></div>
+          <div class="stat"><strong id="stat-total"></strong><span>Total Payable</span></div>
+        </div>
+
+        <div class="next-grid">
+          <div class="next-card"><h4>Tax Due Date</h4><div id="next-bs"></div></div>
+          <div class="next-card"><h4>Status & Overdue</h4><div id="next-ad"></div></div>
+        </div>
+
+        <div class="panel" style="margin-top:var(--s-5)">
+          <h3>Additional Fee Details</h3>
+          <p class="muted" style="margin:0 0 4px">Base road tax estimated at <strong id="stat-heartbeats"></strong> NPR per fiscal year.</p>
+          <p class="muted" style="margin:0 0 6px">Applicable penalty tier according to provincial finance acts:</p>
+          <div class="planet-grid" id="planets"></div>
+        </div>
+        <p id="milestone"></p>
       </div>
     </div>
+
+    <section class="block">
+      <h2>About this calculator</h2>
+      <p>Vehicle tax in Nepal is determined based on engine displacement (CC) or motor output (kW for EVs) under each provincial finance act. Calculate your total payable amount including annual road tax, bluebook renewal fees, third-party insurance, and late fines directly before visiting the Transport Management Office (Yatayat).</p>
+    </section>
+
+    <section class="block faq">
+      <h2>Vehicle tax calculator – frequently asked questions</h2>
+      <details class="faq-item"><summary>How is vehicle tax calculated in Nepal?</summary><p>Vehicle tax in Nepal is determined by your province, vehicle type (two-wheeler or four-wheeler), and engine displacement capacity measured in CC or kW for electric vehicles.</p></details>
+      <details class="faq-item"><summary>What fine is charged for late bluebook renewal?</summary><p>Late payment penalties depend on the province and duration of delay, starting from 5% for early delays and scaling up to 20% or 30% for delays exceeding a year.</p></details>
+      <details class="faq-item"><summary>Are EV (Electric Vehicle) tax rates different?</summary><p>Yes, electric motorcycles, scooters, and cars have separate tax slabs based on motor power output (kW) instead of engine CC.</p></details>
+      <details class="faq-item"><summary>Does vehicle tax vary by province in Nepal?</summary><p>Yes. Each provincial government (Bagmati, Gandaki, Koshi, etc.) sets its own annual vehicle tax rates and renewal penalty structure.</p></details>
+      <details class="faq-item"><summary>What additional charges are added to the annual tax?</summary><p>In addition to road tax, bluebook renewal fees, third-party insurance, and route/fitness permits (for commercial vehicles) may apply.</p></details>
+      <details class="faq-item"><summary>Where can I pay my vehicle tax in Nepal?</summary><p>You can pay directly at the Transport Management Office (Yatayat) or online through provincial digital portals and payment gateways like eSewa or Khalti.</p></details>
+    </section>
+
+    <p class="related-tools" style="margin-top:28px"><strong>Related:</strong> <a href="/tools/bs-age-calculator/">BS Age Calculator</a> · <a href="/tools/nepali-date-converter/">BS ↔ AD date converter</a> · <a href="/">All tools</a></p>
+    <p class="note">Tax rates are based on the latest provincial fiscal budgets. Always confirm final bill details with your respective Transport Management Office.</p>
   </main>
-</div>
-
-<script>
-  const capacityData = {
-    bike: [
-      { label: 'Up to 125 CC', tax: 3000 },
-      { label: '126 CC to 150 CC', tax: 5000 },
-      { label: '151 CC to 225 CC', tax: 6500 },
-      { label: '226 CC to 400 CC', tax: 11000 },
-      { label: '401 CC to 650 CC', tax: 20000 },
-      { label: '651 CC and Above', tax: 30000 }
-    ],
-    car: [
-      { label: 'Up to 1000 CC', tax: 22000 },
-      { label: '1001 CC to 1500 CC', tax: 25000 },
-      { label: '1501 CC to 2000 CC', tax: 27000 },
-      { label: '2001 CC to 2500 CC', tax: 37000 },
-      { label: '2501 CC to 3000 CC', tax: 50000 },
-      { label: '3001 CC to 3500 CC', tax: 65000 },
-      { label: '3501 CC and Above', tax: 70000 }
-    ],
-    ev_bike: [
-      { label: 'Up to 1000 W', tax: 1500 },
-      { label: '1001 W to 1500 W', tax: 2000 },
-      { label: '1501 W and Above', tax: 3000 }
-    ],
-    ev_car: [
-      { label: 'Up to 49 kW', tax: 10000 },
-      { label: '50 kW to 125 kW', tax: 15000 },
-      { label: '126 kW to 225 kW', tax: 20000 },
-      { label: '226 kW and Above', tax: 30000 }
-    ]
-  };
-
-  const vehicleTypeSelect = document.getElementById('vehicleType');
-  const capacitySelect = document.getElementById('capacity');
-  const capacityLabel = document.getElementById('capacityLabel');
-  const delayPeriodSelect = document.getElementById('delayPeriod');
-
-  function populateCapacities() {
-    const selectedType = vehicleTypeSelect.value;
-    capacitySelect.innerHTML = '';
-    
-    if (selectedType.includes('ev')) {
-      capacityLabel.textContent = selectedType === 'ev_bike' ? 'Motor Capacity (Watts)' : 'Motor Capacity (kW)';
-    } else {
-      capacityLabel.textContent = 'Engine Capacity (CC)';
-    }
-
-    capacityData[selectedType].forEach((item) => {
-      const option = document.createElement('option');
-      option.value = item.tax;
-      option.textContent = item.label;
-      capacitySelect.appendChild(option);
-    });
-
-    calculateTax();
-  }
-
-  function calculateTax() {
-    const baseTax = parseFloat(capacitySelect.value) || 0;
-    const fineRate = parseFloat(delayPeriodSelect.value) || 0;
-    const selectedType = vehicleTypeSelect.value;
-
-    const renewalFee = (selectedType === 'bike' || selectedType === 'ev_bike') ? 300 : 500;
-    const fineAmount = baseTax * fineRate;
-    const totalPayable = baseTax + fineAmount + renewalFee;
-
-    document.getElementById('baseTax').textContent = baseTax.toLocaleString('en-IN');
-    document.getElementById('fineAmount').textContent = Math.round(fineAmount).toLocaleString('en-IN');
-    document.getElementById('renewalFee').textContent = renewalFee.toLocaleString('en-IN');
-    document.getElementById('totalPayable').textContent = `NPR ${Math.round(totalPayable).toLocaleString('en-IN')}`;
-  }
-
-  vehicleTypeSelect.addEventListener('change', populateCapacities);
-  capacitySelect.addEventListener('change', calculateTax);
-  delayPeriodSelect.addEventListener('change', calculateTax);
-
-  populateCapacities();
-</script>
+  <footer class="site-footer"><div class="bar"><p>© <span id="yr"></span> PBD</p>
+    <div class="footer-nav"><nav id="footer-menu" aria-label="Footer tools"></nav><nav class="legal" aria-label="Legal"><a href="/about/">About</a> <a href="/privacy/">Privacy</a></nav></div></div></footer>
+  <script src="vehicle-tax-calculator.js" defer></script>
+  <script src="/assets/menu.js" defer></script>
 </body>
 </html>
