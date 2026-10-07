@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b7285">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="PBD">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/icon-512.png">
+
+  <title>Nepali Proverb of the Day – आजको उखान | Embeddable Widget</title>
+  <meta name="description" content="Free embeddable Nepali Proverb of the Day widget. Daily rotating traditional Nepali ukhan (उखान) with English meaning. Perfect for blogs, news sites and school pages. Copy the iframe code and use it anywhere.">
+  <link rel="canonical" href="https://pbd.com.np/widgets/nepali-proverb/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="keywords" content="nepali proverb of the day, आजको उखान, nepali ukhan widget, embed nepali proverb, nepali quote of the day, उखान टुक्का, nepali saying widget">
+  <meta name="menu-title" content="Nepali Proverb of the Day">
+  <meta name="menu-description" content="Daily rotating traditional Nepali proverbs (उखान) with English meaning. Free embeddable widget for any website.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="PBD">
+  <meta property="og:title" content="Nepali Proverb of the Day – आजको उखान | Embeddable Widget">
+  <meta property="og:description" content="Free embeddable Nepali Proverb of the Day. Daily traditional ukhan with English meaning. Copy the iframe and use on any site.">
+  <meta property="og:url" content="https://pbd.com.np/widgets/nepali-proverb/">
+  <meta property="og:image" content="https://pbd.com.np/assets/og-default.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ne_NP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Nepali Proverb of the Day – आजको उखान">
+  <meta name="twitter:description" content="Free embeddable daily Nepali proverb widget with English meaning.">
+  <meta name="twitter:image" content="https://pbd.com.np/assets/og-default.svg">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Nepali Proverb of the Day",
+    "url": "https://pbd.com.np/widgets/nepali-proverb/",
+    "description": "Free embeddable daily Nepali proverb (उखान) widget with English translation and meaning. Rotates every day.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "NPR" },
+    "inLanguage": ["ne", "en"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the Nepali Proverb of the Day widget?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It is a free embeddable widget that shows one traditional Nepali proverb (उखान) each day, along with its English translation and short meaning. You can embed it on any website using a simple iframe."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I embed the Nepali proverb widget on my site?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Customize the options on this page (theme, language, size, daily or random) and copy the generated iframe code. Paste it into your website's HTML where you want the proverb to appear."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does the proverb change every day?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. In Daily mode the same proverb is shown to everyone on a given day (based on Nepal Standard Time). Random mode shows a different proverb on each page load."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are the proverbs copyrighted?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. These are traditional Nepali folk proverbs (उखान) passed down through generations and are in the public domain."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+
+  <style>
+    .widget-preview {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      padding: 28px 24px;
+      margin: 0 0 var(--s-5);
+      text-align: center;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+    }
+    .widget-preview.dark {
+      background: #13232b;
+      color: #e8f0f2;
+      border-color: #2a3f4a;
+    }
+    .widget-preview.compact { padding: 18px 16px; }
+    .widget-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--primary);
+      margin: 0 0 12px;
+    }
+    .widget-preview.dark .widget-label { color: #5ec8d8; }
+    .proverb-ne {
+      font-size: 1.45rem;
+      font-weight: 700;
+      line-height: 1.4;
+      margin: 0 0 10px;
+      color: var(--text);
+    }
+    .widget-preview.dark .proverb-ne { color: #f0f7f8; }
+    .widget-preview.compact .proverb-ne { font-size: 1.2rem; }
+    .proverb-en {
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--muted);
+      margin: 0 0 8px;
+      font-style: italic;
+    }
+    .widget-preview.dark .proverb-en { color: #a8c0c8; }
+    .proverb-meaning {
+      font-size: 0.92rem;
+      color: var(--muted);
+      margin: 0;
+      line-height: 1.45;
+    }
+    .widget-preview.dark .proverb-meaning { color: #8aa8b2; }
+    .widget-attr {
+      margin-top: 16px;
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+    .widget-attr a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .widget-preview.dark .widget-attr a { color: #5ec8d8; }
+
+    .controls {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: var(--s-5);
+      box-shadow: var(--shadow-sm);
+    }
+    .controls h2 {
+      margin: 0 0 14px;
+      font-size: 1.1rem;
+    }
+    .control-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .control-grid label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .control-grid select {
+      width: 100%;
+      padding: 8px 10px;
+      font: inherit;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius-sm);
+      background: #fff;
+    }
+    .embed-box {
+      background: #f0f6f7;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      margin-top: 12px;
+    }
+    .embed-box label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .embed-box textarea {
+      width: 100%;
+      min-height: 90px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.82rem;
+      padding: 10px;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius-sm);
+      resize: vertical;
+      background: #fff;
+      color: var(--text);
+    }
+    .embed-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 12px 0 0;
+      justify-content: center;
+    }
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: var(--s-5);
+    }
+    @media (max-width: 560px) {
+      .info-grid { grid-template-columns: 1fr; }
+    }
+    .info-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      box-shadow: var(--shadow-sm);
+    }
+    .info-card h3 {
+      margin: 0 0 6px;
+      font-size: 0.95rem;
+      color: var(--primary-dark);
+    }
+    .info-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+    .faq { margin-top: var(--s-5); }
+    .faq h2 { font-size: 1.15rem; margin-bottom: var(--s-3); }
+    .faq-item {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      margin-bottom: 8px;
+    }
+    .faq-item summary {
+      cursor: pointer;
+      font-weight: 600;
+      list-style: none;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item p {
+      margin: 8px 0 4px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    /* Embed mode: hide everything except the card */
+    body.embed-mode .site-header,
+    body.embed-mode .site-footer,
+    body.embed-mode .page-intro,
+    body.embed-mode .controls,
+    body.embed-mode .info-grid,
+    body.embed-mode .faq,
+    body.embed-mode .related,
+    body.embed-mode .skip {
+      display: none !important;
+    }
+    body.embed-mode {
+      background: transparent;
+      margin: 0;
+      padding: 0;
+    }
+    body.embed-mode main.narrow {
+      width: 100%;
+      max-width: none;
+      margin: 0;
+      padding: 0;
+    }
+    body.embed-mode .widget-preview {
+      margin: 0;
+      max-width: none;
+      border-radius: 10px;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632604868005505"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip" href="#tool">Skip to widget</a>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="/"><span class="logo-mark">P</span><span>PBD</span></a>
+      <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+      <nav id="menu" aria-label="Main navigation"></nav>
+    </div>
+  </header>
+
+  <main class="narrow" id="tool">
+    <div class="page-intro">
+      <h1>Nepali Proverb of the Day – आजको उखान</h1>
+      <p class="lead">Daily rotating traditional Nepali proverbs (उखान) with English meaning. Free embeddable widget for blogs, news sites, school pages and more.</p>
+    </div>
+
+    <div id="preview" class="widget-preview" aria-live="polite">
+      <p class="widget-label">आजको उखान</p>
+      <p id="p-ne" class="proverb-ne" lang="ne"></p>
+      <p id="p-en" class="proverb-en"></p>
+      <p id="p-meaning" class="proverb-meaning"></p>
+      <div class="btn-row">
+        <button type="button" class="btn btn-sm" id="btn-copy">Copy text</button>
+        <button type="button" class="btn btn-sm" id="btn-new">Another proverb</button>
+      </div>
+      <p class="widget-attr"><a href="https://pbd.com.np/widgets/nepali-proverb/" target="_blank" rel="noopener">Powered by PBD</a></p>
+    </div>
+
+    <div class="controls">
+      <h2>Customize &amp; Embed</h2>
+      <div class="control-grid">
+        <div>
+          <label for="mode">Mode</label>
+          <select id="mode">
+            <option value="daily" selected>Daily (same all day)</option>
+            <option value="random">Random on load</option>
+          </select>
+        </div>
+        <div>
+          <label for="lang">Language</label>
+          <select id="lang">
+            <option value="both" selected>Nepali + English</option>
+            <option value="ne">Nepali only</option>
+            <option value="en">English only</option>
+          </select>
+        </div>
+        <div>
+          <label for="theme">Theme</label>
+          <select id="theme">
+            <option value="light" selected>Light</option>
+            <option value="dark">Dark</option>
+            <option value="auto">Auto (system)</option>
+          </select>
+        </div>
+        <div>
+          <label for="size">Size</label>
+          <select id="size">
+            <option value="standard" selected>Standard</option>
+            <option value="compact">Compact</option>
+          </select>
+        </div>
+        <div>
+          <label for="attr">Attribution</label>
+          <select id="attr">
+            <option value="1" selected>Show “Powered by PBD”</option>
+            <option value="0">Hide</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="embed-box">
+        <label for="embed-code">Embed code (iframe)</label>
+        <textarea id="embed-code" readonly rows="4"></textarea>
+        <div class="embed-actions">
+          <button type="button" class="btn btn-primary" id="btn-copy-embed">Copy embed code</button>
+          <button type="button" class="btn" id="btn-preview-embed">Open embed preview</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>How daily rotation works</h3>
+        <p>The proverb is chosen from the collection using the current date in Nepal Standard Time (UTC+5:45). Everyone sees the same proverb on the same day.</p>
+      </div>
+      <div class="info-card">
+        <h3>Collection size</h3>
+        <p>Over 120 traditional Nepali proverbs. We keep adding well-known, non-controversial ukhan that carry useful life lessons.</p>
+      </div>
+      <div class="info-card">
+        <h3>Free for any site</h3>
+        <p>Personal blogs, news portals, school websites, local government pages — all welcome. No signup, no tracking inside the widget.</p>
+      </div>
+      <div class="info-card">
+        <h3>Works offline</h3>
+        <p>Once loaded, the proverb data stays in the browser. The widget does not need a continuous connection to show today’s saying.</p>
+      </div>
+    </div>
+
+    <section class="faq">
+      <h2>Frequently asked questions</h2>
+      <details class="faq-item">
+        <summary>What is the Nepali Proverb of the Day widget?</summary>
+        <p>It is a free embeddable widget that shows one traditional Nepali proverb (उखान) each day, together with its English translation and a short meaning. You can place it on any website with a simple iframe.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How do I embed it on my website?</summary>
+        <p>Choose your preferred options above (mode, language, theme, size) and click “Copy embed code”. Paste the iframe into your page’s HTML wherever you want the proverb to appear.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Does the proverb change every day?</summary>
+        <p>Yes. In Daily mode the same proverb is shown to all visitors on a given day (Nepal Standard Time). Random mode picks a new one on every page load.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Are these proverbs copyrighted?</summary>
+        <p>No. They are traditional Nepali folk proverbs passed down through generations and are in the public domain.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Can I request a specific proverb to be added?</summary>
+        <p>Yes. Traditional, widely known, and non-controversial proverbs are welcome. Reach out via the About page.</p>
+      </details>
+    </section>
+
+    <section class="related" style="margin-top: var(--s-5);">
+      <h2>Related tools</h2>
+      <p style="color: var(--muted); font-size: 0.95rem;">
+        <a href="/tools/today-nepali-date/">Today Nepali Date</a> ·
+        <a href="/tools/nepali-date-converter/">BS ↔ AD Converter</a> ·
+        <a href="/tools/number-to-nepali-words/">Number to Nepali Words</a>
+      </p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="bar" style="padding: 24px 0; flex-direction: column; align-items: flex-start; gap: 16px;">
+      <nav id="footer-menu" class="footer-nav" aria-label="Footer"></nav>
+      <div class="legal">
+        <span>© <span id="yr"></span> Powered By Digital (PBD)</span>
+        <a href="/privacy/">Privacy</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/menu.js"></script>
+  <script src="proverbs.js"></script>
+  <script>
+  (() => {
+    "use strict";
+
+    const params = new URLSearchParams(location.search);
+    const isEmbed = params.get("embed") === "1";
+    const $ = (id) => document.getElementById(id);
+    const preview = $("preview");
+    const pNe = $("p-ne");
+    const pEn = $("p-en");
+    const pMeaning = $("p-meaning");
+
+    let current = null;
+
+    function dayIndex() {
+      // Nepal Standard Time (UTC+5:45)
+      const now = new Date();
+      const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+      const nst = new Date(utc + (5 * 60 + 45) * 60000);
+      const y = nst.getFullYear();
+      const m = nst.getMonth();
+      const d = nst.getDate();
+      const days = Math.floor(Date.UTC(y, m, d) / 86400000);
+      return Math.abs(days) % window.PBD_PROVERBS.length;
+    }
+
+    function pickProverb(mode) {
+      const list = window.PBD_PROVERBS;
+      if (!list || !list.length) return null;
+      if (mode === "random") {
+        return list[Math.floor(Math.random() * list.length)];
+      }
+      return list[dayIndex()];
+    }
+
+    function applyTheme(theme) {
+      preview.classList.remove("dark");
+      if (theme === "dark") {
+        preview.classList.add("dark");
+      } else if (theme === "auto") {
+        if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+          preview.classList.add("dark");
+        }
+      }
+    }
+
+    function applySize(size) {
+      preview.classList.toggle("compact", size === "compact");
+    }
+
+    function render(proverb, lang, showAttr) {
+      if (!proverb) return;
+      current = proverb;
+      pNe.textContent = proverb.ne;
+      pEn.textContent = proverb.en;
+      pMeaning.textContent = proverb.meaning;
+
+      pNe.style.display = (lang === "en") ? "none" : "";
+      pEn.style.display = (lang === "ne") ? "none" : "";
+      pMeaning.style.display = (lang === "ne") ? "none" : "";
+
+      const attrEl = preview.querySelector(".widget-attr");
+      if (attrEl) attrEl.style.display = showAttr ? "" : "none";
+    }
+
+    if (isEmbed) {
+      document.body.classList.add("embed-mode");
+      const theme = params.get("theme") || "light";
+      const size = params.get("size") || "standard";
+      const lang = params.get("lang") || "both";
+      const mode = params.get("mode") || "daily";
+      const showAttr = params.get("attr") !== "0";
+
+      const run = () => {
+        if (!window.PBD_PROVERBS || !window.PBD_PROVERBS.length) {
+          setTimeout(run, 30);
+          return;
+        }
+        applyTheme(theme);
+        applySize(size);
+        const p = pickProverb(mode);
+        render(p, lang, showAttr);
+        const btnRow = preview.querySelector(".btn-row");
+        if (btnRow) btnRow.style.display = "none";
+      };
+      run();
+      return;
+    }
+
+    // Full page mode
+    const modeSel = $("mode");
+    const langSel = $("lang");
+    const themeSel = $("theme");
+    const sizeSel = $("size");
+    const attrSel = $("attr");
+    const embedCode = $("embed-code");
+
+    function updateEmbedCode() {
+      const mode = modeSel.value;
+      const lang = langSel.value;
+      const theme = themeSel.value;
+      const size = sizeSel.value;
+      const attr = attrSel.value;
+      const q = new URLSearchParams({
+        embed: "1",
+        mode,
+        lang,
+        theme,
+        size,
+        attr
+      });
+      const src = "https://pbd.com.np/widgets/nepali-proverb/?" + q.toString();
+      const h = size === "compact" ? 180 : 220;
+      embedCode.value = `<iframe src="${src}" width="100%" height="${h}" style="border:none;max-width:480px;overflow:hidden;border-radius:10px;" title="Nepali Proverb of the Day" loading="lazy"></iframe>`;
+    }
+
+    function refresh() {
+      const mode = modeSel.value;
+      const lang = langSel.value;
+      const theme = themeSel.value;
+      const size = sizeSel.value;
+      const showAttr = attrSel.value === "1";
+      applyTheme(theme);
+      applySize(size);
+      const p = pickProverb(mode);
+      render(p, lang, showAttr);
+      updateEmbedCode();
+    }
+
+    [modeSel, langSel, themeSel, sizeSel, attrSel].forEach((el) => {
+      el.addEventListener("change", refresh);
+    });
+
+    $("btn-new").addEventListener("click", () => {
+      const lang = langSel.value;
+      const showAttr = attrSel.value === "1";
+      const p = pickProverb("random");
+      render(p, lang, showAttr);
+    });
+
+    $("btn-copy").addEventListener("click", () => {
+      if (!current) return;
+      const text = current.ne + "\n" + current.en + "\n— " + current.meaning;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = $("btn-copy");
+        const old = btn.textContent;
+        btn.textContent = "Copied!";
+        setTimeout(() => { btn.textContent = old; }, 1500);
+      }).catch(() => {});
+    });
+
+    $("btn-copy-embed").addEventListener("click", () => {
+      embedCode.select();
+      navigator.clipboard.writeText(embedCode.value).then(() => {
+        const btn = $("btn-copy-embed");
+        const old = btn.textContent;
+        btn.textContent = "Copied!";
+        setTimeout(() => { btn.textContent = old; }, 1500);
+      }).catch(() => {
+        document.execCommand("copy");
+      });
+    });
+
+    $("btn-preview-embed").addEventListener("click", () => {
+      const mode = modeSel.value;
+      const lang = langSel.value;
+      const theme = themeSel.value;
+      const size = sizeSel.value;
+      const attr = attrSel.value;
+      const q = new URLSearchParams({ embed: "1", mode, lang, theme, size, attr });
+      window.open(location.pathname + "?" + q.toString(), "_blank");
+    });
+
+    function init() {
+      if (!window.PBD_PROVERBS || !window.PBD_PROVERBS.length) {
+        setTimeout(init, 30);
+        return;
+      }
+      refresh();
+    }
+    init();
+  })();
+  </script>
+</body>
+</html>
