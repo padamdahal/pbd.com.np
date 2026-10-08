@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b7285">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="PBD">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/icon-512.png">
+
+  <title>Nepali Hashtag Generator for TikTok, Instagram & Facebook – Free</title>
+  <meta name="description" content="Free Nepali hashtag generator for TikTok, Instagram and Facebook. Get curated, non-spammy hashtags by niche – travel, food, freelancing, motivation and more. Copy instantly, works offline.">
+  <link rel="canonical" href="https://pbd.com.np/tools/hashtag-generator/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="keywords" content="nepali hashtags, tiktok hashtags nepal, instagram hashtags nepal, hashtag generator, nepali content creators, #NepaliTikTok, #VisitNepal">
+  <meta name="menu-title" content="Nepali Hashtag Generator">
+  <meta name="menu-description" content="Free hashtag generator for TikTok, Instagram & Facebook. Curated Nepali + English tags by niche. Copy instantly – no signup.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="PBD">
+  <meta property="og:title" content="Nepali Hashtag Generator for TikTok & Instagram">
+  <meta property="og:description" content="Free curated hashtags for Nepali creators. Travel, food, freelancing, motivation and more. Platform-aware sets.">
+  <meta property="og:url" content="https://pbd.com.np/tools/hashtag-generator/">
+  <meta property="og:image" content="https://pbd.com.np/assets/og-default.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ne_NP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Nepali Hashtag Generator – TikTok, Instagram & Facebook">
+  <meta name="twitter:description" content="Free curated Nepali + English hashtags by niche. Copy and post.">
+  <meta name="twitter:image" content="https://pbd.com.np/assets/og-default.svg">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Nepali Hashtag Generator for TikTok, Instagram & Facebook",
+    "url": "https://pbd.com.np/tools/hashtag-generator/",
+    "description": "Free curated hashtag generator for Nepali content creators. Get relevant hashtags for TikTok, Instagram and Facebook by niche – travel, food, freelancing, motivation and more.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "NPR" },
+    "inLanguage": ["en", "ne"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Is this hashtag generator free?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Completely free. No signup or login required. Generate and copy as many sets as you need."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do the hashtags work on TikTok and Instagram?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Choose the platform filter for better-targeted sets. TikTok sets lean toward fewer viral tags; Instagram sets are longer and more discovery-focused."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are the hashtags in Nepali?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Mixed by default – both Nepali (Unicode) and English hashtags that Nepali creators actually use. You can prefer more Nepali or more English."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I get new hashtags?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Change niche or platform and click Generate again. Each click shuffles a fresh set from the curated banks."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+
+  <style>
+    .tool-box {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: var(--s-5);
+    }
+    .filters, .platform-row, .count-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .filter-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--muted);
+      width: 100%;
+      margin-bottom: 2px;
+    }
+    .chip {
+      font: inherit;
+      font-weight: 600;
+      font-size: 0.88rem;
+      padding: 7px 13px;
+      border-radius: 999px;
+      border: 1px solid var(--line-strong);
+      background: #fff;
+      color: var(--text);
+      cursor: pointer;
+    }
+    .chip:hover { background: #eef7f8; }
+    .chip.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    .actions-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .results {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+      min-height: 40px;
+    }
+    .tag-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #f0f7f8;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+    .tag-chip button {
+      font: inherit;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 6px;
+      border: 1px solid var(--line-strong);
+      background: #fff;
+      cursor: pointer;
+      line-height: 1.2;
+    }
+    .tag-chip button:hover { background: #eef7f8; }
+    .tag-chip button.copied {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    .empty-hint {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin: 8px 0 0;
+    }
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: var(--s-5);
+    }
+    @media (max-width: 560px) {
+      .info-grid { grid-template-columns: 1fr; }
+    }
+    .info-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      box-shadow: var(--shadow-sm);
+    }
+    .info-card h3 {
+      margin: 0 0 6px;
+      font-size: 0.95rem;
+      color: var(--primary-dark);
+    }
+    .info-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+    .faq { margin-top: var(--s-5); }
+    .faq h2 { font-size: 1.15rem; margin-bottom: var(--s-3); }
+    .faq-item {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      margin-bottom: 8px;
+    }
+    .faq-item summary {
+      cursor: pointer;
+      font-weight: 600;
+      list-style: none;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item p {
+      margin: 8px 0 4px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    .copy-block {
+      margin-top: 12px;
+      padding: 12px 14px;
+      background: #f7fafb;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      font-size: 0.95rem;
+      word-break: break-all;
+      line-height: 1.6;
+      display: none;
+    }
+    .copy-block.visible { display: block; }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632604868005505"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip" href="#tool">Skip to tool</a>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="/"><span class="logo-mark">P</span><span>PBD</span></a>
+      <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+      <nav id="menu" aria-label="Main navigation"></nav>
+    </div>
+  </header>
+
+  <main class="narrow" id="tool">
+    <div class="page-intro">
+      <h1>Nepali Hashtag Generator for TikTok, Instagram &amp; Facebook</h1>
+      <p class="lead">Free curated hashtags for Nepali content creators. Pick a niche and platform, generate a clean set, copy and post. No spam, no signup.</p>
+    </div>
+
+    <div class="tool-box">
+      <div class="filter-label">Niche</div>
+      <div class="filters" role="group" aria-label="Hashtag niche">
+        <button type="button" class="chip active" data-niche="all">All</button>
+        <button type="button" class="chip" data-niche="travel">Travel</button>
+        <button type="button" class="chip" data-niche="food">Food</button>
+        <button type="button" class="chip" data-niche="freelancing">Freelancing</button>
+        <button type="button" class="chip" data-niche="motivation">Motivation</button>
+        <button type="button" class="chip" data-niche="study">Study</button>
+        <button type="button" class="chip" data-niche="festival">Festival</button>
+        <button type="button" class="chip" data-niche="beauty">Beauty</button>
+        <button type="button" class="chip" data-niche="comedy">Comedy</button>
+        <button type="button" class="chip" data-niche="general">General / Viral</button>
+      </div>
+
+      <div class="filter-label">Platform</div>
+      <div class="platform-row" role="group" aria-label="Target platform">
+        <button type="button" class="chip active" data-platform="all">All</button>
+        <button type="button" class="chip" data-platform="tiktok">TikTok</button>
+        <button type="button" class="chip" data-platform="instagram">Instagram</button>
+        <button type="button" class="chip" data-platform="facebook">Facebook</button>
+      </div>
+
+      <div class="filter-label">How many</div>
+      <div class="count-row" role="group" aria-label="Number of hashtags">
+        <button type="button" class="chip" data-count="5">5</button>
+        <button type="button" class="chip" data-count="10">10</button>
+        <button type="button" class="chip active" data-count="15">15</button>
+        <button type="button" class="chip" data-count="20">20</button>
+      </div>
+
+      <div class="actions-row">
+        <button type="button" class="btn btn-primary" id="btn-generate">Generate hashtags</button>
+        <button type="button" class="btn" id="btn-copy-all">Copy all</button>
+        <button type="button" class="btn" id="btn-copy-line">Copy as one line</button>
+      </div>
+
+      <div id="results" class="results" aria-live="polite"></div>
+      <div id="copy-block" class="copy-block" aria-hidden="true"></div>
+      <p id="empty" class="empty-hint">Choose niche and platform, then click Generate.</p>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>Curated, not random</h3>
+        <p>Hashtags are hand-selected for Nepali creators — mix of local, niche and light viral tags. No banned or spammy lists.</p>
+      </div>
+      <div class="info-card">
+        <h3>Platform-aware</h3>
+        <p>TikTok gets fewer, higher-impact tags. Instagram gets discovery-focused sets. Facebook stays light.</p>
+      </div>
+      <div class="info-card">
+        <h3>Works offline</h3>
+        <p>Everything runs in your browser. Generate as many sets as you want — free and private.</p>
+      </div>
+      <div class="info-card">
+        <h3>Easy to update</h3>
+        <p>Hashtag banks live in a separate file so trending tags can be refreshed without changing the tool.</p>
+      </div>
+    </div>
+
+    <section>
+      <h2>How to use</h2>
+      <ol>
+        <li>Pick a <strong>niche</strong> (Travel, Food, Freelancing…).</li>
+        <li>Optionally choose a <strong>platform</strong> for better targeting.</li>
+        <li>Select how many hashtags you want (5–20).</li>
+        <li>Click <strong>Generate hashtags</strong>, then Copy all or Copy as one line.</li>
+      </ol>
+      <p style="color: var(--muted); font-size: 0.95rem; margin-top: 10px;">
+        Tip: On Instagram put hashtags in the first comment or after a few line breaks. On TikTok keep 3–5 strong tags inside the caption.
+      </p>
+    </section>
+
+    <section class="faq">
+      <h2>Frequently asked questions</h2>
+      <details class="faq-item">
+        <summary>Is this hashtag generator free?</summary>
+        <p>Yes. Completely free. No account required.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Do the hashtags work on TikTok and Instagram?</summary>
+        <p>Yes. Use the platform filter. TikTok sets favour #fyp-style and local viral tags; Instagram sets are longer and better for discovery.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Are there Nepali-language hashtags?</summary>
+        <p>Yes. Sets include both English and Nepali (Unicode) tags that creators actually use.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How often are the lists updated?</summary>
+        <p>The banks are curated and can be refreshed when new trends appear. The tool itself stays the same.</p>
+      </details>
+    </section>
+
+    <section style="margin-top: var(--s-5);">
+      <h2>Related tools</h2>
+      <p style="color: var(--muted); font-size: 0.95rem;">
+        <a href="/tools/caption-generator/">Nepali Caption Generator</a> ·
+        <a href="/widgets/nepali-proverb/">Nepali Proverb of the Day</a> ·
+        <a href="/tools/nepali-typing/">Nepali Typing</a>
+      </p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="bar" style="padding: 24px 0; flex-direction: column; align-items: flex-start; gap: 16px;">
+      <nav id="footer-menu" class="footer-nav" aria-label="Footer"></nav>
+      <div class="legal">
+        <span>© <span id="yr"></span> Powered By Digital (PBD)</span>
+        <a href="/privacy/">Privacy</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/menu.js"></script>
+  <script src="hashtags.js"></script>
+  <script>
+  (() => {
+    "use strict";
+
+    const $ = (id) => document.getElementById(id);
+    const results = $("results");
+    const empty = $("empty");
+    const copyBlock = $("copy-block");
+    let currentNiche = "all";
+    let currentPlatform = "all";
+    let currentCount = 15;
+    let lastSet = [];
+
+    document.querySelectorAll("[data-niche]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("[data-niche]").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentNiche = btn.dataset.niche;
+      });
+    });
+
+    document.querySelectorAll("[data-platform]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("[data-platform]").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentPlatform = btn.dataset.platform;
+      });
+    });
+
+    document.querySelectorAll("[data-count]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("[data-count]").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentCount = parseInt(btn.dataset.count, 10);
+      });
+    });
+
+    function render(list) {
+      lastSet = list;
+      results.innerHTML = "";
+      copyBlock.classList.remove("visible");
+      copyBlock.textContent = "";
+      if (!list.length) {
+        empty.hidden = false;
+        empty.textContent = "No hashtags available for this combination.";
+        return;
+      }
+      empty.hidden = true;
+      list.forEach((tag) => {
+        const chip = document.createElement("span");
+        chip.className = "tag-chip";
+        chip.appendChild(document.createTextNode(tag + " "));
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = "Copy";
+        btn.addEventListener("click", () => {
+          navigator.clipboard.writeText(tag).then(() => {
+            btn.textContent = "✓";
+            btn.classList.add("copied");
+            setTimeout(() => {
+              btn.textContent = "Copy";
+              btn.classList.remove("copied");
+            }, 1200);
+          });
+        });
+        chip.appendChild(btn);
+        results.appendChild(chip);
+      });
+      copyBlock.textContent = list.join(" ");
+      copyBlock.classList.add("visible");
+    }
+
+    $("btn-generate").addEventListener("click", () => {
+      if (typeof window.PBD_generateHashtags !== "function") {
+        empty.hidden = false;
+        empty.textContent = "Hashtag data failed to load. Please refresh.";
+        return;
+      }
+      const set = window.PBD_generateHashtags({
+        niche: currentNiche,
+        platform: currentPlatform,
+        count: currentCount,
+        lang: "mixed"
+      });
+      render(set);
+    });
+
+    $("btn-copy-all").addEventListener("click", () => {
+      if (!lastSet.length) return;
+      const text = lastSet.join("\n");
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = $("btn-copy-all");
+        const old = btn.textContent;
+        btn.textContent = "Copied!";
+        setTimeout(() => { btn.textContent = old; }, 1400);
+      });
+    });
+
+    $("btn-copy-line").addEventListener("click", () => {
+      if (!lastSet.length) return;
+      const text = lastSet.join(" ");
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = $("btn-copy-line");
+        const old = btn.textContent;
+        btn.textContent = "Copied!";
+        setTimeout(() => { btn.textContent = old; }, 1400);
+      });
+    });
+
+    const yr = document.getElementById("yr");
+    if (yr) yr.textContent = new Date().getFullYear();
+
+    setTimeout(() => $("btn-generate").click(), 100);
+  })();
+  </script>
+</body>
+</html>
