@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b7285">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="PBD">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/icon-512.png">
+
+  <title>Nepali Caption Generator for TikTok & Instagram – Free Inspirational Messages</title>
+  <meta name="description" content="Free Nepali caption generator for TikTok and Instagram. Longer inspirational messages for motivation, freelancing, study, self-love and gratitude. Copy instantly – no signup.">
+  <link rel="canonical" href="https://pbd.com.np/tools/caption-generator/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="keywords" content="nepali captions, tiktok captions nepali, instagram captions nepali, inspirational messages nepali, motivational captions, caption generator, nepali content creators">
+  <meta name="menu-title" content="Nepali Caption Generator">
+  <meta name="menu-description" content="Free Nepali captions for TikTok and Instagram. Longer inspirational messages – motivation, freelance, study, self-love. Copy instantly.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="PBD">
+  <meta property="og:title" content="Nepali Caption Generator for TikTok & Instagram">
+  <meta property="og:description" content="Free Nepali inspirational captions for TikTok and Instagram. Longer messages for creators – motivation, freelance, study and more.">
+  <meta property="og:url" content="https://pbd.com.np/tools/caption-generator/">
+  <meta property="og:image" content="https://pbd.com.np/assets/og-default.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ne_NP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Nepali Caption Generator for TikTok & Instagram">
+  <meta name="twitter:description" content="Free Nepali inspirational captions. Longer messages for TikTok and Instagram.">
+  <meta name="twitter:image" content="https://pbd.com.np/assets/og-default.svg">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Nepali Caption Generator for TikTok & Instagram",
+    "url": "https://pbd.com.np/tools/caption-generator/",
+    "description": "Free Nepali inspirational caption generator for TikTok and Instagram. Longer messages for motivation, freelancing, study, self-love and gratitude.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "NPR" },
+    "inLanguage": ["en", "ne"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Is this caption generator free?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. It is completely free. No signup or login is required. You can generate and copy captions instantly."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are the captions in Nepali?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. All captions are written in Nepali. They are longer inspirational messages suitable for posts, stories and short videos."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I use these on TikTok and Instagram?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Longer messages work well for posts and stories. Use the Short category for TikTok overlays and Reels."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I get new captions?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Choose a category (or All), then click Generate. Click again anytime for a new set."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+
+  <style>
+    .tool-box {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: var(--s-5);
+    }
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .chip {
+      font: inherit;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line-strong);
+      background: #fff;
+      color: var(--text);
+      cursor: pointer;
+    }
+    .chip:hover { background: #eef7f8; }
+    .chip.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    .actions-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .results {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .cap-card {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      background: #f7fafb;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+    }
+    .cap-text {
+      margin: 0;
+      font-size: 1.05rem;
+      line-height: 1.5;
+      flex: 1;
+    }
+    .copy-btn {
+      flex: none;
+      font: inherit;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--line-strong);
+      background: #fff;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .copy-btn:hover { background: #eef7f8; }
+    .copy-btn.copied {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    .empty-hint {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin: 8px 0 0;
+    }
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: var(--s-5);
+    }
+    @media (max-width: 560px) {
+      .info-grid { grid-template-columns: 1fr; }
+    }
+    .info-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      box-shadow: var(--shadow-sm);
+    }
+    .info-card h3 {
+      margin: 0 0 6px;
+      font-size: 0.95rem;
+      color: var(--primary-dark);
+    }
+    .info-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+    .faq { margin-top: var(--s-5); }
+    .faq h2 { font-size: 1.15rem; margin-bottom: var(--s-3); }
+    .faq-item {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      margin-bottom: 8px;
+    }
+    .faq-item summary {
+      cursor: pointer;
+      font-weight: 600;
+      list-style: none;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item p {
+      margin: 8px 0 4px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632604868005505"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip" href="#tool">Skip to tool</a>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="/"><span class="logo-mark">P</span><span>PBD</span></a>
+      <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+      <nav id="menu" aria-label="Main navigation"></nav>
+    </div>
+  </header>
+
+  <main class="narrow" id="tool">
+    <div class="page-intro">
+      <h1>Nepali Caption Generator for TikTok &amp; Instagram</h1>
+      <p class="lead">Free longer inspirational messages in Nepali. Pick a theme, generate captions, copy and post. Built for Nepali content creators.</p>
+    </div>
+
+    <div class="tool-box">
+      <div class="filters" role="group" aria-label="Caption category">
+        <button type="button" class="chip active" data-cat="all">All</button>
+        <button type="button" class="chip" data-cat="motivational">Motivation</button>
+        <button type="button" class="chip" data-cat="softlife">Soft life / Peace</button>
+        <button type="button" class="chip" data-cat="hustle">Freelance / Hustle</button>
+        <button type="button" class="chip" data-cat="study">Study / Growth</button>
+        <button type="button" class="chip" data-cat="selflove">Self-love</button>
+        <button type="button" class="chip" data-cat="gratitude">Gratitude</button>
+        <button type="button" class="chip" data-cat="short">Short</button>
+      </div>
+
+      <div class="actions-row">
+        <button type="button" class="btn btn-primary" id="btn-generate">Generate captions</button>
+        <button type="button" class="btn" id="btn-copy-all">Copy all</button>
+      </div>
+
+      <div id="results" class="results" aria-live="polite"></div>
+      <p id="empty" class="empty-hint">Choose a category and click Generate to get Nepali caption ideas.</p>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>All captions in Nepali</h3>
+        <p>Longer inspirational messages — motivation, freelancing, study, self-love and gratitude — written for Nepali creators.</p>
+      </div>
+      <div class="info-card">
+        <h3>Ready to post</h3>
+        <p>Longer lines for posts and stories. Use Short for TikTok overlays and Reels. Copy one or copy the whole set.</p>
+      </div>
+      <div class="info-card">
+        <h3>No signup</h3>
+        <p>Runs in your browser. Generate as many sets as you need — free and private.</p>
+      </div>
+      <div class="info-card">
+        <h3>Easy to expand</h3>
+        <p>Caption list lives in a separate file so new messages can be added anytime without changing the tool.</p>
+      </div>
+    </div>
+
+    <section>
+      <h2>How to use</h2>
+      <ol>
+        <li>Pick a category (or leave it on All).</li>
+        <li>Click <strong>Generate captions</strong> for a fresh set.</li>
+        <li>Copy any caption, or use <strong>Copy all</strong>.</li>
+        <li>Generate again whenever you need more ideas.</li>
+      </ol>
+    </section>
+
+    <section class="faq">
+      <h2>Frequently asked questions</h2>
+      <details class="faq-item">
+        <summary>Is this caption generator free?</summary>
+        <p>Yes. Completely free. No account required.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Are the captions in Nepali?</summary>
+        <p>Yes. All messages are in Nepali — longer inspirational lines plus a Short category.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Can I use these on TikTok and Instagram?</summary>
+        <p>Yes. Longer messages suit posts and stories; Short works well for overlays and Reels.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How do I get new captions?</summary>
+        <p>Click Generate again. Each click shows a new shuffled set from the selected category.</p>
+      </details>
+    </section>
+
+    <section style="margin-top: var(--s-5);">
+      <h2>Related tools</h2>
+      <p style="color: var(--muted); font-size: 0.95rem;">
+        <a href="/tools/hashtag-generator/">Nepali Hashtag Generator</a> ·
+        <a href="/widgets/nepali-proverb/">Nepali Proverb of the Day</a> ·
+        <a href="/tools/nepali-typing/">Nepali Typing</a>
+      </p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="bar" style="padding: 24px 0; flex-direction: column; align-items: flex-start; gap: 16px;">
+      <nav id="footer-menu" class="footer-nav" aria-label="Footer"></nav>
+      <div class="legal">
+        <span>© <span id="yr"></span> Powered By Digital (PBD)</span>
+        <a href="/privacy/">Privacy</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/menu.js"></script>
+  <script src="captions.js"></script>
+  <script>
+  (() => {
+    "use strict";
+
+    const $ = (id) => document.getElementById(id);
+    const results = $("results");
+    const empty = $("empty");
+    let currentCat = "all";
+    let lastSet = [];
+
+    function shuffle(arr) {
+      const a = arr.slice();
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function poolFor(cat) {
+      const data = window.PBD_CAPTIONS || {};
+      if (cat === "all") return Object.values(data).flat();
+      return data[cat] || [];
+    }
+
+    function render(list) {
+      lastSet = list;
+      results.innerHTML = "";
+      if (!list.length) {
+        empty.hidden = false;
+        empty.textContent = "No captions in this category yet.";
+        return;
+      }
+      empty.hidden = true;
+      list.forEach((text) => {
+        const card = document.createElement("div");
+        card.className = "cap-card";
+        const p = document.createElement("p");
+        p.className = "cap-text";
+        p.lang = "ne";
+        p.textContent = text;
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "copy-btn";
+        btn.textContent = "Copy";
+        btn.addEventListener("click", () => {
+          navigator.clipboard.writeText(text).then(() => {
+            btn.textContent = "Copied!";
+            btn.classList.add("copied");
+            setTimeout(() => {
+              btn.textContent = "Copy";
+              btn.classList.remove("copied");
+            }, 1200);
+          });
+        });
+        card.appendChild(p);
+        card.appendChild(btn);
+        results.appendChild(card);
+      });
+    }
+
+    function generate() {
+      const pool = poolFor(currentCat);
+      if (!pool.length) {
+        render([]);
+        return;
+      }
+      const count = Math.min(5, pool.length);
+      render(shuffle(pool).slice(0, count));
+    }
+
+    document.querySelectorAll("[data-cat]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("[data-cat]").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentCat = btn.dataset.cat;
+      });
+    });
+
+    $("btn-generate").addEventListener("click", generate);
+
+    $("btn-copy-all").addEventListener("click", () => {
+      if (!lastSet.length) return;
+      navigator.clipboard.writeText(lastSet.join("\n\n")).then(() => {
+        const btn = $("btn-copy-all");
+        const old = btn.textContent;
+        btn.textContent = "Copied!";
+        setTimeout(() => { btn.textContent = old; }, 1400);
+      });
+    });
+
+    const yr = document.getElementById("yr");
+    if (yr) yr.textContent = new Date().getFullYear();
+
+    function init() {
+      if (typeof window.PBD_CAPTIONS === "undefined") {
+        empty.hidden = false;
+        empty.textContent = "Caption data failed to load. Please refresh.";
+        return;
+      }
+      generate();
+    }
+    init();
+  })();
+  </script>
+</body>
+</html>
