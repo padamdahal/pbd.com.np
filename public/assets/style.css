@@ -9,6 +9,11 @@ a{color:var(--primary)}
 .brand .logo-mark{width:36px;height:36px;display:grid;place-items:center;border-radius:11px;background:var(--primary);color:#fff;font-weight:800;flex:none}
 nav a{text-decoration:none;font-weight:600}nav a[aria-current]{color:var(--primary-dark)}
 .site-nav{display:flex;align-items:center;gap:2px;flex-wrap:wrap}
+.site-nav>a{display:inline-flex;align-items:center;gap:5px;padding:9px 12px;border-radius:8px;text-decoration:none;font-weight:600;color:var(--text);line-height:1.2}
+.site-nav>a:hover,.site-nav>a[aria-current]{background:#eef7f8;color:var(--primary-dark)}
+.footer-group>a{text-decoration:none;font-weight:600;color:var(--text)}
+.footer-group>a:hover{color:var(--primary-dark)}
+
 .site-nav .nav-item{position:relative}
 .site-nav .nav-item>a,.site-nav .nav-link{display:inline-flex;align-items:center;gap:5px;padding:9px 10px;border-radius:8px;text-decoration:none;font-weight:600;color:var(--text);background:none;border:none;font:inherit;cursor:pointer;line-height:1.2}
 .site-nav .nav-item>a:hover,.site-nav .nav-link:hover,.site-nav .nav-link[aria-expanded="true"]{background:#eef7f8;color:var(--primary-dark)}

@@ -3,10 +3,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node menubuilder.js",
-    "dev": "SKIP_INDEXNOW=1 node menubuilder.js && wrangler dev",
-    "deploy": "node menubuilder.js && wrangler deploy",
-    "indexnow": "INDEXNOW_ALL=1 node menubuilder.js"
+    "build": "node menubuilder.cjs",
+    "dev": "SKIP_INDEXNOW=1 node menubuilder.cjs && wrangler dev",
+    "deploy": "node menubuilder.cjs && wrangler deploy",
+    "indexnow": "INDEXNOW_ALL=1 node menubuilder.cjs"
   },
   "devDependencies": {
     "wrangler": "^4"
