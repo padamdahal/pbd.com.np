@@ -47,7 +47,12 @@
   }
 
   function injectHeader(nav) {
-    if (!nav || nav.querySelector("a[href]")) return;
+    if (!nav) return;
+    // Replace empty nav or legacy dropdown nav
+    const hasLegacy = nav.querySelector(".nav-item, .submenu, .nav-link");
+    const hasLinks = nav.querySelector("a[href]");
+    if (hasLinks && !hasLegacy) return; // already simple static links
+    nav.innerHTML = "";
     nav.classList.add("site-nav");
     if (!nav.getAttribute("role")) nav.setAttribute("role", "navigation");
     for (const item of HEADER_LINKS) {
@@ -56,7 +61,11 @@
   }
 
   function injectFooter(nav) {
-    if (!nav || nav.querySelector("a[href]")) return;
+    if (!nav) return;
+    const hasLegacy = nav.querySelector(".footer-group-links") || nav.querySelector(".submenu");
+    const hasBrowse = [...nav.querySelectorAll(".footer-group-label")].some(el => /browse/i.test(el.textContent));
+    if (nav.querySelector("a[href]") && hasBrowse && !hasLegacy) return;
+    nav.innerHTML = "";
 
     const browse = document.createElement("div");
     browse.className = "footer-group";
