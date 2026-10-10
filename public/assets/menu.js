@@ -24,6 +24,27 @@
     { href: "/tools/nepal-map/", label: "Nepal Map" },
   ];
 
+
+  const BRAND_HTML =
+    '<a class="brand" href="/" aria-label="Powered By Digital (PBD) — Home">' +
+    '<span class="logo-mark" aria-hidden="true">P</span>' +
+    '<span class="brand-text">' +
+    '<span class="brand-name">PBD</span>' +
+    '<span class="brand-full">Powered By Digital</span>' +
+    "</span></a>";
+
+  function ensureBrand() {
+    const header = document.querySelector(".site-header");
+    if (!header) return;
+    const bar = header.querySelector(".bar") || header;
+    let brand = bar.querySelector("a.brand");
+    if (brand) {
+      brand.outerHTML = BRAND_HTML;
+    } else {
+      bar.insertAdjacentHTML("afterbegin", BRAND_HTML);
+    }
+  }
+
   const FOOTER_LEGAL = [
     { href: "/about/", label: "About" },
     { href: "/privacy/", label: "Privacy" },
@@ -144,6 +165,7 @@
   const header = document.getElementById("menu");
   const footer = document.getElementById("footer-menu");
 
+  ensureBrand();
   injectHeader(header);
   injectFooter(footer);
   markCurrent(header);
