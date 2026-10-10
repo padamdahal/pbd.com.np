@@ -31,20 +31,20 @@
     .form-grid { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
     @media (max-width: 640px) { .form-grid { grid-template-columns: 1fr; } }
     .field label { display: block; font-size: .9rem; margin-bottom: 4px; color: var(--muted); }
-    .field input, .field select { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); }
+    .field input, .field select { width: 100%; padding: 10px 12px; border: 1px solid var(--line-strong); border-radius: var(--radius-sm); background: #fff; color: var(--text); }
     .toggle-row { display: flex; align-items: center; gap: 8px; margin: 10px 0; }
     .section-title { font-weight: 600; margin: 18px 0 8px; font-size: 1.05rem; }
     .result-grid { display: grid; gap: 10px; grid-template-columns: 1fr 1fr; }
     @media (max-width: 520px) { .result-grid { grid-template-columns: 1fr; } }
-    .result-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
+    .result-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 12px 14px; }
     .result-card .label { font-size: .85rem; color: var(--muted); }
     .result-card .value { font-size: 1.25rem; font-weight: 700; margin-top: 2px; }
     .slab-table { width: 100%; border-collapse: collapse; font-size: .92rem; margin-top: 8px; }
-    .slab-table th, .slab-table td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; }
-    .slab-table th { background: var(--card); }
+    .slab-table th, .slab-table td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; }
+    .slab-table th { background: var(--surface); }
     .slab-table .num { text-align: right; font-variant-numeric: tabular-nums; }
     .slab-table tr.active { background: color-mix(in srgb, var(--primary) 12%, transparent); }
-    .tip-box { background: color-mix(in srgb, var(--primary) 10%, transparent); border: 1px solid color-mix(in srgb, var(--primary) 25%, transparent); border-radius: 10px; padding: 12px 14px; margin: 14px 0; font-size: .92rem; }
+    .tip-box { background: color-mix(in srgb, var(--primary) 10%, transparent); border: 1px solid color-mix(in srgb, var(--primary) 25%, transparent); border-radius: var(--radius-sm); padding: 12px 14px; margin: 14px 0; font-size: .92rem; }
     .btn-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
     .btn-primary { background: var(--primary); color: #fff; border-color: var(--primary); }
     .note-sm { font-size: .88rem; color: var(--muted); margin-top: 6px; }
@@ -130,7 +130,7 @@
         { limit: 1000000, rate: isSsf ? 0 : 0.01, label: 'Up to 10,00,000' },
         { limit: 1500000, rate: 0.10, label: '10,00,001 – 15,00,000' },
         { limit: 2500000, rate: 0.20, label: '15,00,001 – 25,00,000' },
-        { limit: 4000000, rate: 0.27, label: '25,00,001 – 40,00,000' },
+        { limit: 4000000, rate: 0.27, label: 'Above 40,00,000' },
         { limit: Infinity, rate: 0.29, label: 'Above 40,00,000' }
       ];
     }
