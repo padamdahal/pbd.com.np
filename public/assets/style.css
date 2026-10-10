@@ -24,7 +24,7 @@ main,.narrow{max-width:var(--max-width);margin:0 auto;padding:var(--s-5) var(--p
 .lead{color:var(--muted);margin:0 0 var(--s-5)}
 .muted{color:var(--muted)}
 .field label{display:block;font-size:.85rem;font-weight:600;color:var(--muted);margin-bottom:4px}
-input:not([type=checkbox]):not([type=radio]),select{width:100%;font:inherit;border:1px solid var(--line-strong);border-radius:var(--radius-sm);background:#fff;color:var(--text);padding:10px 12px}
+input:not([type=checkbox]):not([type=radio]),select{width:100%;font:inherit;border:1px solid var(--line-strong);border-radius:var(--radius-sm);background:#fff;color:var(--text)}
 input[type=checkbox],input[type=radio]{width:auto;height:auto;margin:0;padding:0;border:none;border-radius:0;background:transparent;accent-color:var(--primary);flex-shrink:0}
 input:focus,select:focus,button:focus-visible{outline:2px solid var(--primary);outline-offset:1px}
 .btn{font:inherit;font-weight:600;border:1px solid var(--line-strong);background:#fff;border-radius:var(--radius-sm);padding:10px 16px;cursor:pointer}
