@@ -73,7 +73,7 @@
     <div class="bar">
       <a class="brand" href="/"><span class="logo-mark">P</span><span>PBD</span></a>
       <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
-      <nav id="menu" aria-label="Main navigation"></nav>
+      <nav id="menu" class="site-nav" aria-label="Main navigation" role="navigation"><a href="/">Home</a><a href="/#tools">Tools</a><a href="/#widgets">Widgets</a><a href="/#guides">Guides</a><a href="/about/">About</a></nav>
     </div>
   </header>
   <main class="narrow" id="tool">
@@ -128,14 +128,14 @@
     <p class="note">Some numbers have more than one accepted spelling in Nepali. This tool uses common textbook forms. Up to 19 digits.</p>
   </main>
   <footer class="site-footer">
-    <div class="bar">
-      <p>© <span id="yr"></span> PBD</p>
-      <div class="footer-nav">
-        <nav id="footer-menu" aria-label="Footer tools"></nav>
-        <nav class="legal" aria-label="Legal"><a href="/about/">About</a><a href="/privacy/">Privacy</a></nav>
-      </div>
+  <div class="bar footer-bar">
+    <nav id="footer-menu" class="footer-pills" aria-label="Footer"><a href="/#tools">Tools</a><a href="/#widgets">Widgets</a><a href="/#guides">Guides</a><a href="/tools/nepali-typing/">Nepali Typing</a><a href="/tools/preeti-to-unicode/">Preeti ↔ Unicode</a><a href="/tools/income-tax-calculator/">Income Tax</a><a href="/tools/nepal-map/">Nepal Map</a></nav>
+    <div class="footer-meta">
+      <p class="footer-copy">© <span id="yr"></span> Powered By Digital (PBD)</p>
+      <nav class="footer-legal" aria-label="Legal"><a href="/about/">About</a><a href="/privacy/">Privacy</a></nav>
     </div>
-  </footer>
+  </div>
+</footer>
   <script src="number-words.js" defer></script>
   <script src="/assets/menu.js" defer></script>
   <script src="/assets/pwa.js" defer></script>
