@@ -79,7 +79,7 @@
       --radius: 14px;
       --radius-sm: 10px;
       --shadow-sm: 0 2px 10px rgba(19,35,43,.06);
-      --max-width: 1180px;
+      --max-width: 1000px;
     }
 
     * { box-sizing: border-box; }
@@ -95,13 +95,13 @@
     a { color: var(--primary); }
 
     .container {
-      width: min(calc(100% - 32px), var(--max-width));
+      width: min(calc(100% - var(--page-gutter, 32px)), var(--max-width));
       margin-inline: auto;
     }
 
     .site-header .bar,
     .site-footer .bar {
-      width: min(calc(100% - 32px), var(--max-width));
+      width: min(calc(100% - var(--page-gutter, 32px)), var(--max-width));
     }
 
     /* —— Header / static nav —— */
@@ -344,10 +344,6 @@
       color: inherit;
       transition: .15s ease;
       box-shadow: var(--shadow-sm);
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      min-height: 148px;
     }
 
     .tool-card:hover {
@@ -436,65 +432,7 @@
       background: #eef7f8;
     }
 
-    /* —— Footer —— */
-    .site-footer {
-      border-top: 1px solid var(--line);
-      background: #fff;
-      color: var(--muted);
-      font-size: .9rem;
-    }
-
-    .site-footer .bar {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 24px;
-      padding: 28px 0;
-      margin: 0 auto;
-    }
-
-    .footer-nav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 24px 32px;
-    }
-
-    .footer-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      min-width: 130px;
-    }
-
-    .footer-group-label {
-      font-size: .72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .04em;
-      color: var(--muted);
-    }
-
-    .footer-group a {
-      text-decoration: none;
-      font-weight: 600;
-      color: var(--text);
-      font-size: .9rem;
-    }
-
-    .footer-group a:hover { color: var(--primary-dark); }
-
-    .site-footer .legal {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .site-footer .legal a {
-      text-decoration: none;
-      font-weight: 600;
-      color: var(--text);
-    }
+    /* Footer layout comes from /assets/style.css (pills + meta bar) */
 
     /* —— Responsive —— */
     @media (max-width: 960px) {
@@ -504,7 +442,7 @@
     }
 
     @media (max-width: 640px) {
-      .container { width: min(calc(100% - 24px), var(--max-width)); }
+      .container { width: min(calc(100% - var(--page-gutter, 20px)), var(--max-width)); }
       .hero { padding: 44px 0 32px; }
       section { padding: 40px 0; }
       .card-grid { grid-template-columns: 1fr; }
@@ -524,13 +462,7 @@
         <span class="logo-mark">P</span><span>PBD</span>
       </a>
       <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
-      <nav id="menu" class="site-nav" aria-label="Main navigation">
-        <a href="/" aria-current="page">Home</a>
-        <a href="#tools">Tools</a>
-        <a href="#widgets">Widgets</a>
-        <a href="#guides">Guides</a>
-        <a href="/about/">About</a>
-      </nav>
+      <nav id="menu" class="site-nav" aria-label="Main navigation" role="navigation"><a href="/">Home</a><a href="/#tools">Tools</a><a href="/#widgets">Widgets</a><a href="/#guides">Guides</a><a href="/about/">About</a></nav>
     </div>
   </header>
 
@@ -563,7 +495,6 @@
       </div>
     </section>
 
-    <!-- ========== TOOLS ========== -->
     <section id="tools">
       <div class="container">
         <div class="section-heading">
@@ -667,7 +598,6 @@
       </div>
     </section>
 
-    <!-- ========== WIDGETS ========== -->
     <section id="widgets">
       <div class="container">
         <div class="section-heading">
@@ -685,7 +615,6 @@
       </div>
     </section>
 
-    <!-- ========== GUIDES ========== -->
     <section id="guides">
       <div class="container">
         <div class="section-heading">
@@ -709,7 +638,6 @@
       </div>
     </section>
 
-    <!-- ========== WHY ========== -->
     <section>
       <div class="container">
         <div class="section-heading">
@@ -749,32 +677,16 @@
   </main>
 
   <footer class="site-footer">
-    <div class="bar">
-      <p>© <span id="yr"></span> Powered By Digital (PBD)</p>
-      <div class="footer-nav">
-        <div class="footer-group">
-          <span class="footer-group-label">Browse</span>
-          <a href="#tools">Tools</a>
-          <a href="#widgets">Widgets</a>
-          <a href="#guides">Guides</a>
-        </div>
-        <div class="footer-group">
-          <span class="footer-group-label">Popular</span>
-          <a href="/tools/nepali-typing/">Nepali Typing</a>
-          <a href="/tools/preeti-to-unicode/">Preeti ↔ Unicode</a>
-          <a href="/tools/income-tax-calculator/">Income Tax Calculator</a>
-          <a href="/tools/nepal-map/">Nepal Map</a>
-        </div>
-        <nav class="legal" aria-label="Legal">
-          <a href="/about/">About</a>
-          <a href="/privacy/">Privacy</a>
-        </nav>
-      </div>
+  <div class="bar footer-bar">
+    <nav id="footer-menu" class="footer-pills" aria-label="Footer"><a href="/#tools">Tools</a><a href="/#widgets">Widgets</a><a href="/#guides">Guides</a><a href="/tools/nepali-typing/">Nepali Typing</a><a href="/tools/preeti-to-unicode/">Preeti ↔ Unicode</a><a href="/tools/income-tax-calculator/">Income Tax</a><a href="/tools/nepal-map/">Nepal Map</a></nav>
+    <div class="footer-meta">
+      <p class="footer-copy">© <span id="yr"></span> Powered By Digital (PBD)</p>
+      <nav class="footer-legal" aria-label="Legal"><a href="/about/">About</a><a href="/privacy/">Privacy</a></nav>
     </div>
-  </footer>
+  </div>
+</footer>
 
   <script>
-    // Year + simple mobile nav only (no menu.json, no dynamic lists)
     document.getElementById("yr").textContent = new Date().getFullYear();
     const toggle = document.getElementById("nav-toggle");
     const nav = document.getElementById("menu");
