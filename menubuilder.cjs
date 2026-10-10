@@ -25,7 +25,7 @@ const HEADER_BAR_INNER = `${BRAND}
       ${NAV_TOGGLE}
       ${HEADER_NAV}`;
 
-const FOOTER_NAV = `<nav id="footer-menu" class="footer-pills" aria-label="Footer"><a href="/#tools">Tools</a><a href="/#widgets">Widgets</a><a href="/#guides">Guides</a><a href="/tools/nepali-typing/">Nepali Typing</a><a href="/tools/preeti-to-unicode/">Preeti ↔ Unicode</a><a href="/tools/income-tax-calculator/">Income Tax</a><a href="/tools/nepal-map/">Nepal Map</a></nav>`;
+const FOOTER_NAV = `<nav id="footer-menu" class="footer-pills" aria-label="Footer"><a href="/tools/nepali-typing/">Nepali Typing</a><a href="/tools/preeti-to-unicode/">Preeti ↔ Unicode</a><a href="/tools/nepali-date-converter/">BS ↔ AD</a><a href="/tools/income-tax-calculator/">Income Tax</a><a href="/tools/number-to-nepali-words/">Number to Words</a><a href="/tools/nepal-map/">Nepal Map</a><a href="/tools/today-nepali-date/">Today's Date</a><a href="/tools/nepali-spell-checker/">Spell Checker</a></nav>`;
 
 const FOOTER_BLOCK = `<footer class="site-footer">
   <div class="bar footer-bar">
@@ -64,7 +64,6 @@ function patchFile(file) {
       `$1\n      ${HEADER_BAR_INNER}\n    $2`
     );
   } else {
-    // Fallback: nav + brand separately
     html = html.replace(
       /<nav\b[^>]*\bid=["']menu["'][^>]*>[\s\S]*?<\/nav>/i,
       HEADER_NAV

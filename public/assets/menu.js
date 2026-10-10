@@ -15,13 +15,14 @@
   ];
 
   const FOOTER_LINKS = [
-    { href: "/#tools", label: "Tools" },
-    { href: "/#widgets", label: "Widgets" },
-    { href: "/#guides", label: "Guides" },
     { href: "/tools/nepali-typing/", label: "Nepali Typing" },
     { href: "/tools/preeti-to-unicode/", label: "Preeti ↔ Unicode" },
+    { href: "/tools/nepali-date-converter/", label: "BS ↔ AD" },
     { href: "/tools/income-tax-calculator/", label: "Income Tax" },
+    { href: "/tools/number-to-nepali-words/", label: "Number to Words" },
     { href: "/tools/nepal-map/", label: "Nepal Map" },
+    { href: "/tools/today-nepali-date/", label: "Today's Date" },
+    { href: "/tools/nepali-spell-checker/", label: "Spell Checker" },
   ];
 
 
