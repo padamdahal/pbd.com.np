@@ -11,16 +11,11 @@ nav a{text-decoration:none;font-weight:600}nav a[aria-current]{color:var(--prima
 .site-nav{display:flex;align-items:center;gap:2px;flex-wrap:wrap}
 .site-nav>a{display:inline-flex;align-items:center;gap:5px;padding:9px 12px;border-radius:8px;text-decoration:none;font-weight:600;color:var(--text);line-height:1.2}
 .site-nav>a:hover,.site-nav>a[aria-current]{background:#eef7f8;color:var(--primary-dark)}
-.footer-group>a{text-decoration:none;font-weight:600;color:var(--text)}
-.footer-group>a:hover{color:var(--primary-dark)}
-
 .site-nav .nav-item{position:relative}
 .site-nav .nav-item>a,.site-nav .nav-link{display:inline-flex;align-items:center;gap:5px;padding:9px 10px;border-radius:8px;text-decoration:none;font-weight:600;color:var(--text);background:none;border:none;font:inherit;cursor:pointer;line-height:1.2}
 .site-nav .nav-item>a:hover,.site-nav .nav-link:hover,.site-nav .nav-link[aria-expanded="true"]{background:#eef7f8;color:var(--primary-dark)}
 .nav-caret{font-size:.65em;opacity:.65;transition:transform .15s ease}
 .nav-item.open .nav-caret{transform:rotate(180deg)}
-/* Flush against the button (no margin-top gap) so the mouse can travel
-   straight down into the submenu without a dead zone that drops :hover. */
 .submenu{position:absolute;top:100%;left:0;background:#fff;border:1px solid var(--line);border-radius:var(--radius-sm);box-shadow:var(--shadow-sm);min-width:210px;padding:6px;z-index:40;display:none}
 .nav-item.open .submenu{display:block}
 @media (hover:hover) and (pointer:fine){ .nav-item:hover .submenu{display:block} .nav-item:hover .nav-caret{transform:rotate(180deg)} }
@@ -34,13 +29,6 @@ nav a{text-decoration:none;font-weight:600}nav a[aria-current]{color:var(--prima
   .site-header{position:relative}
   .submenu{position:static;box-shadow:none;border:none;margin:0 0 0 10px;padding:0 0 0 6px;border-left:2px solid var(--line)}
 }
-.footer-nav{display:flex;flex-wrap:wrap;gap:20px 28px;align-items:flex-start}
-.footer-group{display:flex;flex-direction:column;gap:6px;min-width:140px}
-.footer-group-label{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);opacity:.85}
-.footer-group-links{display:flex;flex-direction:column;gap:4px}
-.footer-group-links a{margin-right:0;text-decoration:none;font-weight:600;color:var(--text)}
-.footer-group-links a:hover{color:var(--primary-dark)}
-.footer-group-links a[aria-current]{color:var(--primary-dark)}
 main.narrow{width:min(calc(100% - 32px),880px);margin:0 auto;padding:32px 0 48px}
 .page-intro h1{margin:0 0 8px;font-size:clamp(1.7rem,4vw,2.4rem);line-height:1.15}
 .lead{color:var(--muted);margin:0 0 var(--s-5)}
@@ -52,7 +40,39 @@ input:focus,select:focus,button:focus-visible{outline:2px solid var(--primary);o
 .btn-sm{padding:5px 10px;font-size:.85rem}.btn-ghost:hover{background:#eef7f8}
 .hint{color:var(--muted)}.hint.error{color:#b42318}
 .note{color:var(--muted);font-size:.88rem;margin-top:var(--s-5)}
+/* Footer — horizontal pills, copyright below */
 .site-footer{border-top:1px solid var(--line);background:#fff;color:var(--muted);font-size:.9rem}
-.site-footer .legal{display:flex;flex-direction:column;gap:4px;min-width:100px}
-.site-footer .legal a{text-decoration:none;font-weight:600;color:var(--text)}
-.site-footer .legal a:hover{color:var(--primary-dark)}
+.site-footer .bar,.site-footer .footer-bar{
+  width:min(calc(100% - 32px),880px);margin:0 auto;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:14px;padding:28px 0 32px;min-height:auto;
+}
+.footer-pills,#footer-menu.footer-pills,.site-footer #footer-menu{
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:center;
+  gap:8px;width:100%;
+}
+.footer-pills a,.site-footer #footer-menu>a{
+  display:inline-flex;align-items:center;
+  padding:6px 12px;border-radius:999px;
+  border:1px solid var(--line);
+  background:#fff;color:var(--text);
+  text-decoration:none;font-weight:600;font-size:.88rem;
+  line-height:1.2;transition:.15s ease;
+}
+.footer-pills a:hover,.site-footer #footer-menu>a:hover{
+  border-color:#9ec4cb;background:#eef7f8;color:var(--primary-dark);
+}
+.footer-pills a[aria-current],.site-footer #footer-menu>a[aria-current]{
+  border-color:var(--primary);background:#eef7f8;color:var(--primary-dark);
+}
+.footer-copy{margin:0;text-align:center;color:var(--muted);font-size:.88rem}
+/* Hide legacy group chrome if still present */
+.site-footer .footer-group-label,.site-footer .footer-nav > .legal{display:none}
+.site-footer .footer-group{display:contents}
+.site-footer .footer-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;width:100%}
+.site-footer .footer-group-links{display:contents}
+.site-footer .footer-group-links a,.site-footer .footer-group>a,.site-footer .legal a{
+  display:inline-flex;align-items:center;padding:6px 12px;border-radius:999px;
+  border:1px solid var(--line);background:#fff;color:var(--text);
+  text-decoration:none;font-weight:600;font-size:.88rem;
+}

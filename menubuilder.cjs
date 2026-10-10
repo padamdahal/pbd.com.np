@@ -2,10 +2,6 @@
  * menubuilder.cjs — injects static header + footer nav into all pages.
  *
  * Run:  node menubuilder.cjs
- *
- * After the homepage redesign we use a simple static nav (no dropdowns,
- * no menu.json). This script keeps real HTML links in every page for SEO.
- * menu.js remains as a runtime fallback + mobile toggle + year.
  */
 
 const fs = require("fs");
@@ -15,7 +11,14 @@ const ROOT = path.join(__dirname, "public");
 
 const HEADER_NAV = `<nav id="menu" class="site-nav" aria-label="Main navigation" role="navigation"><a href="/">Home</a><a href="/#tools">Tools</a><a href="/#widgets">Widgets</a><a href="/#guides">Guides</a><a href="/about/">About</a></nav>`;
 
-const FOOTER_NAV = `<nav id="footer-menu" aria-label="Footer"><div class="footer-group"><span class="footer-group-label">Browse</span><a href="/#tools">Tools</a><a href="/#widgets">Widgets</a><a href="/#guides">Guides</a></div><div class="footer-group"><span class="footer-group-label">Popular</span><a href="/tools/nepali-typing/">Nepali Typing</a><a href="/tools/preeti-to-unicode/">Preeti ↔ Unicode</a><a href="/tools/income-tax-calculator/">Income Tax Calculator</a><a href="/tools/nepal-map/">Nepal Map</a></div></nav>`;
+const FOOTER_NAV = `<nav id="footer-menu" class="footer-pills" aria-label="Footer"><a href="/#tools">Tools</a><a href="/#widgets">Widgets</a><a href="/#guides">Guides</a><a href="/tools/nepali-typing/">Nepali Typing</a><a href="/tools/preeti-to-unicode/">Preeti ↔ Unicode</a><a href="/tools/income-tax-calculator/">Income Tax</a><a href="/tools/nepal-map/">Nepal Map</a><a href="/about/">About</a><a href="/privacy/">Privacy</a></nav>`;
+
+const FOOTER_BLOCK = `<footer class="site-footer">
+  <div class="bar footer-bar">
+    ${FOOTER_NAV}
+    <p class="footer-copy">© <span id="yr"></span> Powered By Digital (PBD)</p>
+  </div>
+</footer>`;
 
 function walk(dir, out = []) {
   for (const name of fs.readdirSync(dir)) {
@@ -31,17 +34,22 @@ function patchFile(file) {
   let html = fs.readFileSync(file, "utf8");
   const before = html;
 
-  // Replace any existing #menu nav block
   html = html.replace(
     /<nav\b[^>]*\bid=["']menu["'][^>]*>[\s\S]*?<\/nav>/i,
     HEADER_NAV
   );
 
-  // Replace any existing #footer-menu nav block
-  html = html.replace(
-    /<nav\b[^>]*\bid=["']footer-menu["'][^>]*>[\s\S]*?<\/nav>/i,
-    FOOTER_NAV
-  );
+  if (/<footer\b[^>]*class=["'][^"']*site-footer[^"']*["'][^>]*>[\s\S]*?<\/footer>/i.test(html)) {
+    html = html.replace(
+      /<footer\b[^>]*class=["'][^"']*site-footer[^"']*["'][^>]*>[\s\S]*?<\/footer>/i,
+      FOOTER_BLOCK
+    );
+  } else {
+    html = html.replace(
+      /<nav\b[^>]*\bid=["']footer-menu["'][^>]*>[\s\S]*?<\/nav>/i,
+      FOOTER_NAV
+    );
+  }
 
   if (html === before) return false;
   fs.writeFileSync(file, html);

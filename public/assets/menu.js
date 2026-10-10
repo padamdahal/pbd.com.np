@@ -14,17 +14,16 @@
     { href: "/about/", label: "About" },
   ];
 
-  const FOOTER_BROWSE = [
+  const FOOTER_LINKS = [
     { href: "/#tools", label: "Tools" },
     { href: "/#widgets", label: "Widgets" },
     { href: "/#guides", label: "Guides" },
-  ];
-
-  const FOOTER_POPULAR = [
     { href: "/tools/nepali-typing/", label: "Nepali Typing" },
     { href: "/tools/preeti-to-unicode/", label: "Preeti ↔ Unicode" },
-    { href: "/tools/income-tax-calculator/", label: "Income Tax Calculator" },
+    { href: "/tools/income-tax-calculator/", label: "Income Tax" },
     { href: "/tools/nepal-map/", label: "Nepal Map" },
+    { href: "/about/", label: "About" },
+    { href: "/privacy/", label: "Privacy" },
   ];
 
   function isCurrent(href) {
@@ -48,10 +47,9 @@
 
   function injectHeader(nav) {
     if (!nav) return;
-    // Replace empty nav or legacy dropdown nav
     const hasLegacy = nav.querySelector(".nav-item, .submenu, .nav-link");
     const hasLinks = nav.querySelector("a[href]");
-    if (hasLinks && !hasLegacy) return; // already simple static links
+    if (hasLinks && !hasLegacy) return;
     nav.innerHTML = "";
     nav.classList.add("site-nav");
     if (!nav.getAttribute("role")) nav.setAttribute("role", "navigation");
@@ -62,28 +60,34 @@
 
   function injectFooter(nav) {
     if (!nav) return;
-    const hasLegacy = nav.querySelector(".footer-group-links") || nav.querySelector(".submenu");
-    const hasBrowse = [...nav.querySelectorAll(".footer-group-label")].some(el => /browse/i.test(el.textContent));
-    if (nav.querySelector("a[href]") && hasBrowse && !hasLegacy) return;
     nav.innerHTML = "";
+    nav.classList.add("footer-pills");
+    for (const item of FOOTER_LINKS) {
+      nav.appendChild(makeLink(item.href, item.label));
+    }
 
-    const browse = document.createElement("div");
-    browse.className = "footer-group";
-    const browseLabel = document.createElement("span");
-    browseLabel.className = "footer-group-label";
-    browseLabel.textContent = "Browse";
-    browse.appendChild(browseLabel);
-    for (const item of FOOTER_BROWSE) browse.appendChild(makeLink(item.href, item.label));
-    nav.appendChild(browse);
-
-    const popular = document.createElement("div");
-    popular.className = "footer-group";
-    const popularLabel = document.createElement("span");
-    popularLabel.className = "footer-group-label";
-    popularLabel.textContent = "Popular";
-    popular.appendChild(popularLabel);
-    for (const item of FOOTER_POPULAR) popular.appendChild(makeLink(item.href, item.label));
-    nav.appendChild(popular);
+    const bar = nav.closest(".bar") || nav.parentElement;
+    if (bar) {
+      bar.classList.add("footer-bar");
+      const copy = bar.querySelector("p");
+      if (copy && !copy.classList.contains("footer-copy")) {
+        copy.classList.add("footer-copy");
+        bar.appendChild(copy);
+      } else if (!bar.querySelector(".footer-copy")) {
+        const p = document.createElement("p");
+        p.className = "footer-copy";
+        p.innerHTML = '© <span id="yr">' + new Date().getFullYear() + "</span> Powered By Digital (PBD)";
+        bar.appendChild(p);
+      }
+      bar.querySelectorAll(".legal").forEach((el) => {
+        el.querySelectorAll("a[href]").forEach((a) => {
+          if (![...nav.querySelectorAll("a")].some((x) => x.getAttribute("href") === a.getAttribute("href"))) {
+            nav.appendChild(makeLink(a.getAttribute("href"), a.textContent.trim()));
+          }
+        });
+        el.remove();
+      });
+    }
   }
 
   function markCurrent(root) {
