@@ -1,6 +1,5 @@
 /**
  * menubuilder.cjs — injects static header + footer nav into all pages.
- *
  * Run:  node menubuilder.cjs
  */
 
@@ -11,12 +10,15 @@ const ROOT = path.join(__dirname, "public");
 
 const HEADER_NAV = `<nav id="menu" class="site-nav" aria-label="Main navigation" role="navigation"><a href="/">Home</a><a href="/#tools">Tools</a><a href="/#widgets">Widgets</a><a href="/#guides">Guides</a><a href="/about/">About</a></nav>`;
 
-const FOOTER_NAV = `<nav id="footer-menu" class="footer-pills" aria-label="Footer"><a href="/#tools">Tools</a><a href="/#widgets">Widgets</a><a href="/#guides">Guides</a><a href="/tools/nepali-typing/">Nepali Typing</a><a href="/tools/preeti-to-unicode/">Preeti ↔ Unicode</a><a href="/tools/income-tax-calculator/">Income Tax</a><a href="/tools/nepal-map/">Nepal Map</a><a href="/about/">About</a><a href="/privacy/">Privacy</a></nav>`;
+const FOOTER_NAV = `<nav id="footer-menu" class="footer-pills" aria-label="Footer"><a href="/#tools">Tools</a><a href="/#widgets">Widgets</a><a href="/#guides">Guides</a><a href="/tools/nepali-typing/">Nepali Typing</a><a href="/tools/preeti-to-unicode/">Preeti ↔ Unicode</a><a href="/tools/income-tax-calculator/">Income Tax</a><a href="/tools/nepal-map/">Nepal Map</a></nav>`;
 
 const FOOTER_BLOCK = `<footer class="site-footer">
   <div class="bar footer-bar">
     ${FOOTER_NAV}
-    <p class="footer-copy">© <span id="yr"></span> Powered By Digital (PBD)</p>
+    <div class="footer-meta">
+      <p class="footer-copy">© <span id="yr"></span> Powered By Digital (PBD)</p>
+      <nav class="footer-legal" aria-label="Legal"><a href="/about/">About</a><a href="/privacy/">Privacy</a></nav>
+    </div>
   </div>
 </footer>`;
 

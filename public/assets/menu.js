@@ -22,6 +22,9 @@
     { href: "/tools/preeti-to-unicode/", label: "Preeti ↔ Unicode" },
     { href: "/tools/income-tax-calculator/", label: "Income Tax" },
     { href: "/tools/nepal-map/", label: "Nepal Map" },
+  ];
+
+  const FOOTER_LEGAL = [
     { href: "/about/", label: "About" },
     { href: "/privacy/", label: "Privacy" },
   ];
@@ -67,27 +70,39 @@
     }
 
     const bar = nav.closest(".bar") || nav.parentElement;
-    if (bar) {
-      bar.classList.add("footer-bar");
-      const copy = bar.querySelector("p");
-      if (copy && !copy.classList.contains("footer-copy")) {
-        copy.classList.add("footer-copy");
-        bar.appendChild(copy);
-      } else if (!bar.querySelector(".footer-copy")) {
-        const p = document.createElement("p");
-        p.className = "footer-copy";
-        p.innerHTML = '© <span id="yr">' + new Date().getFullYear() + "</span> Powered By Digital (PBD)";
-        bar.appendChild(p);
-      }
-      bar.querySelectorAll(".legal").forEach((el) => {
-        el.querySelectorAll("a[href]").forEach((a) => {
-          if (![...nav.querySelectorAll("a")].some((x) => x.getAttribute("href") === a.getAttribute("href"))) {
-            nav.appendChild(makeLink(a.getAttribute("href"), a.textContent.trim()));
-          }
-        });
-        el.remove();
-      });
+    if (!bar) return;
+    bar.classList.add("footer-bar");
+
+    let meta = bar.querySelector(".footer-meta");
+    if (!meta) {
+      meta = document.createElement("div");
+      meta.className = "footer-meta";
+      bar.appendChild(meta);
+    } else {
+      meta.innerHTML = "";
     }
+
+    let copy = bar.querySelector(".footer-copy") || bar.querySelector(":scope > p");
+    if (!copy) {
+      copy = document.createElement("p");
+      copy.innerHTML = '© <span id="yr">' + new Date().getFullYear() + "</span> Powered By Digital (PBD)";
+    }
+    copy.className = "footer-copy";
+    if (!copy.querySelector("#yr") && !document.getElementById("yr")) {
+      copy.innerHTML = '© <span id="yr">' + new Date().getFullYear() + "</span> Powered By Digital (PBD)";
+    }
+
+    const legal = document.createElement("nav");
+    legal.className = "footer-legal";
+    legal.setAttribute("aria-label", "Legal");
+    for (const item of FOOTER_LEGAL) {
+      legal.appendChild(makeLink(item.href, item.label));
+    }
+
+    meta.appendChild(copy);
+    meta.appendChild(legal);
+
+    bar.querySelectorAll(":scope > .legal, .footer-nav > .legal").forEach((el) => el.remove());
   }
 
   function markCurrent(root) {
