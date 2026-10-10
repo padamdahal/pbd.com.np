@@ -4,7 +4,452 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0b7285">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="PBD">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/icon-512.png">
   <title>Nepal Land Unit Converter – Ropani, Aana, Bigha, Kattha to Sq Ft & m²</title>
+  <meta name="description" content="Free Nepal land unit converter. Convert Ropani, Aana, Paisa, Daam (hills) ↔ Bigha, Kattha, Dhur (Terai) ↔ Square Feet, Square Metres, Acre, Hectare instantly. Accurate standard factors used by survey offices. Works offline.">
+  <link rel="canonical" href="https://pbd.com.np/tools/land-unit-converter/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="keywords" content="Nepal land unit converter, ropani to sq ft, aana to square feet, bigha to ropani, kattha to aana, dhur to paisa, ropani aana paisa daam, bigha kattha dhur, land measurement Nepal, jagga converter, lalpurja area converter, 1 ropani how many sq ft, 1 aana sq ft, Nepal land calculator">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="PBD">
+  <meta property="og:title" content="Nepal Land Unit Converter – Ropani, Aana, Bigha, Kattha to Sq Ft & m²">
+  <meta property="og:description" content="Convert between Ropani–Aana–Paisa–Daam, Bigha–Kattha–Dhur, Square Feet and Square Metres instantly. Free, accurate and private.">
+  <meta property="og:url" content="https://pbd.com.np/tools/land-unit-converter/">
+  <meta property="og:image" content="https://pbd.com.np/assets/og-default.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ne_NP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Nepal Land Unit Converter – Ropani Aana Bigha Kattha">
+  <meta name="twitter:description" content="Free online converter for Nepali land units. Ropani, Aana, Bigha, Kattha, Sq Ft and m².">
+  <meta name="twitter:image" content="https://pbd.com.np/assets/og-default.svg">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Nepal Land Unit Converter",
+    "url": "https://pbd.com.np/tools/land-unit-converter/",
+    "description": "Convert between Ropani, Aana, Paisa, Daam, Bigha, Kattha, Dhur, Square Feet, Square Metres, Acre and Hectare using standard Nepal land measurement factors.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "browserRequirements": "Requires JavaScript",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "NPR"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Powered By Digital",
+      "url": "https://pbd.com.np/"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How many square feet is 1 Ropani?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "1 Ropani equals exactly 5,476 square feet (approximately 508.74 square metres). It is defined as a square of 74 ft × 74 ft and is subdivided into 16 Aana."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How many square feet is 1 Aana?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "1 Aana equals 342.25 square feet (about 31.80 square metres). There are 16 Aana in 1 Ropani and 4 Paisa in 1 Aana."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How many square feet is 1 Bigha?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "1 Bigha equals 72,900 square feet (approximately 6,772.63 square metres). It contains 20 Kattha or 400 Dhur and is used mainly in the Terai region."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I convert Ropani to Bigha?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "1 Bigha is approximately 13.31 Ropani (72,900 ÷ 5,476). Conversely, 1 Ropani is about 0.0751 Bigha or roughly 1.50 Kattha. Use the converter above for exact live values."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between Ropani and Bigha systems?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Ropani–Aana–Paisa–Daam system is used in the hills and Kathmandu Valley. The Bigha–Kattha–Dhur system is used in the Terai plains. They are different traditional systems; conversion always goes through square feet or square metres."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is this converter official for land registration?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. This tool uses the widely accepted standard conversion factors for planning and comparison. For any legal transaction, the area recorded on the Lalpurja (land ownership certificate) and the Survey Office (Napi) map is the official figure."
+        }
+      }
+    ]
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+  <style>
+    .conv-box {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: var(--s-5);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: .95rem;
+      font-weight: 700;
+      margin: 0 0 12px;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title span.badge {
+      font-size: .75rem;
+      font-weight: 600;
+      background: #eef7f8;
+      color: var(--primary-dark);
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 12px;
+    }
+    .field input {
+      font-size: 1.1rem;
+      padding: 10px 12px;
+      font-weight: 600;
+    }
+    .composite {
+      margin-top: 12px;
+      padding: 10px 14px;
+      background: #f0f7f8;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: .02em;
+    }
+    .composite .label {
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 2px;
+    }
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    .btn.copied {
+      background: #0a7a3e;
+      color: #fff;
+      border-color: #0a7a3e;
+    }
+    .ref-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .92rem;
+      margin-top: 8px;
+    }
+    .ref-table th,
+    .ref-table td {
+      text-align: left;
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--line);
+    }
+    .ref-table th {
+      font-weight: 700;
+      color: var(--muted);
+      font-size: .8rem;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+    }
+    .ref-table td.num {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+    .tip-box {
+      background: #eef7f8;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      margin: 16px 0;
+      font-size: .95rem;
+    }
+    .faq {
+      margin-top: var(--s-5);
+    }
+    .faq h2 {
+      font-size: 1.15rem;
+    }
+    .faq-item {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      margin-bottom: 8px;
+    }
+    .faq-item summary {
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .faq-item p {
+      margin: 8px 0 4px;
+      color: var(--muted);
+    }
+    .related-tools {
+      margin-top: 24px;
+      font-size: .95rem;
+    }
+    .related-tools a {
+      margin-right: 12px;
+    }
+    .note-sm {
+      font-size: .88rem;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+  </style>
 </head>
-<body>Placeholder - will be overwritten</body>
+<body>
+  <a class="skip" href="#tool">Skip to tool</a>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="/" aria-label="Powered By Digital (PBD) — Home">
+        <span class="logo-mark" aria-hidden="true">P</span>
+        <span class="brand-text">
+          <span class="brand-name">PBD</span>
+          <span class="brand-full">Powered By Digital</span>
+        </span>
+      </a>
+      <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+      <nav id="menu" class="site-nav" aria-label="Main navigation" role="navigation">
+        <a href="/">Home</a>
+        <a href="/#tools">Tools</a>
+        <a href="/#widgets">Widgets</a>
+        <a href="/#guides">Guides</a>
+        <a href="/about/">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="narrow" id="tool">
+    <div class="page-intro">
+      <h1>Nepal Land Unit Converter</h1>
+      <p class="lead">Convert between Ropani–Aana–Paisa–Daam (hills), Bigha–Kattha–Dhur (Terai), Square Feet, Square Metres, Acre and Hectare. Type any value — every other unit updates instantly. Free, private and works offline.</p>
+    </div>
+
+    <!-- Hills system -->
+    <div class="conv-box">
+      <div class="section-title">Hills / Kathmandu Valley <span class="badge">Ropani system</span></div>
+      <div class="form-grid">
+        <div class="field">
+          <label for="ropani">Ropani (रोपनी)</label>
+          <input type="number" id="ropani" min="0" step="any" inputmode="decimal" placeholder="0">
+        </div>
+        <div class="field">
+          <label for="aana">Aana (आना)</label>
+          <input type="number" id="aana" min="0" step="any" inputmode="decimal" placeholder="0">
+        </div>
+        <div class="field">
+          <label for="paisa">Paisa (पैसा)</label>
+          <input type="number" id="paisa" min="0" step="any" inputmode="decimal" placeholder="0">
+        </div>
+        <div class="field">
+          <label for="daam">Daam (दाम)</label>
+          <input type="number" id="daam" min="0" step="any" inputmode="decimal" placeholder="0">
+        </div>
+      </div>
+      <div class="composite" id="hill-composite" aria-live="polite">
+        <span class="label">Composite (Ropani–Aana–Paisa–Daam)</span>
+        <span id="hill-display">0-0-0-0</span>
+      </div>
+    </div>
+
+    <!-- Terai system -->
+    <div class="conv-box">
+      <div class="section-title">Terai plains <span class="badge">Bigha system</span></div>
+      <div class="form-grid">
+        <div class="field">
+          <label for="bigha">Bigha (बिघा)</label>
+          <input type="number" id="bigha" min="0" step="any" inputmode="decimal" placeholder="0">
+        </div>
+        <div class="field">
+          <label for="kattha">Kattha (कठ्ठा)</label>
+          <input type="number" id="kattha" min="0" step="any" inputmode="decimal" placeholder="0">
+        </div>
+        <div class="field">
+          <label for="dhur">Dhur (धुर)</label>
+          <input type="number" id="dhur" min="0" step="any" inputmode="decimal" placeholder="0">
+        </div>
+      </div>
+      <div class="composite" id="terai-composite" aria-live="polite">
+        <span class="label">Composite (Bigha–Kattha–Dhur)</span>
+        <span id="terai-display">0-0-0</span>
+      </div>
+    </div>
+
+    <!-- Metric / Imperial -->
+    <div class="conv-box">
+      <div class="section-title">Metric & Imperial</div>
+      <div class="form-grid">
+        <div class="field">
+          <label for="sqft">Square Feet (वर्ग फिट)</label>
+          <input type="number" id="sqft" min="0" step="any" inputmode="decimal" placeholder="0">
+        </div>
+        <div class="field">
+          <label for="sqm">Square Metres (वर्ग मिटर)</label>
+          <input type="number" id="sqm" min="0" step="any" inputmode="decimal" placeholder="0">
+        </div>
+        <div class="field">
+          <label for="acre">Acre</label>
+          <input type="number" id="acre" min="0" step="any" inputmode="decimal" placeholder="0">
+        </div>
+        <div class="field">
+          <label for="hectare">Hectare</label>
+          <input type="number" id="hectare" min="0" step="any" inputmode="decimal" placeholder="0">
+        </div>
+      </div>
+      <div class="btn-row">
+        <button type="button" class="btn btn-primary" id="btn-copy-sqft">Copy Sq Ft</button>
+        <button type="button" class="btn" id="btn-copy-sqm">Copy Sq M</button>
+        <button type="button" class="btn" id="btn-clear">Clear all</button>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <strong>Standard factors used:</strong> 1 Ropani = 5,476 sq ft (74×74 ft) · 1 Bigha = 72,900 sq ft (270×270 ft). These are the values commonly applied by survey offices and real-estate practice in Nepal. Always verify the area on the official Lalpurja before any transaction.
+    </div>
+
+    <!-- Quick reference -->
+    <div class="conv-box">
+      <div class="section-title">Quick reference table</div>
+      <table class="ref-table">
+        <thead>
+          <tr>
+            <th>Unit</th>
+            <th>System</th>
+            <th class="num">Sq Feet</th>
+            <th class="num">Sq Metres</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1 Ropani</td><td>Hills</td><td class="num">5,476</td><td class="num">508.74</td></tr>
+          <tr><td>1 Aana</td><td>Hills</td><td class="num">342.25</td><td class="num">31.80</td></tr>
+          <tr><td>1 Paisa</td><td>Hills</td><td class="num">85.56</td><td class="num">7.95</td></tr>
+          <tr><td>1 Daam</td><td>Hills</td><td class="num">21.39</td><td class="num">1.99</td></tr>
+          <tr><td>1 Bigha</td><td>Terai</td><td class="num">72,900</td><td class="num">6,772.63</td></tr>
+          <tr><td>1 Kattha</td><td>Terai</td><td class="num">3,645</td><td class="num">338.63</td></tr>
+          <tr><td>1 Dhur</td><td>Terai</td><td class="num">182.25</td><td class="num">16.93</td></tr>
+          <tr><td>1 Acre</td><td>International</td><td class="num">43,560</td><td class="num">4,046.86</td></tr>
+          <tr><td>1 Hectare</td><td>International</td><td class="num">107,639</td><td class="num">10,000</td></tr>
+        </tbody>
+      </table>
+      <p class="note-sm">Cross-system: 1 Bigha ≈ 13.31 Ropani · 1 Ropani ≈ 1.50 Kattha.</p>
+    </div>
+
+    <section>
+      <h2>How Nepal land measurement works</h2>
+      <p>Nepal uses two traditional systems depending on region. In the hills and Kathmandu Valley land is measured in <strong>Ropani, Aana, Paisa and Daam</strong>. In the Terai plains the system is <strong>Bigha, Kattha and Dhur</strong>. Government records increasingly also show area in square metres, while property listings often quote square feet.</p>
+      <p>A Ropani is defined as a square of 74 feet on each side (5,476 sq ft). A Bigha is a square of 270 feet on each side (72,900 sq ft). Because the two systems share no common sub-unit, conversion always routes through square feet or square metres.</p>
+    </section>
+
+    <section class="faq" aria-label="FAQ">
+      <h2>Frequently asked questions</h2>
+      <details class="faq-item">
+        <summary>How many square feet is 1 Ropani?</summary>
+        <p>1 Ropani = 5,476 square feet (≈ 508.74 m²). It equals 16 Aana, 64 Paisa or 256 Daam.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How many square feet is 1 Aana?</summary>
+        <p>1 Aana = 342.25 square feet (≈ 31.80 m²). Four Aana make one Ropani quarter; sixteen Aana make a full Ropani.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How many square feet is 1 Bigha?</summary>
+        <p>1 Bigha = 72,900 square feet (≈ 6,772.63 m²). It contains 20 Kattha or 400 Dhur.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How do I convert Ropani to Bigha (or vice versa)?</summary>
+        <p>1 Bigha ≈ 13.31 Ropani. 1 Ropani ≈ 0.0751 Bigha (about 1.50 Kattha). Enter any value above and the converter shows the exact equivalent in both systems.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Which system is used in Kathmandu?</summary>
+        <p>Kathmandu Valley and most hill districts use the Ropani–Aana–Paisa–Daam system. Prices are commonly quoted per Aana.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Is the result on this tool official for land deals?</summary>
+        <p>No. This converter uses the standard reference factors for planning and comparison. The area written on the Lalpurja and the cadastral map from the Survey Office (Napi Karyalaya) is the official figure for any registration or transfer.</p>
+      </details>
+    </section>
+
+    <p class="related-tools">
+      <strong>Related tools:</strong>
+      <a href="/tools/income-tax-calculator/">Income Tax Calculator</a>
+      <a href="/tools/number-to-nepali-words/">Number to Nepali Words</a>
+      <a href="/tools/nepal-map/">Nepal Map</a>
+      <a href="/">All tools</a>
+    </p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="bar footer-bar">
+      <nav id="footer-menu" class="footer-pills" aria-label="Footer">
+        <a href="/#tools">Tools</a>
+        <a href="/#widgets">Widgets</a>
+        <a href="/#guides">Guides</a>
+        <a href="/tools/nepali-typing/">Nepali Typing</a>
+        <a href="/tools/preeti-to-unicode/">Preeti ↔ Unicode</a>
+        <a href="/tools/income-tax-calculator/">Income Tax</a>
+        <a href="/tools/nepal-map/">Nepal Map</a>
+      </nav>
+      <div class="footer-meta">
+        <p class="footer-copy">© <span id="yr"></span> Powered By Digital (PBD)</p>
+        <nav class="footer-legal" aria-label="Legal">
+          <a href="/about/">About</a>
+          <a href="/privacy/">Privacy</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <script src="land-converter.js" defer></script>
+  <script src="/assets/menu.js" defer></script>
+  <script src="/assets/pwa.js" defer></script>
+</body>
 </html>
