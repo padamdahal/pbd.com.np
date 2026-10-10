@@ -45,7 +45,7 @@
   <link rel="stylesheet" href="/assets/style.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
   <style>
-    main.narrow { max-width: 1080px; }
+    /* width from shared style.css */
     .layout { display: grid; grid-template-columns: 300px 1fr; gap: 16px; }
     @media (max-width: 800px) { .layout { grid-template-columns: 1fr; } }
     .panel { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow-sm); }
@@ -71,7 +71,7 @@
     <div class="bar">
       <a class="brand" href="/"><span class="logo-mark">P</span><span>PBD</span></a>
       <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
-      <nav id="menu" aria-label="Main navigation"></nav>
+      <nav id="menu" class="site-nav" aria-label="Main navigation" role="navigation"><a href="/">Home</a><a href="/#tools">Tools</a><a href="/#widgets">Widgets</a><a href="/#guides">Guides</a><a href="/about/">About</a></nav>
     </div>
   </header>
   <main class="narrow" id="tool">
@@ -106,14 +106,14 @@
     <p class="note">Station locations © OpenStreetMap contributors, via the Overpass API. Not a complete official list. Basemap © OpenStreetMap.</p>
   </main>
   <footer class="site-footer">
-    <div class="bar">
-      <p>© <span id="yr"></span> PBD</p>
-      <div class="footer-nav">
-        <nav id="footer-menu" aria-label="Footer tools"></nav>
-        <nav class="legal" aria-label="Legal"><a href="/about/">About</a><a href="/privacy/">Privacy</a></nav>
-      </div>
+  <div class="bar footer-bar">
+    <nav id="footer-menu" class="footer-pills" aria-label="Footer"><a href="/#tools">Tools</a><a href="/#widgets">Widgets</a><a href="/#guides">Guides</a><a href="/tools/nepali-typing/">Nepali Typing</a><a href="/tools/preeti-to-unicode/">Preeti ↔ Unicode</a><a href="/tools/income-tax-calculator/">Income Tax</a><a href="/tools/nepal-map/">Nepal Map</a></nav>
+    <div class="footer-meta">
+      <p class="footer-copy">© <span id="yr"></span> Powered By Digital (PBD)</p>
+      <nav class="footer-legal" aria-label="Legal"><a href="/about/">About</a><a href="/privacy/">Privacy</a></nav>
     </div>
-  </footer>
+  </div>
+</footer>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="ev-map.js" defer></script>
   <script src="/assets/menu.js" defer></script>
