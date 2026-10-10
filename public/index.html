@@ -104,7 +104,6 @@
       width: min(calc(100% - var(--page-gutter, 32px)), var(--max-width));
     }
 
-    /* —— Header / static nav —— */
     .site-header {
       background: rgba(255,255,255,.94);
       border-bottom: 1px solid var(--line);
@@ -122,29 +121,7 @@
       min-height: 70px;
       margin: 0 auto;
     }
-
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 800;
-      font-size: 1.3rem;
-      letter-spacing: -.02em;
-      text-decoration: none;
-      color: var(--text);
-      flex: none;
-    }
-
-    .logo-mark {
-      width: 36px;
-      height: 36px;
-      display: grid;
-      place-items: center;
-      border-radius: 11px;
-      background: var(--primary);
-      color: #fff;
-      font-weight: 800;
-    }
+    /* brand styles from /assets/style.css */
 
     .site-nav {
       display: flex;
@@ -199,7 +176,6 @@
       .site-header { position: relative; }
     }
 
-    /* —— Hero —— */
     .hero {
       padding: 64px 0 48px;
       background:
@@ -308,14 +284,9 @@
       margin-top: 1px;
     }
 
-    /* —— Sections —— */
-    section {
-      padding: 52px 0;
-    }
+    section { padding: 52px 0; }
 
-    .section-heading {
-      margin-bottom: 22px;
-    }
+    .section-heading { margin-bottom: 22px; }
 
     .section-heading h2 {
       margin: 0;
@@ -328,7 +299,6 @@
       color: var(--muted);
     }
 
-    /* —— Card grid —— */
     .card-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -344,6 +314,10 @@
       color: inherit;
       transition: .15s ease;
       box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-height: 148px;
     }
 
     .tool-card:hover {
@@ -372,7 +346,6 @@
       letter-spacing: .01em;
     }
 
-    /* —— Why + CTA —— */
     .why-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -397,9 +370,7 @@
       font-size: .93rem;
     }
 
-    .cta {
-      padding-bottom: 64px;
-    }
+    .cta { padding-bottom: 64px; }
 
     .cta-box {
       background: linear-gradient(135deg, #0b7285, #0a5f6e);
@@ -432,9 +403,8 @@
       background: #eef7f8;
     }
 
-    /* Footer layout comes from /assets/style.css (pills + meta bar) */
+    /* Footer layout from /assets/style.css */
 
-    /* —— Responsive —— */
     @media (max-width: 960px) {
       .hero-grid { grid-template-columns: 1fr; }
       .card-grid { grid-template-columns: repeat(2, 1fr); }
@@ -458,10 +428,8 @@
 
   <header class="site-header">
     <div class="bar">
-      <a class="brand" href="/" aria-label="PBD Home">
-        <span class="logo-mark">P</span><span>PBD</span>
-      </a>
-      <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
+      <a class="brand" href="/" aria-label="Powered By Digital (PBD) — Home"><span class="logo-mark" aria-hidden="true">P</span><span class="brand-text"><span class="brand-name">PBD</span><span class="brand-full">Powered By Digital</span></span></a>
+      <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
       <nav id="menu" class="site-nav" aria-label="Main navigation" role="navigation"><a href="/">Home</a><a href="/#tools">Tools</a><a href="/#widgets">Widgets</a><a href="/#guides">Guides</a><a href="/about/">About</a></nav>
     </div>
   </header>
@@ -703,6 +671,7 @@
       });
     }
   </script>
+  <script src="/assets/menu.js" defer></script>
   <script src="/assets/pwa.js" defer></script>
 </body>
 </html>
