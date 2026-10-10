@@ -1,5 +1,5 @@
 /* PBD service worker — full offline shell + tools */
-var CACHE_VERSION = "pbd-v3";
+var CACHE_VERSION = "pbd-v4";
 var PRECACHE = [
   "/",
   "/offline.html",
