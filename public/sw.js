@@ -1,5 +1,5 @@
 /* PBD service worker — full offline shell + tools */
-var CACHE_VERSION = "pbd-v5";
+var CACHE_VERSION = "pbd-v6";
 var PRECACHE = [
   "/",
   "/offline.html",
@@ -24,7 +24,9 @@ var PRECACHE = [
   "/tools/local-weather/",
   "/tools/local-weather/local-weather.js",
   "/tools/today-nepali-date/",
-  "/tools/today-nepali-date/index.html"
+  "/tools/today-nepali-date/index.html",
+  "/tools/land-unit-converter/",
+  "/tools/land-unit-converter/land-converter.js"
 ];
 
 self.addEventListener("install", function (event) {
@@ -67,101 +69,25 @@ self.addEventListener("activate", function (event) {
   );
 });
 
-function isNavigationRequest(request) {
-  return (
-    request.mode === "navigate" ||
-    (request.method === "GET" &&
-      request.headers.get("accept") &&
-      request.headers.get("accept").indexOf("text/html") !== -1)
-  );
-}
-
-function isSameOrigin(url) {
-  return url.origin === self.location.origin;
-}
-
-function isStaticAsset(url) {
-  var p = url.pathname;
-  return (
-    p.indexOf("/assets/") === 0 ||
-    p.indexOf("/tools/") === 0 ||
-    /\.(js|css|png|svg|webmanifest|json|ico|woff2?)$/i.test(p)
-  );
-}
-
 self.addEventListener("fetch", function (event) {
-  var request = event.request;
-  if (request.method !== "GET") return;
-
-  var url;
-  try {
-    url = new URL(request.url);
-  } catch (e) {
-    return;
-  }
-
-  if (!isSameOrigin(url)) return;
-
-  if (isNavigationRequest(request)) {
-    event.respondWith(
-      fetch(request)
-        .then(function (response) {
-          if (response && response.ok) {
-            var copy = response.clone();
-            caches.open(CACHE_VERSION).then(function (cache) {
-              cache.put(request, copy);
-            });
-          }
-          return response;
-        })
-        .catch(function () {
-          return caches.match(request).then(function (cached) {
-            return (
-              cached ||
-              caches.match(url.pathname) ||
-              caches.match("/offline.html")
-            );
-          });
-        })
-    );
-    return;
-  }
-
-  if (isStaticAsset(url)) {
-    event.respondWith(
-      caches.match(request).then(function (cached) {
-        var networkFetch = fetch(request)
-          .then(function (response) {
-            if (response && response.ok) {
-              var copy = response.clone();
-              caches.open(CACHE_VERSION).then(function (cache) {
-                cache.put(request, copy);
-              });
-            }
-            return response;
-          })
-          .catch(function () {
-            return cached;
-          });
-        return cached || networkFetch;
-      })
-    );
-    return;
-  }
-
+  if (event.request.method !== "GET") return;
   event.respondWith(
-    fetch(request)
-      .then(function (response) {
-        if (response && response.ok) {
-          var copy = response.clone();
-          caches.open(CACHE_VERSION).then(function (cache) {
-            cache.put(request, copy);
-          });
+    caches.match(event.request).then(function (cached) {
+      if (cached) return cached;
+      return fetch(event.request).then(function (response) {
+        if (!response || response.status !== 200 || response.type !== "basic") {
+          return response;
         }
+        var clone = response.clone();
+        caches.open(CACHE_VERSION).then(function (cache) {
+          cache.put(event.request, clone);
+        });
         return response;
-      })
-      .catch(function () {
-        return caches.match(request);
-      })
+      }).catch(function () {
+        if (event.request.mode === "navigate") {
+          return caches.match("/offline.html");
+        }
+      });
+    })
   );
 });
