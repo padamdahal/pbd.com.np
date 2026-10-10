@@ -12,14 +12,14 @@
   <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png">
   <link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/icon-512.png">
-  <title>Nepal Map Online – Provinces, Districts, Palikas &amp; Rasuwa Flood Layers</title>
+  <title>Nepal Map Online – Provinces, Districts, Palikas & Rasuwa Flood Layers</title>
   <meta name="description" content="Free interactive map of Nepal. 7 provinces, 77 districts, local levels, plus optional Rasuwa–Bhotekoshi 2026 flood damage layers (HOT). Search, multi-select, CSV join. नेपालको नक्सा.">
   <link rel="canonical" href="https://pbd.com.np/tools/nepal-map/">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="keywords" content="Nepal map, map of Nepal, Nepal district map, province map of Nepal, municipality map Nepal, local level map, palika map, Rasuwa flood map, Bhotekoshi flood 2026, Nepal flood damage map, नेपालको नक्सा, जिल्ला नक्सा, प्रदेश नक्सा, पालिका नक्सा, GIS map Nepal">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="PBD">
-  <meta property="og:title" content="Nepal Map Online – Provinces, Districts, Palikas &amp; Rasuwa Flood Layers">
+  <meta property="og:title" content="Nepal Map Online – Provinces, Districts, Palikas & Rasuwa Flood Layers">
   <meta property="og:description" content="Free Nepal map with provinces, districts, palikas, and optional Rasuwa–Bhotekoshi 2026 HOT flood damage layers.">
   <meta property="og:url" content="https://pbd.com.np/tools/nepal-map/">
   <meta property="og:image" content="https://pbd.com.np/assets/og-default.svg">
@@ -28,7 +28,7 @@
   <meta property="og:locale" content="en_US">
   <meta property="og:locale:alternate" content="ne_NP">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Nepal Map Online – Provinces, Districts, Palikas &amp; Rasuwa Flood Layers">
+  <meta name="twitter:title" content="Nepal Map Online – Provinces, Districts, Palikas & Rasuwa Flood Layers">
   <meta name="twitter:description" content="Free Nepal map with provinces, districts, palikas and optional Rasuwa 2026 flood damage layers.">
   <meta name="twitter:image" content="https://pbd.com.np/assets/og-default.svg">
   <script type="application/ld+json">
@@ -49,7 +49,7 @@
   <link rel="stylesheet" href="/assets/style.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
   <style>
-    main.narrow { max-width: 1080px; }
+    /* content width from shared style.css */
     .map-layout { display: grid; grid-template-columns: 280px 1fr; gap: 16px; align-items: start; }
     @media (max-width: 800px) { .map-layout { grid-template-columns: 1fr; } }
     .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow-sm); }
@@ -83,7 +83,7 @@
     <div class="bar">
       <a class="brand" href="/"><span class="logo-mark">P</span><span>PBD</span></a>
       <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
-      <nav id="menu" aria-label="Main navigation"></nav>
+      <nav id="menu" class="site-nav" aria-label="Main navigation" role="navigation"><a href="/">Home</a><a href="/#tools">Tools</a><a href="/#widgets">Widgets</a><a href="/#guides">Guides</a><a href="/about/">About</a></nav>
     </div>
   </header>
 
@@ -171,17 +171,14 @@
   </main>
 
   <footer class="site-footer">
-    <div class="bar">
-      <p>© <span id="yr"></span> PBD</p>
-      <div class="footer-nav">
-        <nav id="footer-menu" aria-label="Footer tools"></nav>
-        <nav class="legal" aria-label="Legal">
-          <a href="/about/">About</a>
-          <a href="/privacy/">Privacy</a>
-        </nav>
-      </div>
+  <div class="bar footer-bar">
+    <nav id="footer-menu" class="footer-pills" aria-label="Footer"><a href="/#tools">Tools</a><a href="/#widgets">Widgets</a><a href="/#guides">Guides</a><a href="/tools/nepali-typing/">Nepali Typing</a><a href="/tools/preeti-to-unicode/">Preeti ↔ Unicode</a><a href="/tools/income-tax-calculator/">Income Tax</a><a href="/tools/nepal-map/">Nepal Map</a></nav>
+    <div class="footer-meta">
+      <p class="footer-copy">© <span id="yr"></span> Powered By Digital (PBD)</p>
+      <nav class="footer-legal" aria-label="Legal"><a href="/about/">About</a><a href="/privacy/">Privacy</a></nav>
     </div>
-  </footer>
+  </div>
+</footer>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="nepal-map.js" defer></script>
   <script src="/assets/menu.js" defer></script>
