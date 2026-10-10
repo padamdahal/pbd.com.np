@@ -38,7 +38,7 @@
   {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I convert BS to AD?","acceptedAnswer":{"@type":"Answer","text":"Enter a Bikram Sambat date and convert to AD. The tool uses a verified calendar table for Gregorian results used in banks and official forms in Nepal."}},{"@type":"Question","name":"What BS years are supported?","acceptedAnswer":{"@type":"Answer","text":"The converter covers a practical range used for everyday documents in Nepal (approximately BS 2000–2090)."}},{"@type":"Question","name":"Is Bikram Sambat the same as the Nepali calendar?","acceptedAnswer":{"@type":"Answer","text":"Yes. Bikram Sambat (BS) is the official calendar used in Nepal. AD is the Gregorian calendar used internationally."}},{"@type":"Question","name":"Do I need to install software?","acceptedAnswer":{"@type":"Answer","text":"No. This BS to AD and AD to BS converter works fully online in your browser."}}]}
   </script>
   <meta name="menu-title" content="BS ↔ AD date converter">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🏔️%3C/text%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%94%EF%B8%8F%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&display=swap">
@@ -76,7 +76,7 @@
     <div class="bar">
       <a class="brand" href="/"><span class="logo-mark">P</span><span>PBD</span></a>
       <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
-      <nav id="menu" aria-label="Main navigation"></nav>
+      <nav id="menu" class="site-nav" aria-label="Main navigation" role="navigation"><a href="/">Home</a><a href="/#tools">Tools</a><a href="/#widgets">Widgets</a><a href="/#guides">Guides</a><a href="/about/">About</a></nav>
     </div>
   </header>
 
@@ -163,17 +163,14 @@
   </main>
 
   <footer class="site-footer">
-    <div class="bar">
-      <p>© <span id="yr"></span> PBD</p>
-      <div class="footer-nav">
-        <nav id="footer-menu" aria-label="Footer tools"></nav>
-        <nav class="legal" aria-label="Legal">
-          <a href="/about/">About</a>
-          <a href="/privacy/">Privacy</a>
-        </nav>
-      </div>
+  <div class="bar footer-bar">
+    <nav id="footer-menu" class="footer-pills" aria-label="Footer"><a href="/#tools">Tools</a><a href="/#widgets">Widgets</a><a href="/#guides">Guides</a><a href="/tools/nepali-typing/">Nepali Typing</a><a href="/tools/preeti-to-unicode/">Preeti ↔ Unicode</a><a href="/tools/income-tax-calculator/">Income Tax</a><a href="/tools/nepal-map/">Nepal Map</a></nav>
+    <div class="footer-meta">
+      <p class="footer-copy">© <span id="yr"></span> Powered By Digital (PBD)</p>
+      <nav class="footer-legal" aria-label="Legal"><a href="/about/">About</a><a href="/privacy/">Privacy</a></nav>
     </div>
-  </footer>
+  </div>
+</footer>
 
   <script src="nepali-date-converter.js" defer></script>
   <script src="/assets/menu.js" defer></script>
