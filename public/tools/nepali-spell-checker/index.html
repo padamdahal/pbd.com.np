@@ -73,8 +73,7 @@
     }
     .conv-actions .grow { flex: 1; min-width: 8px; }
     .btn-primary {
-      background: var(--primary); color: #fff; border-color: var(--primary);
-    }
+      background: var(--primary); color: #fff; border-color: var(--primary-dark); }
     .btn-primary:hover { background: var(--primary-dark); border-color: var(--primary-dark); }
     .btn.copied { background: #0a7a3e; color: #fff; border-color: #0a7a3e; }
     .samples { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
@@ -117,6 +116,92 @@
      crossorigin="anonymous"></script>
 </head>
 <body>
-  <!-- truncated for tool call size - will use full file from disk via alternative -->
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="/">PBD</a>
+      <nav id="menu" aria-label="Main"></nav>
+    </div>
+  </header>
+
+  <main class="container tool-page">
+    <h1>Nepali Spell Checker</h1>
+    <p class="lead">Check spelling of Nepali Unicode text. Paste a paragraph or type words — possible mistakes are highlighted. Click a highlighted word for suggestions. Works offline after load.</p>
+
+    <div class="conv-box">
+      <div class="spell-label">
+        <span>Nepali text</span>
+      </div>
+      <textarea id="spell-input" placeholder="यहाँ नेपाली युनिकोड पाठ टाइप वा पेस्ट गर्नुहोस्…" rows="8" spellcheck="false"></textarea>
+      <div class="conv-actions">
+        <button type="button" class="btn btn-primary" id="btn-check">Check spelling</button>
+        <button type="button" class="btn" id="btn-clear">Clear</button>
+        <button type="button" class="btn" id="btn-copy">Copy text</button>
+        <span class="grow"></span>
+      </div>
+      <p id="spell-status" class="hint">Dictionary loading…</p>
+      <div id="spell-result" class="result-box" aria-live="polite"></div>
+      <div class="samples">
+        <button type="button" data-sample="नेपालको राजधानी काठमाडौं हो। शिक्षा महत्वपूर्ण छ।">Sample 1</button>
+        <button type="button" data-sample="विद्यार्थीहरूले हिजो बजारमा तरकारी किने।">Sample 2</button>
+        <button type="button" data-sample="आज पानी पर्छ जस्तो लाग्छ।">Sample 3</button>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <strong>Tip:</strong> The dictionary includes ~36,000 Nepali stems (Madan Puraskar Pustakalaya). Inflected forms, proper names and rare terms may still be marked. Click a highlighted word for suggestions, then pick one to replace it in the box above.
+    </div>
+
+    <section class="faq" aria-labelledby="faq-heading">
+      <h2 id="faq-heading">FAQ</h2>
+      <details class="faq-item">
+        <summary>How does the Nepali spell checker work?</summary>
+        <p>It checks each Devanagari word against a dictionary of ~36,000 Nepali stems. Words not found are highlighted. Suggestions are generated using common vowel-length and consonant confusions (ि/ी, स/श, etc.) plus edit-distance candidates.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Does it work offline?</summary>
+        <p>Yes. After the page and dictionary finish loading, everything runs in your browser. Your text never leaves your device.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Why are some correct words marked wrong?</summary>
+        <p>The dictionary mainly contains base forms (stems). Many conjugated verbs, plural/case forms, proper names and specialised terms are missing. Treat the tool as a helper, not a final authority.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Is this tool free?</summary>
+        <p>Yes. Completely free, no account required, no usage limits. Made by Powered By Digital (PBD).</p>
+      </details>
+      <details class="faq-item">
+        <summary>What dictionary is used?</summary>
+        <p>Word stems come from the open Nepali Hunspell dictionary originally compiled by Madan Puraskar Pustakalaya (LGPL 2.1) and distributed by the community. Suggestions prioritise frequent short/long vowel and स/श style mistakes.</p>
+      </details>
+    </section>
+
+    <p class="related-tools"><strong>Related:</strong>
+      <a href="/tools/preeti-to-unicode/">Preeti ↔ Unicode</a>
+      <a href="/tools/nepali-typing/">Nepali typing (Roman → Unicode)</a>
+      <a href="/tools/nepali-date-converter/">BS ↔ AD date converter</a>
+      <a href="/">All tools</a>
+    </p>
+
+    <p class="note">Dictionary based on Madan Puraskar Pustakalaya Nepali Hunspell data (LGPL 2.1). This tool is a helper for everyday text; always proof-read important documents yourself.</p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="bar">
+      <p>© <span id="yr"></span> PBD</p>
+      <div class="footer-nav">
+        <nav id="footer-menu" aria-label="Footer tools"></nav>
+        <nav class="legal" aria-label="Legal">
+          <a href="/about/">About</a>
+          <a href="/privacy/">Privacy</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <script src="nepali-words.js" defer></script>
+  <script src="spell-checker.js" defer></script>
+  <script src="/assets/menu.js" defer></script>
+  <script src="/assets/pwa.js" defer></script>
+  <script>document.getElementById("yr").textContent = new Date().getFullYear();</script>
 </body>
 </html>
