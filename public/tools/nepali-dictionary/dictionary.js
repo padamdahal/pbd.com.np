@@ -1,14 +1,15 @@
 (() => {
   "use strict";
 
-  const BASE = "/tools/nepali-dictionary/";
-  const CHUNK_SIZE = 4000;
+  const SOURCE_URL =
+    "https://raw.githubusercontent.com/bikashpadhikari/nepali-brihat-sabdakosh-json/main/sabdakosh.json.gz";
 
-  /** @type {{i:number, first:string, last:string, count:number}[]} */
-  let index = [];
-  /** @type {Map<number, Array<{w:string, d:Array<{g?:string, e?:string, s:string[]}>}>>} */
-  const chunkCache = new Map();
-  let loadingChunks = new Set();
+  /** @type {Array<{w:string, d:Array<{g?:string, e?:string, s:string[]}>}>} */
+  let entries = [];
+  /** @type {Map<string, number>} word → index in entries */
+  let wordIndex = new Map();
+  let loaded = false;
+  let loadingPromise = null;
 
   const input = document.getElementById("dict-input");
   const suggestionsEl = document.getElementById("suggestions");
@@ -39,78 +40,136 @@
     emptyEl.hidden = true;
   }
 
-  async function loadIndex() {
-    if (index.length) return index;
-    setStatus("Loading dictionary index…", "loading");
-    const res = await fetch(BASE + "index.json");
-    if (!res.ok) throw new Error("Could not load index");
-    index = await res.json();
-    const total = index.reduce((s, c) => s + c.count, 0);
-    countEl.textContent = total.toLocaleString("en-NP") + " words";
-    setStatus("");
-    return index;
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, "&")
+      .replace(/</g, "<")
+      .replace(/>/g, ">")
+      .replace(/"/g, """);
   }
 
-  async function loadChunk(i) {
-    if (chunkCache.has(i)) return chunkCache.get(i);
-    if (loadingChunks.has(i)) {
-      // wait for existing load
-      while (loadingChunks.has(i)) {
-        await new Promise((r) => setTimeout(r, 50));
+  function cleanSense(s) {
+    if (!s) return "";
+    // Strip residual HTML tags that appear in the original dump
+    return s
+      .replace(/<[^>]+>/g, "")
+      .replace(/&nbsp;/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  /** Normalize original Brihat Sabdakosh entry → compact form */
+  function normalizeEntry(raw) {
+    const word = (raw.word || "").trim();
+    if (!word) return null;
+    const defs = [];
+    for (const d of raw.definitions || []) {
+      const senses = (d.senses || [])
+        .map(cleanSense)
+        .filter(Boolean);
+      if (!senses.length) continue;
+      const nd = { s: senses };
+      if (d.grammar) nd.g = d.grammar;
+      if (d.etymology) nd.e = d.etymology;
+      defs.push(nd);
+    }
+    if (!defs.length) return null;
+    return { w: word, d: defs };
+  }
+
+  async function loadDictionary() {
+    if (loaded) return;
+    if (loadingPromise) return loadingPromise;
+
+    loadingPromise = (async () => {
+      setStatus("Downloading dictionary (4.4 MB)…", "loading");
+      countEl.textContent = "loading…";
+
+      const res = await fetch(SOURCE_URL);
+      if (!res.ok) throw new Error("Download failed: " + res.status);
+
+      setStatus("Decompressing…", "loading");
+
+      // Native gzip decompression (Chrome 80+, Firefox 113+, Safari 16.4+)
+      const ds = new DecompressionStream("gzip");
+      const decompressedStream = res.body.pipeThrough(ds);
+      const text = await new Response(decompressedStream).text();
+
+      setStatus("Parsing 120,000+ entries…", "loading");
+
+      const raw = JSON.parse(text);
+      const list = [];
+      const idx = new Map();
+
+      for (const item of raw) {
+        const entry = normalizeEntry(item);
+        if (!entry) continue;
+        // Keep first occurrence if duplicates exist
+        if (idx.has(entry.w)) continue;
+        idx.set(entry.w, list.length);
+        list.push(entry);
       }
-      return chunkCache.get(i);
-    }
-    loadingChunks.add(i);
+
+      // Sort for binary search / prefix suggestions
+      list.sort((a, b) => a.w.localeCompare(b.w, "ne"));
+      // Rebuild index after sort
+      idx.clear();
+      list.forEach((e, i) => idx.set(e.w, i));
+
+      entries = list;
+      wordIndex = idx;
+      loaded = true;
+
+      countEl.textContent = entries.length.toLocaleString("en-NP") + " words";
+      setStatus("");
+    })();
+
     try {
-      const res = await fetch(BASE + `dict-${i}.json`);
-      if (!res.ok) throw new Error("Chunk " + i + " failed");
-      const data = await res.json();
-      chunkCache.set(i, data);
-      return data;
-    } finally {
-      loadingChunks.delete(i);
+      await loadingPromise;
+    } catch (err) {
+      loadingPromise = null;
+      console.error(err);
+      setStatus(
+        "Could not load dictionary. Check your connection and try again.",
+        "error"
+      );
+      throw err;
     }
   }
 
-  /** Binary search for the chunk that may contain a word (by first/last). */
-  function findChunkForWord(word) {
-    if (!index.length) return -1;
-    let lo = 0, hi = index.length - 1;
+  /** Binary search for exact word */
+  function findExact(word) {
+    let lo = 0,
+      hi = entries.length - 1;
     while (lo <= hi) {
       const mid = (lo + hi) >> 1;
-      const c = index[mid];
-      if (word < c.first) hi = mid - 1;
-      else if (word > c.last) lo = mid + 1;
-      else return mid;
+      const cmp = entries[mid].w.localeCompare(word, "ne");
+      if (cmp === 0) return entries[mid];
+      if (cmp < 0) lo = mid + 1;
+      else hi = mid - 1;
     }
-    // nearest for prefix suggestions
-    return Math.max(0, Math.min(lo, index.length - 1));
+    // Fallback to Map (handles any localeCompare edge cases)
+    const i = wordIndex.get(word);
+    return i !== undefined ? entries[i] : null;
   }
 
-  /** Find chunks that can contain any word starting with prefix. */
-  function findChunksForPrefix(prefix) {
-    if (!prefix || !index.length) return [];
-    const ids = new Set();
-    // exact range + a couple neighbours for safety with sorting edge cases
-    const primary = findChunkForWord(prefix);
-    ids.add(primary);
-    if (primary > 0) ids.add(primary - 1);
-    if (primary < index.length - 1) ids.add(primary + 1);
-
-    // also check last of previous and first of next more carefully
-    for (let i = 0; i < index.length; i++) {
-      const c = index[i];
-      // if prefix is between first and last, or first starts with prefix, or last starts with prefix
-      if (
-        (prefix >= c.first && prefix <= c.last) ||
-        c.first.startsWith(prefix) ||
-        c.last.startsWith(prefix) ||
-        (c.first < prefix && c.last > prefix)
-      ) {
-        ids.add(i);
-      }
+  /** Collect words that start with prefix (binary-search start then scan) */
+  function findPrefix(prefix, limit = 12) {
+    if (!prefix) return [];
+    let lo = 0,
+      hi = entries.length - 1;
+    // Find first entry >= prefix
+    while (lo < hi) {
+      const mid = (lo + hi) >> 1;
+      if (entries[mid].w.localeCompare(prefix, "ne") < 0) lo = mid + 1;
+      else hi = mid;
     }
-    return Array.from(ids).sort((a, b) => a - b);
+    const results = [];
+    for (let i = lo; i < entries.length && results.length < limit; i++) {
+      if (entries[i].w.startsWith(prefix)) results.push(entries[i].w);
+      else if (entries[i].w.localeCompare(prefix, "ne") > 0) break;
+    }
+    return results;
   }
 
   async function searchExact(word) {
@@ -120,54 +179,21 @@
       setStatus("");
       return;
     }
-    await loadIndex();
-    const chunkId = findChunkForWord(word);
-    if (chunkId < 0) {
-      showNotFound(word);
+    try {
+      await loadDictionary();
+    } catch {
       return;
     }
+
     setStatus("Looking up…", "loading");
     hideEmpty();
-    try {
-      const chunk = await loadChunk(chunkId);
-      // binary search inside chunk
-      let lo = 0, hi = chunk.length - 1;
-      let found = null;
-      while (lo <= hi) {
-        const mid = (lo + hi) >> 1;
-        const cmp = chunk[mid].w.localeCompare(word);
-        if (cmp === 0) {
-          found = chunk[mid];
-          break;
-        }
-        if (cmp < 0) lo = mid + 1;
-        else hi = mid - 1;
-      }
-      // linear fallback for exact (handles rare sort quirks)
-      if (!found) {
-        found = chunk.find((e) => e.w === word) || null;
-      }
-      if (found) {
-        renderEntry(found);
-        setStatus("");
-      } else {
-        // try neighbouring chunks
-        for (const nid of [chunkId - 1, chunkId + 1]) {
-          if (nid < 0 || nid >= index.length) continue;
-          const nchunk = await loadChunk(nid);
-          const hit = nchunk.find((e) => e.w === word);
-          if (hit) {
-            renderEntry(hit);
-            setStatus("");
-            return;
-          }
-        }
-        showNotFound(word);
-      }
-    } catch (err) {
-      console.error(err);
-      setStatus("Could not load dictionary data. Check your connection and try again.", "error");
-      showEmpty();
+
+    const found = findExact(word);
+    if (found) {
+      renderEntry(found);
+      setStatus("");
+    } else {
+      showNotFound(word);
     }
   }
 
@@ -187,7 +213,7 @@
     resultEl.hidden = false;
     const defs = entry.d || [];
     let html = `<h2 class="entry-word" lang="ne">${escapeHtml(entry.w)}</h2>`;
-    defs.forEach((def, idx) => {
+    defs.forEach((def) => {
       html += `<div class="def-block">`;
       html += `<div class="def-meta">`;
       if (def.g) html += `<span class="grammar">${escapeHtml(def.g)}</span>`;
@@ -196,7 +222,6 @@
       if (def.s && def.s.length) {
         html += `<ol class="senses" lang="ne">`;
         def.s.forEach((sense) => {
-          // senses often already start with १. २. etc — keep as-is
           html += `<li>${escapeHtml(sense)}</li>`;
         });
         html += `</ol>`;
@@ -206,14 +231,6 @@
     resultEl.innerHTML = html;
   }
 
-  function escapeHtml(str) {
-    return String(str)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;");
-  }
-
   async function getSuggestions(prefix) {
     prefix = (prefix || "").trim();
     if (prefix.length < 1) {
@@ -221,27 +238,12 @@
       renderSuggestions();
       return;
     }
-    await loadIndex();
-    const chunkIds = findChunksForPrefix(prefix);
-    const matches = [];
-    const limit = 12;
-
-    for (const id of chunkIds) {
-      if (matches.length >= limit) break;
-      try {
-        const chunk = await loadChunk(id);
-        for (const e of chunk) {
-          if (e.w.startsWith(prefix)) {
-            matches.push(e.w);
-            if (matches.length >= limit) break;
-          }
-        }
-      } catch (_) {
-        /* ignore individual chunk failure for suggestions */
-      }
+    try {
+      await loadDictionary();
+    } catch {
+      return;
     }
-    // unique + sort
-    currentSuggestions = [...new Set(matches)].sort((a, b) => a.localeCompare(b)).slice(0, limit);
+    currentSuggestions = findPrefix(prefix, 12);
     renderSuggestions();
   }
 
@@ -275,29 +277,17 @@
   }
 
   async function randomWord() {
-    await loadIndex();
-    setStatus("Picking a random word…", "loading");
     try {
-      const total = index.reduce((s, c) => s + c.count, 0);
-      let r = Math.floor(Math.random() * total);
-      let chunkId = 0;
-      for (let i = 0; i < index.length; i++) {
-        if (r < index[i].count) {
-          chunkId = i;
-          break;
-        }
-        r -= index[i].count;
-      }
-      const chunk = await loadChunk(chunkId);
-      const entry = chunk[Math.min(r, chunk.length - 1)];
-      input.value = entry.w;
-      renderEntry(entry);
-      setStatus("");
-      suggestionsEl.classList.remove("open");
-    } catch (err) {
-      console.error(err);
-      setStatus("Could not load a random word.", "error");
+      await loadDictionary();
+    } catch {
+      return;
     }
+    if (!entries.length) return;
+    const entry = entries[Math.floor(Math.random() * entries.length)];
+    input.value = entry.w;
+    renderEntry(entry);
+    setStatus("");
+    suggestionsEl.classList.remove("open");
   }
 
   // Events
@@ -311,7 +301,7 @@
       setStatus("");
       return;
     }
-    debounceTimer = setTimeout(() => getSuggestions(q), 180);
+    debounceTimer = setTimeout(() => getSuggestions(q), 200);
   });
 
   input.addEventListener("keydown", (e) => {
@@ -377,7 +367,7 @@
     input.value = initial;
     searchExact(initial);
   } else {
-    // warm the index quietly
-    loadIndex().catch(() => {});
+    // Preload in background so first search is fast
+    loadDictionary().catch(() => {});
   }
 })();
