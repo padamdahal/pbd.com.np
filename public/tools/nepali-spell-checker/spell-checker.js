@@ -1,7 +1,7 @@
 /**
  * Nepali Unicode Spell Checker
  * Dictionary stems: Madan Puraskar Pustakalaya (ne_NP Hunspell, LGPL 2.1)
- * via wooorm/dictionaries
+ * via wooorm/dictionaries (CDN)
  */
 (function () {
   "use strict";
@@ -26,7 +26,7 @@
   let ready = false;
 
   function loadDict() {
-    if (window.NEPALI_WORDS) {
+    if (window.NEPALI_WORDS && window.NEPALI_WORDS.size > 0) {
       dict = window.NEPALI_WORDS;
       ready = true;
       return true;
@@ -211,10 +211,10 @@
 
   function escapeHtml(s) {
     return String(s)
-      .replace(/&/g, "&")
-      .replace(/</g, "<")
-      .replace(/>/g, ">")
-      .replace(/"/g, """);
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
   }
   function escapeAttr(s) {
     return escapeHtml(s).replace(/'/g, "&#39;");
@@ -357,6 +357,11 @@
     statusEl.className = "hint";
   }
 
+  function setErrorStatus(msg) {
+    statusEl.textContent = msg || "Failed to load dictionary. Refresh the page.";
+    statusEl.className = "hint error";
+  }
+
   function init() {
     if (loadDict()) {
       setReadyStatus();
@@ -364,31 +369,32 @@
     }
     statusEl.textContent = "Dictionary loading…";
     statusEl.className = "hint";
+
+    function onReady() {
+      if (loadDict()) setReadyStatus();
+    }
+    function onError() {
+      setErrorStatus(window.__NEPALI_DICT_ERROR || "Failed to load dictionary.");
+    }
+    window.addEventListener("nepali-dict-ready", onReady);
+    window.addEventListener("nepali-dict-error", onError);
+
     let attempts = 0;
-    const maxAttempts = 40;
-    const poll = setInterval(() => {
+    const poll = setInterval(function () {
       attempts++;
       if (loadDict()) {
         clearInterval(poll);
         setReadyStatus();
         return;
       }
-      if (attempts >= maxAttempts) {
+      if (window.__NEPALI_DICT_ERROR) {
         clearInterval(poll);
-        const s = document.createElement("script");
-        s.src = "nepali-words.js";
-        s.onload = () => {
-          if (loadDict()) setReadyStatus();
-          else {
-            statusEl.textContent = "Failed to load dictionary.";
-            statusEl.className = "hint error";
-          }
-        };
-        s.onerror = () => {
-          statusEl.textContent = "Failed to load dictionary.";
-          statusEl.className = "hint error";
-        };
-        document.head.appendChild(s);
+        setErrorStatus(window.__NEPALI_DICT_ERROR);
+        return;
+      }
+      if (attempts >= 80) {
+        clearInterval(poll);
+        if (!ready) setErrorStatus("Dictionary is taking too long. Check network and refresh.");
       }
     }, 250);
   }
