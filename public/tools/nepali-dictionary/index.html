@@ -66,7 +66,7 @@
         "name": "Does the dictionary work offline?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "After the needed data chunks load in your browser, lookups stay local. No account or internet is required for subsequent searches of already-loaded ranges."
+          "text": "After the dictionary file loads in your browser (about 4.4 MB compressed), all lookups stay local. No account is required and searches never leave your device."
         }
       },
       {
@@ -74,7 +74,7 @@
         "name": "Is my search data sent to a server?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "No. All searching happens in your browser. The tool only fetches static dictionary files; your typed words never leave your device."
+          "text": "No. All searching happens in your browser. The tool only fetches the public dictionary file; your typed words never leave your device."
         }
       },
       {
@@ -357,7 +357,7 @@
     </div>
 
     <div class="tip-box" style="margin-top:16px">
-      <strong>Tip:</strong> Data is loaded on demand by letter range. The first search may take a moment; later lookups in the same range are instant.
+      <strong>Tip:</strong> On first visit the full Brihat Sabdakosh (~4.4&nbsp;MB compressed) is downloaded and decompressed in your browser. After that, all lookups are instant and offline.
     </div>
 
     <section>
@@ -377,15 +377,15 @@
       </details>
       <details class="faq-item">
         <summary>Does it work offline?</summary>
-        <p>Yes for ranges you have already loaded. After a chunk is fetched it stays in memory for the session. A service worker may also cache files for repeat visits.</p>
+        <p>Yes after the initial download. The full dictionary stays in memory for the session. A service worker may also cache the page for repeat visits.</p>
       </details>
       <details class="faq-item">
         <summary>Is searching private?</summary>
-        <p>Completely. Your queries never leave the browser. Only static JSON dictionary files are downloaded.</p>
+        <p>Completely. Your queries never leave the browser. Only the public dictionary file is downloaded.</p>
       </details>
       <details class="faq-item">
         <summary>Why is the first search sometimes slow?</summary>
-        <p>Dictionary data is split into ~30 chunks (~900&nbsp;KB each). Only the chunk that contains your word is downloaded. Subsequent searches in the same range are instant.</p>
+        <p>The full dictionary (~4.4 MB compressed) is downloaded once on first use. Decompression and indexing take a few seconds on most devices. After that every search is instant.</p>
       </details>
       <details class="faq-item">
         <summary>What do abbreviations like ना. and क्रि. mean?</summary>
