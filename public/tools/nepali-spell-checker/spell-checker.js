@@ -19,7 +19,7 @@
     ["ं", "ँ"], ["ँ", "ं"],
     ["स", "श"], ["श", "स"],
     ["ष्", "स्"], ["स्", "ष्"],
-    ["क्ष", "छ"], // occasional confusions
+    ["क्ष", "छ"],
   ];
 
   let dict = null;
@@ -37,7 +37,6 @@
   function isCorrect(word) {
     if (!dict) return true;
     if (dict.has(word)) return true;
-    // Allow pure digits
     if (/^[०-९]+$/.test(word)) return true;
     return false;
   }
@@ -64,11 +63,9 @@
 
   function generateCandidates(word) {
     const candidates = new Set();
-    // Common replacement pairs
     for (const [from, to] of COMMON_REPLACEMENTS) {
       if (word.includes(from)) {
         candidates.add(word.replace(from, to));
-        // try all occurrences (simple: replace first then rest via loop if needed)
         let idx = 0;
         let w = word;
         while ((idx = w.indexOf(from, idx)) !== -1) {
@@ -77,15 +74,12 @@
         }
       }
     }
-    // Single char delete
     for (let i = 0; i < word.length; i++) {
       candidates.add(word.slice(0, i) + word.slice(i + 1));
     }
-    // Adjacent transpose
     for (let i = 0; i < word.length - 1; i++) {
       candidates.add(word.slice(0, i) + word[i + 1] + word[i] + word.slice(i + 2));
     }
-    // Substitute with common chars (limited)
     const commonChars = "ािीुूेैोौंःँअआइईउऊएऐओऔकखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसहक्षत्रज्ञ";
     for (let i = 0; i < word.length; i++) {
       for (const ch of commonChars) {
@@ -94,7 +88,6 @@
         }
       }
     }
-    // Insert common (limited positions)
     for (let i = 0; i <= word.length; i++) {
       for (const ch of "ािीुूेैोौंःँ") {
         candidates.add(word.slice(0, i) + ch + word.slice(i));
@@ -113,12 +106,11 @@
         if (dist <= 2) scored.push({ word: c, dist });
       }
     }
-    // Also scan dict for close length words if few suggestions (expensive, limit)
     if (scored.length < 3) {
       const len = word.length;
       let checked = 0;
       for (const d of dict) {
-        if (checked++ > 8000) break; // safety
+        if (checked++ > 8000) break;
         if (Math.abs(d.length - len) > 1) continue;
         const dist = levenshtein(word, d, 1);
         if (dist <= 1 && d !== word) {
@@ -177,7 +169,6 @@
     return { tokens, errors, wordCount };
   }
 
-  // UI
   const inputEl = document.getElementById("spell-input");
   const resultEl = document.getElementById("spell-result");
   const statusEl = document.getElementById("spell-status");
@@ -207,7 +198,6 @@
     }
     resultEl.innerHTML = html || "<span class='hint'>No text to check.</span>";
 
-    // click handlers for suggestions
     resultEl.querySelectorAll(".misspelled").forEach((el) => {
       el.addEventListener("click", () => showSuggestions(el));
       el.addEventListener("keydown", (e) => {
@@ -247,14 +237,16 @@
     activePopup = pop;
 
     const rect = el.getBoundingClientRect();
-    pop.style.left = Math.min(rect.left, window.innerWidth - 220) + "px";
-    pop.style.top = rect.bottom + window.scrollY + 6 + "px";
+    const top = rect.bottom + window.scrollY + 4;
+    let left = rect.left + window.scrollX;
+    if (left + 220 > window.innerWidth) left = window.innerWidth - 240;
+    pop.style.top = top + "px";
+    pop.style.left = Math.max(8, left) + "px";
 
     pop.querySelectorAll(".sug-item").forEach((btn) => {
       btn.addEventListener("click", () => {
         const replacement = btn.dataset.replace;
         const text = inputEl.value;
-        // replace first occurrence of this exact word (simple)
         const re = new RegExp(escapeRegExp(word));
         inputEl.value = text.replace(re, replacement);
         closePopup();
@@ -263,15 +255,15 @@
     });
 
     setTimeout(() => {
-      document.addEventListener("click", outsideClose, { once: true });
-    }, 10);
+      document.addEventListener("click", onOutside, { once: true });
+    }, 0);
   }
 
   function escapeRegExp(s) {
     return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   }
 
-  function outsideClose(e) {
+  function onOutside(e) {
     if (activePopup && !activePopup.contains(e.target)) closePopup();
   }
 
@@ -342,7 +334,6 @@
           copyBtn.classList.remove("copied");
         }, 1600);
       } catch {
-        // fallback
         inputEl.select();
         document.execCommand("copy");
       }
@@ -358,26 +349,48 @@
 
   inputEl.addEventListener("input", scheduleCheck);
 
-  // init
+  function setReadyStatus() {
+    const n = dict ? dict.size : 0;
+    statusEl.textContent = n
+      ? `Ready · ${n.toLocaleString("en-NP")} Nepali stems loaded. Type or paste text.`
+      : "Ready. Type or paste Nepali Unicode text.";
+    statusEl.className = "hint";
+  }
+
   function init() {
     if (loadDict()) {
-      statusEl.textContent = "Ready. Type or paste Nepali Unicode text.";
-      statusEl.className = "hint";
-    } else {
-      // wait for script
-      const s = document.createElement("script");
-      s.src = "nepali-words.js";
-      s.onload = () => {
-        loadDict();
-        statusEl.textContent = "Dictionary loaded. Ready.";
-        statusEl.className = "hint";
-      };
-      s.onerror = () => {
-        statusEl.textContent = "Failed to load dictionary.";
-        statusEl.className = "hint error";
-      };
-      document.head.appendChild(s);
+      setReadyStatus();
+      return;
     }
+    statusEl.textContent = "Dictionary loading…";
+    statusEl.className = "hint";
+    let attempts = 0;
+    const maxAttempts = 40;
+    const poll = setInterval(() => {
+      attempts++;
+      if (loadDict()) {
+        clearInterval(poll);
+        setReadyStatus();
+        return;
+      }
+      if (attempts >= maxAttempts) {
+        clearInterval(poll);
+        const s = document.createElement("script");
+        s.src = "nepali-words.js";
+        s.onload = () => {
+          if (loadDict()) setReadyStatus();
+          else {
+            statusEl.textContent = "Failed to load dictionary.";
+            statusEl.className = "hint error";
+          }
+        };
+        s.onerror = () => {
+          statusEl.textContent = "Failed to load dictionary.";
+          statusEl.className = "hint error";
+        };
+        document.head.appendChild(s);
+      }
+    }, 250);
   }
 
   if (document.readyState === "loading") {
