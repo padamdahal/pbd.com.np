@@ -50,7 +50,6 @@
 
   function cleanSense(s) {
     if (!s) return "";
-    // Strip residual HTML tags that appear in the original dump
     return s
       .replace(/<[^>]+>/g, "")
       .replace(/&nbsp;/g, " ")
@@ -58,7 +57,6 @@
       .trim();
   }
 
-  /** Normalize original Brihat Sabdakosh entry → compact form */
   function normalizeEntry(raw) {
     const word = (raw.word || "").trim();
     if (!word) return null;
@@ -85,34 +83,43 @@
       setStatus("Downloading dictionary (4.4 MB)…", "loading");
       countEl.textContent = "loading…";
 
-      const res = await fetch(SOURCE_URL);
-      if (!res.ok) throw new Error("Download failed: " + res.status);
+      if (typeof DecompressionStream === "undefined") {
+        throw new Error("Your browser does not support DecompressionStream. Please use a modern browser (Chrome, Firefox, Safari, Edge).");
+      }
+
+      const res = await fetch(SOURCE_URL, { mode: "cors", credentials: "omit" });
+      if (!res.ok) throw new Error("Download failed (" + res.status + "). The dictionary source may be temporarily unavailable.");
 
       setStatus("Decompressing…", "loading");
 
-      // Native gzip decompression (Chrome 80+, Firefox 113+, Safari 16.4+)
       const ds = new DecompressionStream("gzip");
       const decompressedStream = res.body.pipeThrough(ds);
       const text = await new Response(decompressedStream).text();
 
       setStatus("Parsing 120,000+ entries…", "loading");
 
-      const raw = JSON.parse(text);
+      let raw;
+      try {
+        raw = JSON.parse(text);
+      } catch (parseErr) {
+        throw new Error("Failed to parse dictionary data.");
+      }
+      if (!Array.isArray(raw) || !raw.length) {
+        throw new Error("Dictionary data is empty or invalid.");
+      }
+
       const list = [];
       const idx = new Map();
 
       for (const item of raw) {
         const entry = normalizeEntry(item);
         if (!entry) continue;
-        // Keep first occurrence if duplicates exist
         if (idx.has(entry.w)) continue;
         idx.set(entry.w, list.length);
         list.push(entry);
       }
 
-      // Sort for binary search / prefix suggestions
       list.sort((a, b) => a.w.localeCompare(b.w, "ne"));
-      // Rebuild index after sort
       idx.clear();
       list.forEach((e, i) => idx.set(e.w, i));
 
@@ -121,7 +128,8 @@
       loaded = true;
 
       countEl.textContent = entries.length.toLocaleString("en-NP") + " words";
-      setStatus("");
+      setStatus("Ready — " + entries.length.toLocaleString("en-NP") + " words loaded");
+      setTimeout(() => { if (statusEl.textContent.startsWith("Ready")) setStatus(""); }, 2500);
     })();
 
     try {
@@ -130,14 +138,13 @@
       loadingPromise = null;
       console.error(err);
       setStatus(
-        "Could not load dictionary. Check your connection and try again.",
+        (err && err.message) || "Could not load dictionary. Check your connection and try again.",
         "error"
       );
       throw err;
     }
   }
 
-  /** Binary search for exact word */
   function findExact(word) {
     let lo = 0,
       hi = entries.length - 1;
@@ -148,17 +155,14 @@
       if (cmp < 0) lo = mid + 1;
       else hi = mid - 1;
     }
-    // Fallback to Map (handles any localeCompare edge cases)
     const i = wordIndex.get(word);
     return i !== undefined ? entries[i] : null;
   }
 
-  /** Collect words that start with prefix (binary-search start then scan) */
   function findPrefix(prefix, limit = 12) {
     if (!prefix) return [];
     let lo = 0,
       hi = entries.length - 1;
-    // Find first entry >= prefix
     while (lo < hi) {
       const mid = (lo + hi) >> 1;
       if (entries[mid].w.localeCompare(prefix, "ne") < 0) lo = mid + 1;
@@ -290,7 +294,6 @@
     suggestionsEl.classList.remove("open");
   }
 
-  // Events
   input.addEventListener("input", () => {
     clearTimeout(debounceTimer);
     const q = input.value.trim();
@@ -360,14 +363,12 @@
     });
   });
 
-  // Deep-link support: ?q=किरण
   const params = new URLSearchParams(location.search);
   const initial = params.get("q") || params.get("word");
   if (initial) {
     input.value = initial;
     searchExact(initial);
   } else {
-    // Preload in background so first search is fast
     loadDictionary().catch(() => {});
   }
 })();
