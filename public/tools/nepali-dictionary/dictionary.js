@@ -1,15 +1,14 @@
 (() => {
   "use strict";
 
-  const SOURCE_URL =
-    "https://raw.githubusercontent.com/bikashpadhikari/nepali-brihat-sabdakosh-json/main/sabdakosh.json.gz";
+  const BASE = "/tools/nepali-dictionary/";
+  const CHUNK_SIZE = 4000;
 
-  /** @type {Array<{w:string, d:Array<{g?:string, e?:string, s:string[]}>}>} */
-  let entries = [];
-  /** @type {Map<string, number>} word → index in entries */
-  let wordIndex = new Map();
-  let loaded = false;
-  let loadingPromise = null;
+  /** @type {{i:number, first:string, last:string, count:number}[]} */
+  let index = [];
+  /** @type {Map<number, Array<{w:string, d:Array<{g?:string, e?:string, s:string[]}>}>>} */
+  const chunkCache = new Map();
+  let loadingChunks = new Set();
 
   const input = document.getElementById("dict-input");
   const suggestionsEl = document.getElementById("suggestions");
@@ -40,140 +39,70 @@
     emptyEl.hidden = true;
   }
 
-  function escapeHtml(str) {
-    return String(str)
-      .replace(/&/g, "&")
-      .replace(/</g, "<")
-      .replace(/>/g, ">")
-      .replace(/"/g, """);
+  async function loadIndex() {
+    if (index.length) return index;
+    setStatus("Loading dictionary index…", "loading");
+    const res = await fetch(BASE + "index.json");
+    if (!res.ok) throw new Error("Could not load index");
+    index = await res.json();
+    const total = index.reduce((s, c) => s + c.count, 0);
+    countEl.textContent = total.toLocaleString("en-NP") + " words";
+    setStatus("");
+    return index;
   }
 
-  function cleanSense(s) {
-    if (!s) return "";
-    return s
-      .replace(/<[^>]+>/g, "")
-      .replace(/&nbsp;/g, " ")
-      .replace(/\s+/g, " ")
-      .trim();
-  }
-
-  function normalizeEntry(raw) {
-    const word = (raw.word || "").trim();
-    if (!word) return null;
-    const defs = [];
-    for (const d of raw.definitions || []) {
-      const senses = (d.senses || [])
-        .map(cleanSense)
-        .filter(Boolean);
-      if (!senses.length) continue;
-      const nd = { s: senses };
-      if (d.grammar) nd.g = d.grammar;
-      if (d.etymology) nd.e = d.etymology;
-      defs.push(nd);
+  async function loadChunk(i) {
+    if (chunkCache.has(i)) return chunkCache.get(i);
+    if (loadingChunks.has(i)) {
+      while (loadingChunks.has(i)) {
+        await new Promise((r) => setTimeout(r, 50));
+      }
+      return chunkCache.get(i);
     }
-    if (!defs.length) return null;
-    return { w: word, d: defs };
-  }
-
-  async function loadDictionary() {
-    if (loaded) return;
-    if (loadingPromise) return loadingPromise;
-
-    loadingPromise = (async () => {
-      setStatus("Downloading dictionary (4.4 MB)…", "loading");
-      countEl.textContent = "loading…";
-
-      if (typeof DecompressionStream === "undefined") {
-        throw new Error("Your browser does not support DecompressionStream. Please use a modern browser (Chrome, Firefox, Safari, Edge).");
-      }
-
-      const res = await fetch(SOURCE_URL, { mode: "cors", credentials: "omit" });
-      if (!res.ok) throw new Error("Download failed (" + res.status + "). The dictionary source may be temporarily unavailable.");
-
-      setStatus("Decompressing…", "loading");
-
-      const ds = new DecompressionStream("gzip");
-      const decompressedStream = res.body.pipeThrough(ds);
-      const text = await new Response(decompressedStream).text();
-
-      setStatus("Parsing 120,000+ entries…", "loading");
-
-      let raw;
-      try {
-        raw = JSON.parse(text);
-      } catch (parseErr) {
-        throw new Error("Failed to parse dictionary data.");
-      }
-      if (!Array.isArray(raw) || !raw.length) {
-        throw new Error("Dictionary data is empty or invalid.");
-      }
-
-      const list = [];
-      const idx = new Map();
-
-      for (const item of raw) {
-        const entry = normalizeEntry(item);
-        if (!entry) continue;
-        if (idx.has(entry.w)) continue;
-        idx.set(entry.w, list.length);
-        list.push(entry);
-      }
-
-      list.sort((a, b) => a.w.localeCompare(b.w, "ne"));
-      idx.clear();
-      list.forEach((e, i) => idx.set(e.w, i));
-
-      entries = list;
-      wordIndex = idx;
-      loaded = true;
-
-      countEl.textContent = entries.length.toLocaleString("en-NP") + " words";
-      setStatus("Ready — " + entries.length.toLocaleString("en-NP") + " words loaded");
-      setTimeout(() => { if (statusEl.textContent.startsWith("Ready")) setStatus(""); }, 2500);
-    })();
-
+    loadingChunks.add(i);
     try {
-      await loadingPromise;
-    } catch (err) {
-      loadingPromise = null;
-      console.error(err);
-      setStatus(
-        (err && err.message) || "Could not load dictionary. Check your connection and try again.",
-        "error"
-      );
-      throw err;
+      const res = await fetch(BASE + `dict-${i}.json`);
+      if (!res.ok) throw new Error("Chunk " + i + " failed");
+      const data = await res.json();
+      chunkCache.set(i, data);
+      return data;
+    } finally {
+      loadingChunks.delete(i);
     }
   }
 
-  function findExact(word) {
-    let lo = 0,
-      hi = entries.length - 1;
+  function findChunkForWord(word) {
+    if (!index.length) return -1;
+    let lo = 0, hi = index.length - 1;
     while (lo <= hi) {
       const mid = (lo + hi) >> 1;
-      const cmp = entries[mid].w.localeCompare(word, "ne");
-      if (cmp === 0) return entries[mid];
-      if (cmp < 0) lo = mid + 1;
-      else hi = mid - 1;
+      const c = index[mid];
+      if (word < c.first) hi = mid - 1;
+      else if (word > c.last) lo = mid + 1;
+      else return mid;
     }
-    const i = wordIndex.get(word);
-    return i !== undefined ? entries[i] : null;
+    return Math.max(0, Math.min(lo, index.length - 1));
   }
 
-  function findPrefix(prefix, limit = 12) {
-    if (!prefix) return [];
-    let lo = 0,
-      hi = entries.length - 1;
-    while (lo < hi) {
-      const mid = (lo + hi) >> 1;
-      if (entries[mid].w.localeCompare(prefix, "ne") < 0) lo = mid + 1;
-      else hi = mid;
+  function findChunksForPrefix(prefix) {
+    if (!prefix || !index.length) return [];
+    const ids = new Set();
+    const primary = findChunkForWord(prefix);
+    ids.add(primary);
+    if (primary > 0) ids.add(primary - 1);
+    if (primary < index.length - 1) ids.add(primary + 1);
+    for (let i = 0; i < index.length; i++) {
+      const c = index[i];
+      if (
+        (prefix >= c.first && prefix <= c.last) ||
+        c.first.startsWith(prefix) ||
+        c.last.startsWith(prefix) ||
+        (c.first < prefix && c.last > prefix)
+      ) {
+        ids.add(i);
+      }
     }
-    const results = [];
-    for (let i = lo; i < entries.length && results.length < limit; i++) {
-      if (entries[i].w.startsWith(prefix)) results.push(entries[i].w);
-      else if (entries[i].w.localeCompare(prefix, "ne") > 0) break;
-    }
-    return results;
+    return Array.from(ids).sort((a, b) => a - b);
   }
 
   async function searchExact(word) {
@@ -183,21 +112,51 @@
       setStatus("");
       return;
     }
-    try {
-      await loadDictionary();
-    } catch {
+    await loadIndex();
+    const chunkId = findChunkForWord(word);
+    if (chunkId < 0) {
+      showNotFound(word);
       return;
     }
-
     setStatus("Looking up…", "loading");
     hideEmpty();
-
-    const found = findExact(word);
-    if (found) {
-      renderEntry(found);
-      setStatus("");
-    } else {
-      showNotFound(word);
+    try {
+      const chunk = await loadChunk(chunkId);
+      let lo = 0, hi = chunk.length - 1;
+      let found = null;
+      while (lo <= hi) {
+        const mid = (lo + hi) >> 1;
+        const cmp = chunk[mid].w.localeCompare(word);
+        if (cmp === 0) {
+          found = chunk[mid];
+          break;
+        }
+        if (cmp < 0) lo = mid + 1;
+        else hi = mid - 1;
+      }
+      if (!found) {
+        found = chunk.find((e) => e.w === word) || null;
+      }
+      if (found) {
+        renderEntry(found);
+        setStatus("");
+      } else {
+        for (const nid of [chunkId - 1, chunkId + 1]) {
+          if (nid < 0 || nid >= index.length) continue;
+          const nchunk = await loadChunk(nid);
+          const hit = nchunk.find((e) => e.w === word);
+          if (hit) {
+            renderEntry(hit);
+            setStatus("");
+            return;
+          }
+        }
+        showNotFound(word);
+      }
+    } catch (err) {
+      console.error(err);
+      setStatus("Could not load dictionary data. Check your connection and try again.", "error");
+      showEmpty();
     }
   }
 
@@ -235,6 +194,14 @@
     resultEl.innerHTML = html;
   }
 
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, "&")
+      .replace(/</g, "<")
+      .replace(/>/g, ">")
+      .replace(/"/g, """);
+  }
+
   async function getSuggestions(prefix) {
     prefix = (prefix || "").trim();
     if (prefix.length < 1) {
@@ -242,12 +209,23 @@
       renderSuggestions();
       return;
     }
-    try {
-      await loadDictionary();
-    } catch {
-      return;
+    await loadIndex();
+    const chunkIds = findChunksForPrefix(prefix);
+    const matches = [];
+    const limit = 12;
+    for (const id of chunkIds) {
+      if (matches.length >= limit) break;
+      try {
+        const chunk = await loadChunk(id);
+        for (const e of chunk) {
+          if (e.w.startsWith(prefix)) {
+            matches.push(e.w);
+            if (matches.length >= limit) break;
+          }
+        }
+      } catch (_) {}
     }
-    currentSuggestions = findPrefix(prefix, 12);
+    currentSuggestions = [...new Set(matches)].sort((a, b) => a.localeCompare(b)).slice(0, limit);
     renderSuggestions();
   }
 
@@ -281,17 +259,29 @@
   }
 
   async function randomWord() {
+    await loadIndex();
+    setStatus("Picking a random word…", "loading");
     try {
-      await loadDictionary();
-    } catch {
-      return;
+      const total = index.reduce((s, c) => s + c.count, 0);
+      let r = Math.floor(Math.random() * total);
+      let chunkId = 0;
+      for (let i = 0; i < index.length; i++) {
+        if (r < index[i].count) {
+          chunkId = i;
+          break;
+        }
+        r -= index[i].count;
+      }
+      const chunk = await loadChunk(chunkId);
+      const entry = chunk[Math.min(r, chunk.length - 1)];
+      input.value = entry.w;
+      renderEntry(entry);
+      setStatus("");
+      suggestionsEl.classList.remove("open");
+    } catch (err) {
+      console.error(err);
+      setStatus("Could not load a random word.", "error");
     }
-    if (!entries.length) return;
-    const entry = entries[Math.floor(Math.random() * entries.length)];
-    input.value = entry.w;
-    renderEntry(entry);
-    setStatus("");
-    suggestionsEl.classList.remove("open");
   }
 
   input.addEventListener("input", () => {
@@ -304,7 +294,7 @@
       setStatus("");
       return;
     }
-    debounceTimer = setTimeout(() => getSuggestions(q), 200);
+    debounceTimer = setTimeout(() => getSuggestions(q), 180);
   });
 
   input.addEventListener("keydown", (e) => {
@@ -369,6 +359,6 @@
     input.value = initial;
     searchExact(initial);
   } else {
-    loadDictionary().catch(() => {});
+    loadIndex().catch(() => {});
   }
 })();
