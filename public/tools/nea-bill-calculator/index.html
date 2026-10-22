@@ -1,0 +1,656 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b7285">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="PBD">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/icon-512.png">
+  <title>NEA Bill Calculator Nepal – Electricity Bill Estimator (FY 2083/84)</title>
+  <meta name="description" content="Free NEA electricity bill calculator for Nepal. Enter monthly units and meter ampere (5A/15A/30A/60A) to get progressive slab energy charge, service charge and 5% VAT. Accurate residential estimate, private and offline-capable.">
+  <link rel="canonical" href="https://pbd.com.np/tools/nea-bill-calculator/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="keywords" content="NEA bill calculator, Nepal electricity bill calculator, NEA tariff 2083, electricity unit price Nepal, NEA rate per unit, 15A meter bill, residential electricity tariff Nepal, bijuli bill calculator">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="PBD">
+  <meta property="og:title" content="NEA Bill Calculator Nepal – Electricity Bill Estimator">
+  <meta property="og:description" content="Estimate your NEA residential electricity bill with progressive slabs, service charge and 5% VAT. Free, private, works offline.">
+  <meta property="og:url" content="https://pbd.com.np/tools/nea-bill-calculator/">
+  <meta property="og:image" content="https://pbd.com.np/assets/og-default.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ne_NP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="NEA Bill Calculator Nepal">
+  <meta name="twitter:description" content="Estimate NEA residential electricity bill with slab breakdown and VAT.">
+  <meta name="twitter:image" content="https://pbd.com.np/assets/og-default.svg">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "NEA Bill Calculator Nepal",
+    "url": "https://pbd.com.np/tools/nea-bill-calculator/",
+    "description": "Estimate monthly Nepal Electricity Authority residential electricity bill using progressive tariff slabs, service charge and 5% VAT for households above 50 units.",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Any",
+    "browserRequirements": "Requires JavaScript",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "NPR" },
+    "publisher": { "@type": "Organization", "name": "Powered By Digital", "url": "https://pbd.com.np/" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How is the NEA electricity bill calculated in Nepal?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "NEA uses progressive slabs. Each block of units is charged at its own rate. You also pay a monthly service (minimum) charge that depends on your meter ampere rating and the highest slab your consumption reaches. From Shrawan 2083, 5% VAT applies on the energy charge for units above 50 for household consumers."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the current NEA rate per unit in Nepal?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "For a typical 15A residential meter: first 20 units Rs 4.00, 21–30 units Rs 6.50, 31–50 units Rs 8.00, 51–250 units Rs 9.50, and above 250 units Rs 11.00 per unit, plus a service charge of Rs 50–175 depending on total units."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is there VAT on NEA electricity bills?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. From Shrawan 1, 2083 (July 2026), household consumers pay 5% VAT only on the energy charge for units above 50. The first 50 units and the service charge remain VAT-exempt. Non-household consumers are subject to different VAT rules."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does this calculator match the official NEA bill?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It estimates the energy charge, service charge and household VAT using the published ERC/NEA residential tariff. Official bills may include additional items such as electricity duty, arrears, or local adjustments. Always treat the result as an estimate."
+        }
+      }
+    ]
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+  <style>
+    .conv-box {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: var(--s-5);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: .95rem;
+      font-weight: 700;
+      margin: 0 0 12px;
+      color: var(--text);
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 560px) {
+      .form-grid { grid-template-columns: 1fr; }
+    }
+    .field input, .field select {
+      padding: 10px 12px;
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+    .amp-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    .amp-row label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius-sm);
+      background: #fff;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: .95rem;
+    }
+    .amp-row input { margin: 0; }
+    .amp-row input:checked + span,
+    .amp-row label:has(input:checked) {
+      border-color: var(--primary);
+      background: #eef7f8;
+      color: var(--primary-dark);
+    }
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    @media (max-width: 520px) {
+      .result-grid { grid-template-columns: 1fr; }
+    }
+    .result-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+    }
+    .result-card.total {
+      grid-column: 1 / -1;
+      background: #eef7f8;
+      border-color: color-mix(in srgb, var(--primary) 30%, var(--line));
+    }
+    .result-card .label {
+      font-size: .85rem;
+      color: var(--muted);
+    }
+    .result-card .value {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-top: 2px;
+      font-variant-numeric: tabular-nums;
+    }
+    .result-card.total .value {
+      font-size: 1.55rem;
+      color: var(--primary-dark);
+    }
+    .slab-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .92rem;
+      margin-top: 8px;
+    }
+    .slab-table th, .slab-table td {
+      border: 1px solid var(--line);
+      padding: 8px 10px;
+      text-align: left;
+    }
+    .slab-table th { background: var(--surface); font-weight: 700; }
+    .slab-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+    .slab-table tr.active { background: color-mix(in srgb, var(--primary) 12%, transparent); }
+    .tip-box {
+      background: #eef7f8;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      margin: 16px 0;
+      font-size: .95rem;
+    }
+    .faq { margin-top: var(--s-5); }
+    .faq h2 { font-size: 1.15rem; }
+    .faq-item {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      margin-bottom: 8px;
+    }
+    .faq-item summary { cursor: pointer; font-weight: 600; }
+    .faq-item p { margin: 8px 0 4px; color: var(--muted); }
+    .note-sm { font-size: .88rem; color: var(--muted); margin-top: 8px; }
+    .related-tools { margin-top: 24px; font-size: .95rem; }
+    .related-tools a { margin-right: 12px; }
+    .meter-optional {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--line);
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632604868005505"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip" href="#tool">Skip to tool</a>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="/" aria-label="Powered By Digital (PBD) — Home">
+        <span class="logo-mark" aria-hidden="true">P</span>
+        <span class="brand-text">
+          <span class="brand-name">PBD</span>
+          <span class="brand-full">Powered By Digital</span>
+        </span>
+      </a>
+      <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+      <nav id="menu" class="site-nav" aria-label="Main navigation" role="navigation">
+        <a href="/">Home</a>
+        <a href="/#tools">Tools</a>
+        <a href="/#widgets">Widgets</a>
+        <a href="/#guides">Guides</a>
+        <a href="/about/">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="narrow" id="tool">
+    <div class="page-intro">
+      <h1>NEA Bill Calculator</h1>
+      <p class="lead">Estimate your Nepal Electricity Authority residential electricity bill. Enter monthly units (or meter readings) and select your meter ampere. See progressive slab energy charge, service charge and 5% VAT. Free, private and works offline.</p>
+    </div>
+
+    <div class="conv-box">
+      <div class="section-title">Consumption</div>
+      <div class="form-grid">
+        <div class="field">
+          <label for="units">Monthly units (kWh)</label>
+          <input type="number" id="units" min="0" step="1" inputmode="decimal" value="120" placeholder="e.g. 120">
+        </div>
+        <div class="field">
+          <label>Meter capacity</label>
+          <div class="amp-row" role="radiogroup" aria-label="Meter ampere">
+            <label><input type="radio" name="amp" value="5"> <span>5A</span></label>
+            <label><input type="radio" name="amp" value="15" checked> <span>15A</span></label>
+            <label><input type="radio" name="amp" value="30"> <span>30A</span></label>
+            <label><input type="radio" name="amp" value="60"> <span>60A</span></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="meter-optional">
+        <div class="section-title" style="margin-bottom:8px">Or calculate units from meter readings</div>
+        <div class="form-grid">
+          <div class="field">
+            <label for="prev">Previous reading</label>
+            <input type="number" id="prev" min="0" step="1" inputmode="decimal" placeholder="Optional">
+          </div>
+          <div class="field">
+            <label for="curr">Current reading</label>
+            <input type="number" id="curr" min="0" step="1" inputmode="decimal" placeholder="Optional">
+          </div>
+        </div>
+        <p class="note-sm">If both readings are filled, units = current − previous (overrides the units field).</p>
+      </div>
+
+      <div class="btn-row">
+        <button type="button" class="btn btn-primary" id="btn-calc">Calculate bill</button>
+        <button type="button" class="btn" id="btn-reset">Reset</button>
+      </div>
+    </div>
+
+    <div class="conv-box" id="results" hidden>
+      <div class="section-title">Estimated bill</div>
+      <div class="result-grid">
+        <div class="result-card total">
+          <div class="label">Total estimated bill</div>
+          <div class="value" id="r-total">—</div>
+        </div>
+        <div class="result-card">
+          <div class="label">Energy charge</div>
+          <div class="value" id="r-energy">—</div>
+        </div>
+        <div class="result-card">
+          <div class="label">Service charge</div>
+          <div class="value" id="r-service">—</div>
+        </div>
+        <div class="result-card">
+          <div class="label">VAT (5% on units &gt; 50)</div>
+          <div class="value" id="r-vat">—</div>
+        </div>
+        <div class="result-card">
+          <div class="label">Average cost / unit</div>
+          <div class="value" id="r-avg">—</div>
+        </div>
+      </div>
+      <p class="note-sm" id="r-note" style="margin-top:12px"></p>
+
+      <div class="section-title" style="margin-top:18px">Slab breakdown</div>
+      <table class="slab-table" id="slab-table">
+        <thead>
+          <tr>
+            <th>Slab (units)</th>
+            <th class="num">Rate</th>
+            <th class="num">Units in slab</th>
+            <th class="num">Charge</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="tip-box">
+      <strong>FY 2083/84 note:</strong> Residential rates follow the ERC-approved progressive tariff (in force since 2078 BS). From Shrawan 1, 2083, households pay 5% VAT only on the energy charge for units above 50. Service charge is VAT-exempt. This tool is an estimate — official NEA bills may include additional charges.
+    </div>
+
+    <div class="conv-box">
+      <div class="section-title">Reference – residential energy rates (approx.)</div>
+      <table class="slab-table">
+        <thead>
+          <tr>
+            <th>Units / month</th>
+            <th class="num">5A</th>
+            <th class="num">15A</th>
+            <th class="num">30A</th>
+            <th class="num">60A</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>0 – 20</td><td class="num">Free*</td><td class="num">Rs 4.00</td><td class="num">Rs 5.00</td><td class="num">Rs 6.00</td></tr>
+          <tr><td>21 – 30</td><td class="num">Rs 6.50</td><td class="num">Rs 6.50</td><td class="num">Rs 6.50</td><td class="num">Rs 6.50</td></tr>
+          <tr><td>31 – 50</td><td class="num">Rs 8.00</td><td class="num">Rs 8.00</td><td class="num">Rs 8.00</td><td class="num">Rs 8.00</td></tr>
+          <tr><td>51 – 250</td><td class="num">Rs 9.50</td><td class="num">Rs 9.50</td><td class="num">Rs 9.50</td><td class="num">Rs 9.50</td></tr>
+          <tr><td>Above 250</td><td class="num">Rs 11.00</td><td class="num">Rs 11.00</td><td class="num">Rs 11.00</td><td class="num">Rs 11.00</td></tr>
+        </tbody>
+      </table>
+      <p class="note-sm">*5A: first 20 units free only if total ≤ 20; if total exceeds 20, the first 20 are charged at Rs 3.00. Service charge also depends on the slab reached and ampere rating.</p>
+    </div>
+
+    <section class="faq" aria-label="FAQ">
+      <h2>Frequently asked questions</h2>
+      <details class="faq-item">
+        <summary>How is the NEA electricity bill calculated?</summary>
+        <p>NEA bills progressively: each slab of units is charged at its own rate. A monthly service (minimum) charge is then added based on your meter capacity and the highest slab your consumption reaches. From Shrawan 2083, 5% VAT is applied on the energy charge for household units above 50.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What is the electricity rate per unit in Nepal right now?</summary>
+        <p>For a common 15A household meter: Rs 4.00 for the first 20 units, Rs 6.50 for 21–30, Rs 8.00 for 31–50, Rs 9.50 for 51–250, and Rs 11.00 above 250 units, plus the service charge.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Is VAT charged on electricity bills?</summary>
+        <p>Yes. Household consumers pay 5% VAT only on the energy charge for units above 50. The first 50 units and the service charge are exempt. Other consumer categories follow different VAT rules.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Will this match my official NEA bill exactly?</summary>
+        <p>It is a close estimate of energy + service + household VAT using published rates. Official bills can include electricity duty, previous arrears, rebates for early payment, or other adjustments. Use this tool for planning, not as a legal invoice.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Which meter rating should I choose?</summary>
+        <p>Most urban households use 15A. Rural or low-use homes may be 5A. Larger homes or small commercial-from-home setups often use 30A or 60A. Check the rating printed on your meter or previous bill.</p>
+      </details>
+    </section>
+
+    <p class="related-tools">
+      <strong>Related tools:</strong>
+      <a href="/tools/income-tax-calculator/">Income Tax Calculator</a>
+      <a href="/tools/vehicle-tax-calculator/">Vehicle Tax Calculator</a>
+      <a href="/tools/land-unit-converter/">Land Unit Converter</a>
+      <a href="/">All tools</a>
+    </p>
+
+    <p class="note-sm" style="margin-top:20px">Estimates only. PBD is not affiliated with the Nepal Electricity Authority or the Electricity Regulatory Commission.</p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="bar footer-bar">
+      <nav id="footer-menu" class="footer-pills" aria-label="Footer">
+        <a href="/#tools">Tools</a>
+        <a href="/#widgets">Widgets</a>
+        <a href="/#guides">Guides</a>
+        <a href="/tools/nepali-typing/">Nepali Typing</a>
+        <a href="/tools/preeti-to-unicode/">Preeti ↔ Unicode</a>
+        <a href="/tools/income-tax-calculator/">Income Tax</a>
+        <a href="/tools/nea-bill-calculator/">NEA Bill</a>
+        <a href="/tools/nepal-map/">Nepal Map</a>
+      </nav>
+      <div class="footer-meta">
+        <p class="footer-copy">© <span id="yr"></span> Powered By Digital (PBD)</p>
+        <nav class="footer-legal" aria-label="Legal">
+          <a href="/about/">About</a>
+          <a href="/privacy/">Privacy</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/menu.js" defer></script>
+  <script>
+  (function () {
+    const fmt = n => (n == null || isNaN(n)) ? '—' : 'रु ' + Math.round(n).toLocaleString('en-IN');
+    const fmt2 = n => (n == null || isNaN(n)) ? '—' : 'रु ' + Number(n).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const $ = id => document.getElementById(id);
+
+    // Progressive energy rates and service charges by ampere (ERC residential single-phase)
+    // Service charge is selected by the total-consumption slab reached.
+    const TARIFF = {
+      5: {
+        energy: [
+          { upTo: 20, rate: 0, label: '0 – 20' },
+          { upTo: 30, rate: 6.5, label: '21 – 30' },
+          { upTo: 50, rate: 8, label: '31 – 50' },
+          { upTo: 150, rate: 9.5, label: '51 – 150' },
+          { upTo: 250, rate: 9.5, label: '151 – 250' },
+          { upTo: Infinity, rate: 11, label: 'Above 250' }
+        ],
+        first20IfExceed: 3,
+        service: [
+          { upTo: 20, charge: 30 },
+          { upTo: 30, charge: 50 },
+          { upTo: 50, charge: 50 },
+          { upTo: 150, charge: 75 },
+          { upTo: 250, charge: 100 },
+          { upTo: Infinity, charge: 150 }
+        ]
+      },
+      15: {
+        energy: [
+          { upTo: 20, rate: 4, label: '0 – 20' },
+          { upTo: 30, rate: 6.5, label: '21 – 30' },
+          { upTo: 50, rate: 8, label: '31 – 50' },
+          { upTo: 150, rate: 9.5, label: '51 – 150' },
+          { upTo: 250, rate: 9.5, label: '151 – 250' },
+          { upTo: Infinity, rate: 11, label: 'Above 250' }
+        ],
+        service: [
+          { upTo: 20, charge: 50 },
+          { upTo: 30, charge: 75 },
+          { upTo: 50, charge: 75 },
+          { upTo: 150, charge: 100 },
+          { upTo: 250, charge: 125 },
+          { upTo: Infinity, charge: 175 }
+        ]
+      },
+      30: {
+        energy: [
+          { upTo: 20, rate: 5, label: '0 – 20' },
+          { upTo: 30, rate: 6.5, label: '21 – 30' },
+          { upTo: 50, rate: 8, label: '31 – 50' },
+          { upTo: 150, rate: 9.5, label: '51 – 150' },
+          { upTo: 250, rate: 9.5, label: '151 – 250' },
+          { upTo: Infinity, rate: 11, label: 'Above 250' }
+        ],
+        service: [
+          { upTo: 20, charge: 75 },
+          { upTo: 30, charge: 100 },
+          { upTo: 50, charge: 100 },
+          { upTo: 150, charge: 125 },
+          { upTo: 250, charge: 150 },
+          { upTo: Infinity, charge: 200 }
+        ]
+      },
+      60: {
+        energy: [
+          { upTo: 20, rate: 6, label: '0 – 20' },
+          { upTo: 30, rate: 6.5, label: '21 – 30' },
+          { upTo: 50, rate: 8, label: '31 – 50' },
+          { upTo: 150, rate: 9.5, label: '51 – 150' },
+          { upTo: 250, rate: 9.5, label: '151 – 250' },
+          { upTo: Infinity, rate: 11, label: 'Above 250' }
+        ],
+        service: [
+          { upTo: 20, charge: 125 },
+          { upTo: 30, charge: 125 },
+          { upTo: 50, charge: 125 },
+          { upTo: 150, charge: 150 },
+          { upTo: 250, charge: 200 },
+          { upTo: Infinity, charge: 250 }
+        ]
+      }
+    };
+
+    function getAmp() {
+      const el = document.querySelector('input[name="amp"]:checked');
+      return el ? +el.value : 15;
+    }
+
+    function resolveUnits() {
+      const prev = +$('prev').value;
+      const curr = +$('curr').value;
+      if ($('prev').value !== '' && $('curr').value !== '' && !isNaN(prev) && !isNaN(curr) && curr >= prev) {
+        return Math.max(0, curr - prev);
+      }
+      return Math.max(0, +$('units').value || 0);
+    }
+
+    function getServiceCharge(amp, units) {
+      const table = TARIFF[amp].service;
+      for (const row of table) {
+        if (units <= row.upTo) return row.charge;
+      }
+      return table[table.length - 1].charge;
+    }
+
+    function calcEnergy(amp, units) {
+      const conf = TARIFF[amp];
+      const slabs = conf.energy;
+      const rows = [];
+      let remaining = units;
+      let prevUp = 0;
+      let energy = 0;
+
+      // Special 5A rule: if total <= 20, energy is free; if > 20, first 20 charged at first20IfExceed
+      if (amp === 5) {
+        if (units <= 20) {
+          rows.push({ label: '0 – 20', rate: 0, units: units, charge: 0, active: units > 0 });
+          return { energy: 0, rows };
+        }
+        // charge first 20 at 3
+        const firstRate = conf.first20IfExceed;
+        const firstUnits = 20;
+        const firstCharge = firstUnits * firstRate;
+        rows.push({ label: '0 – 20', rate: firstRate, units: firstUnits, charge: firstCharge, active: true });
+        energy += firstCharge;
+        remaining = units - 20;
+        prevUp = 20;
+        // continue from second slab
+        for (let i = 1; i < slabs.length; i++) {
+          const s = slabs[i];
+          const band = Math.min(remaining, s.upTo - prevUp);
+          if (band > 0) {
+            const charge = band * s.rate;
+            rows.push({ label: s.label, rate: s.rate, units: band, charge, active: true });
+            energy += charge;
+            remaining -= band;
+          }
+          prevUp = s.upTo;
+          if (remaining <= 0) break;
+        }
+        return { energy, rows };
+      }
+
+      // Normal progressive for 15/30/60
+      for (const s of slabs) {
+        const band = Math.min(remaining, s.upTo - prevUp);
+        if (band > 0 || (units === 0 && s.upTo === 20)) {
+          const charge = band * s.rate;
+          rows.push({ label: s.label, rate: s.rate, units: band, charge, active: band > 0 });
+          energy += charge;
+          remaining -= band;
+        }
+        prevUp = s.upTo;
+        if (remaining <= 0) break;
+      }
+      return { energy, rows };
+    }
+
+    function calcVat(energy, units) {
+      // 5% VAT only on energy charge attributable to units above 50
+      if (units <= 50) return 0;
+      // Better: recompute energy for first 50 units and VAT on (energy - energyOfFirst50)
+      const amp = getAmp();
+      const first50 = calcEnergy(amp, 50).energy;
+      const taxableEnergy = Math.max(0, energy - first50);
+      return taxableEnergy * 0.05;
+    }
+
+    function calc() {
+      const units = resolveUnits();
+      // keep units field in sync when readings used
+      if ($('prev').value !== '' && $('curr').value !== '') {
+        $('units').value = units;
+      }
+      const amp = getAmp();
+      const { energy, rows } = calcEnergy(amp, units);
+      const service = getServiceCharge(amp, units);
+      const vat = calcVat(energy, units);
+      const total = energy + service + vat;
+      const avg = units > 0 ? total / units : 0;
+
+      $('r-total').textContent = fmt(total);
+      $('r-energy').textContent = fmt2(energy);
+      $('r-service').textContent = fmt(service);
+      $('r-vat').textContent = fmt2(vat);
+      $('r-avg').textContent = units > 0 ? fmt2(avg) : '—';
+      $('r-note').textContent = units === 0
+        ? 'Enter units greater than zero to see a bill.'
+        : `Based on ${units} units on a ${amp}A meter. VAT is 5% on energy charge for units above 50 only.`;
+
+      const tbody = document.querySelector('#slab-table tbody');
+      tbody.innerHTML = rows.map(r =>
+        `<tr class="${r.active ? 'active' : ''}">
+          <td>${r.label}</td>
+          <td class="num">Rs ${r.rate.toFixed(2)}</td>
+          <td class="num">${r.units}</td>
+          <td class="num">${fmt2(r.charge)}</td>
+        </tr>`
+      ).join('');
+
+      $('results').hidden = false;
+    }
+
+    $('btn-calc').addEventListener('click', calc);
+    $('btn-reset').addEventListener('click', () => {
+      $('units').value = 120;
+      $('prev').value = '';
+      $('curr').value = '';
+      document.querySelector('input[name="amp"][value="15"]').checked = true;
+      $('results').hidden = true;
+    });
+
+    // live update
+    ['units', 'prev', 'curr'].forEach(id => {
+      $(id).addEventListener('input', () => {
+        if ($('results').hidden === false) calc();
+      });
+    });
+    document.querySelectorAll('input[name="amp"]').forEach(r => {
+      r.addEventListener('change', () => {
+        if ($('results').hidden === false) calc();
+      });
+    });
+
+    document.getElementById('yr').textContent = new Date().getFullYear();
+    calc(); // initial
+  })();
+  </script>
+</body>
+</html>
