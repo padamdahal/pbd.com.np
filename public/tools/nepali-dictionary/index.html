@@ -12,8 +12,42 @@
      crossorigin="anonymous"></script>
 </head>
 <body>
-  <p>Loading full page from deploy… If you see this, the dictionary page needs a full restore. Visit <a href="/">home</a>.</p>
+  <a class="skip" href="#tool">Skip to tool</a>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="/"><span class="logo-mark">P</span><span>PBD</span></a>
+      <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+      <nav id="menu" class="site-nav" aria-label="Main navigation" role="navigation">
+        <a href="/">Home</a><a href="/#tools">Tools</a><a href="/#widgets">Widgets</a><a href="/#guides">Guides</a><a href="/about/">About</a>
+      </nav>
+    </div>
+  </header>
+  <main class="narrow" id="tool">
+    <div class="page-intro">
+      <h1>Nepali Dictionary</h1>
+      <p class="lead">Search the Brihat Sabdakosh — over 120,000 Nepali words with meanings, grammar and etymology. Private, free, and runs in your browser.</p>
+    </div>
+    <div class="dict-box">
+      <div class="search-wrap">
+        <label for="dict-input">Search word / शब्द खोज्नुहोस्</label>
+        <input id="dict-input" type="search" enterkeyhint="search" autocomplete="off" spellcheck="false" placeholder="उदाहरण: किरण, नेपाल, ज्ञान …" lang="ne" autofocus>
+        <ul id="suggestions" class="suggestions" role="listbox"></ul>
+      </div>
+      <div class="dict-actions">
+        <button type="button" class="btn btn-primary" id="btn-search">Search</button>
+        <button type="button" class="btn" id="btn-random">Random word</button>
+        <button type="button" class="btn" id="btn-clear">Clear</button>
+      </div>
+      <p id="status" class="status" aria-live="polite"></p>
+      <div id="result" class="entry" hidden></div>
+      <div id="empty" class="empty-state"><strong>Type a Nepali word to begin</strong></div>
+    </div>
+    <p class="note">Data derived from the Brihat Sabdakosh. Independent of Nepal Academy.</p>
+  </main>
+  <footer class="site-footer"><div class="bar"><p>© <span id="yr"></span> Powered By Digital (PBD)</p></div></footer>
   <script src="/assets/menu.js" defer></script>
+  <script src="/assets/pwa.js" defer></script>
   <script src="dictionary.js" defer></script>
+  <script>document.getElementById("yr").textContent = new Date().getFullYear();</script>
 </body>
 </html>
