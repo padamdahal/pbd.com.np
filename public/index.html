@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b7285">
+  <title>Powered By Digital (PBD) — Free Online Tools for Nepal</title>
+  <meta name="description" content="Powered By Digital (PBD) — empowering people by digital means. Free online tools for Nepal: Nepali typing, date converters, tax calculators, maps, caption & hashtag generators and more.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://pbd.com.np/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Powered By Digital (PBD) — Free Online Tools for Nepal">
+  <meta property="og:description" content="Empowering people by digital means. Free online tools for Nepal — converters, calculators, maps and content tools.">
+  <meta property="og:url" content="https://pbd.com.np/">
+  <meta property="og:site_name" content="Powered By Digital">
+  <meta property="og:image" content="https://pbd.com.np/assets/og-default.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Powered By Digital (PBD) — Free Online Tools for Nepal">
+  <meta name="twitter:description" content="Empowering people by digital means. Free online tools for Nepal.">
+  <meta name="twitter:image" content="https://pbd.com.np/assets/og-default.svg">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/icon-512.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+  <style>
+    .hero { padding: 48px 0 40px; }
+    .hero-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 32px; align-items: center; }
+    .hero h1 { margin: 0 0 12px; font-size: clamp(1.9rem, 4vw, 2.6rem); line-height: 1.15; }
+    .hero p { color: var(--muted); margin: 0 0 20px; font-size: 1.05rem; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+    .button { display: inline-flex; align-items: center; gap: 6px; padding: 10px 18px; border-radius: 10px; font-weight: 600; text-decoration: none; border: 1px solid var(--line-strong); background: #fff; color: var(--text); }
+    .button-primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .button-primary:hover { background: var(--primary-dark); }
+    .hero-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 22px; box-shadow: var(--shadow-sm); }
+    .hero-list { list-style: none; margin: 0; padding: 0; }
+    .hero-list li { display: flex; align-items: center; gap: 10px; padding: 8px 0; font-weight: 600; }
+    .hero-list li span { color: var(--primary); font-weight: 800; }
+    .section { padding: 40px 0; }
+    .section-alt { background: #eef5f6; }
+    .section h2 { margin: 0 0 6px; font-size: 1.5rem; }
+    .section-lead { color: var(--muted); margin: 0 0 20px; }
+    .tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+    .tool-card { display: block; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 18px 16px; text-decoration: none; color: inherit; box-shadow: var(--shadow-sm); transition: border-color .15s, box-shadow .15s, transform .15s; }
+    .tool-card:hover { border-color: var(--primary); box-shadow: var(--shadow); transform: translateY(-2px); }
+    .tool-card h3 { margin: 0 0 6px; font-size: 1.08rem; color: var(--text); }
+    .tool-card p { margin: 0 0 12px; color: var(--muted); font-size: .92rem; line-height: 1.5; }
+    .tool-meta { font-size: .78rem; font-weight: 600; color: var(--primary-dark); background: #eef7f8; display: inline-block; padding: 3px 8px; border-radius: 6px; }
+    .cta-box { text-align: center; padding: 28px 20px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+    .cta-box h2 { margin: 0 0 8px; }
+    .cta-box p { color: var(--muted); margin: 0 0 16px; }
+    @media (max-width: 800px) { .hero-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 640px) { .hero { padding: 32px 0 28px; } }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#tools">Skip to tools</a>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="/" aria-label="Powered By Digital (PBD) — Home">
+        <span class="logo-mark" aria-hidden="true">P</span>
+        <span class="brand-text">
+          <span class="brand-name">PBD</span>
+          <span class="brand-full">Powered By Digital</span>
+        </span>
+      </a>
+      <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+      <nav id="menu" class="site-nav" aria-label="Main navigation" role="navigation">
+        <a href="/">Home</a>
+        <a href="/#tools">Tools</a>
+        <a href="/#widgets">Widgets</a>
+        <a href="/#guides">Guides</a>
+        <a href="/about/">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div>
+            <h1>Empowering people by digital means</h1>
+            <p>Free online tools for Nepal — converters, calculators, maps, content helpers and more. Private, fast and works offline.</p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#tools">Browse tools</a>
+              <a class="button" href="/about/">About PBD</a>
+            </div>
+          </div>
+          <div class="hero-card">
+            <ul class="hero-list">
+              <li><span>✓</span> Fully client-side tools</li>
+              <li><span>✓</span> No sign-up required</li>
+              <li><span>✓</span> Works offline after load</li>
+              <li><span>✓</span> Built for Nepal</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tools" class="section">
+      <div class="container">
+        <h2>Tools</h2>
+        <p class="section-lead">Practical utilities for everyday digital tasks in Nepal.</p>
+        <div class="tool-grid">
+          <a class="tool-card" href="/tools/nepali-typing/">
+            <h3>Nepali Typing</h3>
+            <p>Type in Nepali with Romanized input. Instant Unicode conversion.</p>
+            <div class="tool-meta">Nepali language</div>
+          </a>
+          <a class="tool-card" href="/tools/preeti-to-unicode/">
+            <h3>Preeti ↔ Unicode</h3>
+            <p>Convert Preeti font text to Unicode and back. Live dual direction.</p>
+            <div class="tool-meta">Nepali language</div>
+          </a>
+          <a class="tool-card" href="/tools/nepali-date-converter/">
+            <h3>Nepali Date Converter</h3>
+            <p>Convert between BS (Bikram Sambat) and AD (Gregorian) dates.</p>
+            <div class="tool-meta">Nepali language</div>
+          </a>
+          <a class="tool-card" href="/tools/today-nepali-date/">
+            <h3>Today’s Nepali Date</h3>
+            <p>See today’s date in Bikram Sambat with day name and tithi.</p>
+            <div class="tool-meta">Nepali language</div>
+          </a>
+          <a class="tool-card" href="/tools/bs-age-calculator/">
+            <h3>BS Age Calculator</h3>
+            <p>Calculate age from Bikram Sambat birth date. Years, months, days.</p>
+            <div class="tool-meta">Nepali language</div>
+          </a>
+          <a class="tool-card" href="/tools/nepali-spell-checker/">
+            <h3>Nepali Spell Checker</h3>
+            <p>Check Nepali Unicode text for spelling mistakes and get suggestions.</p>
+            <div class="tool-meta">Nepali language</div>
+          </a>
+          <a class="tool-card" href="/tools/nepali-dictionary/">
+            <h3>Nepali Dictionary</h3>
+            <p>Search 120,000+ words from the Brihat Sabdakosh. Meanings, grammar and etymology.</p>
+            <div class="tool-meta">Nepali language</div>
+          </a>
+          <a class="tool-card" href="/tools/nepali-name-generator/">
+            <h3>Nepali Name Generator</h3>
+            <p>Generate traditional and modern Nepali first names by gender.</p>
+            <div class="tool-meta">Nepali language</div>
+          </a>
+          <a class="tool-card" href="/tools/number-to-nepali-words/">
+            <h3>Number to Nepali Words</h3>
+            <p>Convert numbers to Nepali words for cheques, invoices and documents.</p>
+            <div class="tool-meta">Nepali language</div>
+          </a>
+          <a class="tool-card" href="/tools/income-tax-calculator/">
+            <h3>Income Tax Calculator</h3>
+            <p>Estimate Nepal income tax for FY 2083/84 with slabs, SSF and deductions.</p>
+            <div class="tool-meta">Finance</div>
+          </a>
+          <a class="tool-card" href="/tools/vehicle-tax-calculator/">
+            <h3>Vehicle Tax Calculator</h3>
+            <p>Estimate annual vehicle tax for cars, motorcycles and more in Nepal.</p>
+            <div class="tool-meta">Finance</div>
+          </a>
+          <a class="tool-card" href="/tools/land-unit-converter/">
+            <h3>Land Unit Converter</h3>
+            <p>Ropani–Aana–Paisa–Daam ↔ Bigha–Kattha–Dhur ↔ Sq Ft / m². Instant and accurate.</p>
+            <div class="tool-meta">Utilities</div>
+          </a>
+          <a class="tool-card" href="/tools/nea-bill-calculator/">
+            <h3>NEA Bill Calculator</h3>
+            <p>Estimate residential electricity bill with progressive slabs, service charge and VAT.</p>
+            <div class="tool-meta">Finance</div>
+          </a>
+          <a class="tool-card" href="/tools/nepal-map/">
+            <h3>Nepal Map</h3>
+            <p>Interactive map of provinces, districts and local levels with CSV join.</p>
+            <div class="tool-meta">Maps & location</div>
+          </a>
+          <a class="tool-card" href="/tools/ev-charging-stations/">
+            <h3>EV Charging Stations</h3>
+            <p>Find electric vehicle charging points across Nepal from OpenStreetMap.</p>
+            <div class="tool-meta">Maps & location</div>
+          </a>
+          <a class="tool-card" href="/tools/local-weather/">
+            <h3>Local Weather</h3>
+            <p>Current conditions, hourly forecast and 7-day outlook for Nepal and beyond.</p>
+            <div class="tool-meta">Maps & location</div>
+          </a>
+          <a class="tool-card" href="/tools/caption-generator/">
+            <h3>Caption Generator</h3>
+            <p>Ready-to-post inspirational captions for TikTok and Instagram in Nepali.</p>
+            <div class="tool-meta">Content creation</div>
+          </a>
+          <a class="tool-card" href="/tools/hashtag-generator/">
+            <h3>Hashtag Generator</h3>
+            <p>Curated Nepali + English hashtags by niche. Filter for TikTok, Instagram or Facebook.</p>
+            <div class="tool-meta">Content creation</div>
+          </a>
+          <a class="tool-card" href="/tools/image-compressor/">
+            <h3>Image Compressor & Crop</h3>
+            <p>Compress, resize and crop photos. Passport, visa and DV lottery presets. Fully private.</p>
+            <div class="tool-meta">Utilities</div>
+          </a>
+          <a class="tool-card" href="/tools/name-badge-generator/">
+            <h3>Name Badge Generator</h3>
+            <p>Bulk CSV to printable badges with QR, logo, backgrounds and PDF sheets.</p>
+            <div class="tool-meta">Utilities</div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="widgets" class="section section-alt">
+      <div class="container">
+        <h2>Widgets</h2>
+        <p class="section-lead">Embeddable widgets you can drop into any page.</p>
+        <div class="tool-grid">
+          <a class="tool-card" href="/widgets/nepali-proverb/">
+            <h3>Nepali Proverb of the Day</h3>
+            <p>120+ ukhan with daily and random modes. Embeddable iframe.</p>
+            <div class="tool-meta">Widgets</div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="guides" class="section">
+      <div class="container">
+        <h2>Guides</h2>
+        <p class="section-lead">Practical how-to articles for freelancers and beginners.</p>
+        <div class="tool-grid">
+          <a class="tool-card" href="/guides/how-to-start-freelancing-in-nepal-2026/">
+            <h3>How to Start Freelancing in Nepal in 2026</h3>
+            <p>Step-by-step guide to start freelancing from Nepal — platforms, payments and tips.</p>
+            <div class="tool-meta">Guides</div>
+          </a>
+          <a class="tool-card" href="/guides/how-to-use-ai-as-a-complete-beginner-2026/">
+            <h3>How to Use AI as a Complete Beginner in 2026</h3>
+            <p>Simple introduction to using AI tools for study, work and content creation.</p>
+            <div class="tool-meta">Guides</div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="cta-box">
+          <h2>More tools coming soon</h2>
+          <p>Have a tool idea that would help people in Nepal? Let us know.</p>
+          <a class="button button-primary" href="/about/">Contact / About</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="bar">
+      <p>© <span id="yr"></span> Powered By Digital (PBD)</p>
+      <div class="footer-nav">
+        <nav id="footer-menu" aria-label="Footer">
+          <div class="footer-group">
+            <span class="footer-group-label">Browse</span>
+            <a href="/#tools">Tools</a>
+            <a href="/#widgets">Widgets</a>
+            <a href="/#guides">Guides</a>
+          </div>
+          <div class="footer-group">
+            <span class="footer-group-label">Popular</span>
+            <a href="/tools/nepali-typing/">Nepali Typing</a>
+            <a href="/tools/preeti-to-unicode/">Preeti ↔ Unicode</a>
+            <a href="/tools/income-tax-calculator/">Income Tax Calculator</a>
+            <a href="/tools/nepal-map/">Nepal Map</a>
+          </div>
+        </nav>
+        <nav class="legal" aria-label="Legal">
+          <a href="/about/">About</a>
+          <a href="/privacy/">Privacy</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+  <script src="/assets/menu.js" defer></script>
+  <script src="/assets/pwa.js" defer></script>
+  <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+</body>
+</html>
