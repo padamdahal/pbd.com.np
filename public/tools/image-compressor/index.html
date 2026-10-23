@@ -1,1 +1,996 @@
-PLACEHOLDER
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b7285">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="PBD">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/icon-512.png">
+  <title>Image Compressor, Resizer & Crop – Free Online Tool | PBD</title>
+  <meta name="description" content="Free online image compressor, resizer and crop tool. Compress photos, resize, and crop to passport, visa, DV lottery or custom ratios. Fully private — images never leave your device. Works offline.">
+  <link rel="canonical" href="https://pbd.com.np/tools/image-compressor/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="keywords" content="image compressor, image resizer, crop image online, passport photo crop, visa photo size, DV lottery photo, compress jpeg, resize image free, online photo editor, privacy image tool">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="PBD">
+  <meta property="og:title" content="Image Compressor, Resizer & Crop – Free Online Tool">
+  <meta property="og:description" content="Compress, resize and crop images privately in your browser. Passport, visa and DV lottery presets included. No upload to any server.">
+  <meta property="og:url" content="https://pbd.com.np/tools/image-compressor/">
+  <meta property="og:image" content="https://pbd.com.np/assets/og-default.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ne_NP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Image Compressor, Resizer & Crop">
+  <meta name="twitter:description" content="Free private image compressor, resizer and crop tool with passport & visa presets.">
+  <meta name="twitter:image" content="https://pbd.com.np/assets/og-default.svg">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Image Compressor, Resizer & Crop",
+    "url": "https://pbd.com.np/tools/image-compressor/",
+    "description": "Free online tool to compress, resize and crop images. Includes passport, visa and DV lottery photo presets. Fully client-side and private.",
+    "applicationCategory": "MultimediaApplication",
+    "operatingSystem": "Any",
+    "browserRequirements": "Requires JavaScript and Canvas support",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "NPR"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Powered By Digital",
+      "url": "https://pbd.com.np/"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Does this image compressor upload my photos to a server?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. All processing happens entirely in your browser using the HTML5 Canvas API. Your images never leave your device."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the correct size for a Nepal passport photo?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Nepal passport photos follow the ICAO standard of 35 mm × 45 mm. At 300 dpi this is approximately 413 × 531 pixels. Use the Passport (Nepal / ICAO) preset, then download."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What size is required for the DV Lottery photo?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Diversity Visa (DV) Lottery requires a square photo of exactly 600 × 600 pixels. Select the DV Lottery preset, position the crop box, then download at 600×600."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which format should I choose – JPEG, PNG or WebP?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "JPEG is best for photos (smaller file size). PNG is better when you need transparency or sharp graphics. WebP usually gives the smallest file size with good quality and is widely supported by modern browsers."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I use this tool offline?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. After the page loads once, it works fully offline because everything runs in the browser."
+        }
+      }
+    ]
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632604868005505"
+     crossorigin="anonymous"></script>
+  <style>
+    .tool-box {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: var(--s-5);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: .95rem;
+      font-weight: 700;
+      margin: 0 0 12px;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .drop-zone {
+      border: 2px dashed var(--line-strong);
+      border-radius: var(--radius);
+      padding: 36px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color .15s, background .15s;
+      background: #fafcfd;
+    }
+    .drop-zone:hover,
+    .drop-zone.dragover {
+      border-color: var(--primary);
+      background: #eef7f8;
+    }
+    .drop-zone p {
+      margin: 0 0 6px;
+      color: var(--muted);
+    }
+    .drop-zone .hint {
+      font-size: .85rem;
+    }
+    .preview-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 16px;
+    }
+    @media (max-width: 640px) {
+      .preview-grid { grid-template-columns: 1fr; }
+    }
+    .preview-card {
+      background: #f7fafb;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      text-align: center;
+    }
+    .preview-card h3 {
+      margin: 0 0 8px;
+      font-size: .9rem;
+      color: var(--muted);
+    }
+    .preview-card img,
+    .preview-card canvas {
+      max-width: 100%;
+      max-height: 280px;
+      border-radius: 6px;
+      display: block;
+      margin: 0 auto;
+      background: #e8eef0;
+    }
+    .preview-meta {
+      margin-top: 8px;
+      font-size: .85rem;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+    }
+    .controls-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .field label {
+      display: block;
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .field input[type="number"],
+    .field select {
+      width: 100%;
+      font: inherit;
+      padding: 9px 12px;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius-sm);
+      background: #fff;
+    }
+    .field input[type="range"] {
+      width: 100%;
+      accent-color: var(--primary);
+    }
+    .check-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+      font-size: .92rem;
+    }
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+    .btn:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+    .preset-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .preset-btn {
+      font: inherit;
+      font-size: .85rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      background: #fff;
+      cursor: pointer;
+      color: var(--text);
+    }
+    .preset-btn:hover {
+      background: #eef7f8;
+      border-color: var(--primary);
+    }
+    .preset-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    .crop-wrap {
+      position: relative;
+      display: inline-block;
+      max-width: 100%;
+      margin: 0 auto;
+      user-select: none;
+      touch-action: none;
+    }
+    .crop-wrap img {
+      display: block;
+      max-width: 100%;
+      max-height: 420px;
+    }
+    .crop-box {
+      position: absolute;
+      border: 2px solid #fff;
+      box-shadow: 0 0 0 9999px rgba(0,0,0,.45);
+      cursor: move;
+      box-sizing: border-box;
+    }
+    .crop-handle {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      background: #fff;
+      border: 2px solid var(--primary);
+      border-radius: 2px;
+    }
+    .crop-handle.nw { top: -7px; left: -7px; cursor: nwse-resize; }
+    .crop-handle.ne { top: -7px; right: -7px; cursor: nesw-resize; }
+    .crop-handle.sw { bottom: -7px; left: -7px; cursor: nesw-resize; }
+    .crop-handle.se { bottom: -7px; right: -7px; cursor: nwse-resize; }
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 12px;
+      font-size: .9rem;
+    }
+    .stats strong {
+      color: var(--primary-dark);
+    }
+    .tip-box {
+      background: #eef7f8;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      margin: 16px 0;
+      font-size: .95rem;
+    }
+    .faq {
+      margin-top: var(--s-5);
+    }
+    .faq h2 {
+      font-size: 1.15rem;
+    }
+    .faq-item {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      margin-bottom: 8px;
+    }
+    .faq-item summary {
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .faq-item p {
+      margin: 8px 0 4px;
+      color: var(--muted);
+    }
+    .hidden { display: none !important; }
+    .size-badge {
+      display: inline-block;
+      background: #eef7f8;
+      color: var(--primary-dark);
+      font-size: .8rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 999px;
+      margin-left: 6px;
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#tool">Skip to tool</a>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="/" aria-label="Powered By Digital (PBD) — Home">
+        <span class="logo-mark" aria-hidden="true">P</span>
+        <span class="brand-text">
+          <span class="brand-name">PBD</span>
+          <span class="brand-full">Powered By Digital</span>
+        </span>
+      </a>
+      <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+      <nav id="menu" class="site-nav" aria-label="Main navigation" role="navigation">
+        <a href="/">Home</a>
+        <a href="/#tools">Tools</a>
+        <a href="/#widgets">Widgets</a>
+        <a href="/#guides">Guides</a>
+        <a href="/about/">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="narrow" id="tool">
+    <div class="page-intro">
+      <h1>Image Compressor, Resizer & Crop</h1>
+      <p class="lead">Compress photos, resize dimensions and crop to passport, visa, DV lottery or custom ratios. Everything runs in your browser — images never leave your device.</p>
+    </div>
+
+    <!-- Upload -->
+    <div class="tool-box" id="upload-box">
+      <div class="section-title">1. Upload image</div>
+      <div class="drop-zone" id="drop-zone" role="button" tabindex="0" aria-label="Upload image">
+        <p><strong>Drag & drop</strong> an image here, or click to choose</p>
+        <p class="hint">JPEG, PNG, WebP or GIF · Max recommended 20 MB</p>
+        <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp,image/gif" class="hidden" aria-hidden="true">
+      </div>
+    </div>
+
+    <!-- Editor (hidden until image loaded) -->
+    <div id="editor" class="hidden">
+      <!-- Crop -->
+      <div class="tool-box">
+        <div class="section-title">2. Crop <span class="size-badge" id="crop-ratio-label">Free</span></div>
+        <div class="preset-row" id="crop-presets" role="group" aria-label="Crop aspect ratio presets">
+          <button type="button" class="preset-btn active" data-ratio="free">Free</button>
+          <button type="button" class="preset-btn" data-ratio="1">1:1</button>
+          <button type="button" class="preset-btn" data-ratio="1.333">4:3</button>
+          <button type="button" class="preset-btn" data-ratio="1.778">16:9</button>
+          <button type="button" class="preset-btn" data-ratio="0.5625">9:16</button>
+          <button type="button" class="preset-btn" data-ratio="1.5">3:2</button>
+          <button type="button" class="preset-btn" data-ratio="0.778" data-w="413" data-h="531">Passport (Nepal)</button>
+          <button type="button" class="preset-btn" data-ratio="1" data-w="600" data-h="600">US Passport / Visa</button>
+          <button type="button" class="preset-btn" data-ratio="1" data-w="600" data-h="600">DV Lottery</button>
+          <button type="button" class="preset-btn" data-ratio="0.778" data-w="413" data-h="531">Schengen / EU</button>
+        </div>
+        <div style="text-align:center;overflow:auto">
+          <div class="crop-wrap" id="crop-wrap">
+            <img id="crop-source" alt="Source image for cropping">
+            <div class="crop-box" id="crop-box">
+              <div class="crop-handle nw" data-handle="nw"></div>
+              <div class="crop-handle ne" data-handle="ne"></div>
+              <div class="crop-handle sw" data-handle="sw"></div>
+              <div class="crop-handle se" data-handle="se"></div>
+            </div>
+          </div>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn btn-primary" id="btn-apply-crop">Apply crop</button>
+          <button type="button" class="btn" id="btn-reset-crop">Reset crop</button>
+        </div>
+      </div>
+
+      <!-- Resize & Compress -->
+      <div class="tool-box">
+        <div class="section-title">3. Resize & compress</div>
+        <div class="controls-grid">
+          <div class="field">
+            <label for="out-width">Width (px)</label>
+            <input type="number" id="out-width" min="1" step="1">
+          </div>
+          <div class="field">
+            <label for="out-height">Height (px)</label>
+            <input type="number" id="out-height" min="1" step="1">
+          </div>
+          <div class="field">
+            <label for="out-format">Format</label>
+            <select id="out-format">
+              <option value="image/jpeg">JPEG</option>
+              <option value="image/webp">WebP</option>
+              <option value="image/png">PNG</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="out-quality">Quality <span id="quality-val">85</span>%</label>
+            <input type="range" id="out-quality" min="10" max="100" value="85">
+          </div>
+        </div>
+        <div class="check-row">
+          <input type="checkbox" id="lock-ratio" checked>
+          <label for="lock-ratio">Lock aspect ratio</label>
+        </div>
+        <div class="preset-row" style="margin-top:12px">
+          <button type="button" class="preset-btn" data-size="1920">Max 1920px</button>
+          <button type="button" class="preset-btn" data-size="1280">Max 1280px</button>
+          <button type="button" class="preset-btn" data-size="800">Max 800px</button>
+          <button type="button" class="preset-btn" data-size="600">Max 600px</button>
+          <button type="button" class="preset-btn" data-w="1080" data-h="1080">1080×1080</button>
+          <button type="button" class="preset-btn" data-w="1200" data-h="630">OG 1200×630</button>
+        </div>
+        <div class="stats" id="size-stats">
+          <span>Original: <strong id="orig-size">—</strong></span>
+          <span>Estimated: <strong id="new-size">—</strong></span>
+          <span id="saving-label" class="hidden">Saving: <strong id="saving-pct">—</strong></span>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn btn-primary" id="btn-download">Download image</button>
+          <button type="button" class="btn" id="btn-reset-all">Start over</button>
+        </div>
+      </div>
+
+      <!-- Preview -->
+      <div class="tool-box">
+        <div class="section-title">Preview</div>
+        <div class="preview-grid">
+          <div class="preview-card">
+            <h3>Original</h3>
+            <img id="orig-preview" alt="Original image">
+            <div class="preview-meta" id="orig-meta">—</div>
+          </div>
+          <div class="preview-card">
+            <h3>Processed</h3>
+            <canvas id="out-canvas" width="0" height="0" aria-label="Processed image preview"></canvas>
+            <div class="preview-meta" id="out-meta">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <strong>Privacy note:</strong> All compression, resizing and cropping happen locally in your browser. No image is ever uploaded to any server.
+    </div>
+
+    <section class="faq" aria-label="FAQ">
+      <h2>Frequently asked questions</h2>
+      <details class="faq-item">
+        <summary>Does this tool upload my photos to a server?</summary>
+        <p>No. Everything runs entirely in your browser using the Canvas API. Your images never leave your device.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What size should a Nepal passport photo be?</summary>
+        <p>Nepal follows the ICAO standard of 35 mm × 45 mm. At 300 dpi that is about 413 × 531 pixels. Select the “Passport (Nepal)” preset, position the crop, apply it, then download.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What are the DV Lottery photo requirements?</summary>
+        <p>The photo must be exactly 600 × 600 pixels, square, recent, and show a clear frontal view of the face. Use the “DV Lottery” preset.</p>
+      </details>
+      <details class="faq-item">
+        <summary>JPEG, PNG or WebP – which should I choose?</summary>
+        <p>JPEG is ideal for photographs. PNG is better when you need transparency or sharp text/graphics. WebP usually produces the smallest files with good quality and is supported by all modern browsers.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Can I use the tool offline?</summary>
+        <p>Yes. Once the page has loaded, it works fully offline.</p>
+      </details>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="bar">
+      <p>© <span id="yr"></span> Powered By Digital (PBD)</p>
+      <div class="footer-nav">
+        <nav id="footer-menu" aria-label="Footer">
+          <div class="footer-group">
+            <span class="footer-group-label">Browse</span>
+            <a href="/#tools">Tools</a>
+            <a href="/#widgets">Widgets</a>
+            <a href="/#guides">Guides</a>
+          </div>
+          <div class="footer-group">
+            <span class="footer-group-label">Popular</span>
+            <a href="/tools/nepali-typing/">Nepali Typing</a>
+            <a href="/tools/preeti-to-unicode/">Preeti ↔ Unicode</a>
+            <a href="/tools/income-tax-calculator/">Income Tax Calculator</a>
+            <a href="/tools/nepal-map/">Nepal Map</a>
+          </div>
+        </nav>
+        <nav class="legal" aria-label="Legal">
+          <a href="/about/">About</a>
+          <a href="/privacy/">Privacy</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/menu.js" defer></script>
+  <script src="/assets/pwa.js" defer></script>
+  <script>
+  (function () {
+    'use strict';
+
+    // ---------- State ----------
+    let originalFile = null;
+    let originalBlobUrl = null;
+    let sourceImage = null;
+    let workingCanvas = null;
+    let cropRatio = null;
+    let preferredOutW = null;
+    let preferredOutH = null;
+    let cropRect = { x: 0, y: 0, w: 0, h: 0 };
+    let displayScale = 1;
+    let isDragging = false;
+    let dragMode = null;
+    let startX = 0, startY = 0;
+    let startRect = null;
+
+    // ---------- DOM ----------
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('file-input');
+    const editor = document.getElementById('editor');
+    const cropSource = document.getElementById('crop-source');
+    const cropBox = document.getElementById('crop-box');
+    const cropWrap = document.getElementById('crop-wrap');
+    const cropRatioLabel = document.getElementById('crop-ratio-label');
+    const outWidth = document.getElementById('out-width');
+    const outHeight = document.getElementById('out-height');
+    const outFormat = document.getElementById('out-format');
+    const outQuality = document.getElementById('out-quality');
+    const qualityVal = document.getElementById('quality-val');
+    const lockRatio = document.getElementById('lock-ratio');
+    const origPreview = document.getElementById('orig-preview');
+    const outCanvas = document.getElementById('out-canvas');
+    const origMeta = document.getElementById('orig-meta');
+    const outMeta = document.getElementById('out-meta');
+    const origSizeEl = document.getElementById('orig-size');
+    const newSizeEl = document.getElementById('new-size');
+    const savingLabel = document.getElementById('saving-label');
+    const savingPct = document.getElementById('saving-pct');
+
+    // ---------- Helpers ----------
+    function formatBytes(bytes) {
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+    }
+
+    function loadImageFromFile(file) {
+      return new Promise((resolve, reject) => {
+        const url = URL.createObjectURL(file);
+        const img = new Image();
+        img.onload = () => resolve({ img, url });
+        img.onerror = () => {
+          URL.revokeObjectURL(url);
+          reject(new Error('Failed to load image'));
+        };
+        img.src = url;
+      });
+    }
+
+    function createWorkingCanvas(img) {
+      const c = document.createElement('canvas');
+      c.width = img.naturalWidth || img.width;
+      c.height = img.naturalHeight || img.height;
+      const ctx = c.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      return c;
+    }
+
+    function updateDisplayScale() {
+      if (!cropSource.naturalWidth) return;
+      displayScale = cropSource.clientWidth / cropSource.naturalWidth;
+    }
+
+    function setCropBoxFromRect() {
+      cropBox.style.left = cropRect.x + 'px';
+      cropBox.style.top = cropRect.y + 'px';
+      cropBox.style.width = cropRect.w + 'px';
+      cropBox.style.height = cropRect.h + 'px';
+    }
+
+    function initCropBox() {
+      updateDisplayScale();
+      const dw = cropSource.clientWidth;
+      const dh = cropSource.clientHeight;
+      if (cropRatio) {
+        let w, h;
+        if (dw / dh > cropRatio) {
+          h = dh * 0.9;
+          w = h * cropRatio;
+        } else {
+          w = dw * 0.9;
+          h = w / cropRatio;
+        }
+        cropRect = {
+          x: (dw - w) / 2,
+          y: (dh - h) / 2,
+          w: w,
+          h: h
+        };
+      } else {
+        cropRect = { x: dw * 0.05, y: dh * 0.05, w: dw * 0.9, h: dh * 0.9 };
+      }
+      setCropBoxFromRect();
+    }
+
+    function clampCropRect() {
+      const maxW = cropSource.clientWidth;
+      const maxH = cropSource.clientHeight;
+      cropRect.w = Math.max(20, Math.min(cropRect.w, maxW));
+      cropRect.h = Math.max(20, Math.min(cropRect.h, maxH));
+      cropRect.x = Math.max(0, Math.min(cropRect.x, maxW - cropRect.w));
+      cropRect.y = Math.max(0, Math.min(cropRect.y, maxH - cropRect.h));
+    }
+
+    // ---------- Upload ----------
+    function handleFile(file) {
+      if (!file || !file.type.startsWith('image/')) {
+        alert('Please select a valid image file (JPEG, PNG, WebP or GIF).');
+        return;
+      }
+      if (originalBlobUrl) URL.revokeObjectURL(originalBlobUrl);
+
+      loadImageFromFile(file).then(({ img, url }) => {
+        originalFile = file;
+        originalBlobUrl = url;
+        sourceImage = img;
+        workingCanvas = createWorkingCanvas(img);
+
+        editor.classList.remove('hidden');
+        dropZone.querySelector('p').textContent = file.name + ' loaded';
+
+        origPreview.src = url;
+        origMeta.textContent = `${img.naturalWidth} × ${img.naturalHeight} px · ${formatBytes(file.size)}`;
+        origSizeEl.textContent = formatBytes(file.size);
+
+        cropSource.src = url;
+        cropSource.onload = () => {
+          initCropBox();
+          outWidth.value = img.naturalWidth;
+          outHeight.value = img.naturalHeight;
+          preferredOutW = null;
+          preferredOutH = null;
+          updateOutputPreview();
+        };
+      }).catch(() => alert('Could not load the image. Try another file.'));
+    }
+
+    dropZone.addEventListener('click', () => fileInput.click());
+    dropZone.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); }
+    });
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files[0]) handleFile(fileInput.files[0]);
+    });
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.classList.add('dragover');
+    });
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('dragover');
+      if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
+    });
+
+    // ---------- Crop interaction ----------
+    function onPointerDown(e) {
+      e.preventDefault();
+      const handle = e.target.dataset.handle;
+      isDragging = true;
+      dragMode = handle || 'move';
+      startX = e.clientX;
+      startY = e.clientY;
+      startRect = { ...cropRect };
+      document.addEventListener('pointermove', onPointerMove);
+      document.addEventListener('pointerup', onPointerUp);
+    }
+
+    function onPointerMove(e) {
+      if (!isDragging) return;
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+
+      if (dragMode === 'move') {
+        cropRect.x = startRect.x + dx;
+        cropRect.y = startRect.y + dy;
+      } else {
+        let newW = startRect.w;
+        let newH = startRect.h;
+        let newX = startRect.x;
+        let newY = startRect.y;
+
+        if (dragMode.includes('e')) newW = startRect.w + dx;
+        if (dragMode.includes('w')) { newW = startRect.w - dx; newX = startRect.x + dx; }
+        if (dragMode.includes('s')) newH = startRect.h + dy;
+        if (dragMode.includes('n')) { newH = startRect.h - dy; newY = startRect.y + dy; }
+
+        if (cropRatio) {
+          if (Math.abs(dx) > Math.abs(dy) || dragMode === 'e' || dragMode === 'w') {
+            newH = newW / cropRatio;
+            if (dragMode.includes('n')) newY = startRect.y + startRect.h - newH;
+          } else {
+            newW = newH * cropRatio;
+            if (dragMode.includes('w')) newX = startRect.x + startRect.w - newW;
+          }
+        }
+
+        if (newW < 20) { newW = 20; if (dragMode.includes('w')) newX = startRect.x + startRect.w - 20; }
+        if (newH < 20) { newH = 20; if (dragMode.includes('n')) newY = startRect.y + startRect.h - 20; }
+
+        cropRect = { x: newX, y: newY, w: newW, h: newH };
+      }
+      clampCropRect();
+      setCropBoxFromRect();
+    }
+
+    function onPointerUp() {
+      isDragging = false;
+      dragMode = null;
+      document.removeEventListener('pointermove', onPointerMove);
+      document.removeEventListener('pointerup', onPointerUp);
+    }
+
+    cropBox.addEventListener('pointerdown', onPointerDown);
+    cropBox.querySelectorAll('.crop-handle').forEach(h => {
+      h.addEventListener('pointerdown', onPointerDown);
+    });
+
+    document.getElementById('crop-presets').addEventListener('click', (e) => {
+      const btn = e.target.closest('.preset-btn');
+      if (!btn) return;
+      document.querySelectorAll('#crop-presets .preset-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const r = btn.dataset.ratio;
+      if (r === 'free') {
+        cropRatio = null;
+        preferredOutW = null;
+        preferredOutH = null;
+        cropRatioLabel.textContent = 'Free';
+      } else {
+        cropRatio = parseFloat(r);
+        preferredOutW = btn.dataset.w ? parseInt(btn.dataset.w, 10) : null;
+        preferredOutH = btn.dataset.h ? parseInt(btn.dataset.h, 10) : null;
+        cropRatioLabel.textContent = btn.textContent.trim();
+      }
+      initCropBox();
+    });
+
+    document.getElementById('btn-apply-crop').addEventListener('click', () => {
+      if (!sourceImage) return;
+      updateDisplayScale();
+      const sx = Math.round(cropRect.x / displayScale);
+      const sy = Math.round(cropRect.y / displayScale);
+      const sw = Math.round(cropRect.w / displayScale);
+      const sh = Math.round(cropRect.h / displayScale);
+
+      const c = document.createElement('canvas');
+      c.width = sw;
+      c.height = sh;
+      const ctx = c.getContext('2d');
+      ctx.drawImage(workingCanvas, sx, sy, sw, sh, 0, 0, sw, sh);
+      workingCanvas = c;
+
+      const dataUrl = c.toDataURL('image/png');
+      cropSource.src = dataUrl;
+      cropSource.onload = () => {
+        cropRatio = null;
+        document.querySelectorAll('#crop-presets .preset-btn').forEach(b => b.classList.remove('active'));
+        document.querySelector('#crop-presets .preset-btn[data-ratio="free"]').classList.add('active');
+        cropRatioLabel.textContent = 'Free';
+        initCropBox();
+
+        if (preferredOutW && preferredOutH) {
+          outWidth.value = preferredOutW;
+          outHeight.value = preferredOutH;
+        } else {
+          outWidth.value = sw;
+          outHeight.value = sh;
+        }
+        preferredOutW = null;
+        preferredOutH = null;
+        updateOutputPreview();
+      };
+    });
+
+    document.getElementById('btn-reset-crop').addEventListener('click', () => {
+      if (!sourceImage) return;
+      workingCanvas = createWorkingCanvas(sourceImage);
+      cropSource.src = originalBlobUrl;
+      cropSource.onload = () => {
+        cropRatio = null;
+        document.querySelectorAll('#crop-presets .preset-btn').forEach(b => b.classList.remove('active'));
+        document.querySelector('#crop-presets .preset-btn[data-ratio="free"]').classList.add('active');
+        cropRatioLabel.textContent = 'Free';
+        initCropBox();
+        outWidth.value = sourceImage.naturalWidth;
+        outHeight.value = sourceImage.naturalHeight;
+        updateOutputPreview();
+      };
+    });
+
+    // ---------- Resize / Output ----------
+    let aspect = 1;
+
+    function updateAspect() {
+      const w = parseInt(outWidth.value, 10) || 1;
+      const h = parseInt(outHeight.value, 10) || 1;
+      aspect = w / h;
+    }
+
+    outWidth.addEventListener('input', () => {
+      if (lockRatio.checked) {
+        const w = parseInt(outWidth.value, 10) || 0;
+        outHeight.value = Math.round(w / aspect) || '';
+      }
+      updateOutputPreview();
+    });
+    outHeight.addEventListener('input', () => {
+      if (lockRatio.checked) {
+        const h = parseInt(outHeight.value, 10) || 0;
+        outWidth.value = Math.round(h * aspect) || '';
+      }
+      updateOutputPreview();
+    });
+    outWidth.addEventListener('change', updateAspect);
+    outHeight.addEventListener('change', updateAspect);
+
+    outQuality.addEventListener('input', () => {
+      qualityVal.textContent = outQuality.value;
+      updateOutputPreview();
+    });
+    outFormat.addEventListener('change', updateOutputPreview);
+
+    document.querySelectorAll('[data-size], [data-w][data-h]').forEach(btn => {
+      if (btn.closest('#crop-presets')) return;
+      btn.addEventListener('click', () => {
+        if (!workingCanvas) return;
+        if (btn.dataset.size) {
+          const max = parseInt(btn.dataset.size, 10);
+          const iw = workingCanvas.width;
+          const ih = workingCanvas.height;
+          if (iw >= ih) {
+            outWidth.value = Math.min(iw, max);
+            outHeight.value = Math.round(outWidth.value * (ih / iw));
+          } else {
+            outHeight.value = Math.min(ih, max);
+            outWidth.value = Math.round(outHeight.value * (iw / ih));
+          }
+        } else {
+          outWidth.value = btn.dataset.w;
+          outHeight.value = btn.dataset.h;
+        }
+        updateAspect();
+        updateOutputPreview();
+      });
+    });
+
+    function updateOutputPreview() {
+      if (!workingCanvas) return;
+      const w = parseInt(outWidth.value, 10) || workingCanvas.width;
+      const h = parseInt(outHeight.value, 10) || workingCanvas.height;
+      const fmt = outFormat.value;
+      const q = parseInt(outQuality.value, 10) / 100;
+
+      outCanvas.width = w;
+      outCanvas.height = h;
+      const ctx = outCanvas.getContext('2d');
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+      ctx.drawImage(workingCanvas, 0, 0, w, h);
+
+      outMeta.textContent = `${w} × ${h} px`;
+
+      outCanvas.toBlob((blob) => {
+        if (!blob) return;
+        newSizeEl.textContent = formatBytes(blob.size);
+        if (originalFile) {
+          const pct = Math.round((1 - blob.size / originalFile.size) * 100);
+          if (pct > 0) {
+            savingLabel.classList.remove('hidden');
+            savingPct.textContent = pct + '%';
+          } else {
+            savingLabel.classList.add('hidden');
+          }
+        }
+      }, fmt, q);
+    }
+
+    document.getElementById('btn-download').addEventListener('click', () => {
+      if (!workingCanvas) return;
+      const w = parseInt(outWidth.value, 10) || workingCanvas.width;
+      const h = parseInt(outHeight.value, 10) || workingCanvas.height;
+      const fmt = outFormat.value;
+      const q = parseInt(outQuality.value, 10) / 100;
+      const ext = fmt === 'image/jpeg' ? 'jpg' : (fmt === 'image/webp' ? 'webp' : 'png');
+
+      const c = document.createElement('canvas');
+      c.width = w;
+      c.height = h;
+      const ctx = c.getContext('2d');
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+      if (fmt === 'image/jpeg') {
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, w, h);
+      }
+      ctx.drawImage(workingCanvas, 0, 0, w, h);
+
+      c.toBlob((blob) => {
+        if (!blob) return;
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = (originalFile ? originalFile.name.replace(/\.[^.]+$/, '') : 'image') + '-pbd.' + ext;
+        a.click();
+        setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+      }, fmt, q);
+    });
+
+    document.getElementById('btn-reset-all').addEventListener('click', () => {
+      if (originalBlobUrl) URL.revokeObjectURL(originalBlobUrl);
+      originalFile = null;
+      originalBlobUrl = null;
+      sourceImage = null;
+      workingCanvas = null;
+      editor.classList.add('hidden');
+      dropZone.querySelector('p').innerHTML = '<strong>Drag & drop</strong> an image here, or click to choose';
+      fileInput.value = '';
+      outCanvas.width = 0;
+      outCanvas.height = 0;
+    });
+
+    document.getElementById('yr').textContent = new Date().getFullYear();
+
+    window.addEventListener('resize', () => {
+      if (cropSource.naturalWidth) {
+        const oldScale = displayScale;
+        updateDisplayScale();
+        if (oldScale && displayScale) {
+          const factor = displayScale / oldScale;
+          cropRect.x *= factor;
+          cropRect.y *= factor;
+          cropRect.w *= factor;
+          cropRect.h *= factor;
+          setCropBoxFromRect();
+        }
+      }
+    });
+  })();
+  </script>
+</body>
+</html>
