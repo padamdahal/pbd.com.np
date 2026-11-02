@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b7285">
+  <title>Embeddable Widgets — Powered By Digital (PBD)</title>
+  <meta name="description" content="Free embeddable widgets from Powered By Digital. Drop Nepali Proverb of the Day and more into any website with a simple iframe.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://pbd.com.np/widgets/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Embeddable Widgets — Powered By Digital (PBD)">
+  <meta property="og:description" content="Free embeddable widgets for Nepal. Nepali Proverb of the Day and more.">
+  <meta property="og:url" content="https://pbd.com.np/widgets/">
+  <meta property="og:site_name" content="Powered By Digital">
+  <meta property="og:image" content="https://pbd.com.np/assets/og-default.svg">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="stylesheet" href="/assets/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Embeddable Widgets","url":"https://pbd.com.np/widgets/"}</script>
+  <style>
+    .page-hero { padding: 36px 0 28px; }
+    .page-hero h1 { margin: 0 0 8px; font-size: clamp(1.7rem, 4vw, 2.3rem); }
+    .page-hero p { color: var(--muted); margin: 0; max-width: 42rem; }
+    .section { padding: 28px 0 40px; }
+    .tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+    .tool-card { display: block; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; text-decoration: none; color: inherit; box-shadow: var(--shadow-sm); transition: border-color .15s, box-shadow .15s, transform .15s; }
+    .tool-card:hover { border-color: var(--primary); box-shadow: var(--shadow); transform: translateY(-2px); }
+    .tool-card h3 { margin: 0 0 6px; font-size: 1.05rem; }
+    .tool-card p { margin: 0 0 12px; color: var(--muted); font-size: .92rem; }
+    .tool-meta { font-size: .78rem; font-weight: 600; color: var(--primary-dark); background: #eef7f8; display: inline-block; padding: 3px 8px; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#widgets">Skip to widgets</a>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="/" aria-label="Powered By Digital (PBD) — Home"><span class="logo-mark" aria-hidden="true">P</span><span class="brand-text"><span class="brand-name">PBD</span><span class="brand-full">Powered By Digital</span></span></a>
+      <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+      <nav id="menu" class="site-nav" aria-label="Main navigation" role="navigation"><a href="/">Home</a><a href="/tools/">Tools</a><a href="/widgets/" aria-current="page">Widgets</a><a href="/guides/">Guides</a><a href="/about/">About</a></nav>
+    </div>
+  </header>
+  <main id="widgets">
+    <section class="page-hero"><div class="container"><h1>Widgets</h1><p>Embeddable widgets you can drop into any page with a simple iframe. Free and no tracking.</p></div></section>
+    <section class="section"><div class="container"><div class="tool-grid">
+      <a class="tool-card" href="/widgets/nepali-proverb/"><h3>Nepali Proverb of the Day</h3><p>120+ ukhan with daily and random modes. Embeddable iframe for blogs and sites.</p><div class="tool-meta">Widgets</div></a>
+    </div></div></section>
+  </main>
+  <footer class="site-footer"><div class="bar footer-bar"><nav id="footer-menu" class="footer-pills" aria-label="Footer"><a href="/tools/nepali-typing/">Nepali Typing</a><a href="/tools/preeti-to-unicode/">Preeti ↔ Unicode</a><a href="/tools/nepali-date-converter/">BS ↔ AD</a><a href="/tools/income-tax-calculator/">Income Tax</a><a href="/tools/number-to-nepali-words/">Number to Words</a><a href="/tools/nepal-map/">Nepal Map</a><a href="/tools/today-nepali-date/">Today's Date</a><a href="/tools/nepali-spell-checker/">Spell Checker</a></nav><div class="footer-meta"><p class="footer-copy">© <span id="yr"></span> Powered By Digital (PBD)</p><nav class="footer-legal" aria-label="Legal"><a href="/about/">About</a><a href="/privacy/">Privacy</a></nav></div></div></footer>
+  <script src="/assets/menu.js" defer></script>
+  <script src="/assets/pwa.js" defer></script>
+</body>
+</html>
