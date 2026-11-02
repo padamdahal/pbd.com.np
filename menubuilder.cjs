@@ -18,7 +18,7 @@ const BRAND = `<a class="brand" href="/" aria-label="Powered By Digital (PBD) â€
 
 const NAV_TOGGLE = `<button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">â˜°</button>`;
 
-const HEADER_NAV = `<nav id="menu" class="site-nav" aria-label="Main navigation" role="navigation"><a href="/">Home</a><a href="/#tools">Tools</a><a href="/#widgets">Widgets</a><a href="/#guides">Guides</a><a href="/about/">About</a></nav>`;
+const HEADER_NAV = `<nav id="menu" class="site-nav" aria-label="Main navigation" role="navigation"><a href="/">Home</a><a href="/tools/">Tools</a><a href="/widgets/">Widgets</a><a href="/guides/">Guides</a><a href="/about/">About</a></nav>`;
 
 /** Full header bar contents (brand + toggle + nav) */
 const HEADER_BAR_INNER = `${BRAND}
