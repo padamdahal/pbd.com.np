@@ -159,27 +159,22 @@
     .selected-info.active {
       display: block;
     }
-    .date-block {
-      margin-bottom: 14px;
-    }
-    .date-block .label {
-      font-size: .78rem;
-      font-weight: 600;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: .03em;
-      margin-bottom: 2px;
-    }
-    .date-block .value {
-      font-size: 1.15rem;
+    .sel-dates {
+      font-size: 1.05rem;
       font-weight: 700;
       font-variant-numeric: tabular-nums;
+      line-height: 1.4;
+      margin-bottom: 10px;
+    }
+    .sel-sep {
+      color: var(--muted);
+      font-weight: 500;
+      margin: 0 6px;
     }
     .btn-row {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-top: 12px;
     }
     .btn {
       font: inherit;
@@ -364,13 +359,10 @@
         <h2>Selected day</h2>
         <p class="selected-empty" id="selected-empty">Click or focus a day on the calendar.</p>
         <div class="selected-info" id="selected-info">
-          <div class="date-block">
-            <div class="label">Bikram Sambat</div>
-            <div class="value" id="sel-bs">—</div>
-          </div>
-          <div class="date-block">
-            <div class="label">Gregorian (AD)</div>
-            <div class="value" id="sel-ad">—</div>
+          <div class="sel-dates">
+            <span id="sel-bs">—</span>
+            <span class="sel-sep">·</span>
+            <span id="sel-ad">—</span>
           </div>
           <div class="btn-row">
             <button type="button" class="btn btn-primary" id="btn-copy-iso">Copy ISO</button>
