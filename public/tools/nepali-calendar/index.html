@@ -405,19 +405,8 @@
 
     <section class="howto" aria-labelledby="howto-h">
       <h2 id="howto-h">How to use this calendar on any website</h2>
-      <p>You can either embed a simple month view with an iframe, or include the library script so that click-to-copy and drag-to-fill work on your own forms.</p>
-
-      <h3>1. Simple embed (iframe)</h3>
-      <p>Best when you only need a visual calendar. Users can still click days to copy the ISO date inside the iframe.</p>
-      <pre class="code-block"><code>&lt;iframe
-  src="https://pbd.com.np/tools/nepali-calendar/"
-  title="Nepali Calendar (BS)"
-  width="100%"
-  height="520"
-  style="border:0;border-radius:12px;max-width:400px"
-  loading="lazy"&gt;&lt;/iframe&gt;</code></pre>
-
-      <h3>2. Full interactive calendar on your own page (recommended for forms)</h3>
+      <p>You can simply include the library script so that click-to-copy and drag-to-fill work on your own forms.</p>
+      <h3>1. Full interactive calendar on your own page (recommended for forms)</h3>
       <p>Add the script once, then mount the calendar wherever you want. Drag-and-drop and clipboard copy will work for every input on that page.</p>
       <pre class="code-block"><code>&lt;!-- 1. Include the library (once per page) --&gt;
 &lt;script src="https://pbd.com.np/tools/nepali-calendar/nepali-calendar.js"&gt;&lt;/script&gt;
@@ -440,7 +429,7 @@
         <strong>Drag-to-fill tip:</strong> After the script is loaded, any day cell can be dragged onto a normal <code>&lt;input&gt;</code> or <code>&lt;textarea&gt;</code> on the same page. The field receives the ISO date (<code>yyyy-mm-dd</code>). Readonly fields are filled by default (useful for many date pickers).
       </div>
 
-      <h3>3. Auto-mount with a data attribute</h3>
+      <h3>2. Auto-mount with a data attribute</h3>
       <p>If you prefer zero JavaScript on your side:</p>
       <pre class="code-block"><code>&lt;div data-nepali-calendar
      data-lang="ne"
@@ -523,7 +512,7 @@ NepaliCalendar.today("Asia/Kathmandu");
   </footer>
 
   <script src="nepali-calendar.js"></script>
-  <script>
+  <!--script>
     (function () {
       var host = document.getElementById('calendar-host');
       var cal = NepaliCalendar.mount(host, {
@@ -669,7 +658,7 @@ NepaliCalendar.today("Asia/Kathmandu");
       var yr = document.getElementById('yr');
       if (yr) yr.textContent = new Date().getFullYear();
     })();
-  </script>
+</script -->
   <script src="/assets/menu.js" defer></script>
   <script src="/assets/pwa.js" defer></script>
 </body>
