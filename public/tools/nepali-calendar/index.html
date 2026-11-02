@@ -4,7 +4,673 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0b7285">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="PBD">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/icon-512.png">
+
   <title>Interactive Nepali Calendar (BS) – Bikram Sambat Month View | PBD</title>
+  <meta name="description" content="Free interactive Bikram Sambat (Nepali) calendar. Browse any BS month, click a day to copy the ISO (Gregorian) date, or drag days onto form fields. Works offline. Perfect for forms, banks and official documents in Nepal.">
+  <link rel="canonical" href="https://pbd.com.np/tools/nepali-calendar/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="keywords" content="Nepali calendar, Bikram Sambat calendar, BS calendar online, interactive Nepali calendar, विक्रम संवत क्यालेन्डर, BS to AD calendar, drag date to form, copy ISO date, Nepali month view, Nepal calendar 2082 2083">
+  <meta name="menu-title" content="Nepali Calendar (BS)">
+  <meta name="menu-description" content="Interactive Bikram Sambat month calendar. Click to copy ISO date or drag onto form fields.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="PBD">
+  <meta property="og:title" content="Interactive Nepali Calendar (BS) – Bikram Sambat Month View">
+  <meta property="og:description" content="Browse any Bikram Sambat month. Click a day to copy the Gregorian ISO date, or drag it onto any form field. Free, private and works offline.">
+  <meta property="og:url" content="https://pbd.com.np/tools/nepali-calendar/">
+  <meta property="og:image" content="https://pbd.com.np/assets/og-default.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ne_NP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Interactive Nepali Calendar (BS)">
+  <meta name="twitter:description" content="Click or drag Bikram Sambat days to copy ISO dates or fill form fields. Free online tool for Nepal.">
+  <meta name="twitter:image" content="https://pbd.com.np/assets/og-default.svg">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Interactive Nepali Calendar (BS)",
+    "url": "https://pbd.com.np/tools/nepali-calendar/",
+    "description": "Interactive Bikram Sambat month calendar. Click any day to copy its Gregorian ISO date, or drag days onto form inputs. Covers BS 2000–2090.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "browserRequirements": "Requires JavaScript",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "NPR" },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Powered By Digital",
+      "url": "https://pbd.com.np/"
+    },
+    "inLanguage": ["ne", "en"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I copy a date from the Nepali calendar?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Click any day (or focus it and press Enter). The Gregorian ISO date (yyyy-mm-dd) is copied to your clipboard. You will see a brief tick mark confirmation."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does drag-to-fill work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Drag any day cell and drop it onto an input or textarea on the same page. The field is filled with the ISO date (yyyy-mm-dd). This works for text, date, search and similar input types."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What years does the calendar cover?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "BS 2000 to 2090 (roughly AD 1943–2034). Years up to BS 2083 are verified against two independent sources. Later years are marked provisional because sources sometimes disagree on month lengths."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I embed this calendar on my own website?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. You can use a simple iframe for a read-only month view, or include the nepali-calendar.js script and call NepaliCalendar.mount() so that click-to-copy and drag-to-fill work on your own forms."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does the calendar work offline?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. After the first load the page and the calendar library work fully offline. No data is sent to any server."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is Bikram Sambat the same as the official Nepali calendar?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Bikram Sambat (BS / विक्रम संवत्) is the official calendar of Nepal used in government forms, banks, citizenship papers and most everyday documents."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+
+  <style>
+    .cal-layout {
+      display: grid;
+      gap: 24px;
+      margin-top: 8px;
+    }
+    @media (min-width: 820px) {
+      .cal-layout {
+        grid-template-columns: minmax(280px, 380px) 1fr;
+        align-items: start;
+      }
+    }
+    .cal-host {
+      width: 100%;
+      max-width: 380px;
+      margin: 0 auto;
+    }
+    .cal-host .nepali-calendar {
+      width: 100%;
+    }
+    .side-panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px 18px 16px;
+      box-shadow: var(--shadow-sm);
+    }
+    .side-panel h2 {
+      margin: 0 0 12px;
+      font-size: 1.05rem;
+    }
+    .selected-empty {
+      color: var(--muted);
+      font-size: .95rem;
+      margin: 0;
+    }
+    .selected-info {
+      display: none;
+    }
+    .selected-info.active {
+      display: block;
+    }
+    .date-block {
+      margin-bottom: 14px;
+    }
+    .date-block .label {
+      font-size: .78rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .03em;
+      margin-bottom: 2px;
+    }
+    .date-block .value {
+      font-size: 1.15rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+    .date-block .sub {
+      font-size: .9rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .btn {
+      font: inherit;
+      font-size: .88rem;
+      font-weight: 600;
+      border-radius: 8px;
+      padding: .45rem .85rem;
+      cursor: pointer;
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--text);
+    }
+    .btn:hover {
+      background: #eef5f6;
+    }
+    .btn-primary {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+    .btn-primary:hover {
+      filter: brightness(1.08);
+    }
+    .btn.copied {
+      background: #0a7a3e;
+      border-color: #0a7a3e;
+      color: #fff;
+    }
+    .demo-box {
+      margin-top: 20px;
+      padding: 14px 16px;
+      background: #eef7f8;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+    }
+    .demo-box h3 {
+      margin: 0 0 8px;
+      font-size: .98rem;
+    }
+    .demo-box p {
+      margin: 0 0 10px;
+      font-size: .9rem;
+      color: var(--muted);
+    }
+    .demo-fields {
+      display: grid;
+      gap: 10px;
+    }
+    .demo-fields label {
+      display: block;
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 3px;
+    }
+    .demo-fields input {
+      width: 100%;
+      font: inherit;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+    .howto {
+      margin-top: 36px;
+    }
+    .howto h2 {
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+    }
+    .howto h3 {
+      font-size: 1.02rem;
+      margin: 20px 0 8px;
+    }
+    .howto pre, .code-block {
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 14px 16px;
+      border-radius: 10px;
+      overflow-x: auto;
+      font-size: .82rem;
+      line-height: 1.5;
+      margin: 8px 0 12px;
+    }
+    .howto code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+    .howto .tip {
+      background: #eef7f8;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: .93rem;
+      margin: 12px 0;
+    }
+    .faq {
+      margin-top: 36px;
+    }
+    .faq h2 {
+      font-size: 1.15rem;
+    }
+    .faq-item {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      margin-bottom: 8px;
+    }
+    .faq-item summary {
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .faq-item p {
+      margin: 8px 0 4px;
+      color: var(--muted);
+    }
+    .related-tools {
+      margin-top: 24px;
+      font-size: .95rem;
+    }
+    .related-tools a {
+      margin-right: 12px;
+    }
+    .note {
+      font-size: .88rem;
+      color: var(--muted);
+      margin-top: 16px;
+    }
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #0f172a;
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: .9rem;
+      font-weight: 600;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s, transform .2s;
+      z-index: 100;
+      box-shadow: 0 8px 24px rgba(0,0,0,.25);
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632604868005505"
+     crossorigin="anonymous"></script>
 </head>
-<body>Placeholder restored via next step</body>
+<body>
+  <a class="skip" href="#tool">Skip to tool</a>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="/"><span class="logo-mark">P</span><span>PBD</span></a>
+      <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+      <nav id="menu" class="site-nav" aria-label="Main navigation" role="navigation">
+        <a href="/">Home</a>
+        <a href="/#tools">Tools</a>
+        <a href="/#widgets">Widgets</a>
+        <a href="/#guides">Guides</a>
+        <a href="/about/">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="narrow" id="tool">
+    <div class="page-intro">
+      <h1>Interactive Nepali Calendar (BS)</h1>
+      <p class="lead">Browse any Bikram Sambat month. Click a day to copy its Gregorian ISO date, or drag the day onto a form field to fill it. Fully client-side and works offline.</p>
+    </div>
+
+    <div class="cal-layout">
+      <div>
+        <div id="calendar-host" class="cal-host"></div>
+      </div>
+
+      <aside class="side-panel" aria-live="polite">
+        <h2>Selected day</h2>
+        <p class="selected-empty" id="selected-empty">Click or focus a day on the calendar.</p>
+        <div class="selected-info" id="selected-info">
+          <div class="date-block">
+            <div class="label">Bikram Sambat</div>
+            <div class="value" id="sel-bs">—</div>
+            <div class="sub" id="sel-bs-wd"></div>
+          </div>
+          <div class="date-block">
+            <div class="label">Gregorian (AD)</div>
+            <div class="value" id="sel-ad">—</div>
+            <div class="sub" id="sel-iso"></div>
+          </div>
+          <div class="btn-row">
+            <button type="button" class="btn btn-primary" id="btn-copy-iso">Copy ISO</button>
+            <button type="button" class="btn" id="btn-copy-bs">Copy BS</button>
+            <button type="button" class="btn" id="btn-copy-ad">Copy AD</button>
+          </div>
+        </div>
+
+        <div class="demo-box">
+          <h3>Try drag-to-fill</h3>
+          <p>Drag any day from the calendar and drop it on these fields.</p>
+          <div class="demo-fields">
+            <div>
+              <label for="demo-text">Text input</label>
+              <input id="demo-text" type="text" placeholder="Drop a day here…">
+            </div>
+            <div>
+              <label for="demo-date">Date input</label>
+              <input id="demo-date" type="date">
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <section class="howto" aria-labelledby="howto-h">
+      <h2 id="howto-h">How to use this calendar on any website</h2>
+      <p>You can either embed a simple month view with an iframe, or include the library script so that click-to-copy and drag-to-fill work on your own forms.</p>
+
+      <h3>1. Simple embed (iframe)</h3>
+      <p>Best when you only need a visual calendar. Users can still click days to copy the ISO date inside the iframe.</p>
+      <pre class="code-block"><code>&lt;iframe
+  src="https://pbd.com.np/tools/nepali-calendar/"
+  title="Nepali Calendar (BS)"
+  width="100%"
+  height="520"
+  style="border:0;border-radius:12px;max-width:400px"
+  loading="lazy"&gt;&lt;/iframe&gt;</code></pre>
+
+      <h3>2. Full interactive calendar on your own page (recommended for forms)</h3>
+      <p>Add the script once, then mount the calendar wherever you want. Drag-and-drop and clipboard copy will work for every input on that page.</p>
+      <pre class="code-block"><code>&lt;!-- 1. Include the library (once per page) --&gt;
+&lt;script src="https://pbd.com.np/tools/nepali-calendar/nepali-calendar.js"&gt;&lt;/script&gt;
+
+&lt;!-- 2. Place a container --&gt;
+&lt;div id="my-calendar"&gt;&lt;/div&gt;
+
+&lt;!-- 3. Mount it --&gt;
+&lt;script&gt;
+  NepaliCalendar.mount('#my-calendar', {
+    lang: 'ne',          // 'ne' or 'en'
+    theme: 'light',      // 'light' | 'dark' | 'auto'
+    timeZone: 'Asia/Kathmandu',
+    showAD: true,
+    langToggle: true
+  });
+&lt;/script&gt;</code></pre>
+
+      <div class="tip">
+        <strong>Drag-to-fill tip:</strong> After the script is loaded, any day cell can be dragged onto a normal <code>&lt;input&gt;</code> or <code>&lt;textarea&gt;</code> on the same page. The field receives the ISO date (<code>yyyy-mm-dd</code>). Readonly fields are filled by default (useful for many date pickers).
+      </div>
+
+      <h3>3. Auto-mount with a data attribute</h3>
+      <p>If you prefer zero JavaScript on your side:</p>
+      <pre class="code-block"><code>&lt;div data-nepali-calendar
+     data-lang="ne"
+     data-theme="auto"
+     data-time-zone="Asia/Kathmandu"&gt;&lt;/div&gt;
+&lt;script src="https://pbd.com.np/tools/nepali-calendar/nepali-calendar.js"&gt;&lt;/script&gt;</code></pre>
+
+      <h3>Useful API helpers</h3>
+      <pre class="code-block"><code>// Convert a single date
+NepaliCalendar.toAD(2082, 7, 16);   // → "2025-11-02"
+NepaliCalendar.toBS("2025-11-02");  // → { year: 2082, month: 7, day: 16 }
+
+// Today in Nepal time
+NepaliCalendar.today("Asia/Kathmandu");
+// → { iso: "2025-11-02", bs: { year: 2082, month: 7, day: 16 } }</code></pre>
+    </section>
+
+    <section class="faq" aria-label="Frequently asked questions">
+      <h2>Frequently asked questions</h2>
+      <details class="faq-item">
+        <summary>How do I copy a date?</summary>
+        <p>Click any day (or focus it with the keyboard and press Enter). The Gregorian ISO date is copied to the clipboard and a short confirmation appears.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How does drag-to-fill work?</summary>
+        <p>Drag a day cell and drop it on any text, date, search or similar input (or textarea) on the same page. The field is set to the ISO date. This works even if the input is readonly.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What BS years are supported?</summary>
+        <p>BS 2000–2090 (approximately AD 1943–2034). Years through 2083 are verified against two independent sources. Later years are shown with a provisional warning because sources can disagree on exact month lengths.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Can I use this calendar on my own website or form?</summary>
+        <p>Yes. Use the iframe for a simple embed, or include the <code>nepali-calendar.js</code> script and call <code>NepaliCalendar.mount()</code> so that click-to-copy and drag-to-fill work on your forms.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Does it work offline?</summary>
+        <p>Yes. After the first visit the page and library work fully offline. Nothing is sent to a server.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Is the data accurate for official documents?</summary>
+        <p>The calendar table matches common sources used in Nepal for banks and forms. Always double-check critical legal or financial dates, especially near year boundaries or for years after BS 2083.</p>
+      </details>
+    </section>
+
+    <p class="related-tools">
+      <strong>Related:</strong>
+      <a href="/tools/nepali-date-converter/">BS ↔ AD Date Converter</a>
+      <a href="/tools/today-nepali-date/">Today’s Nepali Date</a>
+      <a href="/tools/bs-age-calculator/">BS Age Calculator</a>
+      <a href="/">All tools</a>
+    </p>
+
+    <p class="note">
+      Calendar data covers BS 2000–2090. Years after BS 2083 are marked provisional. The library is dependency-free and runs entirely in the browser.
+    </p>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <footer class="site-footer">
+    <div class="bar footer-bar">
+      <nav id="footer-menu" class="footer-pills" aria-label="Footer">
+        <a href="/#tools">Tools</a>
+        <a href="/#widgets">Widgets</a>
+        <a href="/#guides">Guides</a>
+        <a href="/tools/nepali-typing/">Nepali Typing</a>
+        <a href="/tools/preeti-to-unicode/">Preeti ↔ Unicode</a>
+        <a href="/tools/income-tax-calculator/">Income Tax</a>
+        <a href="/tools/nepal-map/">Nepal Map</a>
+      </nav>
+      <div class="footer-meta">
+        <p class="footer-copy">© <span id="yr"></span> Powered By Digital (PBD)</p>
+        <nav class="footer-legal" aria-label="Legal">
+          <a href="/about/">About</a>
+          <a href="/privacy/">Privacy</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <script src="nepali-calendar.js"></script>
+  <script>
+    (function () {
+      var host = document.getElementById('calendar-host');
+      var cal = NepaliCalendar.mount(host, {
+        lang: 'ne',
+        theme: 'light',
+        timeZone: 'Asia/Kathmandu',
+        showAD: true,
+        langToggle: true
+      });
+
+      var empty = document.getElementById('selected-empty');
+      var info = document.getElementById('selected-info');
+      var selBs = document.getElementById('sel-bs');
+      var selBsWd = document.getElementById('sel-bs-wd');
+      var selAd = document.getElementById('sel-ad');
+      var selIso = document.getElementById('sel-iso');
+      var lastIso = null;
+      var lastBs = null;
+
+      var MONTHS_NE = ['बैशाख','जेठ','असार','श्रावण','भाद्र','आश्विन','कार्तिक','मंसिर','पौष','माघ','फाल्गुन','चैत्र'];
+      var MONTHS_EN = ['Baisakh','Jestha','Asar','Shrawan','Bhadra','Aswin','Kartik','Mangsir','Poush','Magh','Falgun','Chaitra'];
+      var WD_NE = ['आइतबार','सोमबार','मङ्गलबार','बुधबार','बिहीबार','शुक्रबार','शनिबार'];
+      var WD_EN = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+      function showToast(msg) {
+        var t = document.getElementById('toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        clearTimeout(showToast._tid);
+        showToast._tid = setTimeout(function () { t.classList.remove('show'); }, 1800);
+      }
+
+      function updateSelected(iso) {
+        if (!iso) return;
+        lastIso = iso;
+        var bs = NepaliCalendar.toBS(iso);
+        lastBs = bs;
+        if (!bs) return;
+
+        var lang = cal.lang || 'ne';
+        var months = lang === 'ne' ? MONTHS_NE : MONTHS_EN;
+        var wds = lang === 'ne' ? WD_NE : WD_EN;
+        var d = new Date(iso + 'T12:00:00Z');
+        var wd = d.getUTCDay();
+
+        selBs.textContent = (lang === 'ne'
+          ? bs.day + ' ' + months[bs.month - 1] + ' ' + bs.year
+          : months[bs.month - 1] + ' ' + bs.day + ', ' + bs.year);
+        selBsWd.textContent = wds[wd];
+
+        var adParts = iso.split('-');
+        selAd.textContent = adParts[2] + ' ' + ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+adParts[1]-1] + ' ' + adParts[0];
+        selIso.textContent = iso;
+
+        empty.style.display = 'none';
+        info.classList.add('active');
+      }
+
+      // Listen for copy events from the calendar
+      host.addEventListener('nepali-calendar:copy', function (e) {
+        var d = e.detail;
+        if (d && d.iso) {
+          updateSelected(d.iso);
+          showToast(d.ok ? 'Copied ' + d.iso : 'Could not copy');
+        }
+      });
+
+      // Also update selection when a day is focused / clicked (before copy finishes)
+      host.addEventListener('click', function (e) {
+        var day = e.target.closest && e.target.closest('.day');
+        if (day) {
+          var iso = day.getAttribute('data-iso');
+          if (iso) updateSelected(iso);
+        }
+      });
+
+      // Keyboard focus
+      host.addEventListener('focusin', function (e) {
+        var day = e.target.closest && e.target.closest('.day');
+        if (day) {
+          var iso = day.getAttribute('data-iso');
+          if (iso) updateSelected(iso);
+        }
+      });
+
+      // Language change should refresh labels
+      host.addEventListener('nepali-calendar:change', function () {
+        if (lastIso) updateSelected(lastIso);
+      });
+
+      function copyText(text, btn) {
+        if (!text) return;
+        var nav = navigator;
+        var p = (nav.clipboard && nav.clipboard.writeText)
+          ? nav.clipboard.writeText(text)
+          : Promise.resolve(false);
+        p.then(function (ok) {
+          if (ok === false) {
+            // legacy fallback already handled inside library for calendar clicks
+            try {
+              var ta = document.createElement('textarea');
+              ta.value = text;
+              ta.style.cssText = 'position:fixed;opacity:0';
+              document.body.appendChild(ta);
+              ta.select();
+              ok = document.execCommand('copy');
+              document.body.removeChild(ta);
+            } catch (err) { ok = false; }
+          }
+          if (btn) {
+            var orig = btn.textContent;
+            btn.classList.add('copied');
+            btn.textContent = ok ? 'Copied' : 'Failed';
+            setTimeout(function () {
+              btn.classList.remove('copied');
+              btn.textContent = orig;
+            }, 1200);
+          }
+          showToast(ok ? 'Copied ' + text : 'Could not copy');
+        });
+      }
+
+      document.getElementById('btn-copy-iso').addEventListener('click', function () {
+        copyText(lastIso, this);
+      });
+      document.getElementById('btn-copy-bs').addEventListener('click', function () {
+        if (!lastBs) return;
+        var lang = cal.lang || 'ne';
+        var months = lang === 'ne' ? MONTHS_NE : MONTHS_EN;
+        var text = lang === 'ne'
+          ? lastBs.day + ' ' + months[lastBs.month - 1] + ' ' + lastBs.year
+          : months[lastBs.month - 1] + ' ' + lastBs.day + ', ' + lastBs.year;
+        copyText(text, this);
+      });
+      document.getElementById('btn-copy-ad').addEventListener('click', function () {
+        if (!lastIso) return;
+        var p = lastIso.split('-');
+        var text = p[2] + ' ' + ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+p[1]-1] + ' ' + p[0];
+        copyText(text, this);
+      });
+
+      // Year in footer
+      var yr = document.getElementById('yr');
+      if (yr) yr.textContent = new Date().getFullYear();
+    })();
+  </script>
+  <script src="/assets/menu.js" defer></script>
+  <script src="/assets/pwa.js" defer></script>
+</body>
 </html>
