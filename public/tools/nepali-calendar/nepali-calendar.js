@@ -1,1 +1,1 @@
-PLACEHOLDER_JS
+/* full library will be restored */
