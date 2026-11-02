@@ -175,11 +175,6 @@
       font-weight: 700;
       font-variant-numeric: tabular-nums;
     }
-    .date-block .sub {
-      font-size: .9rem;
-      color: var(--muted);
-      margin-top: 2px;
-    }
     .btn-row {
       display: flex;
       flex-wrap: wrap;
@@ -362,13 +357,7 @@
 
     <div class="cal-layout">
       <div>
-        <div id="calendar-host" class="cal-host"
-             data-nepali-calendar
-             data-lang="ne"
-             data-theme="light"
-             data-time-zone="Asia/Kathmandu"
-             data-show-ad="true"
-             data-lang-toggle="true"></div>
+        <div id="calendar-host" class="cal-host"></div>
       </div>
 
       <aside class="side-panel" aria-live="polite">
@@ -378,12 +367,10 @@
           <div class="date-block">
             <div class="label">Bikram Sambat</div>
             <div class="value" id="sel-bs">—</div>
-            <div class="sub" id="sel-bs-wd"></div>
           </div>
           <div class="date-block">
             <div class="label">Gregorian (AD)</div>
             <div class="value" id="sel-ad">—</div>
-            <div class="sub" id="sel-iso"></div>
           </div>
           <div class="btn-row">
             <button type="button" class="btn btn-primary" id="btn-copy-iso">Copy ISO</button>
@@ -434,8 +421,8 @@
 &lt;!-- 3. Mount it --&gt;
 &lt;script&gt;
   NepaliCalendar.mount('#my-calendar', {
-    lang: 'ne',          // 'ne' or 'en'
-    theme: 'light',      // 'light' | 'dark' | 'auto'
+    lang: 'ne',
+    theme: 'light',
     timeZone: 'Asia/Kathmandu',
     showAD: true,
     langToggle: true
@@ -443,7 +430,7 @@
 &lt;/script&gt;</code></pre>
 
       <div class="tip">
-        <strong>Drag-to-fill tip:</strong> After the script is loaded, any day cell can be dragged onto a normal <code>&lt;input&gt;</code> or <code>&lt;textarea&gt;</code> on the same page. The field receives the ISO date (<code>yyyy-mm-dd</code>). Readonly fields are filled by default (useful for many date pickers).
+        <strong>Drag-to-fill tip:</strong> After the script is loaded, any day cell can be dragged onto a normal <code>&lt;input&gt;</code> or <code>&lt;textarea&gt;</code> on the same page. The field receives the ISO date (<code>yyyy-mm-dd</code>). Readonly fields are filled by default.
       </div>
 
       <h3>3. Auto-mount with a data attribute</h3>
@@ -455,40 +442,36 @@
 &lt;script src="https://pbd.com.np/tools/nepali-calendar/nepali-calendar.js"&gt;&lt;/script&gt;</code></pre>
 
       <h3>Useful API helpers</h3>
-      <pre class="code-block"><code>// Convert a single date
-NepaliCalendar.toAD(2082, 7, 16);   // → "2025-11-02"
+      <pre class="code-block"><code>NepaliCalendar.toAD(2082, 7, 16);   // → "2025-11-02"
 NepaliCalendar.toBS("2025-11-02");  // → { year: 2082, month: 7, day: 16 }
-
-// Today in Nepal time
-NepaliCalendar.today("Asia/Kathmandu");
-// → { iso: "2025-11-02", bs: { year: 2082, month: 7, day: 16 } }</code></pre>
+NepaliCalendar.today("Asia/Kathmandu");</code></pre>
     </section>
 
     <section class="faq" aria-label="Frequently asked questions">
       <h2>Frequently asked questions</h2>
       <details class="faq-item">
         <summary>How do I copy a date?</summary>
-        <p>Click any day (or focus it with the keyboard and press Enter). The Gregorian ISO date is copied to the clipboard and a short confirmation appears.</p>
+        <p>Click any day (or focus it and press Enter). The Gregorian ISO date is copied to the clipboard.</p>
       </details>
       <details class="faq-item">
         <summary>How does drag-to-fill work?</summary>
-        <p>Drag a day cell and drop it on any text, date, search or similar input (or textarea) on the same page. The field is set to the ISO date. This works even if the input is readonly.</p>
+        <p>Drag a day cell and drop it on any text or date input on the same page. The field is set to the ISO date.</p>
       </details>
       <details class="faq-item">
         <summary>What BS years are supported?</summary>
-        <p>BS 2000–2090 (approximately AD 1943–2034). Years through 2083 are verified against two independent sources. Later years are shown with a provisional warning because sources can disagree on exact month lengths.</p>
+        <p>BS 2000–2090 (approximately AD 1943–2034). Years through 2083 are verified. Later years are provisional.</p>
       </details>
       <details class="faq-item">
-        <summary>Can I use this calendar on my own website or form?</summary>
-        <p>Yes. Use the iframe for a simple embed, or include the <code>nepali-calendar.js</code> script and call <code>NepaliCalendar.mount()</code> so that click-to-copy and drag-to-fill work on your forms.</p>
+        <summary>Can I use this calendar on my own website?</summary>
+        <p>Yes. Use the iframe for a simple embed, or include the script and call NepaliCalendar.mount() so click-to-copy and drag-to-fill work on your forms.</p>
       </details>
       <details class="faq-item">
         <summary>Does it work offline?</summary>
-        <p>Yes. After the first visit the page and library work fully offline. Nothing is sent to a server.</p>
+        <p>Yes. After the first visit the page and library work fully offline.</p>
       </details>
       <details class="faq-item">
         <summary>Is the data accurate for official documents?</summary>
-        <p>The calendar table matches common sources used in Nepal for banks and forms. Always double-check critical legal or financial dates, especially near year boundaries or for years after BS 2083.</p>
+        <p>The calendar table matches common sources used in Nepal. Always double-check critical legal or financial dates, especially after BS 2083.</p>
       </details>
     </section>
 
@@ -501,7 +484,7 @@ NepaliCalendar.today("Asia/Kathmandu");
     </p>
 
     <p class="note">
-      Calendar data covers BS 2000–2090. Years after BS 2083 are marked provisional. The library is dependency-free and runs entirely in the browser.
+      Calendar data covers BS 2000–2090. Years after BS 2083 are marked provisional.
     </p>
   </main>
 
@@ -532,29 +515,26 @@ NepaliCalendar.today("Asia/Kathmandu");
   <script>
   (function () {
     var host = document.getElementById("calendar-host");
-    if (host && !host.getAttribute("data-nc-mounted")) {
-      NepaliCalendar.mount(host, {
-        lang: "ne", theme: "light", timeZone: "Asia/Kathmandu",
-        showAD: true, langToggle: true
-      });
-    }
+    var cal = NepaliCalendar.mount(host, {
+      lang: "ne",
+      theme: "light",
+      timeZone: "Asia/Kathmandu",
+      showAD: true,
+      langToggle: true
+    });
 
     var empty = document.getElementById("selected-empty");
     var info  = document.getElementById("selected-info");
     var selBs = document.getElementById("sel-bs");
-    var selWd = document.getElementById("sel-bs-wd");
     var selAd = document.getElementById("sel-ad");
-    var selIso= document.getElementById("sel-iso");
-    var lastIso = null, lastBs = null;
+    var lastIso = null;
 
     var M_NE = ["बैशाख","जेठ","असार","श्रावण","भाद्र","आश्विन","कार्तिक","मंसिर","पौष","माघ","फाल्गुन","चैत्र"];
     var M_EN = ["Baisakh","Jestha","Asar","Shrawan","Bhadra","Aswin","Kartik","Mangsir","Poush","Magh","Falgun","Chaitra"];
-    var W_NE = ["आइतबार","सोमबार","मङ्गलबार","बुधबार","बिहीबार","शुक्रबार","शनिबार"];
-    var W_EN = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
     var AD_M = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
     function lang() {
-      return (host && (host.getAttribute("lang") || host.dataset.lang)) || "ne";
+      return cal.lang || "ne";
     }
 
     function toast(msg) {
@@ -569,37 +549,33 @@ NepaliCalendar.today("Asia/Kathmandu");
     function show(iso) {
       if (!iso) return;
       lastIso = iso;
-      lastBs = NepaliCalendar.toBS(iso);
-      if (!lastBs) return;
-      var L = lang(), m = L === "ne" ? M_NE : M_EN, w = L === "ne" ? W_NE : W_EN;
-      var d = new Date(iso + "T12:00:00Z");
+      var bs = NepaliCalendar.toBS(iso);
+      if (!bs) return;
+      var L = lang();
+      var m = L === "ne" ? M_NE : M_EN;
       selBs.textContent = L === "ne"
-        ? lastBs.day + " " + m[lastBs.month - 1] + " " + lastBs.year
-        : m[lastBs.month - 1] + " " + lastBs.day + ", " + lastBs.year;
-      selWd.textContent = w[d.getUTCDay()];
+        ? bs.day + " " + m[bs.month - 1] + " " + bs.year
+        : m[bs.month - 1] + " " + bs.day + ", " + bs.year;
       var p = iso.split("-");
       selAd.textContent = p[2] + " " + AD_M[+p[1] - 1] + " " + p[0];
-      selIso.textContent = iso;
       empty.style.display = "none";
       info.classList.add("active");
     }
 
     function copy(text, btn) {
       if (!text) return;
-      var done = function (success) {
+      var done = function (ok) {
         if (btn) {
           var o = btn.textContent;
           btn.classList.add("copied");
-          btn.textContent = success ? "Copied" : "Failed";
+          btn.textContent = ok ? "Copied" : "Failed";
           setTimeout(function () { btn.classList.remove("copied"); btn.textContent = o; }, 1100);
         }
-        toast(success ? "Copied " + text : "Could not copy");
+        toast(ok ? "Copied " + text : "Could not copy");
       };
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(legacy(text)); });
-      } else {
-        done(legacy(text));
-      }
+      } else done(legacy(text));
     }
     function legacy(t) {
       try {
@@ -630,13 +606,17 @@ NepaliCalendar.today("Asia/Kathmandu");
       if (lastIso) show(lastIso);
     });
 
-    document.getElementById("btn-copy-iso").onclick = function () { copy(lastIso, this); };
+    document.getElementById("btn-copy-iso").onclick = function () {
+      copy(lastIso, this);
+    };
     document.getElementById("btn-copy-bs").onclick = function () {
-      if (!lastBs) return;
+      if (!lastIso) return;
+      var bs = NepaliCalendar.toBS(lastIso);
+      if (!bs) return;
       var L = lang(), m = L === "ne" ? M_NE : M_EN;
       var t = L === "ne"
-        ? lastBs.day + " " + m[lastBs.month - 1] + " " + lastBs.year
-        : m[lastBs.month - 1] + " " + lastBs.day + ", " + lastBs.year;
+        ? bs.day + " " + m[bs.month - 1] + " " + bs.year
+        : m[bs.month - 1] + " " + bs.day + ", " + bs.year;
       copy(t, this);
     };
     document.getElementById("btn-copy-ad").onclick = function () {
