@@ -530,158 +530,124 @@ NepaliCalendar.today("Asia/Kathmandu");
 
   <script src="nepali-calendar.js"></script>
   <script>
-    (function () {
-      // Auto-mount via data-nepali-calendar attributes on #calendar-host
-      // (library runs autoMount when the script loads)
-      var host = document.getElementById('calendar-host');
-      // Ensure mount if autoMount somehow skipped (e.g. already marked)
-      if (host && !host.getAttribute('data-nc-mounted')) {
-        NepaliCalendar.mount(host, {
-          lang: 'ne',
-          theme: 'light',
-          timeZone: 'Asia/Kathmandu',
-          showAD: true,
-          langToggle: true
-        });
-      }
-      // Reference the calendar instance for language if available
-      var cal = { get lang() {
-        return (host && host.getAttribute('lang')) || host?.dataset?.lang || 'ne';
-      }};
-      var empty = document.getElementById('selected-empty');
-      var info = document.getElementById('selected-info');
-      var selBs = document.getElementById('sel-bs');
-      var selBsWd = document.getElementById('sel-bs-wd');
-      var selAd = document.getElementById('sel-ad');
-      var selIso = document.getElementById('sel-iso');
-      var lastIso = null;
-      var lastBs = null;
+  (function () {
+    var host = document.getElementById("calendar-host");
+    if (host && !host.getAttribute("data-nc-mounted")) {
+      NepaliCalendar.mount(host, {
+        lang: "ne", theme: "light", timeZone: "Asia/Kathmandu",
+        showAD: true, langToggle: true
+      });
+    }
 
-      var MONTHS_NE = ['बैशाख','जेठ','असार','श्रावण','भाद्र','आश्विन','कार्तिक','मंसिर','पौष','माघ','फाल्गुन','चैत्र'];
-      var MONTHS_EN = ['Baisakh','Jestha','Asar','Shrawan','Bhadra','Aswin','Kartik','Mangsir','Poush','Magh','Falgun','Chaitra'];
-      var WD_NE = ['आइतबार','सोमबार','मङ्गलबार','बुधबार','बिहीबार','शुक्रबार','शनिबार'];
-      var WD_EN = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    var empty = document.getElementById("selected-empty");
+    var info  = document.getElementById("selected-info");
+    var selBs = document.getElementById("sel-bs");
+    var selWd = document.getElementById("sel-bs-wd");
+    var selAd = document.getElementById("sel-ad");
+    var selIso= document.getElementById("sel-iso");
+    var lastIso = null, lastBs = null;
 
-      function showToast(msg) {
-        var t = document.getElementById('toast');
-        t.textContent = msg;
-        t.classList.add('show');
-        clearTimeout(showToast._tid);
-        showToast._tid = setTimeout(function () { t.classList.remove('show'); }, 1800);
-      }
+    var M_NE = ["बैशाख","जेठ","असार","श्रावण","भाद्र","आश्विन","कार्तिक","मंसिर","पौष","माघ","फाल्गुन","चैत्र"];
+    var M_EN = ["Baisakh","Jestha","Asar","Shrawan","Bhadra","Aswin","Kartik","Mangsir","Poush","Magh","Falgun","Chaitra"];
+    var W_NE = ["आइतबार","सोमबार","मङ्गलबार","बुधबार","बिहीबार","शुक्रबार","शनिबार"];
+    var W_EN = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+    var AD_M = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
-      function updateSelected(iso) {
-        if (!iso) return;
-        lastIso = iso;
-        var bs = NepaliCalendar.toBS(iso);
-        lastBs = bs;
-        if (!bs) return;
+    function lang() {
+      return (host && (host.getAttribute("lang") || host.dataset.lang)) || "ne";
+    }
 
-        var lang = cal.lang || 'ne';
-        var months = lang === 'ne' ? MONTHS_NE : MONTHS_EN;
-        var wds = lang === 'ne' ? WD_NE : WD_EN;
-        var d = new Date(iso + 'T12:00:00Z');
-        var wd = d.getUTCDay();
+    function toast(msg) {
+      var t = document.getElementById("toast");
+      if (!t) return;
+      t.textContent = msg;
+      t.classList.add("show");
+      clearTimeout(toast._t);
+      toast._t = setTimeout(function () { t.classList.remove("show"); }, 1600);
+    }
 
-        selBs.textContent = (lang === 'ne'
-          ? bs.day + ' ' + months[bs.month - 1] + ' ' + bs.year
-          : months[bs.month - 1] + ' ' + bs.day + ', ' + bs.year);
-        selBsWd.textContent = wds[wd];
+    function show(iso) {
+      if (!iso) return;
+      lastIso = iso;
+      lastBs = NepaliCalendar.toBS(iso);
+      if (!lastBs) return;
+      var L = lang(), m = L === "ne" ? M_NE : M_EN, w = L === "ne" ? W_NE : W_EN;
+      var d = new Date(iso + "T12:00:00Z");
+      selBs.textContent = L === "ne"
+        ? lastBs.day + " " + m[lastBs.month - 1] + " " + lastBs.year
+        : m[lastBs.month - 1] + " " + lastBs.day + ", " + lastBs.year;
+      selWd.textContent = w[d.getUTCDay()];
+      var p = iso.split("-");
+      selAd.textContent = p[2] + " " + AD_M[+p[1] - 1] + " " + p[0];
+      selIso.textContent = iso;
+      empty.style.display = "none";
+      info.classList.add("active");
+    }
 
-        var adParts = iso.split('-');
-        selAd.textContent = adParts[2] + ' ' + ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+adParts[1]-1] + ' ' + adParts[0];
-        selIso.textContent = iso;
-
-        empty.style.display = 'none';
-        info.classList.add('active');
-      }
-
-      // Listen for copy events from the calendar
-      host.addEventListener('nepali-calendar:copy', function (e) {
-        var d = e.detail;
-        if (d && d.iso) {
-          updateSelected(d.iso);
-          showToast(d.ok ? 'Copied ' + d.iso : 'Could not copy');
+    function copy(text, btn) {
+      if (!text) return;
+      var done = function (success) {
+        if (btn) {
+          var o = btn.textContent;
+          btn.classList.add("copied");
+          btn.textContent = success ? "Copied" : "Failed";
+          setTimeout(function () { btn.classList.remove("copied"); btn.textContent = o; }, 1100);
         }
-      });
-
-      // Also update selection when a day is focused / clicked (before copy finishes)
-      host.addEventListener('click', function (e) {
-        var day = e.target.closest && e.target.closest('.day');
-        if (day) {
-          var iso = day.getAttribute('data-iso');
-          if (iso) updateSelected(iso);
-        }
-      });
-
-      // Keyboard focus
-      host.addEventListener('focusin', function (e) {
-        var day = e.target.closest && e.target.closest('.day');
-        if (day) {
-          var iso = day.getAttribute('data-iso');
-          if (iso) updateSelected(iso);
-        }
-      });
-
-      // Language change should refresh labels
-      host.addEventListener('nepali-calendar:change', function () {
-        if (lastIso) updateSelected(lastIso);
-      });
-
-      function copyText(text, btn) {
-        if (!text) return;
-        var nav = navigator;
-        var p = (nav.clipboard && nav.clipboard.writeText)
-          ? nav.clipboard.writeText(text)
-          : Promise.resolve(false);
-        p.then(function (ok) {
-          if (ok === false) {
-            try {
-              var ta = document.createElement('textarea');
-              ta.value = text;
-              ta.style.cssText = 'position:fixed;opacity:0';
-              document.body.appendChild(ta);
-              ta.select();
-              ok = document.execCommand('copy');
-              document.body.removeChild(ta);
-            } catch (err) { ok = false; }
-          }
-          if (btn) {
-            var orig = btn.textContent;
-            btn.classList.add('copied');
-            btn.textContent = ok ? 'Copied' : 'Failed';
-            setTimeout(function () {
-              btn.classList.remove('copied');
-              btn.textContent = orig;
-            }, 1200);
-          }
-          showToast(ok ? 'Copied ' + text : 'Could not copy');
-        });
+        toast(success ? "Copied " + text : "Could not copy");
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(legacy(text)); });
+      } else {
+        done(legacy(text));
       }
+    }
+    function legacy(t) {
+      try {
+        var ta = document.createElement("textarea");
+        ta.value = t; ta.style.cssText = "position:fixed;opacity:0";
+        document.body.appendChild(ta); ta.select();
+        var ok = document.execCommand("copy");
+        document.body.removeChild(ta);
+        return ok;
+      } catch (e) { return false; }
+    }
 
-      document.getElementById('btn-copy-iso').addEventListener('click', function () {
-        copyText(lastIso, this);
-      });
-      document.getElementById('btn-copy-bs').addEventListener('click', function () {
-        if (!lastBs) return;
-        var lang = cal.lang || 'ne';
-        var months = lang === 'ne' ? MONTHS_NE : MONTHS_EN;
-        var text = lang === 'ne'
-          ? lastBs.day + ' ' + months[lastBs.month - 1] + ' ' + lastBs.year
-          : months[lastBs.month - 1] + ' ' + lastBs.day + ', ' + lastBs.year;
-        copyText(text, this);
-      });
-      document.getElementById('btn-copy-ad').addEventListener('click', function () {
-        if (!lastIso) return;
-        var p = lastIso.split('-');
-        var text = p[2] + ' ' + ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+p[1]-1] + ' ' + p[0];
-        copyText(text, this);
-      });
+    host.addEventListener("nepali-calendar:copy", function (e) {
+      if (e.detail && e.detail.iso) {
+        show(e.detail.iso);
+        toast(e.detail.ok ? "Copied " + e.detail.iso : "Could not copy");
+      }
+    });
+    host.addEventListener("click", function (e) {
+      var day = e.target.closest && e.target.closest(".day");
+      if (day) show(day.getAttribute("data-iso"));
+    });
+    host.addEventListener("focusin", function (e) {
+      var day = e.target.closest && e.target.closest(".day");
+      if (day) show(day.getAttribute("data-iso"));
+    });
+    host.addEventListener("nepali-calendar:change", function () {
+      if (lastIso) show(lastIso);
+    });
 
-      // Year in footer
-      var yr = document.getElementById('yr');
-      if (yr) yr.textContent = new Date().getFullYear();
-    })();
+    document.getElementById("btn-copy-iso").onclick = function () { copy(lastIso, this); };
+    document.getElementById("btn-copy-bs").onclick = function () {
+      if (!lastBs) return;
+      var L = lang(), m = L === "ne" ? M_NE : M_EN;
+      var t = L === "ne"
+        ? lastBs.day + " " + m[lastBs.month - 1] + " " + lastBs.year
+        : m[lastBs.month - 1] + " " + lastBs.day + ", " + lastBs.year;
+      copy(t, this);
+    };
+    document.getElementById("btn-copy-ad").onclick = function () {
+      if (!lastIso) return;
+      var p = lastIso.split("-");
+      copy(p[2] + " " + AD_M[+p[1] - 1] + " " + p[0], this);
+    };
+
+    var yr = document.getElementById("yr");
+    if (yr) yr.textContent = new Date().getFullYear();
+  })();
   </script>
   <script src="/assets/menu.js" defer></script>
   <script src="/assets/pwa.js" defer></script>
