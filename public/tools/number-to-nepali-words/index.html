@@ -1,1 +1,250 @@
-PLACEHOLDER
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b7285">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="PBD">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/icon-512.png">
+  <title>Number to Nepali Words Converter – अंकबाट नेपाली शब्द | JS Library</title>
+  <meta name="description" content="Convert any number to Nepali words online. Free JS library for cheques, bills and forms. Supports लाख, करोड, अर्ब, खर्ब and cheque mode (रुपैयाँ मात्र). Embed on your own site.">
+  <link rel="canonical" href="https://pbd.com.np/tools/number-to-nepali-words/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="keywords" content="number to Nepali words, Nepali number converter, अंकबाट शब्द, लाख करोड अर्ब, cheque amount in words Nepal, Nepali digits to words, JavaScript library, NepaliNumberToWords">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="PBD">
+  <meta property="og:title" content="Number to Nepali Words Converter – अंकबाट नेपाली शब्द">
+  <meta property="og:description" content="Type a number in English or Nepali digits and get Nepali words instantly. Free embeddable JavaScript library for cheques, invoices and forms.">
+  <meta property="og:url" content="https://pbd.com.np/tools/number-to-nepali-words/">
+  <meta property="og:image" content="https://pbd.com.np/assets/og-default.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ne_NP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Number to Nepali Words Converter – अंकबाट नेपाली शब्द">
+  <meta name="twitter:description" content="Free number to Nepali words converter + embeddable JS library. लाख, करोड, अर्ब, खर्ब and cheque mode.">
+  <meta name="twitter:image" content="https://pbd.com.np/assets/og-default.svg">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebApplication","name":"Number to Nepali Words","url":"https://pbd.com.np/tools/number-to-nepali-words/","description":"Convert numbers to Nepali words for cheques, bills and forms. Also available as a free JavaScript library.","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"NPR"},"inLanguage":["ne","en"],"publisher":{"@type":"Organization","name":"Powered By Digital","url":"https://pbd.com.np/"}}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"How do I convert a number to Nepali words?","acceptedAnswer":{"@type":"Answer","text":"Type any number in English or Nepali digits. The tool writes it in Nepali words using लाख, करोड, अर्ब and खर्ब."}},
+    {"@type":"Question","name":"Can I use Nepali digits like १२३?","acceptedAnswer":{"@type":"Answer","text":"Yes. English digits (123) and Nepali digits (१२३) both work, including commas and decimals."}},
+    {"@type":"Question","name":"Is this useful for cheques in Nepal?","acceptedAnswer":{"@type":"Answer","text":"Yes. Turn on Cheque mode to get the amount with रुपैयाँ and मात्र. Banks and offices often ask for the amount in words. Always double-check before signing."}},
+    {"@type":"Question","name":"Can I use this as a JavaScript library on my own website?","acceptedAnswer":{"@type":"Answer","text":"Yes. Include the free script from this page and call NepaliNumberToWords.toWords(). Full developer documentation is available on this page."}}
+  ]}
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+  <style>
+    .tool-box { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: var(--s-5); box-shadow: var(--shadow-sm); }
+    .tool-box input { font-size: 1.25rem; padding: 12px 14px; }
+    .samples { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .samples button { font: inherit; font-size: .85rem; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: #fff; cursor: pointer; }
+    .result { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--line); }
+    .result .label { font-size: .85rem; font-weight: 600; color: var(--muted); margin: 0; }
+    .digits { font-size: 1.35rem; font-weight: 700; margin: 4px 0 12px; }
+    .words { font-size: 1.35rem; font-weight: 700; margin: 4px 0 12px; line-height: 1.45; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; }
+    .btn-primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .btn.copied { background: #0a7a3e; color: #fff; border-color: #0a7a3e; }
+    .faq { margin-top: var(--s-5); }
+    .faq h2 { font-size: 1.15rem; }
+    .faq-item { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 10px 14px; margin-bottom: 8px; }
+    .faq-item summary { cursor: pointer; font-weight: 600; }
+    .faq-item p { margin: 8px 0 4px; color: var(--muted); }
+    .related-tools a { margin-right: 12px; }
+    .tip-box { background: #eef7f8; border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 12px 16px; margin: 16px 0; }
+    .toggle-row { display: flex; align-items: center; gap: 10px; margin-top: 12px; font-size: .95rem; }
+    .toggle-row input { width: 18px; height: 18px; accent-color: var(--primary); }
+    .dev-section { margin-top: var(--s-6); }
+    .dev-section h2 { font-size: 1.25rem; margin-bottom: 8px; }
+    .code-block { background: #0f172a; color: #e2e8f0; border-radius: var(--radius-sm); padding: 14px 16px; overflow-x: auto; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: .85rem; line-height: 1.5; margin: 12px 0; }
+    .code-block code { background: none; color: inherit; padding: 0; }
+    .api-table { width: 100%; border-collapse: collapse; font-size: .9rem; margin: 12px 0; }
+    .api-table th, .api-table td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+    .api-table th { background: var(--surface); font-weight: 600; }
+    .api-table code { font-size: .85em; }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632604868005505" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip" href="#tool">Skip to tool</a>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="/" aria-label="Powered By Digital (PBD) — Home"><span class="logo-mark" aria-hidden="true">P</span><span class="brand-text"><span class="brand-name">PBD</span><span class="brand-full">Powered By Digital</span></span></a>
+      <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+      <nav id="menu" class="site-nav" aria-label="Main navigation" role="navigation"><a href="/">Home</a><a href="/tools/">Tools</a><a href="/widgets/">Widgets</a><a href="/guides/">Guides</a><a href="/about/">About</a></nav>
+    </div>
+  </header>
+  <main class="narrow" id="tool">
+    <div class="page-intro">
+      <h1>Number to Nepali words</h1>
+      <p class="lead">Type a number in English or Nepali digits. Get the amount in words for cheques, bills and forms — लाख, करोड, अर्ब, खर्ब. Free and private. Also available as a reusable JavaScript library.</p>
+    </div>
+
+    <div class="tool-box">
+      <div class="field">
+        <label for="num">Number / संख्या</label>
+        <input id="num" type="text" inputmode="decimal" autocomplete="off" placeholder="12,34,567 or १२३४५६७" autofocus>
+      </div>
+      <div class="samples">
+        <button type="button" data-n="1500">१,५००</button>
+        <button type="button" data-n="250000">२,५०,०००</button>
+        <button type="button" data-n="10000000">१ करोड</button>
+        <button type="button" data-n="1234.50">decimals</button>
+        <button type="button" data-n="125000.75">cheque sample</button>
+      </div>
+      <div class="toggle-row">
+        <input type="checkbox" id="currency-mode" name="currency-mode">
+        <label for="currency-mode">Cheque mode (रुपैयाँ … मात्र)</label>
+      </div>
+      <p id="hint" class="hint" aria-live="polite"></p>
+      <section class="result" id="out" hidden>
+        <p class="label">Formatted</p>
+        <p id="digits" class="digits"></p>
+        <p class="label">In words / अक्षरमा</p>
+        <p id="words" class="words" lang="ne"></p>
+        <div class="actions">
+          <button type="button" class="btn btn-primary" id="copy">Copy words</button>
+          <button type="button" class="btn" id="clear">Clear</button>
+        </div>
+      </section>
+    </div>
+
+    <div class="tip-box"><strong>Tip:</strong> Turn on Cheque mode for ready-to-paste text ending with “मात्र”. Always double-check before signing any legal document.</div>
+
+    <section>
+      <h2>How to use</h2>
+      <ol>
+        <li>Type or paste a number. Commas are fine. Nepali digits work too.</li>
+        <li>Words update as you type, grouped the Nepali way (pairs after the first three).</li>
+        <li>Optionally enable Cheque mode for “रुपैयाँ … मात्र” format.</li>
+        <li>Copy the words. Check them before using on a legal document.</li>
+      </ol>
+    </section>
+
+    <section class="faq">
+      <h2>Frequently asked questions</h2>
+      <details class="faq-item"><summary>How do I convert a number to Nepali words?</summary><p>Type any number in English or Nepali digits. The tool writes it using लाख, करोड, अर्ब and खर्ब.</p></details>
+      <details class="faq-item"><summary>Can I use Nepali digits like १२३?</summary><p>Yes. English digits and Nepali digits both work, including decimals.</p></details>
+      <details class="faq-item"><summary>Is this useful for cheques in Nepal?</summary><p>Yes. Enable Cheque mode to get the amount with रुपैयाँ and मात्र. Always double-check before you sign.</p></details>
+      <details class="faq-item"><summary>Can I use this library on my own website?</summary><p>Yes. Include the free script and call <code>NepaliNumberToWords.toWords()</code>. See the developer documentation below.</p></details>
+    </section>
+
+    <section class="dev-section" id="developers">
+      <h2>Developer documentation</h2>
+      <p>This tool is also a free, zero-dependency JavaScript library. You can use it on any webpage (including your own site) without sending data to our servers.</p>
+
+      <h3>1. Include the script</h3>
+      <div class="code-block"><code>&lt;script src="https://pbd.com.np/tools/number-to-nepali-words/number-words.js"&gt;&lt;/script&gt;</code></div>
+      <p>After the script loads, the global object <code>NepaliNumberToWords</code> is available.</p>
+
+      <h3>2. Basic usage</h3>
+      <div class="code-block"><code>// Plain words
+NepaliNumberToWords.toWords(125000);
+// → "एक लाख पच्चीस हजार"
+
+NepaliNumberToWords.toWords("12,50,000.50");
+// → "बारह लाख पचास हजार दशमलव पाँच शून्य"
+
+// Cheque / currency style
+NepaliNumberToWords.toWords(125000.50, { currency: true });
+// → "एक लाख पच्चीस हजार रुपैयाँ पचास पैसा मात्र"
+
+NepaliNumberToWords.toWords(5000, { currency: true });
+// → "पाँच हजार रुपैयाँ मात्र"</code></div>
+
+      <h3>3. API reference</h3>
+      <table class="api-table">
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>toWords(value, options?)</code></td>
+            <td>
+              Converts a number (string, number or BigInt) to Nepali words.<br>
+              <strong>Options:</strong><br>
+              <code>currency: boolean</code> (default <code>false</code>) — adds “रुपैयाँ … मात्र” (and पैसा when decimals are present).<br>
+              <code>includeDecimalWords: boolean</code> (default <code>true</code>) — when not in currency mode, appends “दशमलव …”.
+            </td>
+          </tr>
+          <tr>
+            <td><code>formatGrouped(digits)</code></td>
+            <td>Formats a digit string with Nepali comma grouping (last 3 digits, then pairs). Example: <code>"1250000"</code> → <code>"12,50,000"</code>.</td>
+          </tr>
+          <tr>
+            <td><code>parse(value)</code></td>
+            <td>Returns <code>{ raw, grouped, negative, fraction }</code> or <code>null</code> if invalid. Useful for building your own UI.</td>
+          </tr>
+          <tr>
+            <td><code>version</code></td>
+            <td>Current library version string (e.g. <code>"1.1.0"</code>).</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>4. Features &amp; limits</h3>
+      <ul>
+        <li>Supports English digits, Nepali (Devanagari) digits, commas and spaces.</li>
+        <li>Negative numbers → prefix “ऋण”.</li>
+        <li>Decimals supported (up to 8 places; currency mode uses first two digits as पैसा).</li>
+        <li>Up to 19 integer digits (covers शंख and beyond for practical use).</li>
+        <li>No external dependencies. Runs 100% in the browser.</li>
+        <li>Works offline once the script has been cached.</li>
+      </ul>
+
+      <h3>5. Example – live conversion on your page</h3>
+      <div class="code-block"><code>&lt;input id="amount" type="text" placeholder="Enter amount"&gt;
+&lt;p id="result"&gt;&lt;/p&gt;
+
+&lt;script src="https://pbd.com.np/tools/number-to-nepali-words/number-words.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  const input = document.getElementById("amount");
+  const result = document.getElementById("result");
+  input.addEventListener("input", () =&gt; {
+    result.textContent = NepaliNumberToWords.toWords(input.value, { currency: true });
+  });
+&lt;/script&gt;</code></div>
+
+      <div class="tip-box">
+        <strong>Stability note:</strong> The script URL above is the stable public endpoint. We keep the API backward-compatible. Current version: <code>1.1.0</code>.
+      </div>
+    </section>
+
+    <p class="related-tools"><strong>Related:</strong>
+      <a href="/tools/income-tax-calculator/">Income tax calculator</a>
+      <a href="/tools/nepal-invoice-generator/">Nepal Invoice Generator</a>
+      <a href="/tools/preeti-to-unicode/">Preeti ↔ Unicode</a>
+      <a href="/tools/">All tools</a>
+    </p>
+    <p class="note">Some numbers have more than one accepted spelling in Nepali. This tool uses common textbook forms. Always verify before legal use.</p>
+  </main>
+  <footer class="site-footer">
+  <div class="bar footer-bar">
+    <nav id="footer-menu" class="footer-pills" aria-label="Footer"><a href="/tools/nepali-typing/">Nepali Typing</a><a href="/tools/preeti-to-unicode/">Preeti ↔ Unicode</a><a href="/tools/nepali-date-converter/">BS ↔ AD</a><a href="/tools/income-tax-calculator/">Income Tax</a><a href="/tools/number-to-nepali-words/">Number to Words</a><a href="/tools/nepal-map/">Nepal Map</a><a href="/tools/today-nepali-date/">Today's Date</a><a href="/tools/nepali-spell-checker/">Spell Checker</a></nav>
+    <div class="footer-meta">
+      <p class="footer-copy">© <span id="yr"></span> Powered By Digital (PBD)</p>
+      <nav class="footer-legal" aria-label="Legal"><a href="/about/">About</a><a href="/privacy/">Privacy</a></nav>
+    </div>
+  </div>
+</footer>
+  <script src="number-words.js" defer></script>
+  <script src="/assets/menu.js" defer></script>
+  <script src="/assets/pwa.js" defer></script>
+</body>
+</html>
