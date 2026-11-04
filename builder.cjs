@@ -48,3 +48,141 @@ const FOOTER_BLOCK = `<footer class="site-footer">
     </div>
   </div>
 </footer>`;
+
+/* Catalog data loaded from builder-catalog.cjs */
+const { TOOLS, WIDGETS, GUIDES, TOOL_CATEGORIES } = require("./builder-catalog.cjs");
+
+/* ------------------------------------------------------------------ */
+/* HTML generators                                                    */
+/* ------------------------------------------------------------------ */
+
+function cardHtml(item) {
+  return `          <a class="tool-card" href="${item.href}">
+            <h3>${item.title}</h3>
+            <p>${item.desc}</p>
+            <div class="tool-meta">${item.category}</div>
+          </a>`;
+}
+
+function generateToolsMain() {
+  const catNav = TOOL_CATEGORIES.map(
+    (c) => `          <a href="#${c.id}">${c.title}</a>`
+  ).join("\n");
+
+  const sections = TOOL_CATEGORIES.map((cat, idx) => {
+    const items = TOOLS.filter((t) => t.category === cat.title);
+    const cards = items.map(cardHtml).join("\n");
+    const alt = idx % 2 === 1 ? " section-alt" : "";
+    return `    <section id="${cat.id}" class="section${alt}">
+      <div class="container">
+        <h2>${cat.title}</h2>
+        <p class="section-lead">${cat.lead}</p>
+        <div class="tool-grid">
+${cards}
+        </div>
+      </div>
+    </section>`;
+  }).join("\n\n");
+
+  return `<main id="tools">
+    <section class="page-hero">
+      <div class="container">
+        <h1>All tools</h1>
+        <p>Free, private, client-side utilities built for everyday tasks in Nepal. No sign-up required.</p>
+        <nav class="cat-nav" aria-label="Jump to category">
+${catNav}
+        </nav>
+      </div>
+    </section>
+
+${sections}
+  </main>`;
+}
+
+function generateWidgetsMain() {
+  const cards = WIDGETS.map(cardHtml).join("\n");
+  return `<main id="widgets">
+    <section class="page-hero"><div class="container"><h1>Widgets</h1><p>Embeddable widgets you can drop into any page with a simple iframe. Free and no tracking.</p></div></section>
+    <section class="section"><div class="container"><div class="tool-grid">
+${cards}
+    </div></div></section>
+  </main>`;
+}
+
+function generateGuidesMain() {
+  const cards = GUIDES.map(cardHtml).join("\n");
+  return `<main id="guides">
+    <section class="page-hero"><div class="container"><h1>Guides</h1><p>Practical how-to articles for freelancers, students and beginners in Nepal.</p></div></section>
+    <section class="section"><div class="container"><div class="tool-grid">
+${cards}
+    </div></div></section>
+  </main>`;
+}
+
+/* ------------------------------------------------------------------ */
+/* File walk + patch                                                  */
+/* ------------------------------------------------------------------ */
+
+function walk(dir, out = []) {
+  for (const name of fs.readdirSync(dir)) {
+    const full = path.join(dir, name);
+    const st = fs.statSync(full);
+    if (st.isDirectory()) walk(full, out);
+    else if (name === "index.html" || name.endsWith(".html")) out.push(full);
+  }
+  return out;
+}
+
+function patchFile(file) {
+  let html = fs.readFileSync(file, "utf8");
+  const before = html;
+  const rel = path.relative(ROOT, file).replace(/\\/g, "/");
+
+  // 1) Always force canonical header block
+  if (/<header\b[^>]*class=["'][^"']*site-header[^"']*["'][^>]*>[\s\S]*?<\/header>/i.test(html)) {
+    html = html.replace(
+      /<header\b[^>]*class=["'][^"']*site-header[^"']*["'][^>]*>[\s\S]*?<\/header>/i,
+      HEADER_BLOCK
+    );
+  }
+
+  // 2) Always force canonical footer block
+  if (/<footer\b[^>]*class=["'][^"']*site-footer[^"']*["'][^>]*>[\s\S]*?<\/footer>/i.test(html)) {
+    html = html.replace(
+      /<footer\b[^>]*class=["'][^"']*site-footer[^"']*["'][^>]*>[\s\S]*?<\/footer>/i,
+      FOOTER_BLOCK
+    );
+  }
+
+  // 3) Catalog cards for tools / widgets / guides index pages
+  if (rel === "tools/index.html") {
+    html = html.replace(
+      /<main\b[^>]*\bid=["']tools["'][^>]*>[\s\S]*?<\/main>/i,
+      generateToolsMain()
+    );
+  } else if (rel === "widgets/index.html") {
+    html = html.replace(
+      /<main\b[^>]*\bid=["']widgets["'][^>]*>[\s\S]*?<\/main>/i,
+      generateWidgetsMain()
+    );
+  } else if (rel === "guides/index.html") {
+    html = html.replace(
+      /<main\b[^>]*\bid=["']guides["'][^>]*>[\s\S]*?<\/main>/i,
+      generateGuidesMain()
+    );
+  }
+
+  if (html === before) return false;
+  fs.writeFileSync(file, html);
+  return true;
+}
+
+const files = walk(ROOT);
+let changed = 0;
+for (const f of files) {
+  if (patchFile(f)) {
+    changed++;
+    console.log("updated", path.relative(ROOT, f));
+  }
+}
+console.log(`Done. ${changed}/${files.length} files updated.`);
