@@ -5,7 +5,7 @@
  * Single source of truth for:
  *   - Logo mark + site title (PBD / Powered By Digital)
  *   - Top nav links
- *   - Footer pills + copyright / legal
+ *   - Footer pills (from catalog footer:true) + copyright / legal
  *   - Tools / Widgets / Guides catalog cards (index pages)
  *   - Homepage featured tools / widgets / guides grids
  *
@@ -39,20 +39,27 @@ const HEADER_BLOCK = `<header class="site-header">
     </div>
   </header>`;
 
-const FOOTER_NAV = `<nav id="footer-menu" class="footer-pills" aria-label="Footer"><a href="/tools/nepali-typing/">Nepali Typing</a><a href="/tools/preeti-to-unicode/">Preeti ↔ Unicode</a><a href="/tools/nepali-date-converter/">BS ↔ AD</a><a href="/tools/income-tax-calculator/">Income Tax</a><a href="/tools/number-to-nepali-words/">Number to Words</a><a href="/tools/nepal-map/">Nepal Map</a><a href="/tools/today-nepali-date/">Today's Date</a><a href="/tools/nepali-spell-checker/">Spell Checker</a></nav>`;
+/* Catalog data loaded from builder-catalog.cjs */
+const { TOOLS, WIDGETS, GUIDES } = require("./builder-catalog.cjs");
+
+/** Footer pills from catalog items with footer: true (shortTitle optional) */
+function buildFooterNav() {
+  const pills = TOOLS.filter((t) => t.footer).map((t) => {
+    const label = t.shortTitle || t.title;
+    return `<a href="${t.href}">${label}</a>`;
+  });
+  return `<nav id="footer-menu" class="footer-pills" aria-label="Footer">${pills.join("")}</nav>`;
+}
 
 const FOOTER_BLOCK = `<footer class="site-footer">
   <div class="bar footer-bar">
-    ${FOOTER_NAV}
+    ${buildFooterNav()}
     <div class="footer-meta">
       <p class="footer-copy">© <span id="yr"></span> Powered By Digital (PBD)</p>
       <nav class="footer-legal" aria-label="Legal"><a href="/about/">About</a><a href="/privacy/">Privacy</a></nav>
     </div>
   </div>
 </footer>`;
-
-/* Catalog data loaded from builder-catalog.cjs */
-const { TOOLS, WIDGETS, GUIDES, TOOL_CATEGORIES } = require("./builder-catalog.cjs");
 
 function cardHtml(item) {
   return `          <a class="tool-card" href="${item.href}">
@@ -67,22 +74,49 @@ function featuredGridHtml(items) {
   return (list.length ? list : items).map(cardHtml).join("\n");
 }
 
+function slugifyCategory(name) {
+  return String(name)
+    .toLowerCase()
+    .replace(/&/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+/** Unique categories in first-seen order from TOOLS */
+function toolCategories() {
+  const seen = new Set();
+  const list = [];
+  for (const t of TOOLS) {
+    const c = t.category;
+    if (!c || seen.has(c)) continue;
+    seen.add(c);
+    list.push({ id: slugifyCategory(c), title: c });
+  }
+  return list;
+}
+
 function generateToolsMain() {
-  const catNav = TOOL_CATEGORIES.map((c) => `          <a href="#${c.id}">${c.title}</a>`).join("\n");
-  const sections = TOOL_CATEGORIES.map((cat, idx) => {
-    const items = TOOLS.filter((t) => t.category === cat.title);
-    const cards = items.map(cardHtml).join("\n");
-    const alt = idx % 2 === 1 ? " section-alt" : "";
-    return `    <section id="${cat.id}" class="section${alt}">
+  const cats = toolCategories();
+  const catNav = cats
+    .map((c) => `          <a href="#${c.id}">${c.title}</a>`)
+    .join("\n");
+
+  const sections = cats
+    .map((cat, idx) => {
+      const items = TOOLS.filter((t) => t.category === cat.title);
+      const cards = items.map(cardHtml).join("\n");
+      const alt = idx % 2 === 1 ? " section-alt" : "";
+      return `    <section id="${cat.id}" class="section${alt}">
       <div class="container">
         <h2>${cat.title}</h2>
-        <p class="section-lead">${cat.lead}</p>
         <div class="tool-grid">
 ${cards}
         </div>
       </div>
     </section>`;
-  }).join("\n\n");
+    })
+    .join("\n\n");
+
   return `<main id="tools">
     <section class="page-hero">
       <div class="container">
@@ -151,8 +185,53 @@ function injectFeaturedGrid(html, key, items) {
     }
   }
   const inner = featuredGridHtml(items);
-  const replacement = '<div class="tool-grid" data-builder="' + key + '">\n' + inner + '\n        </div>';
+  const replacement =
+    '<div class="tool-grid" data-builder="' + key + '">\n' +
+    inner +
+    "\n        </div>";
   return html.slice(0, openStart) + replacement + html.slice(i);
+}
+
+function replaceBalancedToolGridAfter(html, searchFrom, items) {
+  const chunk = html.slice(searchFrom);
+  const gm = /<div\s+class=["']tool-grid["'][^>]*>/i.exec(chunk);
+  if (!gm) return html;
+  const openStart = searchFrom + gm.index;
+  let i = openStart + gm[0].length;
+  let depth = 1;
+  while (i < html.length && depth > 0) {
+    const nextOpen = html.indexOf("<div", i);
+    const nextClose = html.indexOf("</div>", i);
+    if (nextClose === -1) break;
+    if (nextOpen !== -1 && nextOpen < nextClose) {
+      depth++;
+      i = nextOpen + 4;
+    } else {
+      depth--;
+      i = nextClose + 6;
+    }
+  }
+  const inner = featuredGridHtml(items);
+  const replacement = '<div class="tool-grid">\n' + inner + "\n        </div>";
+  return html.slice(0, openStart) + replacement + html.slice(i);
+}
+
+function injectFeaturedBySection(html, sectionId, items) {
+  const needle = 'id="' + sectionId + '"';
+  const pos = html.indexOf(needle);
+  if (pos === -1) return html;
+  const slice = html.slice(pos, pos + 3000);
+  if (slice.includes("data-builder=")) return html;
+  return replaceBalancedToolGridAfter(html, pos, items);
+}
+
+function injectFeaturedByHeading(html, heading, items) {
+  const marker = "<h2>" + heading + "</h2>";
+  const pos = html.indexOf(marker);
+  if (pos === -1) return html;
+  const slice = html.slice(pos, pos + 2500);
+  if (slice.includes("data-builder=")) return html;
+  return replaceBalancedToolGridAfter(html, pos, items);
 }
 
 function patchFile(file) {
@@ -161,23 +240,46 @@ function patchFile(file) {
   const rel = path.relative(ROOT, file).replace(/\\/g, "/");
 
   if (/<header\b[^>]*class=["'][^"']*site-header[^"']*["'][^>]*>[\s\S]*?<\/header>/i.test(html)) {
-    html = html.replace(/<header\b[^>]*class=["'][^"']*site-header[^"']*["'][^>]*>[\s\S]*?<\/header>/i, HEADER_BLOCK);
+    html = html.replace(
+      /<header\b[^>]*class=["'][^"']*site-header[^"']*["'][^>]*>[\s\S]*?<\/header>/i,
+      HEADER_BLOCK
+    );
   }
+
   if (/<footer\b[^>]*class=["'][^"']*site-footer[^"']*["'][^>]*>[\s\S]*?<\/footer>/i.test(html)) {
-    html = html.replace(/<footer\b[^>]*class=["'][^"']*site-footer[^"']*["'][^>]*>[\s\S]*?<\/footer>/i, FOOTER_BLOCK);
+    html = html.replace(
+      /<footer\b[^>]*class=["'][^"']*site-footer[^"']*["'][^>]*>[\s\S]*?<\/footer>/i,
+      FOOTER_BLOCK
+    );
   }
+
   if (rel === "tools/index.html") {
-    html = html.replace(/<main\b[^>]*\bid=["']tools["'][^>]*>[\s\S]*?<\/main>/i, generateToolsMain());
+    html = html.replace(
+      /<main\b[^>]*\bid=["']tools["'][^>]*>[\s\S]*?<\/main>/i,
+      generateToolsMain()
+    );
   } else if (rel === "widgets/index.html") {
-    html = html.replace(/<main\b[^>]*\bid=["']widgets["'][^>]*>[\s\S]*?<\/main>/i, generateWidgetsMain());
+    html = html.replace(
+      /<main\b[^>]*\bid=["']widgets["'][^>]*>[\s\S]*?<\/main>/i,
+      generateWidgetsMain()
+    );
   } else if (rel === "guides/index.html") {
-    html = html.replace(/<main\b[^>]*\bid=["']guides["'][^>]*>[\s\S]*?<\/main>/i, generateGuidesMain());
+    html = html.replace(
+      /<main\b[^>]*\bid=["']guides["'][^>]*>[\s\S]*?<\/main>/i,
+      generateGuidesMain()
+    );
   }
+
   if (rel === "index.html") {
     html = injectFeaturedGrid(html, "featured-tools", TOOLS);
     html = injectFeaturedGrid(html, "featured-widgets", WIDGETS);
     html = injectFeaturedGrid(html, "featured-guides", GUIDES);
+    // Fallbacks when source still has hard-coded grids (no data-builder yet)
+    html = injectFeaturedBySection(html, "featured", TOOLS);
+    html = injectFeaturedByHeading(html, "Widgets", WIDGETS);
+    html = injectFeaturedByHeading(html, "Guides", GUIDES);
   }
+
   if (html === before) return false;
   fs.writeFileSync(file, html);
   return true;
