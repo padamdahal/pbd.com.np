@@ -23,24 +23,21 @@
     }
     .offline-wrap h1 { margin: 0; font-size: 1.6rem; }
     .offline-wrap p { margin: 0; color: var(--muted); max-width: 28rem; }
-    .offline-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 16px; }
+    .offline-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 8px; }
     .offline-actions a, .offline-actions button {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 10px 16px; border-radius: 10px; font-weight: 600;
-      border: 1px solid var(--line); background: #fff; color: var(--text);
+      display: inline-flex; align-items: center; padding: 10px 16px; border-radius: 10px;
+      font-weight: 600; border: 1px solid var(--line); background: #fff; color: var(--text);
       cursor: pointer; font: inherit; text-decoration: none;
     }
     .offline-actions a.primary, .offline-actions button.primary {
       background: var(--primary); color: #fff; border-color: var(--primary);
     }
   </style>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632604868005505"
-     crossorigin="anonymous"></script>
 </head>
 <body>
   <header class="site-header">
     <div class="bar">
-      <a class="brand" href="/"><span class="logo-mark">P</span><span>PBD</span></a>
+      <!-- builder: brand + nav -->
     </div>
   </header>
   <main class="offline-wrap">
@@ -55,14 +52,7 @@
     </div>
   </main>
   <footer class="site-footer">
-  <div class="bar footer-bar">
-    <nav id="footer-menu" class="footer-pills" aria-label="Footer"><a href="/#tools">Tools</a><a href="/#widgets">Widgets</a><a href="/#guides">Guides</a><a href="/tools/nepali-typing/">Nepali Typing</a><a href="/tools/preeti-to-unicode/">Preeti ↔ Unicode</a><a href="/tools/income-tax-calculator/">Income Tax</a><a href="/tools/nepal-map/">Nepal Map</a></nav>
-    <div class="footer-meta">
-      <p class="footer-copy">© <span id="yr"></span> Powered By Digital (PBD)</p>
-      <nav class="footer-legal" aria-label="Legal"><a href="/about/">About</a><a href="/privacy/">Privacy</a></nav>
-    </div>
-  </div>
-</footer>
-  <script>document.getElementById("yr").textContent = new Date().getFullYear();</script>
+    <!-- builder: footer -->
+  </footer>
 </body>
 </html>
