@@ -6,11 +6,13 @@
  *   - Logo mark + site title (PBD / Powered By Digital)
  *   - Top nav links
  *   - Footer pills + copyright / legal
- *   - Tools / Widgets / Guides catalog cards (injected into the respective index pages)
+ *   - Tools / Widgets / Guides catalog cards (index pages)
+ *   - Homepage featured tools / widgets / guides grids
  *
  * Source HTML pages should keep only structural placeholders:
  *   <header class="site-header"><div class="bar"></div></header>
  *   <main id="tools|widgets|guides">…</main>   (catalog pages only)
+ *   <div class="tool-grid" data-builder="featured-tools|featured-widgets|featured-guides"></div>
  *   <footer class="site-footer"></footer>
  */
 
@@ -62,6 +64,12 @@ function cardHtml(item) {
             <p>${item.desc}</p>
             <div class="tool-meta">${item.category}</div>
           </a>`;
+}
+
+function featuredGridHtml(items) {
+  const list = items.filter((i) => i.featured);
+  const cards = (list.length ? list : items).map(cardHtml).join("\n");
+  return cards;
 }
 
 function generateToolsMain() {
@@ -133,43 +141,77 @@ function walk(dir, out = []) {
   return out;
 }
 
+function injectFeaturedGrid(html, key, items) {
+  const needle = 'data-builder="' + key + '"';
+  const alt = "data-builder='" + key + "'";
+  let openStart = html.indexOf(needle);
+  if (openStart === -1) openStart = html.indexOf(alt);
+  if (openStart === -1) return html;
+  openStart = html.lastIndexOf("<div", openStart);
+  if (openStart === -1) return html;
+  const openEnd = html.indexOf(">", openStart) + 1;
+  let i = openEnd;
+  let depth = 1;
+  while (i < html.length && depth > 0) {
+    const nextOpen = html.indexOf("<div", i);
+    const nextClose = html.indexOf("</div>", i);
+    if (nextClose === -1) break;
+    if (nextOpen !== -1 && nextOpen < nextClose) {
+      depth++;
+      i = nextOpen + 4;
+    } else {
+      depth--;
+      i = nextClose + 6;
+    }
+  }
+  const inner = featuredGridHtml(items);
+  const replacement =
+    '<div class="tool-grid" data-builder="' + key + '">\n' +
+    inner +
+    "\n        </div>";
+  return html.slice(0, openStart) + replacement + html.slice(i);
+}
+
 function patchFile(file) {
   let html = fs.readFileSync(file, "utf8");
   const before = html;
   const rel = path.relative(ROOT, file).replace(/\\/g, "/");
 
-  // 1) Always force canonical header block
-  if (/<header\b[^>]*class=["'][^"']*site-header[^"']*["'][^>]*>[\s\S]*?<\/header>/i.test(html)) {
+  if (/<header\\b[^>]*class=["'][^"']*site-header[^"']*["'][^>]*>[\\s\\S]*?<\\/header>/i.test(html)) {
     html = html.replace(
-      /<header\b[^>]*class=["'][^"']*site-header[^"']*["'][^>]*>[\s\S]*?<\/header>/i,
+      /<header\\b[^>]*class=["'][^"']*site-header[^"']*["'][^>]*>[\\s\\S]*?<\\/header>/i,
       HEADER_BLOCK
     );
   }
 
-  // 2) Always force canonical footer block
-  if (/<footer\b[^>]*class=["'][^"']*site-footer[^"']*["'][^>]*>[\s\S]*?<\/footer>/i.test(html)) {
+  if (/<footer\\b[^>]*class=["'][^"']*site-footer[^"']*["'][^>]*>[\\s\\S]*?<\\/footer>/i.test(html)) {
     html = html.replace(
-      /<footer\b[^>]*class=["'][^"']*site-footer[^"']*["'][^>]*>[\s\S]*?<\/footer>/i,
+      /<footer\\b[^>]*class=["'][^"']*site-footer[^"']*["'][^>]*>[\\s\\S]*?<\\/footer>/i,
       FOOTER_BLOCK
     );
   }
 
-  // 3) Catalog cards for tools / widgets / guides index pages
   if (rel === "tools/index.html") {
     html = html.replace(
-      /<main\b[^>]*\bid=["']tools["'][^>]*>[\s\S]*?<\/main>/i,
+      /<main\\b[^>]*\\bid=["']tools["'][^>]*>[\\s\\S]*?<\\/main>/i,
       generateToolsMain()
     );
   } else if (rel === "widgets/index.html") {
     html = html.replace(
-      /<main\b[^>]*\bid=["']widgets["'][^>]*>[\s\S]*?<\/main>/i,
+      /<main\\b[^>]*\\bid=["']widgets["'][^>]*>[\\s\\S]*?<\\/main>/i,
       generateWidgetsMain()
     );
   } else if (rel === "guides/index.html") {
     html = html.replace(
-      /<main\b[^>]*\bid=["']guides["'][^>]*>[\s\S]*?<\/main>/i,
+      /<main\\b[^>]*\\bid=["']guides["'][^>]*>[\\s\\S]*?<\\/main>/i,
       generateGuidesMain()
     );
+  }
+
+  if (rel === "index.html") {
+    html = injectFeaturedGrid(html, "featured-tools", TOOLS);
+    html = injectFeaturedGrid(html, "featured-widgets", WIDGETS);
+    html = injectFeaturedGrid(html, "featured-guides", GUIDES);
   }
 
   if (html === before) return false;
