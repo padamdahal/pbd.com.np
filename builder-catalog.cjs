@@ -1,28 +1,34 @@
 /**
  * builder-catalog.cjs — tools / widgets / guides catalog data for builder.cjs
- * featured: true → shown on the homepage featured grids
+ *
+ * Flags:
+ *   featured: true  → homepage featured grids
+ *   footer: true    → footer popular-link pills
+ *   shortTitle      → optional shorter label for footer pills
+ *
+ * Tool categories are derived at build time from unique `category` values on TOOLS (first-seen order).
  */
 const TOOLS = [
   // Nepali language
-  { href: "/tools/nepali-typing/", title: "Nepali Typing", desc: "Type in Nepali with Romanized input. Instant Unicode conversion.", category: "Nepali language", featured: true },
-  { href: "/tools/preeti-to-unicode/", title: "Preeti ↔ Unicode", desc: "Convert Preeti font text to Unicode and back. Live dual direction.", category: "Nepali language", featured: true },
-  { href: "/tools/nepali-date-converter/", title: "Nepali Date Converter", desc: "Convert between BS (Bikram Sambat) and AD (Gregorian) dates.", category: "Nepali language", featured: true },
-  { href: "/tools/today-nepali-date/", title: "Today’s Nepali Date", desc: "See today’s date in Bikram Sambat with day name and tithi.", category: "Nepali language" },
+  { href: "/tools/nepali-typing/", title: "Nepali Typing", desc: "Type in Nepali with Romanized input. Instant Unicode conversion.", category: "Nepali language", featured: true, footer: true },
+  { href: "/tools/preeti-to-unicode/", title: "Preeti ↔ Unicode", desc: "Convert Preeti font text to Unicode and back. Live dual direction.", category: "Nepali language", featured: true, footer: true },
+  { href: "/tools/nepali-date-converter/", title: "Nepali Date Converter", shortTitle: "BS ↔ AD", desc: "Convert between BS (Bikram Sambat) and AD (Gregorian) dates.", category: "Nepali language", featured: true, footer: true },
+  { href: "/tools/today-nepali-date/", title: "Today’s Nepali Date", shortTitle: "Today's Date", desc: "See today’s date in Bikram Sambat with day name and tithi.", category: "Nepali language", footer: true },
   { href: "/tools/bs-age-calculator/", title: "BS Age Calculator", desc: "Calculate age from Bikram Sambat birth date. Years, months, days.", category: "Nepali language" },
   { href: "/tools/nepali-calendar/", title: "Nepali Calendar (BS)", desc: "Interactive Bikram Sambat month view. Click to copy ISO date or drag onto form fields.", category: "Nepali language", featured: true },
-  { href: "/tools/nepali-spell-checker/", title: "Nepali Spell Checker", desc: "Check Nepali Unicode text for spelling mistakes and get suggestions.", category: "Nepali language", featured: true },
+  { href: "/tools/nepali-spell-checker/", title: "Nepali Spell Checker", shortTitle: "Spell Checker", desc: "Check Nepali Unicode text for spelling mistakes and get suggestions.", category: "Nepali language", featured: true, footer: true },
   { href: "/tools/nepali-dictionary/", title: "Nepali Dictionary", desc: "Search 120,000+ words from the Brihat Sabdakosh. Meanings, grammar and etymology.", category: "Nepali language" },
   { href: "/tools/nepali-name-generator/", title: "Nepali Name Generator", desc: "Generate traditional and modern Nepali first names by gender.", category: "Nepali language" },
-  { href: "/tools/number-to-nepali-words/", title: "Number to Nepali Words", desc: "Convert numbers to Nepali words for cheques, invoices and documents.", category: "Nepali language" },
+  { href: "/tools/number-to-nepali-words/", title: "Number to Nepali Words", shortTitle: "Number to Words", desc: "Convert numbers to Nepali words for cheques, invoices and documents.", category: "Nepali language", footer: true },
   { href: "/tools/nepali-wordle/", title: "Nepali Wordle", desc: "Daily and practice 5-letter Nepali word game with Devanagari keyboard and stats.", category: "Nepali language" },
 
   // Finance
-  { href: "/tools/income-tax-calculator/", title: "Income Tax Calculator", desc: "Estimate Nepal income tax for FY 2083/84 with slabs, SSF and deductions.", category: "Finance", featured: true },
+  { href: "/tools/income-tax-calculator/", title: "Income Tax Calculator", shortTitle: "Income Tax", desc: "Estimate Nepal income tax for FY 2083/84 with slabs, SSF and deductions.", category: "Finance", featured: true, footer: true },
   { href: "/tools/vehicle-tax-calculator/", title: "Vehicle Tax Calculator", desc: "Estimate annual vehicle tax for cars, motorcycles and more in Nepal.", category: "Finance" },
   { href: "/tools/nea-bill-calculator/", title: "NEA Bill Calculator", desc: "Estimate residential electricity bill with progressive slabs, service charge and VAT.", category: "Finance", featured: true },
 
   // Maps & location
-  { href: "/tools/nepal-map/", title: "Nepal Map", desc: "Interactive map of provinces, districts and local levels with CSV join.", category: "Maps & location" },
+  { href: "/tools/nepal-map/", title: "Nepal Map", desc: "Interactive map of provinces, districts and local levels with CSV join.", category: "Maps & location", footer: true },
   { href: "/tools/ev-charging-stations/", title: "EV Charging Stations", desc: "Find electric vehicle charging points across Nepal from OpenStreetMap.", category: "Maps & location" },
   { href: "/tools/local-weather/", title: "Local Weather", desc: "Current conditions, hourly forecast and 7-day outlook for Nepal and beyond.", category: "Maps & location" },
 
@@ -45,12 +51,4 @@ const GUIDES = [
   { href: "/guides/how-to-use-ai-as-a-complete-beginner-2026/", title: "How to Use AI as a Complete Beginner in 2026", desc: "Simple introduction to using AI tools for study, work and content creation.", category: "Guides", featured: true },
 ];
 
-const TOOL_CATEGORIES = [
-  { id: "nepali-language", title: "Nepali language", lead: "Typing, conversion, dictionary, calendar and spelling tools." },
-  { id: "finance", title: "Finance", lead: "Tax, vehicle tax and electricity bill estimators for Nepal." },
-  { id: "maps", title: "Maps & location", lead: "Interactive maps, EV chargers and local weather." },
-  { id: "content", title: "Content creation", lead: "Captions and hashtags for social posts in Nepali and English." },
-  { id: "utilities", title: "Utilities", lead: "Land units, image tools and badge generators." },
-];
-
-module.exports = { TOOLS, WIDGETS, GUIDES, TOOL_CATEGORIES };
+module.exports = { TOOLS, WIDGETS, GUIDES };
