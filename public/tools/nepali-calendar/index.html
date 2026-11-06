@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,17 +15,21 @@
   <link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/icon-512.png">
 
   <title>Interactive Nepali Calendar (BS) – Bikram Sambat Month View | PBD</title>
-  <meta name="description" content="Free interactive Bikram Sambat (Nepali) calendar. Browse any BS month, click a day to copy the ISO (Gregorian) date, or drag days onto form fields. Works offline. Perfect for forms, banks and official documents in Nepal.">
+  <meta name="description"
+    content="Free interactive Bikram Sambat (Nepali) calendar. Browse any BS month, click a day to copy the ISO (Gregorian) date, or drag days onto form fields. Works offline. Perfect for forms, banks and official documents in Nepal.">
   <link rel="canonical" href="https://pbd.com.np/tools/nepali-calendar/">
   <meta name="robots" content="index, follow, max-image-preview:large">
-  <meta name="keywords" content="Nepali calendar, Bikram Sambat calendar, BS calendar online, interactive Nepali calendar, विक्रम संवत क्यालेन्डर, BS to AD calendar, drag date to form, copy ISO date, Nepali month view, Nepal calendar 2082 2083">
+  <meta name="keywords"
+    content="Nepali calendar, Bikram Sambat calendar, BS calendar online, interactive Nepali calendar, विक्रम संवत क्यालेन्डर, BS to AD calendar, drag date to form, copy ISO date, Nepali month view, Nepal calendar 2082 2083">
   <meta name="menu-title" content="Nepali Calendar (BS)">
-  <meta name="menu-description" content="Interactive Bikram Sambat month calendar. Click to copy ISO date or drag onto form fields.">
+  <meta name="menu-description"
+    content="Interactive Bikram Sambat month calendar. Click to copy ISO date or drag onto form fields.">
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="PBD">
   <meta property="og:title" content="Interactive Nepali Calendar (BS) – Bikram Sambat Month View">
-  <meta property="og:description" content="Browse any Bikram Sambat month. Click a day to copy the Gregorian ISO date, or drag it onto any form field. Free, private and works offline.">
+  <meta property="og:description"
+    content="Browse any Bikram Sambat month. Click a day to copy the Gregorian ISO date, or drag it onto any form field. Free, private and works offline.">
   <meta property="og:url" content="https://pbd.com.np/tools/nepali-calendar/">
   <meta property="og:image" content="https://pbd.com.np/assets/og-default.svg">
   <meta property="og:image:width" content="1200">
@@ -33,7 +38,8 @@
   <meta property="og:locale:alternate" content="ne_NP">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Interactive Nepali Calendar (BS)">
-  <meta name="twitter:description" content="Click or drag Bikram Sambat days to copy ISO dates or fill form fields. Free online tool for Nepal.">
+  <meta name="twitter:description"
+    content="Click or drag Bikram Sambat days to copy ISO dates or fill form fields. Free online tool for Nepal.">
   <meta name="twitter:image" content="https://pbd.com.np/assets/og-default.svg">
 
   <script type="application/ld+json">
@@ -123,20 +129,24 @@
       gap: 24px;
       margin-top: 8px;
     }
+
     @media (min-width: 820px) {
       .cal-layout {
         grid-template-columns: minmax(280px, 380px) 1fr;
         align-items: start;
       }
     }
+
     .cal-host {
       width: 100%;
       max-width: 380px;
       margin: 0 auto;
     }
+
     .cal-host .nepali-calendar {
       width: 100%;
     }
+
     .side-panel {
       background: var(--surface);
       border: 1px solid var(--line);
@@ -144,21 +154,26 @@
       padding: 18px 18px 16px;
       box-shadow: var(--shadow-sm);
     }
+
     .side-panel h2 {
       margin: 0 0 12px;
       font-size: 1.05rem;
     }
+
     .selected-empty {
       color: var(--muted);
       font-size: .95rem;
       margin: 0;
     }
+
     .selected-info {
       display: none;
     }
+
     .selected-info.active {
       display: block;
     }
+
     .sel-dates {
       font-size: 1.05rem;
       font-weight: 700;
@@ -166,16 +181,19 @@
       line-height: 1.4;
       margin-bottom: 10px;
     }
+
     .sel-sep {
       color: var(--muted);
       font-weight: 500;
       margin: 0 6px;
     }
+
     .btn-row {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
     }
+
     .btn {
       font: inherit;
       font-size: .88rem;
@@ -187,22 +205,27 @@
       background: transparent;
       color: var(--text);
     }
+
     .btn:hover {
       background: #eef5f6;
     }
+
     .btn-primary {
       background: var(--primary);
       border-color: var(--primary);
       color: #fff;
     }
+
     .btn-primary:hover {
       filter: brightness(1.08);
     }
+
     .btn.copied {
       background: #0a7a3e;
       border-color: #0a7a3e;
       color: #fff;
     }
+
     .demo-box {
       margin-top: 20px;
       padding: 14px 16px;
@@ -210,19 +233,23 @@
       border: 1px solid var(--line);
       border-radius: var(--radius-sm);
     }
+
     .demo-box h3 {
       margin: 0 0 8px;
       font-size: .98rem;
     }
+
     .demo-box p {
       margin: 0 0 10px;
       font-size: .9rem;
       color: var(--muted);
     }
+
     .demo-fields {
       display: grid;
       gap: 10px;
     }
+
     .demo-fields label {
       display: block;
       font-size: .8rem;
@@ -230,6 +257,7 @@
       color: var(--muted);
       margin-bottom: 3px;
     }
+
     .demo-fields input {
       width: 100%;
       font: inherit;
@@ -238,18 +266,23 @@
       border-radius: 8px;
       background: #fff;
     }
+
     .howto {
       margin-top: 36px;
     }
+
     .howto h2 {
       font-size: 1.2rem;
       margin-bottom: 12px;
     }
+
     .howto h3 {
       font-size: 1.02rem;
       margin: 20px 0 8px;
     }
-    .howto pre, .code-block {
+
+    .howto pre,
+    .code-block {
       background: #0f172a;
       color: #e2e8f0;
       padding: 14px 16px;
@@ -259,9 +292,11 @@
       line-height: 1.5;
       margin: 8px 0 12px;
     }
+
     .howto code {
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     }
+
     .howto .tip {
       background: #eef7f8;
       border: 1px solid var(--line);
@@ -270,12 +305,15 @@
       font-size: .93rem;
       margin: 12px 0;
     }
+
     .faq {
       margin-top: 36px;
     }
+
     .faq h2 {
       font-size: 1.15rem;
     }
+
     .faq-item {
       background: var(--surface);
       border: 1px solid var(--line);
@@ -283,26 +321,32 @@
       padding: 10px 14px;
       margin-bottom: 8px;
     }
+
     .faq-item summary {
       cursor: pointer;
       font-weight: 600;
     }
+
     .faq-item p {
       margin: 8px 0 4px;
       color: var(--muted);
     }
+
     .related-tools {
       margin-top: 24px;
       font-size: .95rem;
     }
+
     .related-tools a {
       margin-right: 12px;
     }
+
     .note {
       font-size: .88rem;
       color: var(--muted);
       margin-top: 16px;
     }
+
     .toast {
       position: fixed;
       bottom: 24px;
@@ -318,36 +362,31 @@
       pointer-events: none;
       transition: opacity .2s, transform .2s;
       z-index: 100;
-      box-shadow: 0 8px 24px rgba(0,0,0,.25);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, .25);
     }
+
     .toast.show {
       opacity: 1;
       transform: translateX(-50%) translateY(0);
     }
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632604868005505"
-     crossorigin="anonymous"></script>
+    crossorigin="anonymous"></script>
 </head>
+
 <body>
   <a class="skip" href="#tool">Skip to tool</a>
   <header class="site-header">
     <div class="bar">
-      <a class="brand" href="/"><span class="logo-mark">P</span><span>PBD</span></a>
-      <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
-      <nav id="menu" class="site-nav" aria-label="Main navigation" role="navigation">
-        <a href="/">Home</a>
-        <a href="/#tools">Tools</a>
-        <a href="/#widgets">Widgets</a>
-        <a href="/#guides">Guides</a>
-        <a href="/about/">About</a>
-      </nav>
+      <!-- builder: brand + nav -->
     </div>
   </header>
 
   <main class="narrow" id="tool">
     <div class="page-intro">
       <h1>Interactive Nepali Calendar (BS)</h1>
-      <p class="lead">Browse any Bikram Sambat month. Click a day to copy its Gregorian ISO date, or drag the day onto a form field to fill it. Fully client-side and works offline.</p>
+      <p class="lead">Browse any Bikram Sambat month. Click a day to copy its Gregorian ISO date, or drag the day onto a
+        form field to fill it. Fully client-side and works offline.</p>
     </div>
 
     <div class="cal-layout">
@@ -393,7 +432,8 @@
       <p>Include the library script on your site so that click-to-copy and drag-to-fill work on your own forms.</p>
 
       <h3>1. Full interactive calendar on your own page</h3>
-      <p>Add the script once, then mount the calendar wherever you want. Drag-and-drop and clipboard copy will work for every input on that page.</p>
+      <p>Add the script once, then mount the calendar wherever you want. Drag-and-drop and clipboard copy will work for
+        every input on that page.</p>
       <pre class="code-block"><code>&lt;!-- 1. Include the library (once per page) --&gt;
 &lt;script src="https://pbd.com.np/tools/nepali-calendar/nepali-calendar.js"&gt;&lt;/script&gt;
 
@@ -412,7 +452,9 @@
 &lt;/script&gt;</code></pre>
 
       <div class="tip">
-        <strong>Drag-to-fill tip:</strong> After the script is loaded, any day cell can be dragged onto a normal <code>&lt;input&gt;</code> or <code>&lt;textarea&gt;</code> on the same page. The field receives the ISO date (<code>yyyy-mm-dd</code>). Readonly fields are filled by default.
+        <strong>Drag-to-fill tip:</strong> After the script is loaded, any day cell can be dragged onto a normal
+        <code>&lt;input&gt;</code> or <code>&lt;textarea&gt;</code> on the same page. The field receives the ISO date
+        (<code>yyyy-mm-dd</code>). Readonly fields are filled by default.
       </div>
 
       <h3>2. Auto-mount with a data attribute</h3>
@@ -445,7 +487,8 @@ NepaliCalendar.today("Asia/Kathmandu");</code></pre>
       </details>
       <details class="faq-item">
         <summary>Can I use this calendar on my own website?</summary>
-        <p>Yes. Include the script and call NepaliCalendar.mount() so click-to-copy and drag-to-fill work on your forms.</p>
+        <p>Yes. Include the script and call NepaliCalendar.mount() so click-to-copy and drag-to-fill work on your forms.
+        </p>
       </details>
       <details class="faq-item">
         <summary>Does it work offline?</summary>
@@ -453,7 +496,8 @@ NepaliCalendar.today("Asia/Kathmandu");</code></pre>
       </details>
       <details class="faq-item">
         <summary>Is the data accurate for official documents?</summary>
-        <p>The calendar table matches common sources used in Nepal. Always double-check critical legal or financial dates, especially after BS 2083.</p>
+        <p>The calendar table matches common sources used in Nepal. Always double-check critical legal or financial
+          dates, especially after BS 2083.</p>
       </details>
     </section>
 
@@ -473,145 +517,129 @@ NepaliCalendar.today("Asia/Kathmandu");</code></pre>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <footer class="site-footer">
-    <div class="bar footer-bar">
-      <nav id="footer-menu" class="footer-pills" aria-label="Footer">
-        <a href="/#tools">Tools</a>
-        <a href="/#widgets">Widgets</a>
-        <a href="/#guides">Guides</a>
-        <a href="/tools/nepali-typing/">Nepali Typing</a>
-        <a href="/tools/preeti-to-unicode/">Preeti ↔ Unicode</a>
-        <a href="/tools/income-tax-calculator/">Income Tax</a>
-        <a href="/tools/nepal-map/">Nepal Map</a>
-      </nav>
-      <div class="footer-meta">
-        <p class="footer-copy">© <span id="yr"></span> Powered By Digital (PBD)</p>
-        <nav class="footer-legal" aria-label="Legal">
-          <a href="/about/">About</a>
-          <a href="/privacy/">Privacy</a>
-        </nav>
-      </div>
-    </div>
+    <!-- builder: footer -->
   </footer>
 
   <script src="nepali-calendar.js"></script>
   <script>
-  (function () {
-    var host = document.getElementById("calendar-host");
-    var cal = NepaliCalendar.mount(host, {
-      lang: "ne",
-      theme: "light",
-      timeZone: "Asia/Kathmandu",
-      showAD: true,
-      langToggle: true
-    });
+    (function () {
+      var host = document.getElementById("calendar-host");
+      var cal = NepaliCalendar.mount(host, {
+        lang: "ne",
+        theme: "light",
+        timeZone: "Asia/Kathmandu",
+        showAD: true,
+        langToggle: true
+      });
 
-    var empty = document.getElementById("selected-empty");
-    var info  = document.getElementById("selected-info");
-    var selBs = document.getElementById("sel-bs");
-    var selAd = document.getElementById("sel-ad");
-    var lastIso = null;
+      var empty = document.getElementById("selected-empty");
+      var info = document.getElementById("selected-info");
+      var selBs = document.getElementById("sel-bs");
+      var selAd = document.getElementById("sel-ad");
+      var lastIso = null;
 
-    var M_NE = ["बैशाख","जेठ","असार","श्रावण","भाद्र","आश्विन","कार्तिक","मंसिर","पौष","माघ","फाल्गुन","चैत्र"];
-    var M_EN = ["Baisakh","Jestha","Asar","Shrawan","Bhadra","Aswin","Kartik","Mangsir","Poush","Magh","Falgun","Chaitra"];
-    var AD_M = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+      var M_NE = ["बैशाख", "जेठ", "असार", "श्रावण", "भाद्र", "आश्विन", "कार्तिक", "मंसिर", "पौष", "माघ", "फाल्गुन", "चैत्र"];
+      var M_EN = ["Baisakh", "Jestha", "Asar", "Shrawan", "Bhadra", "Aswin", "Kartik", "Mangsir", "Poush", "Magh", "Falgun", "Chaitra"];
+      var AD_M = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-    function lang() {
-      return cal.lang || "ne";
-    }
-
-    function toast(msg) {
-      var t = document.getElementById("toast");
-      if (!t) return;
-      t.textContent = msg;
-      t.classList.add("show");
-      clearTimeout(toast._t);
-      toast._t = setTimeout(function () { t.classList.remove("show"); }, 1600);
-    }
-
-    function show(iso) {
-      if (!iso) return;
-      lastIso = iso;
-      var bs = NepaliCalendar.toBS(iso);
-      if (!bs) return;
-      var L = lang();
-      var m = L === "ne" ? M_NE : M_EN;
-      selBs.textContent = L === "ne"
-        ? bs.day + " " + m[bs.month - 1] + " " + bs.year
-        : m[bs.month - 1] + " " + bs.day + ", " + bs.year;
-      var p = iso.split("-");
-      selAd.textContent = p[2] + " " + AD_M[+p[1] - 1] + " " + p[0];
-      empty.style.display = "none";
-      info.classList.add("active");
-    }
-
-    function copy(text, btn) {
-      if (!text) return;
-      var done = function (ok) {
-        if (btn) {
-          var o = btn.textContent;
-          btn.classList.add("copied");
-          btn.textContent = ok ? "Copied" : "Failed";
-          setTimeout(function () { btn.classList.remove("copied"); btn.textContent = o; }, 1100);
-        }
-        toast(ok ? "Copied " + text : "Could not copy");
-      };
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(legacy(text)); });
-      } else done(legacy(text));
-    }
-    function legacy(t) {
-      try {
-        var ta = document.createElement("textarea");
-        ta.value = t; ta.style.cssText = "position:fixed;opacity:0";
-        document.body.appendChild(ta); ta.select();
-        var ok = document.execCommand("copy");
-        document.body.removeChild(ta);
-        return ok;
-      } catch (e) { return false; }
-    }
-
-    host.addEventListener("nepali-calendar:copy", function (e) {
-      if (e.detail && e.detail.iso) {
-        show(e.detail.iso);
-        toast(e.detail.ok ? "Copied " + e.detail.iso : "Could not copy");
+      function lang() {
+        return cal.lang || "ne";
       }
-    });
-    host.addEventListener("click", function (e) {
-      var day = e.target.closest && e.target.closest(".day");
-      if (day) show(day.getAttribute("data-iso"));
-    });
-    host.addEventListener("focusin", function (e) {
-      var day = e.target.closest && e.target.closest(".day");
-      if (day) show(day.getAttribute("data-iso"));
-    });
-    host.addEventListener("nepali-calendar:change", function () {
-      if (lastIso) show(lastIso);
-    });
 
-    document.getElementById("btn-copy-iso").onclick = function () {
-      copy(lastIso, this);
-    };
-    document.getElementById("btn-copy-bs").onclick = function () {
-      if (!lastIso) return;
-      var bs = NepaliCalendar.toBS(lastIso);
-      if (!bs) return;
-      var L = lang(), m = L === "ne" ? M_NE : M_EN;
-      var t = L === "ne"
-        ? bs.day + " " + m[bs.month - 1] + " " + bs.year
-        : m[bs.month - 1] + " " + bs.day + ", " + bs.year;
-      copy(t, this);
-    };
-    document.getElementById("btn-copy-ad").onclick = function () {
-      if (!lastIso) return;
-      var p = lastIso.split("-");
-      copy(p[2] + " " + AD_M[+p[1] - 1] + " " + p[0], this);
-    };
+      function toast(msg) {
+        var t = document.getElementById("toast");
+        if (!t) return;
+        t.textContent = msg;
+        t.classList.add("show");
+        clearTimeout(toast._t);
+        toast._t = setTimeout(function () { t.classList.remove("show"); }, 1600);
+      }
 
-    var yr = document.getElementById("yr");
-    if (yr) yr.textContent = new Date().getFullYear();
-  })();
+      function show(iso) {
+        if (!iso) return;
+        lastIso = iso;
+        var bs = NepaliCalendar.toBS(iso);
+        if (!bs) return;
+        var L = lang();
+        var m = L === "ne" ? M_NE : M_EN;
+        selBs.textContent = L === "ne"
+          ? bs.day + " " + m[bs.month - 1] + " " + bs.year
+          : m[bs.month - 1] + " " + bs.day + ", " + bs.year;
+        var p = iso.split("-");
+        selAd.textContent = p[2] + " " + AD_M[+p[1] - 1] + " " + p[0];
+        empty.style.display = "none";
+        info.classList.add("active");
+      }
+
+      function copy(text, btn) {
+        if (!text) return;
+        var done = function (ok) {
+          if (btn) {
+            var o = btn.textContent;
+            btn.classList.add("copied");
+            btn.textContent = ok ? "Copied" : "Failed";
+            setTimeout(function () { btn.classList.remove("copied"); btn.textContent = o; }, 1100);
+          }
+          toast(ok ? "Copied " + text : "Could not copy");
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(legacy(text)); });
+        } else done(legacy(text));
+      }
+      function legacy(t) {
+        try {
+          var ta = document.createElement("textarea");
+          ta.value = t; ta.style.cssText = "position:fixed;opacity:0";
+          document.body.appendChild(ta); ta.select();
+          var ok = document.execCommand("copy");
+          document.body.removeChild(ta);
+          return ok;
+        } catch (e) { return false; }
+      }
+
+      host.addEventListener("nepali-calendar:copy", function (e) {
+        if (e.detail && e.detail.iso) {
+          show(e.detail.iso);
+          toast(e.detail.ok ? "Copied " + e.detail.iso : "Could not copy");
+        }
+      });
+      host.addEventListener("click", function (e) {
+        var day = e.target.closest && e.target.closest(".day");
+        if (day) show(day.getAttribute("data-iso"));
+      });
+      host.addEventListener("focusin", function (e) {
+        var day = e.target.closest && e.target.closest(".day");
+        if (day) show(day.getAttribute("data-iso"));
+      });
+      host.addEventListener("nepali-calendar:change", function () {
+        if (lastIso) show(lastIso);
+      });
+
+      document.getElementById("btn-copy-iso").onclick = function () {
+        copy(lastIso, this);
+      };
+      document.getElementById("btn-copy-bs").onclick = function () {
+        if (!lastIso) return;
+        var bs = NepaliCalendar.toBS(lastIso);
+        if (!bs) return;
+        var L = lang(), m = L === "ne" ? M_NE : M_EN;
+        var t = L === "ne"
+          ? bs.day + " " + m[bs.month - 1] + " " + bs.year
+          : m[bs.month - 1] + " " + bs.day + ", " + bs.year;
+        copy(t, this);
+      };
+      document.getElementById("btn-copy-ad").onclick = function () {
+        if (!lastIso) return;
+        var p = lastIso.split("-");
+        copy(p[2] + " " + AD_M[+p[1] - 1] + " " + p[0], this);
+      };
+
+      var yr = document.getElementById("yr");
+      if (yr) yr.textContent = new Date().getFullYear();
+    })();
   </script>
   <script src="/assets/menu.js" defer></script>
   <script src="/assets/pwa.js" defer></script>
 </body>
+
 </html>
