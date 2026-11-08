@@ -98,244 +98,184 @@
   <style>
     .tool-box {
       background: var(--surface);
-      border: 1px solid var(--line);
+      border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 20px;
-      box-shadow: var(--shadow-sm);
-      margin-bottom: var(--s-5);
+      padding: var(--s-4);
+      margin-bottom: var(--s-4);
     }
-    .filters, .platform-row, .count-row {
+    .niche-grid, .platform-grid, .count-grid {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-bottom: 14px;
+      margin: 12px 0 16px;
     }
-    .filter-label {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--muted);
-      width: 100%;
-      margin-bottom: 2px;
-    }
-    .chip {
-      font: inherit;
-      font-weight: 600;
-      font-size: 0.88rem;
-      padding: 7px 13px;
-      border-radius: 999px;
-      border: 1px solid var(--line-strong);
-      background: #fff;
+    .niche-btn, .platform-btn, .count-btn {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
       color: var(--text);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 0.92rem;
       cursor: pointer;
+      transition: all 0.15s ease;
     }
-    .chip:hover { background: #eef7f8; }
-    .chip.active {
-      background: var(--primary);
+    .niche-btn:hover, .platform-btn:hover, .count-btn:hover,
+    .niche-btn.active, .platform-btn.active, .count-btn.active {
+      background: var(--accent);
       color: #fff;
-      border-color: var(--primary);
+      border-color: var(--accent);
     }
-    .actions-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 4px;
-    }
-    .btn-primary {
-      background: var(--primary);
-      color: #fff;
-      border-color: var(--primary);
-    }
-    .btn-primary:hover { background: var(--primary-dark); }
     .results {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 16px;
-      min-height: 40px;
+      gap: 10px;
+      min-height: 120px;
+      margin: 16px 0;
     }
     .tag-chip {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: #f0f7f8;
-      border: 1px solid var(--line);
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      padding: 6px 12px 6px 14px;
       border-radius: 999px;
-      padding: 6px 12px;
       font-size: 0.95rem;
       font-weight: 500;
     }
     .tag-chip button {
-      font: inherit;
-      font-size: 0.75rem;
-      font-weight: 600;
-      padding: 2px 7px;
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 0.8rem;
+      padding: 2px 6px;
       border-radius: 6px;
-      border: 1px solid var(--line-strong);
-      background: #fff;
-      cursor: pointer;
-      line-height: 1.2;
     }
-    .tag-chip button:hover { background: #eef7f8; }
-    .tag-chip button.copied {
-      background: var(--primary);
-      color: #fff;
-      border-color: var(--primary);
-    }
-    .empty-hint {
-      color: var(--muted);
-      font-size: 0.95rem;
-      margin: 8px 0 0;
-    }
-    .info-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+    .tag-chip button:hover { background: var(--border); color: var(--text); }
+    .tag-chip button.copied { color: var(--accent); }
+    .actions {
+      display: flex;
       gap: 12px;
-      margin-bottom: var(--s-5);
-    }
-    @media (max-width: 560px) {
-      .info-grid { grid-template-columns: 1fr; }
-    }
-    .info-card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-sm);
-      padding: 14px 16px;
-      box-shadow: var(--shadow-sm);
-    }
-    .info-card h3 {
-      margin: 0 0 6px;
-      font-size: 0.95rem;
-      color: var(--primary-dark);
-    }
-    .info-card p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 0.92rem;
-    }
-    .faq { margin-top: var(--s-5); }
-    .faq h2 { font-size: 1.15rem; margin-bottom: var(--s-3); }
-    .faq-item {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-sm);
-      padding: 10px 14px;
-      margin-bottom: 8px;
-    }
-    .faq-item summary {
-      cursor: pointer;
-      font-weight: 600;
-      list-style: none;
-    }
-    .faq-item summary::-webkit-details-marker { display: none; }
-    .faq-item p {
-      margin: 8px 0 4px;
-      color: var(--muted);
-      font-size: 0.95rem;
+      flex-wrap: wrap;
+      margin-top: 12px;
     }
     .copy-block {
-      margin-top: 12px;
-      padding: 12px 14px;
-      background: #f7fafb;
-      border: 1px solid var(--line);
-      border-radius: var(--radius-sm);
-      font-size: 0.95rem;
-      word-break: break-all;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.92rem;
       line-height: 1.6;
+      white-space: pre-wrap;
+      word-break: break-all;
+      margin-top: 12px;
       display: none;
     }
     .copy-block.visible { display: block; }
+    .empty {
+      color: var(--muted);
+      text-align: center;
+      padding: 40px 16px;
+    }
+    @media (max-width: 640px) {
+      .niche-btn, .platform-btn, .count-btn { font-size: 0.85rem; padding: 7px 12px; }
+    }
   </style>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632604868005505"
-     crossorigin="anonymous"></script>
 </head>
 <body>
-  <a class="skip" href="#tool">Skip to tool</a>
   <header class="site-header">
     <div class="bar">
-      <a class="brand" href="/"><span class="logo-mark">P</span><span>PBD</span></a>
-      <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
-      <nav id="menu" aria-label="Main navigation"></nav>
+      <a class="brand" href="/">
+        <span class="logo">PBD</span>
+        <span class="tag">Empowering people by digital means.</span>
+      </a>
+      <nav id="site-nav" class="nav" aria-label="Main"></nav>
     </div>
   </header>
 
-  <main class="narrow" id="tool">
-    <div class="page-intro">
-      <h1>Nepali Hashtag Generator for TikTok, Instagram &amp; Facebook</h1>
-      <p class="lead">Free curated hashtags for Nepali content creators. Pick a niche and platform, generate a clean set, copy and post. No spam, no signup.</p>
-    </div>
+  <main class="container" style="padding-top: 32px; padding-bottom: 64px;">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a> <span>/</span> <a href="/tools/">Tools</a> <span>/</span> <span>Hashtag Generator</span>
+    </nav>
+
+    <h1>Nepali Hashtag Generator</h1>
+    <p class="lead">Free curated hashtags for Nepali content creators. Pick a niche and platform, generate a clean set, copy and post. No spam, no signup.</p>
 
     <div class="tool-box">
-      <div class="filter-label">Niche</div>
-      <div class="filters" role="group" aria-label="Hashtag niche">
-        <button type="button" class="chip active" data-niche="all">All</button>
-        <button type="button" class="chip" data-niche="travel">Travel</button>
-        <button type="button" class="chip" data-niche="food">Food</button>
-        <button type="button" class="chip" data-niche="freelancing">Freelancing</button>
-        <button type="button" class="chip" data-niche="motivation">Motivation</button>
-        <button type="button" class="chip" data-niche="study">Study</button>
-        <button type="button" class="chip" data-niche="festival">Festival</button>
-        <button type="button" class="chip" data-niche="beauty">Beauty</button>
-        <button type="button" class="chip" data-niche="comedy">Comedy</button>
-        <button type="button" class="chip" data-niche="general">General / Viral</button>
+      <div>
+        <strong>Niche</strong>
+        <div class="niche-grid">
+          <button type="button" class="niche-btn active" data-niche="all">All</button>
+          <button type="button" class="niche-btn" data-niche="travel">Travel</button>
+          <button type="button" class="niche-btn" data-niche="food">Food</button>
+          <button type="button" class="niche-btn" data-niche="freelancing">Freelancing</button>
+          <button type="button" class="niche-btn" data-niche="motivation">Motivation</button>
+          <button type="button" class="niche-btn" data-niche="study">Study</button>
+          <button type="button" class="niche-btn" data-niche="festival">Festival</button>
+          <button type="button" class="niche-btn" data-niche="beauty">Beauty</button>
+          <button type="button" class="niche-btn" data-niche="comedy">Comedy</button>
+          <button type="button" class="niche-btn" data-niche="general">General</button>
+        </div>
       </div>
 
-      <div class="filter-label">Platform</div>
-      <div class="platform-row" role="group" aria-label="Target platform">
-        <button type="button" class="chip active" data-platform="all">All</button>
-        <button type="button" class="chip" data-platform="tiktok">TikTok</button>
-        <button type="button" class="chip" data-platform="instagram">Instagram</button>
-        <button type="button" class="chip" data-platform="facebook">Facebook</button>
+      <div>
+        <strong>Platform</strong>
+        <div class="platform-grid">
+          <button type="button" class="platform-btn active" data-platform="all">All</button>
+          <button type="button" class="platform-btn" data-platform="tiktok">TikTok</button>
+          <button type="button" class="platform-btn" data-platform="instagram">Instagram</button>
+          <button type="button" class="platform-btn" data-platform="facebook">Facebook</button>
+        </div>
       </div>
 
-      <div class="filter-label">How many</div>
-      <div class="count-row" role="group" aria-label="Number of hashtags">
-        <button type="button" class="chip" data-count="5">5</button>
-        <button type="button" class="chip" data-count="10">10</button>
-        <button type="button" class="chip active" data-count="15">15</button>
-        <button type="button" class="chip" data-count="20">20</button>
+      <div>
+        <strong>How many?</strong>
+        <div class="count-grid">
+          <button type="button" class="count-btn" data-count="8">8</button>
+          <button type="button" class="count-btn active" data-count="15">15</button>
+          <button type="button" class="count-btn" data-count="20">20</button>
+          <button type="button" class="count-btn" data-count="25">25</button>
+        </div>
       </div>
 
-      <div class="actions-row">
-        <button type="button" class="btn btn-primary" id="btn-generate">Generate hashtags</button>
-        <button type="button" class="btn" id="btn-copy-all">Copy all</button>
-        <button type="button" class="btn" id="btn-copy-line">Copy as one line</button>
+      <div class="actions">
+        <button type="button" class="btn" id="btn-generate">Generate hashtags</button>
+        <button type="button" class="btn secondary" id="btn-copy-all" disabled>Copy all</button>
       </div>
 
-      <div id="results" class="results" aria-live="polite"></div>
-      <div id="copy-block" class="copy-block" aria-hidden="true"></div>
-      <p id="empty" class="empty-hint">Choose niche and platform, then click Generate.</p>
-    </div>
-
-    <div class="info-grid">
-      <div class="info-card">
-        <h3>Curated, not random</h3>
-        <p>Hashtags are hand-selected for Nepali creators — mix of local, niche and light viral tags. No banned or spammy lists.</p>
-      </div>
-      <div class="info-card">
-        <h3>Platform-aware</h3>
-        <p>TikTok gets fewer, higher-impact tags. Instagram gets discovery-focused sets. Facebook stays light.</p>
-      </div>
-      <div class="info-card">
-        <h3>Works offline</h3>
-        <p>Everything runs in your browser. Generate as many sets as you want — free and private.</p>
-      </div>
-      <div class="info-card">
-        <h3>Easy to update</h3>
-        <p>Hashtag banks live in a separate file so trending tags can be refreshed without changing the tool.</p>
-      </div>
+      <div class="results" id="results"></div>
+      <div class="empty" id="empty">Pick a niche and click Generate to get started.</div>
+      <div class="copy-block" id="copy-block"></div>
     </div>
 
     <section>
       <h2>How to use</h2>
       <ol>
-        <li>Pick a <strong>niche</strong> (Travel, Food, Freelancing…).</li>
-        <li>Optionally choose a <strong>platform</strong> for better targeting.</li>
-        <li>Select how many hashtags you want (5–20).</li>
-        <li>Click <strong>Generate hashtags</strong>, then Copy all or Copy as one line.</li>
+        <li>Choose a niche (or All).</li>
+        <li>Select platform for better targeting.</li>
+        <li>Pick how many hashtags you want.</li>
+        <li>Click Generate. Copy individual tags or the whole set.</li>
       </ol>
-      <p style="color: var(--muted); font-size: 0.95rem; margin-top: 10px;">
-        Tip: On Instagram put hashtags in the first comment or after a few line breaks. On TikTok keep 3–5 strong tags inside the caption.
-      </p>
+    </section>
+
+    <section>
+      <h2>Why these hashtags?</h2>
+      <div class="grid-3">
+        <div>
+          <h3>Curated, not random</h3>
+          <p>Only tags that Nepali creators actually use. No spam, no irrelevant filler.</p>
+        </div>
+        <div>
+          <h3>Platform-aware</h3>
+          <p>TikTok sets lean on #fyp-style discovery. Instagram sets favour #Reels and explore tags.</p>
+        </div>
+        <div>
+          <h3>Nepali + English</h3>
+          <p>Mixed by default so you reach both local and wider audiences.</p>
+        </div>
+      </div>
     </section>
 
     <section class="faq">
@@ -354,7 +294,7 @@
       </details>
       <details class="faq-item">
         <summary>How often are the lists updated?</summary>
-        <p>The banks are curated and can be refreshed when new trends appear. The tool itself stays the same.</p>
+        <p>The banks are curated and refreshed when new trends appear (latest: November 2026, including the #VisitNepal TikTok/NTB campaign and current viral/seasonal tags). The tool itself stays the same.</p>
       </details>
     </section>
 
@@ -474,25 +414,11 @@
         const btn = $("btn-copy-all");
         const old = btn.textContent;
         btn.textContent = "Copied!";
-        setTimeout(() => { btn.textContent = old; }, 1400);
+        setTimeout(() => { btn.textContent = old; }, 1200);
       });
     });
 
-    $("btn-copy-line").addEventListener("click", () => {
-      if (!lastSet.length) return;
-      const text = lastSet.join(" ");
-      navigator.clipboard.writeText(text).then(() => {
-        const btn = $("btn-copy-line");
-        const old = btn.textContent;
-        btn.textContent = "Copied!";
-        setTimeout(() => { btn.textContent = old; }, 1400);
-      });
-    });
-
-    const yr = document.getElementById("yr");
-    if (yr) yr.textContent = new Date().getFullYear();
-
-    setTimeout(() => $("btn-generate").click(), 100);
+    document.getElementById("yr").textContent = new Date().getFullYear();
   })();
   </script>
 </body>

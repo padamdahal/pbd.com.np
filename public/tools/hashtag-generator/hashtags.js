@@ -1,26 +1,26 @@
 // Nepali Hashtag Generator – curated static banks
 // Easy to update later: just edit arrays. Prefer quality over quantity.
-// Last curated: Oct 2026
+// Last curated: November 2026 (includes #VisitNepal TikTok/NTB campaign + current viral/seasonal tags)
 
 window.PBD_HASHTAGS = {
   base: {
-    nepal: ["#Nepal", "#नेपाल", "#Nepali", "#नेपाली", "#Kathmandu", "#Pokhara", "#Nepalese"],
-    viralTikTok: ["#fyp", "#foryou", "#foryoupage", "#viral", "#trending", "#fypnepal", "#NepaliTikTok", "#TikTokNepal"],
-    viralIG: ["#Reels", "#InstagramReels", "#ExplorePage", "#InstaNepal", "#NepaliInstagrammer"],
-    general: ["#NepalNow", "#ExploreNepal", "#VisitNepal", "#MadeInNepal", "#NepaliCreator"]
+    nepal: ["#Nepal", "#नेपाल", "#Nepali", "#नेपाली", "#Kathmandu", "#Pokhara", "#Nepalese", "#VisitNepal", "#NepalTourism"],
+    viralTikTok: ["#fyp", "#foryou", "#foryoupage", "#viral", "#trending", "#fypnepal", "#NepaliTikTok", "#TikTokNepal", "#relatable", "#fypシ"],
+    viralIG: ["#Reels", "#InstagramReels", "#ExplorePage", "#InstaNepal", "#NepaliInstagrammer", "#viralreels"],
+    general: ["#NepalNow", "#ExploreNepal", "#VisitNepal", "#MadeInNepal", "#NepaliCreator", "#VisitNepal2026"]
   },
   niches: {
     travel: {
       label: "Travel & Trekking",
-      tags: ["#TravelNepal", "#NepalTravel", "#VisitNepal", "#ExploreNepal", "#Himalayas", "#Everest", "#Annapurna", "#Pokhara", "#Kathmandu", "#Nepal8thWonder", "#TrekkingInNepal", "#NepalDiaries", "#WanderlustNepal", "#MountainViews", "#HimalayanTrek", "#Langtang", "#Mustang", "#Chitwan", "#Lumbini", "#TravelGram", "#NatureNepal", "#AdventureNepal", "#NepalTourism", "#नेपालघुमघाम", "#हिमाल", "#ट्रेकिङ", "#पोखरा", "#काठमाडौं", "#DiscoverNepal", "#NepalGram", "#InstaTravelNepal", "#SoloTravelNepal"]
+      tags: ["#VisitNepal", "#VisitNepal2026", "#TravelNepal", "#NepalTravel", "#ExploreNepal", "#Himalayas", "#Everest", "#Annapurna", "#Pokhara", "#Kathmandu", "#Nepal8thWonder", "#TrekkingInNepal", "#NepalDiaries", "#WanderlustNepal", "#MountainViews", "#HimalayanTrek", "#Langtang", "#Mustang", "#Chitwan", "#Lumbini", "#TravelGram", "#NatureNepal", "#AdventureNepal", "#NepalTourism", "#नेपालघुमघाम", "#हिमाल", "#ट्रेकिङ", "#पोखरा", "#काठमाडौं", "#DiscoverNepal", "#NepalGram", "#InstaTravelNepal", "#SoloTravelNepal", "#VisitNepalCampaign"]
     },
     food: {
       label: "Food & Momo",
-      tags: ["#NepaliFood", "#NepaliFoodie", "#Momo", "#MomoLove", "#NewariFood", "#Thakali", "#DalBhat", "#KathmanduFood", "#PokharaFood", "#StreetFoodNepal", "#NepaliCuisine", "#HomemadeNepali", "#FoodieNepal", "#YummyNepali", "#ममो", "#नेपालीखाना", "#दालभात", "#नेवारीखाना", "#खाजा", "#FoodPhotography", "#NepalEats", "#TasteOfNepal", "#LocalFoodNepal"]
+      tags: ["#NepaliFood", "#NepaliFoodie", "#Momo", "#MomoLove", "#NewariFood", "#Thakali", "#DalBhat", "#KathmanduFood", "#PokharaFood", "#StreetFoodNepal", "#NepaliCuisine", "#HomemadeNepali", "#FoodieNepal", "#YummyNepali", "#ममो", "#नेपालीखाना", "#दालभात", "#नेवारीखाना", "#खाजा", "#FoodPhotography", "#NepalEats", "#TasteOfNepal", "#LocalFoodNepal", "#FoodTok"]
     },
     freelancing: {
       label: "Freelancing & Hustle",
-      tags: ["#FreelanceNepal", "#NepaliFreelancer", "#WorkFromNepal", "#DigitalNomadNepal", "#RemoteWorkNepal", "#FreelanceLife", "#SideHustleNepal", "#OnlineIncomeNepal", "#ContentCreatorNepal", "#NepaliCreator", "#EarnOnlineNepal", "#SkillNepal", "#FreelancerLife", "#WorkFromHomeNepal", "#NepalStartup", "#MadeInNepal", "#फ्रीलान्स", "#अनलाइनकाम", "#नेपालीफ्रीलान्सर", "#डिजिटलनेपाल"]
+      tags: ["#FreelanceNepal", "#NepaliFreelancer", "#WorkFromNepal", "#DigitalNomadNepal", "#RemoteWorkNepal", "#FreelanceLife", "#SideHustleNepal", "#OnlineIncomeNepal", "#ContentCreatorNepal", "#NepaliCreator", "#EarnOnlineNepal", "#SkillNepal", "#FreelancerLife", "#WorkFromHomeNepal", "#NepalStartup", "#MadeInNepal", "#फ्रीलान्स", "#अनलाइनकाम", "#नेपालीफ्रीलान्सर", "#डिजिटलनेपाल", "#chatgpt"]
     },
     motivation: {
       label: "Motivation & Quotes",
@@ -28,29 +28,29 @@ window.PBD_HASHTAGS = {
     },
     study: {
       label: "Study & Growth",
-      tags: ["#StudyNepal", "#StudentLifeNepal", "#ExamMotivation", "#StudyWithMe", "#NepaliStudent", "#EducationNepal", "#LearnEveryday", "#StudyTips", "#CampusLifeNepal", "#ScholarshipNepal", "#SelfImprovement", "#GrowthMindset", "#पढाइ", "#विद्यार्थी", "#परीक्षा", "#शिक्षा", "#StudyGram", "#StudentMotivation", "#KnowledgeIsPower"]
+      tags: ["#StudyNepal", "#StudentLifeNepal", "#ExamMotivation", "#StudyWithMe", "#NepaliStudent", "#EducationNepal", "#LearnEveryday", "#StudyTips", "#CampusLifeNepal", "#ScholarshipNepal", "#SelfImprovement", "#GrowthMindset", "#पढाइ", "#विद्यार्थी", "#परीक्षा", "#शिक्षा", "#StudyGram", "#StudentMotivation", "#KnowledgeIsPower", "#LearnOnTikTok"]
     },
     festival: {
       label: "Festival & Culture",
-      tags: ["#Dashain", "#Tihar", "#Dashain2026", "#Tihar2026", "#NepaliFestival", "#NepalCulture", "#HinduFestival", "#DashainTihar", "#FestivalNepal", "#NepaliTradition", "#CulturalNepal", "#HappyDashain", "#HappyTihar", "#दशैं", "#तिहार", "#नेपालीचाड", "#संस्कृति", "#NepaliNewYear", "#Teej", "#HoliNepal", "#BuddhaJayanti"]
+      tags: ["#Dashain", "#Tihar", "#Dashain2026", "#Tihar2026", "#NepaliFestival", "#NepalCulture", "#HinduFestival", "#DashainTihar", "#FestivalNepal", "#NepaliTradition", "#CulturalNepal", "#HappyDashain", "#HappyTihar", "#दशैं", "#तिहार", "#नेपालीचाड", "#संस्कृति", "#NepaliNewYear", "#Teej", "#HoliNepal", "#BuddhaJayanti", "#christmas", "#movember"]
     },
     beauty: {
       label: "Beauty & Fashion",
-      tags: ["#NepaliBeauty", "#NepaliMakeup", "#NepaliStyle", "#FashionNepal", "#KathmanduFashion", "#NepaliGirl", "#MakeupNepal", "#SkincareNepal", "#NepaliBride", "#WeddingNepal", "#NepaliFashion", "#StyleNepal", "#नेपालीफेसन", "#मेकअप", "#सुन्दरता", "#BeautyNepal", "#GlamNepal", "#OutfitOfTheDay"]
+      tags: ["#NepaliBeauty", "#NepaliMakeup", "#NepaliStyle", "#FashionNepal", "#KathmanduFashion", "#NepaliGirl", "#MakeupNepal", "#SkincareNepal", "#NepaliBride", "#WeddingNepal", "#NepaliFashion", "#StyleNepal", "#नेपालीफेसन", "#मेकअप", "#सुन्दरता", "#BeautyNepal", "#GlamNepal", "#OutfitOfTheDay", "#grwm", "#fashionfinds"]
     },
     comedy: {
       label: "Comedy & Relatable",
-      tags: ["#NepaliComedy", "#FunnyNepali", "#NepaliMeme", "#RelatableNepali", "#ComedyNepal", "#NepaliHumor", "#LaughNepal", "#ViralComedy", "#नेपालीकमेडी", "#मजाक", "#हँसाउने", "#FunnyVideos", "#NepaliTikTokComedy", "#DailyComedy"]
+      tags: ["#NepaliComedy", "#FunnyNepali", "#NepaliMeme", "#RelatableNepali", "#ComedyNepal", "#NepaliHumor", "#LaughNepal", "#ViralComedy", "#नेपालीकमेडी", "#मजाक", "#हँसाउने", "#FunnyVideos", "#NepaliTikTokComedy", "#DailyComedy", "#relatable", "#funny"]
     },
     general: {
       label: "General / Viral",
-      tags: ["#Nepal", "#Nepali", "#Kathmandu", "#Pokhara", "#Nepalese", "#NepaliTikTok", "#TikTokNepal", "#NepaliCreator", "#InstaNepal", "#NepalNow", "#ExploreNepal", "#VisitNepal", "#NepaliInstagrammer", "#नेपाल", "#नेपाली", "#काठमाडौं", "#पोखरा", "#fyp", "#foryoupage", "#viral", "#trending", "#Reels"]
+      tags: ["#Nepal", "#Nepali", "#Kathmandu", "#Pokhara", "#Nepalese", "#NepaliTikTok", "#TikTokNepal", "#NepaliCreator", "#InstaNepal", "#NepalNow", "#ExploreNepal", "#VisitNepal", "#NepaliInstagrammer", "#नेपाल", "#नेपाली", "#काठमाडौं", "#पोखरा", "#fyp", "#foryoupage", "#viral", "#trending", "#Reels", "#relatable", "#christmas"]
     }
   },
   platformBoost: {
-    tiktok: ["#fyp", "#foryou", "#foryoupage", "#fypnepal", "#NepaliTikTok", "#TikTokNepal", "#viral", "#trending"],
-    instagram: ["#Reels", "#InstagramReels", "#ExplorePage", "#InstaNepal", "#NepaliInstagrammer", "#NepalGram"],
-    facebook: ["#Nepal", "#Nepali", "#Kathmandu"]
+    tiktok: ["#fyp", "#foryou", "#foryoupage", "#fypnepal", "#NepaliTikTok", "#TikTokNepal", "#viral", "#trending", "#relatable", "#fypシ"],
+    instagram: ["#Reels", "#InstagramReels", "#ExplorePage", "#InstaNepal", "#NepaliInstagrammer", "#NepalGram", "#viralreels"],
+    facebook: ["#Nepal", "#Nepali", "#Kathmandu", "#VisitNepal"]
   }
 };
 
@@ -100,7 +100,7 @@ window.PBD_generateHashtags = function (opts) {
     if (!seen.has(key)) { seen.add(key); unique.push(tag); }
   }
   let result = pbdShuffle(unique).slice(0, Math.max(3, Math.min(count, 30)));
-  const core = ["#Nepal", "#Nepali", "#नेपाल"];
+  const core = ["#Nepal", "#Nepali", "#नेपाल", "#VisitNepal"];
   core.forEach(c => {
     if (result.length < count && !result.some(t => t.toLowerCase() === c.toLowerCase())) {
       result.push(c);
