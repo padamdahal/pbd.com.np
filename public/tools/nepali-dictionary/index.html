@@ -5,15 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0b7285">
   <title>Nepali Dictionary Online – नेपाली बृहत् शब्दकोश (Free)</title>
-  <meta name="description" content="Free online Nepali dictionary (शब्दकोश) with over 120,000 words from the Brihat Sabdakosh. Look up meanings, grammar, etymology and senses instantly. Private, works offline after load.">
+  <meta name="description" content="Free online Nepali dictionary (शब्दकोश) with over 123,000 words from the Brihat Sabdakosh. Search in Devanagari or Romanized Nepali for meanings, grammar, and etymology.">
+  <meta name="keywords" content="Nepali dictionary, नेपाली शब्दकोश, बृहत् शब्दकोश, Nepali meaning, शब्दको अर्थ, online Nepali dictionary, free Nepali shabdakosh, Unicode Nepali dictionary">
   <link rel="canonical" href="https://pbd.com.np/tools/nepali-dictionary/">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta property="og:title" content="Nepali Dictionary Online – नेपाली बृहत् शब्दकोश | PBD">
-  <meta property="og:description" content="Free online Nepali dictionary with 120,000+ words from the Brihat Sabdakosh. Senses, grammar, and offline access.">
+  <meta property="og:description" content="Search 123,000+ Nepali words from the Brihat Sabdakosh in Devanagari or Romanized Nepali. Meanings, grammar, and etymology — free and private.">
   <meta property="og:url" content="https://pbd.com.np/tools/nepali-dictionary/">
   <meta property="og:type" content="website">
-  <meta name="twitter:card" content="summary">
+  <meta property="og:site_name" content="Powered By Digital">
+  <meta property="og:image" content="https://pbd.com.np/assets/og-default.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Nepali Dictionary Online – नेपाली बृहत् शब्दकोश">
+  <meta name="twitter:description" content="Free online Nepali dictionary with 123,000+ words. Search in Devanagari or Romanized Nepali.">
+  <meta name="twitter:image" content="https://pbd.com.np/assets/og-default.svg">
   <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/style.css">
   <script type="application/ld+json">
   {
@@ -25,7 +36,7 @@
     "operatingSystem": "Any",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "NPR" },
     "inLanguage": ["ne", "en"],
-    "description": "Search 120,000+ words from the Brihat Sabdakosh with meanings, grammar, and etymology.",
+    "description": "Search 123,000+ words from the Brihat Sabdakosh in Devanagari or Romanized Nepali with meanings, grammar, and etymology.",
     "isPartOf": { "@type": "WebSite", "name": "PBD", "url": "https://pbd.com.np/" }
   }
   </script>
@@ -40,49 +51,427 @@
     ]
   }
   </script>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632604868005505"
-     crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What dictionary dataset does this Nepali Dictionary use?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It uses an open structured dataset derived from the Nepali Brihat Sabdakosh (नेपाली बृहत् शब्दकोश), containing over 123,000 headwords with definitions, grammar categories, and etymology."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I search using English / Romanized letters?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Type Romanized Nepali words like kiran, nepal, gyan, or shiksha and the tool automatically converts them to Devanagari suggestions and searches the dictionary."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does it work offline and keep my searches private?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. All searches happen locally in your browser using static dictionary chunks. Queries never leave your device, and visited chunks are cached for offline use."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What do abbreviations like ना., वि., क्रि., and [सं.] mean?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "They represent parts of speech and word origin: ना. (Noun), वि. (Adjective), क्रि. (Verb), क्रि.वि. (Adverb), पूस. (Prefix), नि. (Particle), and [सं.] indicates Sanskrit origin."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    .dict-box {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: var(--s-5);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: var(--s-5);
+    }
+    .search-wrap { position: relative; }
+    .search-label {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: .92rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    #dict-count { font-weight: 500; font-size: .85rem; color: var(--muted); }
+    #dict-input {
+      width: 100%;
+      font: inherit;
+      font-size: 1.2rem;
+      line-height: 1.5;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius-sm);
+      padding: 13px 16px;
+      background: #fff;
+      color: var(--text);
+    }
+    #dict-input:focus { outline: 2px solid var(--primary); outline-offset: 1px; }
+    .suggestions {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 100%;
+      margin: 4px 0 0;
+      padding: 0;
+      list-style: none;
+      background: #fff;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius-sm);
+      box-shadow: var(--shadow-sm);
+      max-height: 280px;
+      overflow-y: auto;
+      z-index: 20;
+      display: none;
+    }
+    .suggestions.open { display: block; }
+    .suggestions li {
+      padding: 10px 14px;
+      cursor: pointer;
+      border-bottom: 1px solid var(--line);
+      font-size: 1.08rem;
+      min-height: 42px;
+      display: flex;
+      align-items: center;
+    }
+    .suggestions li:last-child { border-bottom: none; }
+    .suggestions li:hover, .suggestions li[aria-selected="true"] {
+      background: #eef7f8;
+      color: var(--primary-dark);
+    }
+    .suggestions .match { font-weight: 700; }
+    .roman-hint {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+      font-size: .9rem;
+      color: var(--muted);
+    }
+    .roman-hint[hidden] { display: none; }
+    .roman-label { font-weight: 600; }
+    .roman-chip {
+      font: inherit;
+      font-size: .92rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      min-height: 36px;
+      border: 1px solid var(--line-strong);
+      border-radius: 8px;
+      background: #f4fafb;
+      color: var(--primary-dark);
+      cursor: pointer;
+    }
+    .roman-chip:hover { border-color: var(--primary); background: #e6f4f6; }
+    .dict-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-top: 14px;
+    }
+    .dict-actions .btn { min-height: 42px; padding: 9px 18px; }
+    .dict-actions .grow { flex: 1; min-width: 8px; }
+    .btn-primary { background: var(--primary); color: #fff; border-color: var(--primary-dark); }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .status { font-size: .9rem; color: var(--muted); margin: 12px 0 0; min-height: 1.4em; }
+    .status.loading { color: var(--primary); }
+    .status.error { color: #b42318; }
+    .entry {
+      margin-top: 16px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+    }
+    .entry-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .entry-word {
+      font-size: clamp(1.6rem, 3vw, 2rem);
+      font-weight: 800;
+      margin: 0;
+      line-height: 1.25;
+      color: var(--text);
+    }
+    .entry-tools { display: flex; gap: 8px; flex-wrap: wrap; }
+    .entry-tools .btn-sm { min-height: 38px; padding: 6px 14px; }
+    .def-block {
+      padding: 14px 0;
+      border-top: 1px solid var(--line);
+    }
+    .def-block:first-of-type { border-top: none; padding-top: 4px; }
+    .def-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 6px 10px;
+      margin-bottom: 8px;
+      font-size: .9rem;
+      color: var(--muted);
+    }
+    .def-meta .grammar { font-weight: 700; color: var(--primary-dark); }
+    .def-meta .meta-sep { color: var(--line-strong); }
+    .def-meta .etymology { font-style: italic; }
+    .senses { margin: 0; padding-left: 1.35rem; }
+    .senses li { margin-bottom: 8px; line-height: 1.65; font-size: 1.06rem; }
+    .senses li:last-child { margin-bottom: 0; }
+    .empty-state, .not-found {
+      text-align: center;
+      padding: 24px 16px 12px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      margin-top: 16px;
+    }
+    .empty-state strong, .not-found strong {
+      display: block;
+      font-size: 1.12rem;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .wotd-row {
+      margin-top: 14px;
+      display: inline-flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: .92rem;
+    }
+    .wotd-btn {
+      font: inherit;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--primary-dark);
+      background: #f4fafb;
+      border: 1px solid var(--line-strong);
+      border-radius: 8px;
+      padding: 6px 14px;
+      min-height: 40px;
+      cursor: pointer;
+    }
+    .wotd-btn:hover { border-color: var(--primary); background: #e6f4f6; }
+    .nearby-wrap {
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 10px;
+    }
+    .nearby-label { font-size: .88rem; font-weight: 600; color: var(--muted); }
+    .nearby-btns { display: flex; flex-wrap: wrap; gap: 8px; }
+    .nearby-btn, .samples button, .history-list button {
+      font: inherit;
+      font-size: .92rem;
+      padding: 6px 14px;
+      min-height: 40px;
+      border: 1px solid var(--line-strong);
+      background: #fff;
+      border-radius: 8px;
+      cursor: pointer;
+      color: var(--text);
+    }
+    .nearby-btn:hover, .samples button:hover, .history-list button:hover {
+      background: #eef7f8;
+      border-color: var(--primary);
+      color: var(--primary-dark);
+    }
+    .word-strip { margin-bottom: var(--s-5); }
+    .word-strip-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .word-strip-title { font-size: .9rem; font-weight: 700; color: var(--muted); margin: 0; }
+    .clear-hist-btn {
+      background: none;
+      border: none;
+      padding: 4px 6px;
+      font: inherit;
+      font-size: .84rem;
+      color: var(--primary-dark);
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    .samples, .history-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .info-section { margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--line); }
+    .info-section h2 { margin: 0 0 12px; font-size: 1.25rem; }
+    .abbr-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 10px 18px;
+      font-size: .94rem;
+    }
+    .abbr-item { display: flex; gap: 8px; align-items: baseline; }
+    .abbr-code { font-weight: 700; color: var(--primary-dark); min-width: 52px; }
+    .faq details {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      margin-bottom: 8px;
+      background: var(--surface);
+    }
+    .faq summary {
+      padding: 13px 16px;
+      font-weight: 600;
+      cursor: pointer;
+      list-style: none;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .faq summary::after { content: "+"; font-weight: 700; color: var(--primary); }
+    .faq details[open] summary::after { content: "−"; }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq details[open] summary { border-bottom: 1px solid var(--line); }
+    .faq details p { margin: 0; padding: 12px 16px 14px; color: var(--muted); }
+    @media (max-width: 640px) {
+      #dict-input { font-size: 1.1rem; padding: 12px 14px; }
+    }
+  </style>
 </head>
 <body>
   <a class="skip" href="#tool">Skip to tool</a>
-  <header class="site-header">
-    <div class="bar">
-      <a class="brand" href="/" aria-label="Powered By Digital (PBD) — Home"><span class="logo-mark" aria-hidden="true">P</span><span class="brand-text"><span class="brand-name">PBD</span><span class="brand-full">Powered By Digital</span></span></a>
-      <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
-      <nav id="menu" class="site-nav" aria-label="Main navigation" role="navigation"><a href="/">Home</a><a href="/tools/">Tools</a><a href="/widgets/">Widgets</a><a href="/guides/">Guides</a><a href="/about/">About</a></nav>
-    </div>
-  </header>
+  <header class="site-header"><div class="bar"></div></header>
+
   <main class="narrow" id="tool">
     <div class="page-intro">
       <h1>Nepali Dictionary</h1>
-      <p class="lead">Search the Brihat Sabdakosh — over 120,000 Nepali words with meanings, grammar and etymology. Private, free, and runs in your browser.</p>
+      <p class="lead">Search the Brihat Sabdakosh — over 123,000 Nepali words with meanings, grammar, and etymology. Type in Devanagari or Romanized Nepali.</p>
     </div>
+
     <div class="dict-box">
       <div class="search-wrap">
-        <label for="dict-input">Search word / शब्द खोज्नुहोस्</label>
-        <input id="dict-input" type="search" enterkeyhint="search" autocomplete="off" spellcheck="false" placeholder="उदाहरण: किरण, नेपाल, ज्ञान …" lang="ne" autofocus>
-        <ul id="suggestions" class="suggestions" role="listbox"></ul>
+        <div class="search-label">
+          <label for="dict-input">Search word / शब्द खोज्नुहोस् (Devanagari or Romanized)</label>
+          <span id="dict-count"></span>
+        </div>
+        <input id="dict-input" type="search" enterkeyhint="search" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="e.g. किरण, नेपाल, or type kiran, nepal, gyan …" lang="ne" autofocus>
+        <ul id="suggestions" class="suggestions" role="listbox" aria-label="Suggestions"></ul>
       </div>
+
+      <div id="roman-hint" class="roman-hint" hidden></div>
+
       <div class="dict-actions">
         <button type="button" class="btn btn-primary" id="btn-search">Search</button>
         <button type="button" class="btn" id="btn-random">Random word</button>
+        <span class="grow"></span>
         <button type="button" class="btn" id="btn-clear">Clear</button>
       </div>
+
       <p id="status" class="status" aria-live="polite"></p>
       <div id="result" class="entry" hidden></div>
-      <div id="empty" class="empty-state"><strong>Type a Nepali word to begin</strong></div>
+
+      <div id="empty" class="empty-state">
+        <strong>Type a Nepali or Romanized word to begin</strong>
+        <span>Definitions, part of speech, etymology, and nearby words appear here.</span>
+        <div class="wotd-row">
+          <span>Word of the day:</span>
+          <button type="button" class="wotd-btn" id="wotd-btn" lang="ne">किरण</button>
+        </div>
+      </div>
     </div>
-    <p class="note">Data derived from the Brihat Sabdakosh. Independent of Nepal Academy.</p>
+
+    <div class="word-strip">
+      <div class="word-strip-head">
+        <h2 class="word-strip-title">Popular words</h2>
+      </div>
+      <div class="samples">
+        <button type="button" data-word="किरण" lang="ne">किरण</button>
+        <button type="button" data-word="नेपाल" lang="ne">नेपाल</button>
+        <button type="button" data-word="ज्ञान" lang="ne">ज्ञान</button>
+        <button type="button" data-word="माया" lang="ne">माया</button>
+        <button type="button" data-word="शिक्षा" lang="ne">शिक्षा</button>
+        <button type="button" data-word="स्वतन्त्रता" lang="ne">स्वतन्त्रता</button>
+        <button type="button" data-word="संविधान" lang="ne">संविधान</button>
+        <button type="button" data-word="प्रकृति" lang="ne">प्रकृति</button>
+      </div>
+    </div>
+
+    <div class="word-strip" id="history-wrap" hidden>
+      <div class="word-strip-head">
+        <h2 class="word-strip-title">Recent searches</h2>
+        <button type="button" class="clear-hist-btn" id="btn-clear-history">Clear history</button>
+      </div>
+      <div class="history-list" id="history-list"></div>
+    </div>
+
+    <section class="info-section">
+      <h2>How to use the Nepali Dictionary</h2>
+      <ol>
+        <li><strong>Search in Devanagari or Romanized Nepali:</strong> Type Nepali Unicode (e.g., <code>नेपाल</code>) or phonetic English letters (e.g., <code>nepal</code>, <code>kiran</code>, <code>gyan</code>).</li>
+        <li><strong>Pick from autocomplete:</strong> Choose a matching headword from the suggestions dropdown or click a converted Devanagari candidate.</li>
+        <li><strong>Explore definitions and nearby words:</strong> View all numbered senses, grammar labels, etymology, and browse neighboring dictionary entries.</li>
+      </ol>
+    </section>
+
+    <section class="info-section">
+      <h2>Common grammar &amp; etymology abbreviations</h2>
+      <div class="abbr-grid">
+        <div class="abbr-item"><span class="abbr-code">ना.</span><span>नाम (Noun)</span></div>
+        <div class="abbr-item"><span class="abbr-code">वि.</span><span>विशेषण (Adjective)</span></div>
+        <div class="abbr-item"><span class="abbr-code">क्रि.</span><span>क्रिया (Verb)</span></div>
+        <div class="abbr-item"><span class="abbr-code">सक्रि.</span><span>सकर्मक क्रिया (Transitive)</span></div>
+        <div class="abbr-item"><span class="abbr-code">अक्रि.</span><span>अकर्मक क्रिया (Intransitive)</span></div>
+        <div class="abbr-item"><span class="abbr-code">क्रि.वि.</span><span>क्रियाविशेषण (Adverb)</span></div>
+        <div class="abbr-item"><span class="abbr-code">पूस.</span><span>पूर्वसर्ग (Prefix)</span></div>
+        <div class="abbr-item"><span class="abbr-code">नि.</span><span>निपात (Particle)</span></div>
+        <div class="abbr-item"><span class="abbr-code">[सं.]</span><span>संस्कृत (Sanskrit root)</span></div>
+        <div class="abbr-item"><span class="abbr-code">[ने.]</span><span>नेपाली (Nepali root)</span></div>
+        <div class="abbr-item"><span class="abbr-code">[फा.]</span><span>फारसी (Persian root)</span></div>
+        <div class="abbr-item"><span class="abbr-code">[अङ्.]</span><span>अङ्ग्रेजी (English loanword)</span></div>
+      </div>
+    </section>
+
+    <section class="info-section faq">
+      <h2>Frequently asked questions</h2>
+      <details class="faq-item">
+        <summary>What dictionary dataset does this Nepali Dictionary use?</summary>
+        <p>It uses an open structured dataset derived from the Nepali Brihat Sabdakosh (नेपाली बृहत् शब्दकोश), containing over 123,000 headwords with definitions, grammar labels, and etymology notes.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Can I search using English / Romanized letters?</summary>
+        <p>Yes. If you do not have a Nepali keyboard enabled, type phonetically in English letters such as <code>kiran</code>, <code>gyan</code>, or <code>swatantrata</code> and select from the instant Devanagari candidates or press Enter.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Does it work offline and keep my searches private?</summary>
+        <p>Completely. Your queries never leave your browser. Only static letter-range JSON chunks are fetched on demand and cached for fast repeat or offline lookups.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What do abbreviations like ना., वि., क्रि., and [सं.] mean?</summary>
+        <p>They are traditional Nepali lexicography markers indicating part of speech (e.g., ना. for noun, वि. for adjective, क्रि. for verb) and language origin (e.g., [सं.] for Sanskrit).</p>
+      </details>
+    </section>
+
+    <p class="note">Data derived from the MIT-licensed open structured Brihat Sabdakosh JSON dataset. Independent of Nepal Academy and provided for educational and reference use.</p>
   </main>
-  <footer class="site-footer">
-  <div class="bar footer-bar">
-    <nav id="footer-menu" class="footer-pills" aria-label="Footer"><a href="/tools/nepali-typing/">Nepali Typing</a><a href="/tools/preeti-to-unicode/">Preeti ↔ Unicode</a><a href="/tools/nepali-date-converter/">Nepali Date Converter</a><a href="/tools/today-nepali-date/">Today's Date</a><a href="/tools/nepali-spell-checker/">Spell Checker</a><a href="/tools/number-to-nepali-words/">Number to Words</a><a href="/tools/income-tax-calculator/">Income Tax</a><a href="/tools/nepal-map/">Nepal Map</a></nav>
-    <div class="footer-meta">
-      <p class="footer-copy">© <span id="yr"></span> Powered By Digital (PBD)</p>
-      <nav class="footer-legal" aria-label="Legal"><a href="/about/">About</a><a href="/privacy/">Privacy</a></nav>
-    </div>
-  </div>
-</footer>
+
+  <footer class="site-footer"></footer>
   <script src="/assets/menu.js" defer></script>
   <script src="/assets/pwa.js" defer></script>
   <script src="dictionary.js" defer></script>
