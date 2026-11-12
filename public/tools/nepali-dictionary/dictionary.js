@@ -420,12 +420,38 @@
     });
   }
 
+  const DICT_CACHE_NAME = "pbd-dict-data-v1";
+
+  async function readFromDictCache(pathname) {
+    if (!("caches" in window)) return null;
+    try {
+      const cache = await caches.open(DICT_CACHE_NAME);
+      const match = await cache.match(pathname);
+      return match || null;
+    } catch {
+      return null;
+    }
+  }
+
+  async function writeToDictCache(pathname, res) {
+    if (!("caches" in window) || !res || !res.ok) return;
+    try {
+      const cache = await caches.open(DICT_CACHE_NAME);
+      await cache.put(pathname, res.clone());
+    } catch {}
+  }
+
   /* --- Chunk Index & Binary Lookup --- */
   async function loadIndex() {
     if (index.length) return index;
     setStatus("Loading dictionary index…", "loading");
-    const res = await fetch(BASE + "index.json");
-    if (!res.ok) throw new Error("Could not load index");
+    const path = BASE + "index.json";
+    let res = await readFromDictCache(path);
+    if (!res) {
+      res = await fetch(path);
+      if (!res.ok) throw new Error("Could not load index");
+      await writeToDictCache(path, res);
+    }
     index = await res.json();
     const total = index.reduce((s, c) => s + c.count, 0);
     if (countEl) countEl.textContent = total.toLocaleString("en-NP") + " words";
@@ -443,11 +469,22 @@
     }
     loadingChunks.add(i);
     try {
-      const res = await fetch(BASE + `dict-${i}.json`);
-      if (!res.ok) throw new Error("Chunk " + i + " failed");
+      const path = BASE + `dict-${i}.json`;
+      let res = await readFromDictCache(path);
+      if (!res) {
+        res = await fetch(path);
+        if (!res.ok) throw new Error("Chunk " + i + " failed");
+        await writeToDictCache(path, res);
+      }
       const data = await res.json();
       chunkCache.set(i, data);
+      refreshOfflineStatus().catch(() => {});
       return data;
+    } catch (err) {
+      if (!navigator.onLine) {
+        throw new Error("Offline: this word range is not saved yet. Connect once and click 'Download offline'.");
+      }
+      throw err;
     } finally {
       loadingChunks.delete(i);
     }
@@ -991,6 +1028,298 @@
     });
   });
 
+  /* --- Offline Sync Manager & Connectivity Indicator --- */
+  const offlineNoticeEl = document.getElementById("offline-notice");
+  const offlineStatusTextEl = document.getElementById("offline-status-text");
+  const offlineProgressEl = document.getElementById("offline-progress");
+  const offlineProgressFillEl = document.getElementById("offline-progress-fill");
+  const btnOfflineSync = document.getElementById("btn-offline-sync");
+  const btnOfflineCancel = document.getElementById("btn-offline-cancel");
+  const btnOfflineClear = document.getElementById("btn-offline-clear");
+
+  let syncAbortController = null;
+  let isSyncingOffline = false;
+
+  function updateOnlineBanner() {
+    if (!offlineNoticeEl) return;
+    offlineNoticeEl.hidden = navigator.onLine !== false;
+  }
+
+  window.addEventListener("online", updateOnlineBanner);
+  window.addEventListener("offline", updateOnlineBanner);
+  updateOnlineBanner();
+
+  async function getCachedChunkCount(totalChunks) {
+    if (!("caches" in window)) return 0;
+    try {
+      const cache = await caches.open(DICT_CACHE_NAME);
+      const keys = await cache.keys();
+      const cachedSet = new Set(
+        keys.map((req) => {
+          try {
+            return new URL(req.url).pathname;
+          } catch {
+            return req.url;
+          }
+        })
+      );
+      let count = 0;
+      for (let i = 0; i < totalChunks; i++) {
+        if (cachedSet.has(BASE + `dict-${i}.json`)) count++;
+      }
+      return count;
+    } catch {
+      return 0;
+    }
+  }
+
+  async function refreshOfflineStatus() {
+    if (!offlineStatusTextEl) return;
+    if (!("caches" in window)) {
+      offlineStatusTextEl.textContent = "Offline storage is not supported in this browser.";
+      if (btnOfflineSync) btnOfflineSync.hidden = true;
+      return;
+    }
+
+    let totalChunks = 31;
+    try {
+      const idx = await loadIndex();
+      totalChunks = idx.length || 31;
+    } catch {}
+
+    if (isSyncingOffline) return;
+
+    const cachedCount = await getCachedChunkCount(totalChunks);
+    if (cachedCount >= totalChunks) {
+      offlineStatusTextEl.textContent = "Offline ready — all 123,363 words saved on this device";
+      offlineStatusTextEl.classList.add("ready");
+      if (btnOfflineSync) btnOfflineSync.hidden = true;
+      if (btnOfflineCancel) btnOfflineCancel.hidden = true;
+      if (btnOfflineClear) btnOfflineClear.hidden = false;
+      if (offlineProgressEl) offlineProgressEl.hidden = true;
+    } else if (cachedCount > 0) {
+      const pct = Math.round((cachedCount / totalChunks) * 100);
+      offlineStatusTextEl.textContent = `Partial offline cache: ${cachedCount} of ${totalChunks} parts saved (${pct}%)`;
+      offlineStatusTextEl.classList.remove("ready");
+      if (btnOfflineSync) {
+        btnOfflineSync.hidden = false;
+        btnOfflineSync.textContent = "Finish offline download";
+      }
+      if (btnOfflineClear) btnOfflineClear.hidden = false;
+    } else {
+      offlineStatusTextEl.textContent = "Save the full dictionary (~27 MB) for 100% offline use";
+      offlineStatusTextEl.classList.remove("ready");
+      if (btnOfflineSync) {
+        btnOfflineSync.hidden = false;
+        btnOfflineSync.textContent = "Download offline (~27 MB)";
+      }
+      if (btnOfflineClear) btnOfflineClear.hidden = true;
+    }
+  }
+
+  async function downloadAllChunksOffline() {
+    if (isSyncingOffline) return;
+    if (!("caches" in window)) {
+      setStatus("Offline storage requires HTTPS or localhost in a modern browser.", "error");
+      return;
+    }
+    if (navigator.onLine === false) {
+      setStatus("Connect to the internet first to download the full offline dictionary.", "error");
+      return;
+    }
+
+    isSyncingOffline = true;
+    syncAbortController = new AbortController();
+    const signal = syncAbortController.signal;
+
+    try {
+      const idx = await loadIndex();
+      const total = idx.length;
+      const cache = await caches.open(DICT_CACHE_NAME);
+
+      // Ensure index.json is in DICT_CACHE_NAME
+      const idxRes = await fetch(BASE + "index.json", { signal });
+      if (idxRes.ok) await cache.put(BASE + "index.json", idxRes.clone());
+
+      const existingKeys = await cache.keys();
+      const existingPaths = new Set(
+        existingKeys.map((req) => {
+          try {
+            return new URL(req.url).pathname;
+          } catch {
+            return req.url;
+          }
+        })
+      );
+
+      const missing = [];
+      for (let i = 0; i < total; i++) {
+        if (!existingPaths.has(BASE + `dict-${i}.json`)) missing.push(i);
+      }
+
+      let completed = total - missing.length;
+      if (offlineProgressEl) offlineProgressEl.hidden = false;
+      if (offlineProgressFillEl) {
+        offlineProgressFillEl.style.width = `${Math.round((completed / total) * 100)}%`;
+      }
+      if (btnOfflineSync) btnOfflineSync.hidden = true;
+      if (btnOfflineClear) btnOfflineClear.hidden = true;
+      if (btnOfflineCancel) btnOfflineCancel.hidden = false;
+      offlineStatusTextEl.classList.remove("ready");
+      offlineStatusTextEl.textContent = `Downloading offline dictionary (${completed} / ${total})…`;
+
+      const CONCURRENCY = 3;
+      let cursor = 0;
+
+      async function worker() {
+        while (cursor < missing.length) {
+          if (signal.aborted) return;
+          const chunkId = missing[cursor++];
+          const path = BASE + `dict-${chunkId}.json`;
+          const res = await fetch(path, { signal });
+          if (!res.ok) throw new Error("Failed downloading chunk " + chunkId);
+          await cache.put(path, res);
+          completed++;
+          const pct = Math.round((completed / total) * 100);
+          if (offlineProgressFillEl) offlineProgressFillEl.style.width = `${pct}%`;
+          if (offlineStatusTextEl) {
+            offlineStatusTextEl.textContent = `Downloading offline dictionary (${completed} / ${total} · ${pct}%)…`;
+          }
+        }
+      }
+
+      await Promise.all(Array.from({ length: Math.min(CONCURRENCY, missing.length || 1) }, worker));
+    } catch (err) {
+      if (err && err.name === "AbortError") {
+        setStatus("Offline download paused.", "");
+      } else {
+        console.error(err);
+        setStatus("Offline download interrupted. Click 'Finish offline download' to resume.", "error");
+      }
+    } finally {
+      isSyncingOffline = false;
+      syncAbortController = null;
+      if (btnOfflineCancel) btnOfflineCancel.hidden = true;
+      await refreshOfflineStatus();
+    }
+  }
+
+  async function clearOfflineChunks() {
+    if (!("caches" in window)) return;
+    try {
+      await caches.delete(DICT_CACHE_NAME);
+      chunkCache.clear();
+      setStatus("Offline dictionary cache removed.", "");
+    } catch {}
+    await refreshOfflineStatus();
+  }
+
+  if (btnOfflineSync) btnOfflineSync.addEventListener("click", downloadAllChunksOffline);
+  if (btnOfflineCancel) {
+    btnOfflineCancel.addEventListener("click", () => {
+      if (syncAbortController) syncAbortController.abort();
+    });
+  }
+  if (btnOfflineClear) btnOfflineClear.addEventListener("click", clearOfflineChunks);
+
+  /* --- In-App Install App Prompt --- */
+  const btnInstallApp = document.getElementById("btn-install-app");
+  const installModal = document.getElementById("install-modal");
+  const installModalBody = document.getElementById("install-modal-body");
+  const btnInstallModalClose = document.getElementById("btn-install-modal-close");
+
+  let localDeferredPrompt = window.__pbdDeferredInstallPrompt || null;
+
+  function isStandaloneApp() {
+    return (
+      window.matchMedia("(display-mode: standalone)").matches ||
+      window.navigator.standalone === true
+    );
+  }
+
+  function isIosDevice() {
+    return /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream;
+  }
+
+  function syncInstallButton() {
+    if (!btnInstallApp) return;
+    if (isStandaloneApp()) {
+      btnInstallApp.hidden = true;
+      return;
+    }
+    btnInstallApp.hidden = false;
+    btnInstallApp.textContent = isIosDevice() ? "Install on iOS" : "Install app";
+  }
+
+  function openInstallGuide(isIos) {
+    if (!installModal || !installModalBody) return;
+    if (isIos) {
+      installModalBody.innerHTML =
+        "<p>Add <strong>Nepali Dictionary (शब्दकोश)</strong> to your iPhone or iPad home screen for instant offline access:</p>" +
+        "<ol><li>Tap the <strong>Share</strong> button in the Safari toolbar.</li>" +
+        "<li>Scroll down and tap <strong>Add to Home Screen</strong>, then confirm <strong>Add</strong>.</li></ol>";
+    } else {
+      installModalBody.innerHTML =
+        "<p>Install <strong>Nepali Dictionary (शब्दकोश)</strong> as a standalone offline app:</p>" +
+        "<ol><li>Look for the <strong>Install</strong> icon in your browser address bar, or open the browser menu (<strong>⋮</strong>).</li>" +
+        "<li>Choose <strong>Install Nepali Dictionary</strong> (or <strong>Add to Home screen</strong>).</li></ol>";
+    }
+    installModal.hidden = false;
+  }
+
+  window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    localDeferredPrompt = e;
+    window.__pbdDeferredInstallPrompt = e;
+    syncInstallButton();
+  });
+
+  window.addEventListener("pbd:installable", (e) => {
+    localDeferredPrompt = (e && e.detail) || window.__pbdDeferredInstallPrompt;
+    syncInstallButton();
+  });
+
+  window.addEventListener("appinstalled", () => {
+    localDeferredPrompt = null;
+    window.__pbdDeferredInstallPrompt = null;
+    if (btnInstallApp) btnInstallApp.hidden = true;
+    if (installModal) installModal.hidden = true;
+  });
+
+  window.addEventListener("pbd:installed", () => {
+    localDeferredPrompt = null;
+    if (btnInstallApp) btnInstallApp.hidden = true;
+  });
+
+  if (btnInstallApp) {
+    btnInstallApp.addEventListener("click", async () => {
+      const promptEvt = localDeferredPrompt || window.__pbdDeferredInstallPrompt;
+      if (promptEvt) {
+        try {
+          await promptEvt.prompt();
+          const choice = await promptEvt.userChoice;
+          if (choice && choice.outcome === "accepted") {
+            btnInstallApp.hidden = true;
+          }
+          localDeferredPrompt = null;
+          window.__pbdDeferredInstallPrompt = null;
+          return;
+        } catch {}
+      }
+      openInstallGuide(isIosDevice());
+    });
+  }
+
+  if (btnInstallModalClose && installModal) {
+    btnInstallModalClose.addEventListener("click", () => {
+      installModal.hidden = true;
+    });
+    installModal.addEventListener("click", (e) => {
+      if (e.target === installModal) installModal.hidden = true;
+    });
+  }
+
+  syncInstallButton();
   initWotd();
   renderHistory();
 
@@ -999,8 +1328,10 @@
   if (initial) {
     input.value = initial;
     updateRomanHint(initial);
-    searchWord(initial);
+    searchWord(initial).finally(() => refreshOfflineStatus());
   } else {
-    loadIndex().catch(() => {});
+    loadIndex()
+      .catch(() => {})
+      .finally(() => refreshOfflineStatus());
   }
 })();

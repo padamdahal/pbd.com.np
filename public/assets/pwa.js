@@ -3,6 +3,8 @@
   var DISMISS_KEY = "pbd-pwa-install-dismissed";
   var DISMISS_MS = 14 * 24 * 60 * 60 * 1000;
 
+  window.__pbdDeferredInstallPrompt = null;
+
   function isStandalone() {
     return (
       window.matchMedia("(display-mode: standalone)").matches ||
@@ -60,13 +62,17 @@
     var el = document.createElement("div");
     el.id = "pbd-install-banner";
     el.setAttribute("role", "dialog");
-    el.setAttribute("aria-label", "Install PBD app");
+    el.setAttribute("aria-label", opts.title || "Install app");
     el.style.position = "relative";
     el.innerHTML =
       '<button type="button" class="pbd-ib-close" aria-label="Dismiss">×</button>' +
-      '<div class="pbd-ib-icon" aria-hidden="true">P</div>' +
+      '<div class="pbd-ib-icon" aria-hidden="true">' +
+      (opts.iconText || "P") +
+      "</div>" +
       '<div class="pbd-ib-body">' +
-      "<strong>Install PBD</strong>" +
+      "<strong>" +
+      (opts.title || "Install PBD") +
+      "</strong>" +
       "<p>" +
       (opts.message ||
         "Add to your home screen for faster access and offline tools.") +
@@ -100,23 +106,32 @@
   }
 
   function setupInstallPrompt() {
-    if (isStandalone() || wasDismissed()) return;
+    if (isStandalone()) return;
 
-    var deferred = null;
+    var isDictPage = location.pathname.indexOf("/tools/nepali-dictionary") === 0;
 
     window.addEventListener("beforeinstallprompt", function (e) {
       e.preventDefault();
-      deferred = e;
+      window.__pbdDeferredInstallPrompt = e;
+      window.dispatchEvent(new CustomEvent("pbd:installable", { detail: e }));
+
+      if (wasDismissed()) return;
       showBanner({
-        message: "Install the app for quick access and offline tools.",
+        iconText: isDictPage ? "श" : "P",
+        title: isDictPage ? "Install Nepali Dictionary" : "Install PBD",
+        message: isDictPage
+          ? "Add Nepali Dictionary to your device for instant offline lookups."
+          : "Install the app for quick access and offline tools.",
         primaryLabel: "Install",
         onPrimary: function () {
           var banner = document.getElementById("pbd-install-banner");
           if (banner) banner.remove();
-          deferred.prompt();
-          deferred.userChoice.then(function (choice) {
+          var promptEvt = window.__pbdDeferredInstallPrompt;
+          if (!promptEvt) return;
+          promptEvt.prompt();
+          promptEvt.userChoice.then(function (choice) {
             if (choice.outcome !== "accepted") setDismissed();
-            deferred = null;
+            window.__pbdDeferredInstallPrompt = null;
           });
         },
       });
@@ -125,16 +140,20 @@
     window.addEventListener("appinstalled", function () {
       var banner = document.getElementById("pbd-install-banner");
       if (banner) banner.remove();
+      window.__pbdDeferredInstallPrompt = null;
       setDismissed();
+      window.dispatchEvent(new CustomEvent("pbd:installed"));
     });
 
-    if (isIos() && !window.navigator.standalone) {
+    if (isIos() && !window.navigator.standalone && !wasDismissed()) {
       setTimeout(function () {
         if (wasDismissed() || document.getElementById("pbd-install-banner"))
           return;
         showBanner({
+          iconText: isDictPage ? "श" : "P",
+          title: isDictPage ? "Install Nepali Dictionary" : "Install PBD",
           message:
-            "On iPhone: tap Share, then “Add to Home Screen” for offline tools.",
+            "On iPhone: tap Share, then “Add to Home Screen” for offline access.",
           primaryLabel: null,
         });
       }, 2500);
@@ -157,13 +176,13 @@
       });
   }
 
+  setupInstallPrompt();
+
   if (document.readyState === "complete") {
     registerSW();
-    setupInstallPrompt();
   } else {
     window.addEventListener("load", function () {
       registerSW();
-      setupInstallPrompt();
     });
   }
 })();

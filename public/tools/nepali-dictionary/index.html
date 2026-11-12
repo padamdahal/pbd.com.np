@@ -19,9 +19,14 @@
   <meta name="twitter:title" content="Nepali Dictionary Online – नेपाली बृहत् शब्दकोश">
   <meta name="twitter:description" content="Free online Nepali dictionary with 123,000+ words. Search in Devanagari or Romanized Nepali.">
   <meta name="twitter:image" content="https://pbd.com.np/assets/og-default.svg">
-  <link rel="manifest" href="/manifest.webmanifest">
-  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="शब्दकोश">
+  <link rel="manifest" href="/tools/nepali-dictionary/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/tools/nepali-dictionary/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/tools/nepali-dictionary/icons/icon-192.png">
+  <link rel="icon" type="image/svg+xml" href="/tools/nepali-dictionary/icons/icon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -350,14 +355,87 @@
     .faq summary::-webkit-details-marker { display: none; }
     .faq details[open] summary { border-bottom: 1px solid var(--line); }
     .faq details p { margin: 0; padding: 12px 16px 14px; color: var(--muted); }
+    .pwa-bar {
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px 14px;
+      font-size: .9rem;
+    }
+    .pwa-status-wrap { flex: 1 1 240px; min-width: 0; }
+    .pwa-status-text { color: var(--muted); font-weight: 500; }
+    .pwa-status-text.ready { color: #0b6e4f; font-weight: 600; }
+    .pwa-progress {
+      width: 100%;
+      height: 6px;
+      background: #e6eff1;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+    .pwa-progress[hidden] { display: none; }
+    .pwa-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--primary);
+      transition: width .2s ease;
+    }
+    .pwa-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .pwa-actions .btn-sm { min-height: 40px; padding: 7px 14px; font-size: .88rem; }
+    .offline-notice {
+      margin-top: 12px;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      background: #fff8e6;
+      border: 1px solid #f0d78c;
+      color: #6b4e00;
+      font-size: .9rem;
+      font-weight: 600;
+    }
+    .offline-notice[hidden] { display: none; }
+    .install-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(19, 35, 43, .45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .install-modal-backdrop[hidden] { display: none; }
+    .install-modal {
+      width: 100%;
+      max-width: 420px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      box-shadow: 0 18px 48px rgba(19, 35, 43, .18);
+    }
+    .install-modal h3 { margin: 0 0 8px; font-size: 1.2rem; }
+    .install-modal p, .install-modal ol { margin: 0 0 14px; color: var(--muted); font-size: .95rem; line-height: 1.55; }
+    .install-modal ol { padding-left: 1.25rem; }
+    .install-modal-actions { display: flex; justify-content: flex-end; gap: 8px; }
     @media (max-width: 640px) {
       #dict-input { font-size: 1.1rem; padding: 12px 14px; }
     }
   </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632604868005505" crossorigin="anonymous"></script>
 </head>
 <body>
   <a class="skip" href="#tool">Skip to tool</a>
-  <header class="site-header"><div class="bar"></div></header>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="/" aria-label="Powered By Digital (PBD) — Home"><span class="logo-mark" aria-hidden="true">P</span><span class="brand-text"><span class="brand-name">PBD</span><span class="brand-full">Powered By Digital</span></span></a>
+      <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+      <nav id="menu" class="site-nav" aria-label="Main navigation" role="navigation"><a href="/">Home</a><a href="/tools/">Tools</a><a href="/widgets/">Widgets</a><a href="/guides/">Guides</a><a href="/about/">About</a></nav>
+    </div>
+  </header>
 
   <main class="narrow" id="tool">
     <div class="page-intro">
@@ -393,6 +471,25 @@
         <div class="wotd-row">
           <span>Word of the day:</span>
           <button type="button" class="wotd-btn" id="wotd-btn" lang="ne">किरण</button>
+        </div>
+      </div>
+
+      <div id="offline-notice" class="offline-notice" hidden>
+        Offline mode — searching cached dictionary data on your device.
+      </div>
+
+      <div class="pwa-bar" id="pwa-bar">
+        <div class="pwa-status-wrap">
+          <div id="offline-status-text" class="pwa-status-text">Checking offline storage…</div>
+          <div id="offline-progress" class="pwa-progress" hidden>
+            <div id="offline-progress-fill" class="pwa-progress-fill"></div>
+          </div>
+        </div>
+        <div class="pwa-actions">
+          <button type="button" class="btn btn-sm" id="btn-offline-sync">Download offline (~27 MB)</button>
+          <button type="button" class="btn btn-sm" id="btn-offline-cancel" hidden>Cancel</button>
+          <button type="button" class="btn btn-sm" id="btn-offline-clear" hidden>Remove offline copy</button>
+          <button type="button" class="btn btn-primary btn-sm" id="btn-install-app">Install app</button>
         </div>
       </div>
     </div>
@@ -471,7 +568,25 @@
     <p class="note">Data derived from the MIT-licensed open structured Brihat Sabdakosh JSON dataset. Independent of Nepal Academy and provided for educational and reference use.</p>
   </main>
 
-  <footer class="site-footer"></footer>
+  <div id="install-modal" class="install-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="install-modal-title" hidden>
+    <div class="install-modal">
+      <h3 id="install-modal-title">Install Nepali Dictionary</h3>
+      <div id="install-modal-body"></div>
+      <div class="install-modal-actions">
+        <button type="button" class="btn btn-primary btn-sm" id="btn-install-modal-close">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+  <div class="bar footer-bar">
+    <nav id="footer-menu" class="footer-pills" aria-label="Footer"><a href="/tools/nepali-typing/">Nepali Typing</a><a href="/tools/preeti-to-unicode/">Preeti ↔ Unicode</a><a href="/tools/nepali-date-converter/">Nepali Date Converter</a><a href="/tools/today-nepali-date/">Today's Date</a><a href="/tools/nepali-spell-checker/">Spell Checker</a><a href="/tools/number-to-nepali-words/">Number to Words</a><a href="/tools/income-tax-calculator/">Income Tax</a><a href="/tools/nepal-map/">Nepal Map</a></nav>
+    <div class="footer-meta">
+      <p class="footer-copy">© <span id="yr"></span> Powered By Digital (PBD)</p>
+      <nav class="footer-legal" aria-label="Legal"><a href="/about/">About</a><a href="/privacy/">Privacy</a></nav>
+    </div>
+  </div>
+</footer>
   <script src="/assets/menu.js" defer></script>
   <script src="/assets/pwa.js" defer></script>
   <script src="dictionary.js" defer></script>

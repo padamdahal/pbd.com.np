@@ -1,0 +1,47 @@
+{
+  "id": "/tools/nepali-dictionary/",
+  "name": "Nepali Dictionary – नेपाली शब्दकोश",
+  "short_name": "शब्दकोश",
+  "description": "Offline-ready Nepali dictionary with over 123,000 words from the Brihat Sabdakosh. Search in Devanagari or Romanized Nepali.",
+  "start_url": "/tools/nepali-dictionary/",
+  "scope": "/tools/nepali-dictionary/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f7fafb",
+  "theme_color": "#0b7285",
+  "lang": "ne",
+  "dir": "ltr",
+  "categories": ["education", "reference", "utilities"],
+  "icons": [
+    {
+      "src": "/tools/nepali-dictionary/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/tools/nepali-dictionary/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/tools/nepali-dictionary/icons/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/tools/nepali-dictionary/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/tools/nepali-dictionary/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
