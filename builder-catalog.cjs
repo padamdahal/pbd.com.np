@@ -121,6 +121,7 @@ const TOOLS = [
     title: "Nepal Map",
     desc: "Interactive map of provinces, districts and local levels with CSV join.",
     category: "Maps & location",
+    featured: true,
     footer: true,
   },
   {
