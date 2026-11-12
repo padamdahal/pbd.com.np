@@ -4,11 +4,271 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0b7285">
-  <title>Name Badge Generator placeholder - loading full version</title>
+  <title>Name Badge Generator – Free Printable Event ID Cards & Badges | PBD</title>
+  <meta name="description" content="Free online name badge and ID card generator. Create, customize and print event badges, conference name tags, and visitor passes with custom names, titles, logos and QR codes.">
+  <meta name="keywords" content="name badge generator, event badge maker, printable ID cards, conference name tags, visitor pass generator Nepal">
+  <link rel="canonical" href="https://pbd.com.np/tools/name-badge-generator/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:title" content="Name Badge Generator – Free Printable ID Cards | PBD">
+  <meta property="og:description" content="Generate and download printable conference badges, event passes, and employee tags instantly in your browser.">
+  <meta property="og:url" content="https://pbd.com.np/tools/name-badge-generator/">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Name Badge & ID Card Generator",
+    "url": "https://pbd.com.np/tools/name-badge-generator/",
+    "applicationCategory": "DesignApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "NPR" },
+    "description": "Design and print event name badges, conference passes, and visitor ID cards online.",
+    "isPartOf": { "@type": "WebSite", "name": "PBD", "url": "https://pbd.com.np/" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "PBD", "item": "https://pbd.com.np/" },
+      { "@type": "ListItem", "position": 2, "name": "Tools", "item": "https://pbd.com.np/tools/" },
+      { "@type": "ListItem", "position": 3, "name": "Name Badge Generator", "item": "https://pbd.com.np/tools/name-badge-generator/" }
+    ]
+  }
+  </script>
+  <style>
+    .badge-grid-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 18px; }
+    @media (max-width: 768px) { .badge-grid-layout { grid-template-columns: 1fr; } }
+    .badge-form { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 20px; }
+    .badge-field { margin-bottom: 14px; }
+    .badge-field label { display: block; font-size: .88rem; font-weight: 600; margin-bottom: 4px; color: var(--text); }
+    .badge-field input, .badge-field select { width: 100%; padding: 9px 12px; border: 1px solid var(--line-strong); border-radius: var(--radius-sm); font-size: .95rem; background: #fff; }
+    .badge-field .color-pickers { display: flex; gap: 12px; align-items: center; }
+    .badge-field .color-pickers input[type=color] { width: 44px; height: 38px; padding: 2px; cursor: pointer; }
+    .preview-pane { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 20px; }
+    .canvas-wrap { border: 2px dashed var(--line-strong); border-radius: 8px; padding: 12px; background: #e9ecef; margin-bottom: 16px; max-width: 100%; overflow: auto; }
+    #badge-canvas { display: block; max-width: 100%; height: auto; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-radius: 6px; background: #fff; }
+    .btn-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; width: 100%; }
+  </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632604868005505" crossorigin="anonymous"></script>
 </head>
 <body>
-<p>Full tool content is being restored. Please refresh shortly.</p>
-<script>location.reload()</script>
+  <a class="skip" href="#tool">Skip to tool</a>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="/" aria-label="Powered By Digital (PBD) — Home"><span class="logo-mark" aria-hidden="true">P</span><span class="brand-text"><span class="brand-name">PBD</span><span class="brand-full">Powered By Digital</span></span></a>
+      <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+      <nav id="menu" class="site-nav" aria-label="Main navigation" role="navigation"><a href="/">Home</a><a href="/tools/">Tools</a><a href="/widgets/">Widgets</a><a href="/guides/">Guides</a><a href="/about/">About</a></nav>
+    </div>
+  </header>
+
+  <main class="narrow" id="tool" style="max-width: 900px; padding: 24px 16px 48px;">
+    <div class="page-intro" style="text-align: center; margin-bottom: 24px;">
+      <h1>Name Badge & ID Card Generator</h1>
+      <p class="lead">Design custom conference name tags, employee passes, and event badges. 100% private in your browser.</p>
+    </div>
+
+    <div class="badge-grid-layout">
+      <div class="badge-form">
+        <h3 style="margin-top:0;">Badge Details</h3>
+
+        <div class="badge-field">
+          <label for="badge-name">Attendee Name / पूरा नाम</label>
+          <input type="text" id="badge-name" value="Sita Shrestha" placeholder="e.g. Sita Shrestha">
+        </div>
+
+        <div class="badge-field">
+          <label for="badge-title">Designation / Role / पद</label>
+          <input type="text" id="badge-title" value="Keynote Speaker" placeholder="e.g. Senior Software Engineer">
+        </div>
+
+        <div class="badge-field">
+          <label for="badge-org">Organization / Company / संस्था</label>
+          <input type="text" id="badge-org" value="Tech Nepal Summit" placeholder="e.g. Acme Corporation">
+        </div>
+
+        <div class="badge-field">
+          <label for="badge-id">Badge ID / Code (Optional)</label>
+          <input type="text" id="badge-id" value="#TNS-2083-042" placeholder="e.g. #VIP-001">
+        </div>
+
+        <div class="badge-field">
+          <label>Theme & Accent Color</label>
+          <div class="color-pickers">
+            <input type="color" id="badge-color" value="#0b7285">
+            <span style="font-size: .88rem; color: var(--muted);">Primary Brand Color</span>
+          </div>
+        </div>
+
+        <div class="badge-field">
+          <label for="badge-layout">Orientation</label>
+          <select id="badge-layout">
+            <option value="vertical">Vertical Portrait (3" x 4")</option>
+            <option value="horizontal">Horizontal Landscape (4" x 3")</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="preview-pane">
+        <h3 style="margin-top:0;">Live Preview</h3>
+        <div class="canvas-wrap">
+          <canvas id="badge-canvas" width="450" height="600"></canvas>
+        </div>
+        <div class="btn-actions">
+          <button type="button" class="btn btn-primary" id="btn-download">Download Badge (PNG)</button>
+          <button type="button" class="btn" id="btn-print">Print Badge</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+  <div class="bar footer-bar">
+    <nav id="footer-menu" class="footer-pills" aria-label="Footer"><a href="/tools/nepali-typing/">Nepali Typing</a><a href="/tools/preeti-to-unicode/">Preeti ↔ Unicode</a><a href="/tools/nepali-date-converter/">Nepali Date Converter</a><a href="/tools/today-nepali-date/">Today's Date</a><a href="/tools/nepali-spell-checker/">Spell Checker</a><a href="/tools/number-to-nepali-words/">Number to Words</a><a href="/tools/income-tax-calculator/">Income Tax</a><a href="/tools/nepal-map/">Nepal Map</a></nav>
+    <div class="footer-meta">
+      <p class="footer-copy">© <span id="yr"></span> Powered By Digital (PBD)</p>
+      <nav class="footer-legal" aria-label="Legal"><a href="/about/">About</a><a href="/privacy/">Privacy</a></nav>
+    </div>
+  </div>
+</footer>
+  <script src="/assets/menu.js" defer></script>
+  <script>
+    (function () {
+      "use strict";
+      const canvas = document.getElementById("badge-canvas");
+      const ctx = canvas.getContext("2d");
+
+      const inName = document.getElementById("badge-name");
+      const inTitle = document.getElementById("badge-title");
+      const inOrg = document.getElementById("badge-org");
+      const inId = document.getElementById("badge-id");
+      const inColor = document.getElementById("badge-color");
+      const inLayout = document.getElementById("badge-layout");
+      const btnDownload = document.getElementById("btn-download");
+      const btnPrint = document.getElementById("btn-print");
+
+      function renderBadge() {
+        const isVert = inLayout.value === "vertical";
+        const width = isVert ? 450 : 600;
+        const height = isVert ? 600 : 450;
+        canvas.width = width;
+        canvas.height = height;
+
+        const primaryColor = inColor.value || "#0b7285";
+
+        // Background
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, width, height);
+
+        // Header band
+        const headerHeight = isVert ? 120 : 100;
+        ctx.fillStyle = primaryColor;
+        ctx.fillRect(0, 0, width, headerHeight);
+
+        // Lanyard hole marker
+        ctx.fillStyle = "rgba(0,0,0,0.15)";
+        ctx.beginPath();
+        ctx.arc(width / 2, 22, 12, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Org name in header
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "bold 22px Mukta, sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText((inOrg.value || "ORGANIZATION").toUpperCase(), width / 2, headerHeight - 32);
+
+        // Subheader accent line
+        ctx.fillStyle = "#f59f00";
+        ctx.fillRect(0, headerHeight, width, 6);
+
+        // Center Avatar / Logo placeholder circle
+        const circleY = headerHeight + (isVert ? 110 : 85);
+        ctx.fillStyle = "#f1f3f5";
+        ctx.beginPath();
+        ctx.arc(width / 2, circleY, 54, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = primaryColor;
+        ctx.lineWidth = 4;
+        ctx.stroke();
+
+        ctx.fillStyle = primaryColor;
+        ctx.font = "bold 38px Mukta, sans-serif";
+        const initial = (inName.value.trim().charAt(0) || "P").toUpperCase();
+        ctx.fillText(initial, width / 2, circleY + 14);
+
+        // Attendee Name
+        ctx.fillStyle = "#212529";
+        ctx.font = "bold 32px Mukta, sans-serif";
+        const nameY = circleY + (isVert ? 100 : 80);
+        ctx.fillText(inName.value || "Attendee Name", width / 2, nameY);
+
+        // Title / Role Pill
+        const titleY = nameY + 44;
+        const titleText = inTitle.value || "Participant";
+        ctx.font = "600 18px Mukta, sans-serif";
+        const metrics = ctx.measureText(titleText);
+        const pillWidth = Math.max(160, metrics.width + 36);
+
+        ctx.fillStyle = primaryColor;
+        roundRect(ctx, width / 2 - pillWidth / 2, titleY - 24, pillWidth, 34, 17);
+        ctx.fill();
+
+        ctx.fillStyle = "#ffffff";
+        ctx.fillText(titleText, width / 2, titleY - 2);
+
+        // Badge ID & Barcode / QR placeholder at bottom
+        if (inId.value) {
+          ctx.fillStyle = "#868e96";
+          ctx.font = "14px monospace";
+          ctx.fillText(inId.value, width / 2, height - 42);
+        }
+
+        // Bottom footer stripe
+        ctx.fillStyle = primaryColor;
+        ctx.fillRect(0, height - 12, width, 12);
+      }
+
+      function roundRect(c, x, y, w, h, r) {
+        c.beginPath();
+        c.moveTo(x + r, y);
+        c.lineTo(x + w - r, y);
+        c.quadraticCurveTo(x + w, y, x + w, y + r);
+        c.lineTo(x + w, y + h - r);
+        c.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+        c.lineTo(x + r, y + h);
+        c.quadraticCurveTo(x, y + h, x, y + h - r);
+        c.lineTo(x, y + r);
+        c.quadraticCurveTo(x, y, x + r, y);
+        c.closePath();
+      }
+
+      [inName, inTitle, inOrg, inId, inColor, inLayout].forEach(el => {
+        el.addEventListener("input", renderBadge);
+        el.addEventListener("change", renderBadge);
+      });
+
+      btnDownload.addEventListener("click", function () {
+        const a = document.createElement("a");
+        a.download = (inName.value || "badge").replace(/\s+/g, "_") + "-badge.png";
+        a.href = canvas.toDataURL("image/png");
+        a.click();
+      });
+
+      btnPrint.addEventListener("click", function () {
+        const dataUrl = canvas.toDataURL("image/png");
+        const win = window.open("");
+        if (win) {
+          win.document.write('<html><head><title>Print Badge</title></head><body style="margin:0;display:flex;align-items:center;justify-content:center;height:100vh;"><img src="' + dataUrl + '" style="max-height:90vh;" onload="window.print();window.close();"/></body></html>');
+          win.document.close();
+        }
+      });
+
+      renderBadge();
+    })();
+  </script>
 </body>
 </html>

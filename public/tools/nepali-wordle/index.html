@@ -1,1 +1,349 @@
-PLACEHOLDER
+<!doctype html>
+<html lang="ne">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b7285">
+  <title>Nepali Wordle – Daily 5-Letter Nepali Word Game Online | PBD</title>
+  <meta name="description" content="Play Nepali Wordle free online. Guess the 5-letter Nepali word in 6 attempts. Features daily puzzle, unlimited practice mode, on-screen Devanagari keyboard and stats.">
+  <meta name="keywords" content="Nepali Wordle, नेपाली वर्डले, Nepali word game, Nepali puzzle, Devanagari wordle, 5 letter nepali word game">
+  <link rel="canonical" href="https://pbd.com.np/tools/nepali-wordle/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:title" content="Nepali Wordle – Daily Nepali Word Game | PBD">
+  <meta property="og:description" content="Play Nepali Wordle free online. Daily puzzles and practice mode with Devanagari keyboard.">
+  <meta property="og:url" content="https://pbd.com.np/tools/nepali-wordle/">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Nepali Wordle – Daily Nepali Word Game">
+  <meta name="twitter:description" content="Guess the hidden 5-letter Nepali word in 6 tries. Free, private, works offline.">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Nepali Wordle",
+    "url": "https://pbd.com.np/tools/nepali-wordle/",
+    "applicationCategory": "GameApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "NPR" },
+    "inLanguage": ["ne", "en"],
+    "description": "Daily 5-letter Nepali word puzzle game with Devanagari keyboard and practice mode.",
+    "isPartOf": { "@type": "WebSite", "name": "PBD", "url": "https://pbd.com.np/" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "PBD", "item": "https://pbd.com.np/" },
+      { "@type": "ListItem", "position": 2, "name": "Tools", "item": "https://pbd.com.np/tools/" },
+      { "@type": "ListItem", "position": 3, "name": "Nepali Wordle", "item": "https://pbd.com.np/tools/nepali-wordle/" }
+    ]
+  }
+  </script>
+  <style>
+    .wordle-wrap { max-width: 520px; margin: 0 auto; padding: 12px 16px 36px; text-align: center; }
+    .wordle-top { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); padding-bottom: 10px; margin-bottom: 16px; }
+    .wordle-title { font-size: 1.5rem; font-weight: 700; margin: 0; color: var(--primary); }
+    .wordle-modes { display: inline-flex; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 3px; gap: 4px; }
+    .wordle-modes button { background: transparent; border: none; padding: 6px 12px; font-size: .85rem; border-radius: 4px; cursor: pointer; color: var(--muted); font-weight: 600; }
+    .wordle-modes button.active { background: var(--primary); color: #fff; }
+    .board-grid { display: grid; grid-template-rows: repeat(6, 1fr); gap: 6px; width: 280px; max-width: 90vw; margin: 0 auto 18px; aspect-ratio: 5/6; }
+    .board-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+    .board-tile { border: 2px solid var(--line-strong); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; font-weight: 700; user-select: none; background: #fff; text-transform: uppercase; transition: transform .15s ease, background-color .25s ease, border-color .25s ease; min-height: 48px; }
+    .board-tile.pop { transform: scale(1.08); }
+    .board-tile.correct { background: #2f9e44 !important; color: #fff !important; border-color: #2f9e44 !important; }
+    .board-tile.present { background: #f59f00 !important; color: #fff !important; border-color: #f59f00 !important; }
+    .board-tile.absent { background: #868e96 !important; color: #fff !important; border-color: #868e96 !important; }
+    .virtual-keyboard { max-width: 480px; margin: 0 auto; display: flex; flex-direction: column; gap: 6px; }
+    .kb-row { display: flex; justify-content: center; gap: 4px; }
+    .kb-key { border: 1px solid var(--line); background: var(--surface); color: var(--text); padding: 10px 8px; border-radius: 4px; font-size: 1.05rem; font-weight: 600; cursor: pointer; flex: 1; max-width: 42px; min-height: 42px; display: inline-flex; align-items: center; justify-content: center; user-select: none; }
+    .kb-key.wide { max-width: 64px; flex: 1.5; font-size: .85rem; }
+    .kb-key:hover { background: color-mix(in srgb, var(--primary) 12%, #fff); }
+    .kb-key.correct { background: #2f9e44; color: #fff; border-color: #2f9e44; }
+    .kb-key.present { background: #f59f00; color: #fff; border-color: #f59f00; }
+    .kb-key.absent { background: #ced4da; color: #495057; border-color: #adb5bd; }
+    .msg-toast { min-height: 28px; font-weight: 600; margin-bottom: 8px; font-size: .95rem; }
+    .msg-toast.error { color: #e03131; }
+    .msg-toast.success { color: #2f9e44; }
+    .help-section { text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 16px; margin: 24px auto 0; font-size: .92rem; }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632604868005505" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip" href="#tool">Skip to tool</a>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="/" aria-label="Powered By Digital (PBD) — Home"><span class="logo-mark" aria-hidden="true">P</span><span class="brand-text"><span class="brand-name">PBD</span><span class="brand-full">Powered By Digital</span></span></a>
+      <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+      <nav id="menu" class="site-nav" aria-label="Main navigation" role="navigation"><a href="/">Home</a><a href="/tools/">Tools</a><a href="/widgets/">Widgets</a><a href="/guides/">Guides</a><a href="/about/">About</a></nav>
+    </div>
+  </header>
+
+  <main id="tool">
+    <div class="wordle-wrap">
+      <div class="wordle-top">
+        <h1 class="wordle-title">नेपाली वर्डले (Wordle)</h1>
+        <div class="wordle-modes">
+          <button type="button" id="mode-daily" class="active">Daily</button>
+          <button type="button" id="mode-practice">Practice</button>
+        </div>
+      </div>
+
+      <div id="toast" class="msg-toast" aria-live="polite"></div>
+
+      <div class="board-grid" id="board" role="grid" aria-label="Wordle Game Board">
+        <!-- 6 rows x 5 tiles generated by JS -->
+      </div>
+
+      <div class="virtual-keyboard" id="keyboard" aria-label="Nepali Keyboard">
+        <!-- Rows of Nepali keys -->
+      </div>
+
+      <div style="margin-top: 16px;">
+        <button type="button" class="btn btn-sm" id="btn-new-practice" style="display:none;">नयाँ खेल (New Game)</button>
+      </div>
+
+      <div class="help-section">
+        <h3>कसरी खेल्ने (How to Play)</h3>
+        <p>५ अक्षरको नेपाली शब्द ६ पटकमा पत्ता लगाउनुहोस्। प्रत्येक प्रयासपछि अक्षरहरूको रङ परिवर्तन हुन्छ:</p>
+        <ul style="padding-left: 20px; line-height: 1.6;">
+          <li><strong style="color:#2f9e44;">हरियो (Green):</strong> अक्षर सही स्थानमा छ।</li>
+          <li><strong style="color:#f59f00;">पहेँलो (Yellow):</strong> अक्षर शब्दमा छ तर गलत स्थानमा छ।</li>
+          <li><strong style="color:#868e96;">खैरो (Gray):</strong> अक्षर शब्दमा छैन।</li>
+        </ul>
+        <p style="margin-top: 10px; font-size: .88rem; color: var(--muted);">डेली मोडमा प्रत्येक दिन नयाँ शब्द आउँछ। प्राक्टिस मोडमा जति पटक पनि खेल्न सक्नुहुन्छ।</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+  <div class="bar footer-bar">
+    <nav id="footer-menu" class="footer-pills" aria-label="Footer"><a href="/tools/nepali-typing/">Nepali Typing</a><a href="/tools/preeti-to-unicode/">Preeti ↔ Unicode</a><a href="/tools/nepali-date-converter/">Nepali Date Converter</a><a href="/tools/today-nepali-date/">Today's Date</a><a href="/tools/nepali-spell-checker/">Spell Checker</a><a href="/tools/number-to-nepali-words/">Number to Words</a><a href="/tools/income-tax-calculator/">Income Tax</a><a href="/tools/nepal-map/">Nepal Map</a></nav>
+    <div class="footer-meta">
+      <p class="footer-copy">© <span id="yr"></span> Powered By Digital (PBD)</p>
+      <nav class="footer-legal" aria-label="Legal"><a href="/about/">About</a><a href="/privacy/">Privacy</a></nav>
+    </div>
+  </div>
+</footer>
+  <script src="/assets/menu.js" defer></script>
+  <script src="words.js"></script>
+  <script>
+    (function () {
+      "use strict";
+      const wordsLib = window.NepaliWordleWords;
+      if (!wordsLib) return;
+
+      let mode = "daily"; // "daily" | "practice"
+      let solution = "";
+      let currentRow = 0;
+      let currentTile = 0;
+      let isGameOver = false;
+      const MAX_ROWS = 6;
+      const WORD_LEN = 5;
+
+      const boardEl = document.getElementById("board");
+      const kbEl = document.getElementById("keyboard");
+      const toastEl = document.getElementById("toast");
+      const btnDaily = document.getElementById("mode-daily");
+      const btnPractice = document.getElementById("mode-practice");
+      const btnNewPractice = document.getElementById("btn-new-practice");
+
+      // Initialize Board 6x5
+      function createBoard() {
+        boardEl.innerHTML = "";
+        for (let r = 0; r < MAX_ROWS; r++) {
+          const row = document.createElement("div");
+          row.className = "board-row";
+          row.dataset.row = r;
+          for (let c = 0; c < WORD_LEN; c++) {
+            const tile = document.createElement("div");
+            tile.className = "board-tile";
+            tile.dataset.col = c;
+            row.appendChild(tile);
+          }
+          boardEl.appendChild(row);
+        }
+      }
+
+      // Keyboard layout with Nepali letters
+      const KB_ROWS = [
+        ["क", "ख", "ग", "घ", "ङ", "च", "छ", "ज", "झ", "ञ"],
+        ["ट", "ठ", "ड", "ढ", "ण", "त", "थ", "द", "ध", "न"],
+        ["प", "फ", "ब", "भ", "म", "य", "र", "ल", "व", "स"],
+        ["ENTER", "ह", "क्ष", "त्र", "ज्ञ", "आ", "इ", "उ", "ए", "ओ", "⌫"]
+      ];
+
+      function createKeyboard() {
+        kbEl.innerHTML = "";
+        KB_ROWS.forEach(rowKeys => {
+          const rowEl = document.createElement("div");
+          rowEl.className = "kb-row";
+          rowKeys.forEach(k => {
+            const keyBtn = document.createElement("button");
+            keyBtn.type = "button";
+            keyBtn.className = "kb-key" + (k === "ENTER" || k === "⌫" ? " wide" : "");
+            keyBtn.textContent = k;
+            keyBtn.dataset.key = k;
+            keyBtn.addEventListener("click", () => handleInput(k));
+            rowEl.appendChild(keyBtn);
+          });
+          kbEl.appendChild(rowEl);
+        });
+      }
+
+      function showToast(msg, isErr = false, timeout = 2500) {
+        toastEl.textContent = msg;
+        toastEl.className = "msg-toast " + (isErr ? "error" : "success");
+        if (timeout) {
+          setTimeout(() => {
+            if (toastEl.textContent === msg) toastEl.textContent = "";
+          }, timeout);
+        }
+      }
+
+      function initGame(newMode) {
+        mode = newMode;
+        currentRow = 0;
+        currentTile = 0;
+        isGameOver = false;
+        createBoard();
+        createKeyboard();
+        toastEl.textContent = "";
+
+        if (mode === "daily") {
+          const daily = wordsLib.getDailyWord(new Date());
+          solution = daily.word;
+          btnDaily.classList.add("active");
+          btnPractice.classList.remove("active");
+          btnNewPractice.style.display = "none";
+        } else {
+          solution = wordsLib.getRandomAnswer();
+          btnPractice.classList.add("active");
+          btnDaily.classList.remove("active");
+          btnNewPractice.style.display = "inline-block";
+        }
+      }
+
+      function getCurrentGuess() {
+        const row = boardEl.querySelector(`.board-row[data-row="${currentRow}"]`);
+        if (!row) return "";
+        let guess = "";
+        row.querySelectorAll(".board-tile").forEach(t => guess += (t.textContent || ""));
+        return guess;
+      }
+
+      function handleInput(key) {
+        if (isGameOver) return;
+
+        if (key === "ENTER") {
+          submitGuess();
+        } else if (key === "⌫" || key === "BACKSPACE") {
+          deleteLetter();
+        } else if (currentTile < WORD_LEN) {
+          addLetter(key);
+        }
+      }
+
+      function addLetter(letter) {
+        const row = boardEl.querySelector(`.board-row[data-row="${currentRow}"]`);
+        if (!row) return;
+        const tile = row.querySelector(`.board-tile[data-col="${currentTile}"]`);
+        if (tile) {
+          tile.textContent = letter;
+          tile.classList.add("pop");
+          setTimeout(() => tile.classList.remove("pop"), 150);
+          currentTile++;
+        }
+      }
+
+      function deleteLetter() {
+        if (currentTile > 0) {
+          currentTile--;
+          const row = boardEl.querySelector(`.board-row[data-row="${currentRow}"]`);
+          const tile = row.querySelector(`.board-tile[data-col="${currentTile}"]`);
+          if (tile) tile.textContent = "";
+        }
+      }
+
+      function submitGuess() {
+        if (currentTile < WORD_LEN) {
+          showToast("कृपया ५ अक्षर पूरा गर्नुहोस्", true);
+          return;
+        }
+
+        const guess = getCurrentGuess();
+        if (!wordsLib.isValidGuess(guess)) {
+          showToast("शब्द सूचीमा भेटिएन (Not in word list)", true);
+          return;
+        }
+
+        // Evaluate guess against solution
+        const row = boardEl.querySelector(`.board-row[data-row="${currentRow}"]`);
+        const tiles = Array.from(row.querySelectorAll(".board-tile"));
+        const solArr = Array.from(solution);
+        const guessArr = Array.from(guess);
+        const status = Array(WORD_LEN).fill("absent");
+        const solRemaining = [...solArr];
+
+        // First pass: correct
+        for (let i = 0; i < WORD_LEN; i++) {
+          if (guessArr[i] === solArr[i]) {
+            status[i] = "correct";
+            solRemaining[i] = null;
+          }
+        }
+
+        // Second pass: present
+        for (let i = 0; i < WORD_LEN; i++) {
+          if (status[i] !== "correct") {
+            const idx = solRemaining.indexOf(guessArr[i]);
+            if (idx !== -1) {
+              status[i] = "present";
+              solRemaining[idx] = null;
+            }
+          }
+        }
+
+        // Apply classes
+        tiles.forEach((t, i) => {
+          t.classList.add(status[i]);
+          // Update keyboard
+          const kBtn = kbEl.querySelector(`.kb-key[data-key="${guessArr[i]}"]`);
+          if (kBtn) {
+            if (status[i] === "correct") {
+              kBtn.className = "kb-key correct";
+            } else if (status[i] === "present" && !kBtn.classList.contains("correct")) {
+              kBtn.className = "kb-key present";
+            } else if (!kBtn.classList.contains("correct") && !kBtn.classList.contains("present")) {
+              kBtn.className = "kb-key absent";
+            }
+          }
+        });
+
+        if (guess === solution) {
+          isGameOver = true;
+          showToast("बधाई छ! जित्नुभयो! 🎉", false, 0);
+          return;
+        }
+
+        currentRow++;
+        currentTile = 0;
+
+        if (currentRow >= MAX_ROWS) {
+          isGameOver = true;
+          showToast("खेल समाप्त! सही शब्द थियो: " + solution, true, 0);
+        }
+      }
+
+      btnDaily.addEventListener("click", () => initGame("daily"));
+      btnPractice.addEventListener("click", () => initGame("practice"));
+      btnNewPractice.addEventListener("click", () => initGame("practice"));
+
+      initGame("daily");
+    })();
+  </script>
+</body>
+</html>

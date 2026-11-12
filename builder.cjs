@@ -356,6 +356,10 @@ function patchFile(file) {
     html = injectFeaturedByHeading(html, "Guides", GUIDES);
   }
 
+  // Robots & Canonical check + fix (runs on indexable HTML pages)
+  html = ensureRobotsMeta(html, rel);
+  html = ensureCanonical(html, rel);
+
   // AdSense check + fix (runs on every HTML page)
   const ads = ensureAdSense(html, rel);
   html = ads.html;
@@ -373,6 +377,102 @@ function patchFile(file) {
     adsenseFixed: ads.fixed,
     adsenseNote,
   };
+}
+
+const ROBOTS_SKIP = new Set([
+  "offline.html",
+  "tools/nepal-invoice-generator/index.html",
+]);
+
+function ensureRobotsMeta(html, rel) {
+  if (ROBOTS_SKIP.has(rel) || !isRealHtml(html)) return html;
+  if (/<meta\s+name=["']robots["']/i.test(html)) return html;
+  const tag = '  <meta name="robots" content="index, follow, max-image-preview:large">\n';
+  if (/<\/title>/i.test(html)) {
+    return html.replace(/<\/title>/i, `</title>\n${tag}`);
+  }
+  if (/<head\b[^>]*>/i.test(html)) {
+    return html.replace(/<head\b[^>]*>/i, (m) => `${m}\n${tag}`);
+  }
+  return html;
+}
+
+function ensureCanonical(html, rel) {
+  if (ROBOTS_SKIP.has(rel) || !isRealHtml(html)) return html;
+  if (/<link\s+rel=["']canonical["']/i.test(html)) return html;
+  let canonicalPath = rel.replace(/index\.html$/i, "");
+  if (canonicalPath && !canonicalPath.endsWith("/")) canonicalPath += "/";
+  const tag = `  <link rel="canonical" href="https://pbd.com.np/${canonicalPath}">\n`;
+  if (/<\/title>/i.test(html)) {
+    return html.replace(/<\/title>/i, `</title>\n${tag}`);
+  }
+  if (/<head\b[^>]*>/i.test(html)) {
+    return html.replace(/<head\b[^>]*>/i, (m) => `${m}\n${tag}`);
+  }
+  return html;
+}
+
+function generateSitemap() {
+  const today = new Date().toISOString().split("T")[0];
+  const urls = [
+    { loc: "https://pbd.com.np/", changefreq: "daily", priority: "1.0", lastmod: today },
+    { loc: "https://pbd.com.np/tools/", changefreq: "weekly", priority: "0.9", lastmod: today },
+    { loc: "https://pbd.com.np/guides/", changefreq: "weekly", priority: "0.8", lastmod: today },
+    { loc: "https://pbd.com.np/widgets/", changefreq: "weekly", priority: "0.8", lastmod: today },
+    { loc: "https://pbd.com.np/about/", changefreq: "monthly", priority: "0.6", lastmod: today },
+    { loc: "https://pbd.com.np/privacy/", changefreq: "monthly", priority: "0.4", lastmod: today },
+  ];
+
+  for (const t of TOOLS) {
+    if (t.href) {
+      urls.push({
+        loc: `https://pbd.com.np${t.href}`,
+        changefreq: "weekly",
+        priority: t.featured ? "0.9" : "0.8",
+        lastmod: today,
+      });
+    }
+  }
+
+  for (const w of WIDGETS) {
+    if (w.href) {
+      urls.push({
+        loc: `https://pbd.com.np${w.href}`,
+        changefreq: "weekly",
+        priority: "0.8",
+        lastmod: today,
+      });
+    }
+  }
+
+  for (const g of GUIDES) {
+    if (g.href) {
+      urls.push({
+        loc: `https://pbd.com.np${g.href}`,
+        changefreq: "monthly",
+        priority: "0.8",
+        lastmod: today,
+      });
+    }
+  }
+
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls
+  .map(
+    (u) => `  <url>
+    <loc>${u.loc}</loc>
+    <lastmod>${u.lastmod}</lastmod>
+    <changefreq>${u.changefreq}</changefreq>
+    <priority>${u.priority}</priority>
+  </url>`
+  )
+  .join("\n")}
+</urlset>\n`;
+
+  const sitemapPath = path.join(ROOT, "sitemap.xml");
+  fs.writeFileSync(sitemapPath, xml, "utf8");
+  console.log(`Generated sitemap.xml with ${urls.length} URLs (lastmod: ${today}).`);
 }
 
 const files = walk(ROOT);
@@ -397,6 +497,8 @@ for (const f of files) {
   } else if (result.adsense === "ok") adsenseStats.ok++;
   else adsenseStats.brokenLeft++;
 }
+
+generateSitemap();
 
 console.log(`Done. ${changed}/${files.length} files updated.`);
 console.log(
