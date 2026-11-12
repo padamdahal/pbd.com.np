@@ -47,7 +47,9 @@
   <a class="skip" href="#featured">Skip to featured tools</a>
   <header class="site-header">
     <div class="bar">
-      <!-- builder: brand + nav -->
+      <a class="brand" href="/" aria-label="Powered By Digital (PBD) — Home"><span class="logo-mark" aria-hidden="true">P</span><span class="brand-text"><span class="brand-name">PBD</span><span class="brand-full">Powered By Digital</span></span></a>
+      <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+      <nav id="menu" class="site-nav" aria-label="Main navigation" role="navigation"><a href="/">Home</a><a href="/tools/">Tools</a><a href="/widgets/">Widgets</a><a href="/guides/">Guides</a><a href="/about/">About</a></nav>
     </div>
   </header>
   <main>
@@ -81,7 +83,46 @@
         </div>
         <p class="section-lead">Hand-picked utilities for everyday digital tasks in Nepal.</p>
         <div class="tool-grid" data-builder="featured-tools">
-          <!-- builder: featured-tools -->
+          <a class="tool-card" href="/tools/nepali-typing/">
+            <h3>Nepali Typing</h3>
+            <p>Type in Nepali with Romanized input. Instant Unicode conversion.</p>
+            <div class="tool-meta">Nepali language</div>
+          </a>
+          <a class="tool-card" href="/tools/preeti-to-unicode/">
+            <h3>Preeti ↔ Unicode</h3>
+            <p>Convert Preeti font text to Unicode and back. Live dual direction.</p>
+            <div class="tool-meta">Nepali language</div>
+          </a>
+          <a class="tool-card" href="/tools/nepali-date-converter/">
+            <h3>Nepali Date Converter</h3>
+            <p>Convert between BS (Bikram Sambat) and AD (Gregorian) dates.</p>
+            <div class="tool-meta">Nepali language</div>
+          </a>
+          <a class="tool-card" href="/tools/nepali-calendar/">
+            <h3>Nepali Calendar (BS)</h3>
+            <p>Interactive Bikram Sambat month view. Click to copy ISO date or drag onto form fields.</p>
+            <div class="tool-meta">Nepali language</div>
+          </a>
+          <a class="tool-card" href="/tools/nepali-spell-checker/">
+            <h3>Nepali Spell Checker</h3>
+            <p>Check Nepali Unicode text for spelling mistakes and get suggestions.</p>
+            <div class="tool-meta">Nepali language</div>
+          </a>
+          <a class="tool-card" href="/tools/income-tax-calculator/">
+            <h3>Income Tax Calculator</h3>
+            <p>Estimate Nepal income tax for FY 2083/84 with slabs, SSF and deductions.</p>
+            <div class="tool-meta">Finance</div>
+          </a>
+          <a class="tool-card" href="/tools/nea-bill-calculator/">
+            <h3>NEA Bill Calculator</h3>
+            <p>Estimate residential electricity bill with progressive slabs, service charge and VAT.</p>
+            <div class="tool-meta">Finance</div>
+          </a>
+          <a class="tool-card" href="/tools/image-compressor/">
+            <h3>Image Compressor & Crop</h3>
+            <p>Compress, resize and crop photos. Passport, visa and DV lottery presets. Fully private.</p>
+            <div class="tool-meta">Utilities</div>
+          </a>
         </div>
       </div>
     </section>
@@ -153,7 +194,11 @@
         </div>
         <p class="section-lead">Embeddable pieces you can drop into a blog or site with a simple iframe.</p>
         <div class="tool-grid" data-builder="featured-widgets">
-          <!-- builder: featured-widgets -->
+          <a class="tool-card" href="/widgets/nepali-proverb/">
+            <h3>Nepali Proverb of the Day</h3>
+            <p>120+ ukhan with daily and random modes. Embeddable iframe for blogs and sites.</p>
+            <div class="tool-meta">Widgets</div>
+          </a>
         </div>
       </div>
     </section>
@@ -164,7 +209,16 @@
         </div>
         <p class="section-lead">Practical how-to articles for freelancers and beginners in Nepal.</p>
         <div class="tool-grid" data-builder="featured-guides">
-          <!-- builder: featured-guides -->
+          <a class="tool-card" href="/guides/how-to-start-freelancing-in-nepal-2026/">
+            <h3>How to Start Freelancing in Nepal in 2026</h3>
+            <p>Step-by-step guide to start freelancing from Nepal — platforms, payments and tips.</p>
+            <div class="tool-meta">Guides</div>
+          </a>
+          <a class="tool-card" href="/guides/how-to-use-ai-as-a-complete-beginner-2026/">
+            <h3>How to Use AI as a Complete Beginner in 2026</h3>
+            <p>Simple introduction to using AI tools for study, work and content creation.</p>
+            <div class="tool-meta">Guides</div>
+          </a>
         </div>
       </div>
     </section>
@@ -220,8 +274,14 @@
     </section>
   </main>
   <footer class="site-footer">
-    <!-- builder: footer -->
-  </footer>
+  <div class="bar footer-bar">
+    <nav id="footer-menu" class="footer-pills" aria-label="Footer"><a href="/tools/nepali-typing/">Nepali Typing</a><a href="/tools/preeti-to-unicode/">Preeti ↔ Unicode</a><a href="/tools/nepali-date-converter/">Nepali Date Converter</a><a href="/tools/today-nepali-date/">Today's Date</a><a href="/tools/nepali-spell-checker/">Spell Checker</a><a href="/tools/number-to-nepali-words/">Number to Words</a><a href="/tools/income-tax-calculator/">Income Tax</a><a href="/tools/nepal-map/">Nepal Map</a></nav>
+    <div class="footer-meta">
+      <p class="footer-copy">© <span id="yr"></span> Powered By Digital (PBD)</p>
+      <nav class="footer-legal" aria-label="Legal"><a href="/about/">About</a><a href="/privacy/">Privacy</a></nav>
+    </div>
+  </div>
+</footer>
   <script src="/assets/menu.js" defer></script>
   <script>document.getElementById("yr") && (document.getElementById("yr").textContent = new Date().getFullYear());</script>
 </body>

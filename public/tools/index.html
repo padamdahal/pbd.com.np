@@ -58,17 +58,187 @@
   <a class="skip" href="#tools">Skip to tools</a>
   <header class="site-header">
     <div class="bar">
-      <!-- builder: brand + nav -->
+      <a class="brand" href="/" aria-label="Powered By Digital (PBD) — Home"><span class="logo-mark" aria-hidden="true">P</span><span class="brand-text"><span class="brand-name">PBD</span><span class="brand-full">Powered By Digital</span></span></a>
+      <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+      <nav id="menu" class="site-nav" aria-label="Main navigation" role="navigation"><a href="/">Home</a><a href="/tools/">Tools</a><a href="/widgets/">Widgets</a><a href="/guides/">Guides</a><a href="/about/">About</a></nav>
     </div>
   </header>
 
   <main id="tools">
-    <!-- builder: catalog cards -->
+    <section class="page-hero">
+      <div class="container">
+        <h1>All tools</h1>
+        <p>Free, private, client-side utilities built for everyday tasks in Nepal. No sign-up required.</p>
+        <nav class="cat-nav" aria-label="Jump to category">
+          <a href="#nepali-language">Nepali language</a>
+          <a href="#finance">Finance</a>
+          <a href="#maps-location">Maps & location</a>
+          <a href="#content-creation">Content creation</a>
+          <a href="#utilities">Utilities</a>
+        </nav>
+      </div>
+    </section>
+
+    <section id="nepali-language" class="section">
+      <div class="container">
+        <h2>Nepali language</h2>
+        <div class="tool-grid">
+          <a class="tool-card" href="/tools/nepali-typing/">
+            <h3>Nepali Typing</h3>
+            <p>Type in Nepali with Romanized input. Instant Unicode conversion.</p>
+            <div class="tool-meta">Nepali language</div>
+          </a>
+          <a class="tool-card" href="/tools/preeti-to-unicode/">
+            <h3>Preeti ↔ Unicode</h3>
+            <p>Convert Preeti font text to Unicode and back. Live dual direction.</p>
+            <div class="tool-meta">Nepali language</div>
+          </a>
+          <a class="tool-card" href="/tools/nepali-date-converter/">
+            <h3>Nepali Date Converter</h3>
+            <p>Convert between BS (Bikram Sambat) and AD (Gregorian) dates.</p>
+            <div class="tool-meta">Nepali language</div>
+          </a>
+          <a class="tool-card" href="/tools/today-nepali-date/">
+            <h3>Today’s Nepali Date</h3>
+            <p>See today’s date in Bikram Sambat with day name and tithi.</p>
+            <div class="tool-meta">Nepali language</div>
+          </a>
+          <a class="tool-card" href="/tools/bs-age-calculator/">
+            <h3>BS Age Calculator</h3>
+            <p>Calculate age from Bikram Sambat birth date. Years, months, days.</p>
+            <div class="tool-meta">Nepali language</div>
+          </a>
+          <a class="tool-card" href="/tools/nepali-calendar/">
+            <h3>Nepali Calendar (BS)</h3>
+            <p>Interactive Bikram Sambat month view. Click to copy ISO date or drag onto form fields.</p>
+            <div class="tool-meta">Nepali language</div>
+          </a>
+          <a class="tool-card" href="/tools/nepali-spell-checker/">
+            <h3>Nepali Spell Checker</h3>
+            <p>Check Nepali Unicode text for spelling mistakes and get suggestions.</p>
+            <div class="tool-meta">Nepali language</div>
+          </a>
+          <a class="tool-card" href="/tools/nepali-dictionary/">
+            <h3>Nepali Dictionary</h3>
+            <p>Search 120,000+ words from the Brihat Sabdakosh. Meanings, grammar and etymology.</p>
+            <div class="tool-meta">Nepali language</div>
+          </a>
+          <a class="tool-card" href="/tools/nepali-name-generator/">
+            <h3>Nepali Name Generator</h3>
+            <p>Generate traditional and modern Nepali first names by gender.</p>
+            <div class="tool-meta">Nepali language</div>
+          </a>
+          <a class="tool-card" href="/tools/number-to-nepali-words/">
+            <h3>Number to Nepali Words</h3>
+            <p>Convert numbers to Nepali words for cheques, invoices and documents.</p>
+            <div class="tool-meta">Nepali language</div>
+          </a>
+          <a class="tool-card" href="/tools/nepali-wordle/">
+            <h3>Nepali Wordle</h3>
+            <p>Daily and practice 5-letter Nepali word game with Devanagari keyboard and stats.</p>
+            <div class="tool-meta">Nepali language</div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="finance" class="section section-alt">
+      <div class="container">
+        <h2>Finance</h2>
+        <div class="tool-grid">
+          <a class="tool-card" href="/tools/income-tax-calculator/">
+            <h3>Income Tax Calculator</h3>
+            <p>Estimate Nepal income tax for FY 2083/84 with slabs, SSF and deductions.</p>
+            <div class="tool-meta">Finance</div>
+          </a>
+          <a class="tool-card" href="/tools/vehicle-tax-calculator/">
+            <h3>Vehicle Tax Calculator</h3>
+            <p>Estimate annual vehicle tax for cars, motorcycles and more in Nepal.</p>
+            <div class="tool-meta">Finance</div>
+          </a>
+          <a class="tool-card" href="/tools/nea-bill-calculator/">
+            <h3>NEA Bill Calculator</h3>
+            <p>Estimate residential electricity bill with progressive slabs, service charge and VAT.</p>
+            <div class="tool-meta">Finance</div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="maps-location" class="section">
+      <div class="container">
+        <h2>Maps & location</h2>
+        <div class="tool-grid">
+          <a class="tool-card" href="/tools/nepal-map/">
+            <h3>Nepal Map</h3>
+            <p>Interactive map of provinces, districts and local levels with CSV join.</p>
+            <div class="tool-meta">Maps & location</div>
+          </a>
+          <a class="tool-card" href="/tools/ev-charging-stations/">
+            <h3>EV Charging Stations</h3>
+            <p>Find electric vehicle charging points across Nepal from OpenStreetMap.</p>
+            <div class="tool-meta">Maps & location</div>
+          </a>
+          <a class="tool-card" href="/tools/local-weather/">
+            <h3>Local Weather</h3>
+            <p>Current conditions, hourly forecast and 7-day outlook for Nepal and beyond.</p>
+            <div class="tool-meta">Maps & location</div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="content-creation" class="section section-alt">
+      <div class="container">
+        <h2>Content creation</h2>
+        <div class="tool-grid">
+          <a class="tool-card" href="/tools/caption-generator/">
+            <h3>Caption Generator</h3>
+            <p>Ready-to-post inspirational captions for TikTok and Instagram in Nepali.</p>
+            <div class="tool-meta">Content creation</div>
+          </a>
+          <a class="tool-card" href="/tools/hashtag-generator/">
+            <h3>Hashtag Generator</h3>
+            <p>Curated Nepali + English hashtags by niche. Filter for TikTok, Instagram or Facebook.</p>
+            <div class="tool-meta">Content creation</div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="utilities" class="section">
+      <div class="container">
+        <h2>Utilities</h2>
+        <div class="tool-grid">
+          <a class="tool-card" href="/tools/land-unit-converter/">
+            <h3>Land Unit Converter</h3>
+            <p>Ropani–Aana–Paisa–Daam ↔ Bigha–Kattha–Dhur ↔ Sq Ft / m². Instant and accurate.</p>
+            <div class="tool-meta">Utilities</div>
+          </a>
+          <a class="tool-card" href="/tools/image-compressor/">
+            <h3>Image Compressor & Crop</h3>
+            <p>Compress, resize and crop photos. Passport, visa and DV lottery presets. Fully private.</p>
+            <div class="tool-meta">Utilities</div>
+          </a>
+          <a class="tool-card" href="/tools/name-badge-generator/">
+            <h3>Name Badge Generator</h3>
+            <p>Bulk CSV to printable badges with QR, logo, backgrounds and PDF sheets.</p>
+            <div class="tool-meta">Utilities</div>
+          </a>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer class="site-footer">
-    <!-- builder: footer -->
-  </footer>
+  <div class="bar footer-bar">
+    <nav id="footer-menu" class="footer-pills" aria-label="Footer"><a href="/tools/nepali-typing/">Nepali Typing</a><a href="/tools/preeti-to-unicode/">Preeti ↔ Unicode</a><a href="/tools/nepali-date-converter/">Nepali Date Converter</a><a href="/tools/today-nepali-date/">Today's Date</a><a href="/tools/nepali-spell-checker/">Spell Checker</a><a href="/tools/number-to-nepali-words/">Number to Words</a><a href="/tools/income-tax-calculator/">Income Tax</a><a href="/tools/nepal-map/">Nepal Map</a></nav>
+    <div class="footer-meta">
+      <p class="footer-copy">© <span id="yr"></span> Powered By Digital (PBD)</p>
+      <nav class="footer-legal" aria-label="Legal"><a href="/about/">About</a><a href="/privacy/">Privacy</a></nav>
+    </div>
+  </div>
+</footer>
   <script src="/assets/menu.js" defer></script>
   <script src="/assets/pwa.js" defer></script>
 </body>

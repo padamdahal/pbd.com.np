@@ -30,20 +30,41 @@
     .tool-card p { margin: 0 0 12px; color: var(--muted); font-size: .92rem; }
     .tool-meta { font-size: .78rem; font-weight: 600; color: var(--primary-dark); background: #eef7f8; display: inline-block; padding: 3px 8px; border-radius: 6px; }
   </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632604868005505" crossorigin="anonymous"></script>
 </head>
 <body>
   <a class="skip" href="#guides">Skip to guides</a>
   <header class="site-header">
     <div class="bar">
-      <!-- builder: brand + nav -->
+      <a class="brand" href="/" aria-label="Powered By Digital (PBD) — Home"><span class="logo-mark" aria-hidden="true">P</span><span class="brand-text"><span class="brand-name">PBD</span><span class="brand-full">Powered By Digital</span></span></a>
+      <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+      <nav id="menu" class="site-nav" aria-label="Main navigation" role="navigation"><a href="/">Home</a><a href="/tools/">Tools</a><a href="/widgets/">Widgets</a><a href="/guides/">Guides</a><a href="/about/">About</a></nav>
     </div>
   </header>
   <main id="guides">
-    <!-- builder: catalog cards -->
+    <section class="page-hero"><div class="container"><h1>Guides</h1><p>Practical how-to articles for freelancers, students and beginners in Nepal.</p></div></section>
+    <section class="section"><div class="container"><div class="tool-grid">
+          <a class="tool-card" href="/guides/how-to-start-freelancing-in-nepal-2026/">
+            <h3>How to Start Freelancing in Nepal in 2026</h3>
+            <p>Step-by-step guide to start freelancing from Nepal — platforms, payments and tips.</p>
+            <div class="tool-meta">Guides</div>
+          </a>
+          <a class="tool-card" href="/guides/how-to-use-ai-as-a-complete-beginner-2026/">
+            <h3>How to Use AI as a Complete Beginner in 2026</h3>
+            <p>Simple introduction to using AI tools for study, work and content creation.</p>
+            <div class="tool-meta">Guides</div>
+          </a>
+    </div></div></section>
   </main>
   <footer class="site-footer">
-    <!-- builder: footer -->
-  </footer>
+  <div class="bar footer-bar">
+    <nav id="footer-menu" class="footer-pills" aria-label="Footer"><a href="/tools/nepali-typing/">Nepali Typing</a><a href="/tools/preeti-to-unicode/">Preeti ↔ Unicode</a><a href="/tools/nepali-date-converter/">Nepali Date Converter</a><a href="/tools/today-nepali-date/">Today's Date</a><a href="/tools/nepali-spell-checker/">Spell Checker</a><a href="/tools/number-to-nepali-words/">Number to Words</a><a href="/tools/income-tax-calculator/">Income Tax</a><a href="/tools/nepal-map/">Nepal Map</a></nav>
+    <div class="footer-meta">
+      <p class="footer-copy">© <span id="yr"></span> Powered By Digital (PBD)</p>
+      <nav class="footer-legal" aria-label="Legal"><a href="/about/">About</a><a href="/privacy/">Privacy</a></nav>
+    </div>
+  </div>
+</footer>
   <script src="/assets/menu.js" defer></script>
   <script src="/assets/pwa.js" defer></script>
 </body>

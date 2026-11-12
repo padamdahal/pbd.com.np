@@ -54,6 +54,47 @@ const HEADER_BLOCK = `<header class="site-header">
 /* Catalog data loaded from builder-catalog.cjs */
 const { TOOLS, WIDGETS, GUIDES } = require("./builder-catalog.cjs");
 
+/** Load featured items from featured.json or featured-tools.json with catalog fallback */
+function loadFeaturedData() {
+  let featuredConfig = null;
+  const featuredPath = path.join(__dirname, "featured.json");
+  const featuredToolsPath = path.join(__dirname, "featured-tools.json");
+
+  if (fs.existsSync(featuredPath)) {
+    try {
+      featuredConfig = JSON.parse(fs.readFileSync(featuredPath, "utf8"));
+    } catch (e) {
+      console.warn("Failed to parse featured.json:", e.message);
+    }
+  } else if (fs.existsSync(featuredToolsPath)) {
+    try {
+      featuredConfig = JSON.parse(fs.readFileSync(featuredToolsPath, "utf8"));
+    } catch (e) {
+      console.warn("Failed to parse featured-tools.json:", e.message);
+    }
+  }
+
+  let tools = null;
+  let widgets = null;
+  let guides = null;
+
+  if (featuredConfig) {
+    if (Array.isArray(featuredConfig)) {
+      tools = featuredConfig;
+    } else if (typeof featuredConfig === "object") {
+      if (Array.isArray(featuredConfig.tools)) tools = featuredConfig.tools;
+      if (Array.isArray(featuredConfig.widgets)) widgets = featuredConfig.widgets;
+      if (Array.isArray(featuredConfig.guides)) guides = featuredConfig.guides;
+    }
+  }
+
+  return {
+    tools: tools || TOOLS.filter((t) => t.featured),
+    widgets: widgets || WIDGETS.filter((w) => w.featured),
+    guides: guides || GUIDES.filter((g) => g.featured),
+  };
+}
+
 /** Footer pills from catalog items with footer: true (shortTitle optional) */
 function buildFooterNav() {
   const pills = TOOLS.filter((t) => t.footer).map((t) => {
@@ -82,8 +123,8 @@ function cardHtml(item) {
 }
 
 function featuredGridHtml(items) {
-  const list = items.filter((i) => i.featured);
-  return (list.length ? list : items).map(cardHtml).join("\n");
+  const list = items.some((i) => i.featured) ? items.filter((i) => i.featured) : items;
+  return list.map(cardHtml).join("\n");
 }
 
 function slugifyCategory(name) {
@@ -347,13 +388,14 @@ function patchFile(file) {
   }
 
   if (rel === "index.html") {
-    html = injectFeaturedGrid(html, "featured-tools", TOOLS);
-    html = injectFeaturedGrid(html, "featured-widgets", WIDGETS);
-    html = injectFeaturedGrid(html, "featured-guides", GUIDES);
+    const featured = loadFeaturedData();
+    html = injectFeaturedGrid(html, "featured-tools", featured.tools);
+    html = injectFeaturedGrid(html, "featured-widgets", featured.widgets);
+    html = injectFeaturedGrid(html, "featured-guides", featured.guides);
     // Fallbacks when source still has hard-coded grids (no data-builder yet)
-    html = injectFeaturedBySection(html, "featured", TOOLS);
-    html = injectFeaturedByHeading(html, "Widgets", WIDGETS);
-    html = injectFeaturedByHeading(html, "Guides", GUIDES);
+    html = injectFeaturedBySection(html, "featured", featured.tools);
+    html = injectFeaturedByHeading(html, "Widgets", featured.widgets);
+    html = injectFeaturedByHeading(html, "Guides", featured.guides);
   }
 
   // AdSense check + fix (runs on every HTML page)

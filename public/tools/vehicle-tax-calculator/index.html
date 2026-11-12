@@ -64,7 +64,13 @@
 </head>
 <body>
   <a class="skip" href="#tool">Skip to tool</a>
-  <header class="site-header"><div class="bar"><a class="brand" href="/"><span class="logo-mark">P</span><span>PBD</span></a><button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button><nav id="menu" aria-label="Main navigation"></nav></div></header>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="/" aria-label="Powered By Digital (PBD) — Home"><span class="logo-mark" aria-hidden="true">P</span><span class="brand-text"><span class="brand-name">PBD</span><span class="brand-full">Powered By Digital</span></span></a>
+      <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+      <nav id="menu" class="site-nav" aria-label="Main navigation" role="navigation"><a href="/">Home</a><a href="/tools/">Tools</a><a href="/widgets/">Widgets</a><a href="/guides/">Guides</a><a href="/about/">About</a></nav>
+    </div>
+  </header>
   <main class="narrow" id="tool">
     <div class="page-intro">
       <h1>Nepal Vehicle Tax Calculator</h1>
@@ -172,8 +178,15 @@
     <p class="related-tools" style="margin-top:28px"><strong>Related:</strong> <a href="/tools/bs-age-calculator/">BS Age Calculator</a> · <a href="/tools/nepali-date-converter/">BS ↔ AD date converter</a> · <a href="/">All tools</a></p>
     <p class="note">Tax rates are based on the latest provincial fiscal budgets. Always confirm final bill details with your respective Transport Management Office.</p>
   </main>
-  <footer class="site-footer"><div class="bar"><p>© <span id="yr"></span> PBD</p>
-    <div class="footer-nav"><nav id="footer-menu" aria-label="Footer tools"></nav><nav class="legal" aria-label="Legal"><a href="/about/">About</a> <a href="/privacy/">Privacy</a></nav></div></div></footer>
+  <footer class="site-footer">
+  <div class="bar footer-bar">
+    <nav id="footer-menu" class="footer-pills" aria-label="Footer"><a href="/tools/nepali-typing/">Nepali Typing</a><a href="/tools/preeti-to-unicode/">Preeti ↔ Unicode</a><a href="/tools/nepali-date-converter/">Nepali Date Converter</a><a href="/tools/today-nepali-date/">Today's Date</a><a href="/tools/nepali-spell-checker/">Spell Checker</a><a href="/tools/number-to-nepali-words/">Number to Words</a><a href="/tools/income-tax-calculator/">Income Tax</a><a href="/tools/nepal-map/">Nepal Map</a></nav>
+    <div class="footer-meta">
+      <p class="footer-copy">© <span id="yr"></span> Powered By Digital (PBD)</p>
+      <nav class="footer-legal" aria-label="Legal"><a href="/about/">About</a><a href="/privacy/">Privacy</a></nav>
+    </div>
+  </div>
+</footer>
   <script src="vehicle-tax-calculator.js" defer></script>
   <script src="/assets/menu.js" defer></script>
 </body>

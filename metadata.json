@@ -1,0 +1,8 @@
+{
+  "name": "Powered By Digital (PBD)",
+  "description": "Free, private online tools for Nepal: Nepali typing, BS-AD date converter, income tax and electricity bill calculators, interactive maps, and practical guides.",
+  "permissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

@@ -4,11 +4,11 @@
   "type": "module",
   "scripts": {
     "build": "node builder.cjs",
-    "dev": "SKIP_INDEXNOW=1 node builder.cjs && wrangler dev",
-    "deploy": "node builder.cjs && wrangler deploy",
-    "indexnow": "INDEXNOW_ALL=1 node builder.cjs"
+    "dev": "node builder.cjs && node server.js",
+    "start": "node server.js",
+    "lint": "node -c server.js builder.cjs builder-catalog.cjs"
   },
-  "devDependencies": {
-    "wrangler": "^4"
+  "dependencies": {
+    "express": "^5.3.0"
   }
 }
