@@ -178,8 +178,6 @@
     .related-tools { margin-top: var(--s-4); font-size: 0.95rem; }
     .related-tools a { margin-right: 12px; }
   </style>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632604868005505"
-     crossorigin="anonymous"></script>
 </head>
 <body>
   <a class="skip" href="#tool">Skip to tool</a>
@@ -254,7 +252,20 @@
       <p class="note">Weather data from <a href="https://open-meteo.com/" rel="noopener noreferrer" target="_blank">Open-Meteo</a>. Times follow the location’s local timezone. Not a substitute for official severe-weather warnings.</p>
     </div>
 
-    <section class="faq" aria-label="Frequently asked questions">
+    <!-- pbd:ad-slot:start -->
+    <aside class="ad-slot" data-ad-type="tool" data-ad-slot="" aria-label="Advertisement" hidden>
+      <p class="ad-slot-label">Advertisement</p>
+      <div class="ad-slot-inner">
+        <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-6632604868005505"
+          data-ad-slot=""
+          data-ad-format="horizontal"
+          data-full-width-responsive="true"></ins>
+      </div>
+    </aside>
+    <!-- pbd:ad-slot:end -->
+<section class="faq" aria-label="Frequently asked questions">
       <h2>Frequently asked questions</h2>
       <details class="faq-item"><summary>How does the local weather tool get my location?</summary><p>It can use your browser’s location permission, or you can search for any city. Coordinates are only sent to the weather service to fetch the forecast and are not stored by PBD.</p></details>
       <details class="faq-item"><summary>Is this weather data free?</summary><p>Yes. The tool uses the free Open-Meteo API. No account or API key is required on your side.</p></details>
@@ -282,5 +293,6 @@
 
   <script src="local-weather.js" defer></script>
   <script src="/assets/menu.js" defer></script>
+  <script src="/assets/ads.js" defer></script>
 </body>
 </html>

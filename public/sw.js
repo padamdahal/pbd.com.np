@@ -1,5 +1,5 @@
 /* PBD service worker — full offline shell + persistent Nepali Dictionary data cache */
-var CACHE_VERSION = "pbd-v7";
+var CACHE_VERSION = "pbd-v8";
 var DICT_CACHE = "pbd-dict-data-v1";
 var KEEP_CACHES = [CACHE_VERSION, DICT_CACHE];
 
@@ -10,6 +10,7 @@ var PRECACHE = [
   "/assets/style.css",
   "/assets/menu.js",
   "/assets/pwa.js",
+  "/assets/ads.js",
   "/assets/icons/icon.svg",
   "/assets/icons/icon-192.png",
   "/assets/icons/icon-512.png",
