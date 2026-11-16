@@ -54,6 +54,7 @@
     #badge-canvas { display: block; max-width: 100%; height: auto; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-radius: 6px; background: #fff; }
     .btn-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; width: 100%; }
   </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632604868005505" crossorigin="anonymous"></script>
 </head>
 <body>
   <a class="skip" href="#tool">Skip to tool</a>
@@ -123,20 +124,7 @@
         </div>
       </div>
     </div>
-    <!-- pbd:ad-slot:start -->
-    <aside class="ad-slot" data-ad-type="tool" data-ad-slot="" aria-label="Advertisement" hidden>
-      <p class="ad-slot-label">Advertisement</p>
-      <div class="ad-slot-inner">
-        <ins class="adsbygoogle"
-          style="display:block"
-          data-ad-client="ca-pub-6632604868005505"
-          data-ad-slot=""
-          data-ad-format="horizontal"
-          data-full-width-responsive="true"></ins>
-      </div>
-    </aside>
-    <!-- pbd:ad-slot:end -->
-</main>
+  </main>
 
   <footer class="site-footer">
   <div class="bar footer-bar">
@@ -274,8 +262,7 @@
         const dataUrl = canvas.toDataURL("image/png");
         const win = window.open("");
         if (win) {
-          win.document.write('<html><head><title>Print Badge</title></head><body style="margin:0;display:flex;align-items:center;justify-content:center;height:100vh;"><img src="' + dataUrl + '" style="max-height:90vh;" onload="window.print();window.close();"/>  <script src="/assets/ads.js" defer></script>
-</body></html>');
+          win.document.write('<html><head><title>Print Badge</title></head><body style="margin:0;display:flex;align-items:center;justify-content:center;height:100vh;"><img src="' + dataUrl + '" style="max-height:90vh;" onload="window.print();window.close();"/></body></html>');
           win.document.close();
         }
       });

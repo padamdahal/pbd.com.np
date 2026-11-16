@@ -25,9 +25,13 @@ const path = require("path");
 
 const ROOT = path.join(__dirname, "public");
 
-/** Centralized Google AdSense config (manual reserved slots + skip list) */
-const ADSENSE_CONFIG = require("./adsense-config.cjs");
-const ADSENSE_CLIENT = ADSENSE_CONFIG.client;
+/** Google AdSense publisher client — keep identical on every monetized page */
+const ADSENSE_CLIENT = "ca-pub-6632604868005505";
+const ADSENSE_SCRIPT =
+  `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}" crossorigin="anonymous"></script>`;
+
+/** Relative paths (from public/) that must not load AdSense */
+const ADSENSE_SKIP = new Set(["offline.html"]);
 
 /** Canonical brand — keep identical on every page */
 const BRAND = `<a class="brand" href="/" aria-label="Powered By Digital (PBD) — Home"><span class="logo-mark" aria-hidden="true">P</span><span class="brand-text"><span class="brand-name">PBD</span><span class="brand-full">Powered By Digital</span></span></a>`;
@@ -248,100 +252,68 @@ function isRealHtml(html) {
 }
 
 /**
- * Determine manual ad slot type for a given relative HTML path.
- * @returns {"tool"|"guide"|"about"|null}
+ * AdSense status for a page.
+ * @returns {"skip"|"ok"|"broken"|"missing"}
  */
-function getAdSlotType(html, rel) {
-  if (!isRealHtml(html) || ADSENSE_CONFIG.skipPages.has(rel)) return null;
-  if (rel === "about/index.html") return "about";
-  if (rel.startsWith("tools/") && rel !== "tools/index.html") return "tool";
-  if (rel.startsWith("guides/") && rel !== "guides/index.html") return "guide";
-  return null;
+function detectAdSense(html, rel) {
+  if (ADSENSE_SKIP.has(rel)) return "skip";
+  // Non-HTML stubs (e.g. "PLACEHOLDER") — do not touch
+  if (!isRealHtml(html)) return "skip";
+
+  const hasClient = html.includes(ADSENSE_CLIENT);
+  const hasScriptSrc =
+    /pagead2\.googlesyndication\.com\/pagead\/js\/adsbygoogle\.js/i.test(html) ||
+    /adsbygoogle\.js\?client=/i.test(html);
+
+  if (hasClient && hasScriptSrc) return "ok";
+  if (hasScriptSrc || /adsbygoogle/i.test(html)) return "broken";
+  return "missing";
 }
 
 /**
- * Strip eager Auto Ads <script> tags and previous manual ad slot blocks so
- * rebuilds are strictly idempotent and Auto Ads overlays stay off.
- */
-function stripAdSenseArtifacts(html) {
-  let next = html.replace(
-    /[ \t]*<script\b[^>]*\bsrc=["'][^"']*(?:adsbygoogle\.js|pagead2\.googlesyndication\.com)[^"']*["'][^>]*>\s*<\/script>\r?\n?/gi,
-    ""
-  );
-  next = next.replace(
-    /[ \t]*<script\b[^>]*\bsrc=["'][^"']*(?:adsbygoogle\.js|pagead2\.googlesyndication\.com)[^"']*["'][^>]*\/?>\r?\n?/gi,
-    ""
-  );
-  next = next.replace(
-    /[ \t]*<!--\s*pbd:ad-slot:start\s*-->[\s\S]*?<!--\s*pbd:ad-slot:end\s*-->\r?\n?/gi,
-    ""
-  );
-  next = next.replace(
-    /[ \t]*<script\b[^>]*\bsrc=["']\/assets\/ads\.js["'][^>]*><\/script>\r?\n?/gi,
-    ""
-  );
-  return next;
-}
-
-function buildAdSlotBlock(slotType, indent = "    ") {
-  const slotId = String((ADSENSE_CONFIG.slots && ADSENSE_CONFIG.slots[slotType]) || "").trim();
-  const hasSlot = /^\d+$/.test(slotId);
-  const hiddenAttr = hasSlot ? "" : " hidden";
-  const format = slotType === "about" ? "auto" : "horizontal";
-  return `${indent}<!-- pbd:ad-slot:start -->
-${indent}<aside class="ad-slot" data-ad-type="${slotType}" data-ad-slot="${slotId}" aria-label="Advertisement"${hiddenAttr}>
-${indent}  <p class="ad-slot-label">Advertisement</p>
-${indent}  <div class="ad-slot-inner">
-${indent}    <ins class="adsbygoogle"
-${indent}      style="display:block"
-${indent}      data-ad-client="${ADSENSE_CLIENT}"
-${indent}      data-ad-slot="${slotId}"
-${indent}      data-ad-format="${format}"
-${indent}      data-full-width-responsive="true"></ins>
-${indent}  </div>
-${indent}</aside>
-${indent}<!-- pbd:ad-slot:end -->\n`;
-}
-
-/**
- * Replace Auto Ads with a single non-intrusive manual slot above the FAQ section
- * (or above </main> if no FAQ section exists) and defer /assets/ads.js loading.
+ * Ensure canonical AdSense script is present in <head>.
+ * Replaces broken adsbygoogle loader tags; injects when missing.
+ * Only operates on real HTML documents.
  * @returns {{ html: string, status: string, fixed: boolean }}
  */
 function ensureAdSense(html, rel) {
-  const slotType = getAdSlotType(html, rel);
-  let next = stripAdSenseArtifacts(html);
-
-  if (!slotType) {
-    return { html: next, status: "skip", fixed: next !== html };
+  const status = detectAdSense(html, rel);
+  if (status === "skip" || status === "ok") {
+    return { html, status, fixed: false };
   }
 
-  const faqAnchor = /([ \t]*)(<section\b[^>]*(?:\bclass=["'][^"']*\bfaq\b[^"']*["']|\bid=["']faq["'])[^>]*>)/i;
-  const helpAnchor = /([ \t]*)(<div\b[^>]*class=["'][^"']*\bhelp-section\b[^"']*["'][^>]*>)/i;
-  const mainClose = /([ \t]*)(<\/main>)/i;
+  // Remove any existing adsbygoogle / pagead loader scripts (broken or partial)
+  let next = html.replace(
+    /<script\b[^>]*\bsrc=["'][^"']*adsbygoogle\.js[^"']*["'][^>]*>\s*<\/script>/gi,
+    ""
+  );
+  next = next.replace(
+    /<script\b[^>]*\bsrc=["'][^"']*pagead2\.googlesyndication\.com[^"']*["'][^>]*>\s*<\/script>/gi,
+    ""
+  );
+  // Also strip self-closing or unclosed variants that only have the opening tag
+  next = next.replace(
+    /<script\b[^>]*\bsrc=["'][^"']*(?:adsbygoogle\.js|pagead2\.googlesyndication\.com)[^"']*["'][^>]*\/?>/gi,
+    ""
+  );
 
-  if (faqAnchor.test(next)) {
-    next = next.replace(faqAnchor, (_m, indent, tag) => `${buildAdSlotBlock(slotType, indent || "    ")}${indent}${tag}`);
-  } else if (helpAnchor.test(next)) {
-    next = next.replace(helpAnchor, (_m, indent, tag) => `${buildAdSlotBlock(slotType, indent || "    ")}${indent}${tag}`);
-  } else if (mainClose.test(next)) {
-    next = next.replace(mainClose, (_m, indent, tag) => `${buildAdSlotBlock(slotType, indent || "    ")}${indent}${tag}`);
+  if (/<\/head>/i.test(next)) {
+    next = next.replace(/<\/head>/i, `  ${ADSENSE_SCRIPT}\n</head>`);
+  } else if (/<head\b[^>]*>/i.test(next)) {
+    next = next.replace(/<head\b[^>]*>/i, (m) => `${m}\n  ${ADSENSE_SCRIPT}`);
+  } else {
+    // Real HTML but no head tag — leave unchanged, report as broken
+    return { html, status: "broken", fixed: false };
   }
 
-  const adsScript = '  <script src="/assets/ads.js" defer></script>\n';
-  if (/<\/body>/i.test(next)) {
-    next = next.replace(/<\/body>/i, `${adsScript}</body>`);
-  }
-
-  const slotId = String((ADSENSE_CONFIG.slots && ADSENSE_CONFIG.slots[slotType]) || "").trim();
-  const status = /^\d+$/.test(slotId) ? "active" : "standby";
-  return { html: next, status, fixed: next !== html };
+  return { html: next, status, fixed: true };
 }
 
 function patchFile(file) {
   let html = fs.readFileSync(file, "utf8");
   const before = html;
   const rel = path.relative(ROOT, file).replace(/\\/g, "/");
+  let adsenseNote = null;
 
   if (/<header\b[^>]*class=["'][^"']*site-header[^"']*["'][^>]*>[\s\S]*?<\/header>/i.test(html)) {
     html = html.replace(
@@ -388,9 +360,12 @@ function patchFile(file) {
   html = ensureRobotsMeta(html, rel);
   html = ensureCanonical(html, rel);
 
-  // Manual reserved AdSense slot sync (replaces eager Auto Ads)
+  // AdSense check + fix (runs on every HTML page)
   const ads = ensureAdSense(html, rel);
   html = ads.html;
+  if (ads.fixed) {
+    adsenseNote = ads.status; // "missing" or "broken"
+  }
 
   if (html === before) {
     return { changed: false, adsense: ads.status, adsenseFixed: false };
@@ -400,6 +375,7 @@ function patchFile(file) {
     changed: true,
     adsense: ads.status,
     adsenseFixed: ads.fixed,
+    adsenseNote,
   };
 }
 
@@ -495,32 +471,40 @@ ${urls
 </urlset>\n`;
 
   const sitemapPath = path.join(ROOT, "sitemap.xml");
-  const prevXml = fs.existsSync(sitemapPath) ? fs.readFileSync(sitemapPath, "utf8") : "";
-  if (prevXml !== xml) {
-    fs.writeFileSync(sitemapPath, xml, "utf8");
-    console.log(`Generated sitemap.xml with ${urls.length} URLs (lastmod: ${today}).`);
-  }
+  fs.writeFileSync(sitemapPath, xml, "utf8");
+  console.log(`Generated sitemap.xml with ${urls.length} URLs (lastmod: ${today}).`);
 }
 
 const files = walk(ROOT);
 let changed = 0;
-const adsenseStats = { active: 0, standby: 0, skipped: 0 };
+const adsenseStats = { ok: 0, fixed: 0, skipped: 0, brokenLeft: 0 };
+const adsenseFixedFiles = [];
 
 for (const f of files) {
   const rel = path.relative(ROOT, f).replace(/\\/g, "/");
   const result = patchFile(f);
   if (result.changed) {
     changed++;
-    console.log("updated", rel);
+    const extra = result.adsenseFixed
+      ? ` [adsense ${result.adsenseNote} → fixed]`
+      : "";
+    console.log("updated", rel + extra);
   }
   if (result.adsense === "skip") adsenseStats.skipped++;
-  else if (result.adsense === "active") adsenseStats.active++;
-  else adsenseStats.standby++;
+  else if (result.adsenseFixed) {
+    adsenseStats.fixed++;
+    adsenseFixedFiles.push(rel);
+  } else if (result.adsense === "ok") adsenseStats.ok++;
+  else adsenseStats.brokenLeft++;
 }
 
 generateSitemap();
 
 console.log(`Done. ${changed}/${files.length} files updated.`);
 console.log(
-  `AdSense manual slots: ${adsenseStats.active} active, ${adsenseStats.standby} standby (awaiting slot ID), ${adsenseStats.skipped} ad-free.`
+  `AdSense: ${adsenseStats.ok} OK, ${adsenseStats.fixed} fixed, ${adsenseStats.skipped} skipped` +
+    (adsenseStats.brokenLeft ? `, ${adsenseStats.brokenLeft} still broken` : "")
 );
+if (adsenseFixedFiles.length) {
+  console.log("  fixed:", adsenseFixedFiles.join(", "));
+}

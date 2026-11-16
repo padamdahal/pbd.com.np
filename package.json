@@ -6,7 +6,7 @@
     "build": "node builder.cjs",
     "dev": "node builder.cjs && exec node server.js",
     "start": "node server.js",
-    "lint": "node -c server.js builder.cjs builder-catalog.cjs adsense-config.cjs public/assets/ads.js"
+    "lint": "node -c server.js builder.cjs builder-catalog.cjs"
   },
   "dependencies": {
     "express": "^5.3.0"
