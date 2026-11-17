@@ -2,7 +2,7 @@
   "id": "/tools/nepali-dictionary/",
   "name": "Nepali Dictionary – नेपाली शब्दकोश",
   "short_name": "शब्दकोश",
-  "description": "Offline-ready Nepali dictionary with over 123,000 words from the Brihat Sabdakosh. Search in Devanagari or Romanized Nepali.",
+  "description": "Search over 123,000 Nepali words from the Brihat Sabdakosh in Devanagari or Romanized Nepali.",
   "start_url": "/tools/nepali-dictionary/",
   "scope": "/tools/nepali-dictionary/",
   "display": "standalone",

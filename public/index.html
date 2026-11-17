@@ -26,7 +26,6 @@
   <meta name="twitter:description"
     content="Nepali typing, date converters, income tax calculators, land converters, NEA bill estimates, and maps. Client-side, private and free.">
   <meta name="twitter:image" content="https://pbd.com.np/assets/og-default.svg">
-  <link rel="manifest" href="/manifest.webmanifest">
   <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png">
   <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -204,10 +203,10 @@
       },
       {
         "@type": "Question",
-        "name": "Do PBD tools store my personal data or work offline?",
+        "name": "Do PBD tools store my personal data?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "No personal data is collected or uploaded. All conversions, calculations, spell checking, and image processing happen client-side in your web browser. After loading once, the progressive web app (PWA) caches the site so most tools work completely offline."
+          "text": "No personal data is collected or uploaded. All conversions, calculations, spell checking, and image processing run client-side directly inside your web browser without storing your inputs."
         }
       }
     ]
@@ -252,7 +251,7 @@
             <ul class="hero-list">
               <li><span>✓</span> 100% client-side privacy</li>
               <li><span>✓</span> No sign-up or accounts required</li>
-              <li><span>✓</span> Works offline after first load</li>
+              <li><span>✓</span> Fast, lightweight &amp; free</li>
               <li><span>✓</span> Tailored specifically for Nepal</li>
             </ul>
           </div>
@@ -572,8 +571,8 @@
           <div class="why-item"><strong>Works on phone and PC</strong>
             <p>Responsive layout and lightweight pages so tools stay usable on mobile data, older phones, and entry-level computers.</p>
           </div>
-          <div class="why-item"><strong>Offline-friendly</strong>
-            <p>After the first visit, progressive web app (PWA) caching allows most tools to open and function without an active internet connection.</p>
+          <div class="why-item"><strong>Zero-bloat speed</strong>
+            <p>Clean static pages with browser-side execution keep tools snappy on mobile data without sign-ups, trackers, or heavy server round-trips.</p>
           </div>
         </div>
         <div class="prose" style="margin-top:24px">
@@ -661,8 +660,8 @@
             <p>Yes. The <a href="/tools/nepal-map/">Nepal Map</a> tool provides interactive layers for 7 provinces, 77 districts, and all 753 local levels (metropolitan, sub-metropolitan, municipalities, and gaunpalikas). You can search boundaries, inspect details, and upload custom CSV numbers to render color-coded choropleth maps.</p>
           </li>
           <li>
-            <h3>Do PBD tools store my personal data or work offline?</h3>
-            <p>No. Calculations and conversions run entirely inside your browser. No files, dates, numbers, or text inputs are transmitted to or stored on our servers. In addition, the site's progressive web app (PWA) service worker caches resources so tools continue functioning offline after your first visit.</p>
+            <h3>Do PBD tools store my personal data?</h3>
+            <p>No. Calculations and conversions run entirely inside your browser. No files, dates, numbers, or text inputs are transmitted to or stored on our servers.</p>
           </li>
         </ul>
       </div>
@@ -688,7 +687,6 @@
   </div>
 </footer>
   <script src="/assets/menu.js" defer></script>
-  <script src="/assets/pwa.js" defer></script>
 </body>
 
 </html>

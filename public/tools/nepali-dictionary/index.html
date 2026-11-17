@@ -79,10 +79,10 @@
       },
       {
         "@type": "Question",
-        "name": "Does it work offline and keep my searches private?",
+        "name": "Are my dictionary searches private?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. All searches happen locally in your browser using static dictionary chunks. Queries never leave your device, and visited chunks are cached for offline use."
+          "text": "Yes. All lookups happen directly in your browser without sending search queries or search history to any backend server."
         }
       },
       {
@@ -368,35 +368,9 @@
     }
     .pwa-status-wrap { flex: 1 1 240px; min-width: 0; }
     .pwa-status-text { color: var(--muted); font-weight: 500; }
-    .pwa-status-text.ready { color: #0b6e4f; font-weight: 600; }
-    .pwa-progress {
-      width: 100%;
-      height: 6px;
-      background: #e6eff1;
-      border-radius: 999px;
-      overflow: hidden;
-      margin-top: 8px;
-    }
-    .pwa-progress[hidden] { display: none; }
-    .pwa-progress-fill {
-      height: 100%;
-      width: 0%;
-      background: var(--primary);
-      transition: width .2s ease;
-    }
     .pwa-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
     .pwa-actions .btn-sm { min-height: 40px; padding: 7px 14px; font-size: .88rem; }
-    .offline-notice {
-      margin-top: 12px;
-      padding: 10px 14px;
-      border-radius: var(--radius-sm);
-      background: #fff8e6;
-      border: 1px solid #f0d78c;
-      color: #6b4e00;
-      font-size: .9rem;
-      font-weight: 600;
-    }
-    .offline-notice[hidden] { display: none; }
+    .pwa-bar[hidden] { display: none; }
     .install-modal-backdrop {
       position: fixed;
       inset: 0;
@@ -474,21 +448,11 @@
         </div>
       </div>
 
-      <div id="offline-notice" class="offline-notice" hidden>
-        Offline mode — searching cached dictionary data on your device.
-      </div>
-
       <div class="pwa-bar" id="pwa-bar">
         <div class="pwa-status-wrap">
-          <div id="offline-status-text" class="pwa-status-text">Checking offline storage…</div>
-          <div id="offline-progress" class="pwa-progress" hidden>
-            <div id="offline-progress-fill" class="pwa-progress-fill"></div>
-          </div>
+          <div class="pwa-status-text">Install Nepali Dictionary (शब्दकोश) as a standalone app on your device</div>
         </div>
         <div class="pwa-actions">
-          <button type="button" class="btn btn-sm" id="btn-offline-sync">Download offline (~27 MB)</button>
-          <button type="button" class="btn btn-sm" id="btn-offline-cancel" hidden>Cancel</button>
-          <button type="button" class="btn btn-sm" id="btn-offline-clear" hidden>Remove offline copy</button>
           <button type="button" class="btn btn-primary btn-sm" id="btn-install-app">Install app</button>
         </div>
       </div>
@@ -556,8 +520,8 @@
         <p>Yes. If you do not have a Nepali keyboard enabled, type phonetically in English letters such as <code>kiran</code>, <code>gyan</code>, or <code>swatantrata</code> and select from the instant Devanagari candidates or press Enter.</p>
       </details>
       <details class="faq-item">
-        <summary>Does it work offline and keep my searches private?</summary>
-        <p>Completely. Your queries never leave your browser. Only static letter-range JSON chunks are fetched on demand and cached for fast repeat or offline lookups.</p>
+        <summary>Are my dictionary searches private?</summary>
+        <p>Completely. Your queries and recent search history stay inside your browser and are never sent to external tracking servers.</p>
       </details>
       <details class="faq-item">
         <summary>What do abbreviations like ना., वि., क्रि., and [सं.] mean?</summary>

@@ -1,8 +1,31 @@
-/* PBD PWA — service worker + install prompt */
+/* PBD PWA — scoped install prompt + service worker for selected tools */
 (function () {
   var DISMISS_KEY = "pbd-pwa-install-dismissed";
   var DISMISS_MS = 14 * 24 * 60 * 60 * 1000;
 
+  var SELECTED_PWA_TOOLS = [
+    {
+      prefix: "/tools/nepali-dictionary",
+      scope: "/tools/nepali-dictionary/",
+      sw: "/tools/nepali-dictionary/sw.js",
+      iconText: "श",
+      title: "Install Nepali Dictionary",
+      message: "Add Nepali Dictionary to your home screen for quick app-style access.",
+      iosMessage: "On iPhone: tap Share, then “Add to Home Screen” to install Nepali Dictionary.",
+    },
+  ];
+
+  function getSelectedTool() {
+    var path = location.pathname;
+    for (var i = 0; i < SELECTED_PWA_TOOLS.length; i++) {
+      if (path.indexOf(SELECTED_PWA_TOOLS[i].prefix) === 0) {
+        return SELECTED_PWA_TOOLS[i];
+      }
+    }
+    return null;
+  }
+
+  var activeTool = getSelectedTool();
   window.__pbdDeferredInstallPrompt = null;
 
   function isStandalone() {
@@ -71,11 +94,10 @@
       "</div>" +
       '<div class="pbd-ib-body">' +
       "<strong>" +
-      (opts.title || "Install PBD") +
+      (opts.title || "Install app") +
       "</strong>" +
       "<p>" +
-      (opts.message ||
-        "Add to your home screen for faster access and offline tools.") +
+      (opts.message || "Add to your home screen for quick app access.") +
       "</p>" +
       '<div class="pbd-ib-actions"></div>' +
       "</div>";
@@ -105,10 +127,8 @@
     document.body.appendChild(el);
   }
 
-  function setupInstallPrompt() {
-    if (isStandalone()) return;
-
-    var isDictPage = location.pathname.indexOf("/tools/nepali-dictionary") === 0;
+  function setupInstallPrompt(tool) {
+    if (!tool || isStandalone()) return;
 
     window.addEventListener("beforeinstallprompt", function (e) {
       e.preventDefault();
@@ -117,11 +137,9 @@
 
       if (wasDismissed()) return;
       showBanner({
-        iconText: isDictPage ? "श" : "P",
-        title: isDictPage ? "Install Nepali Dictionary" : "Install PBD",
-        message: isDictPage
-          ? "Add Nepali Dictionary to your device for instant offline lookups."
-          : "Install the app for quick access and offline tools.",
+        iconText: tool.iconText,
+        title: tool.title,
+        message: tool.message,
         primaryLabel: "Install",
         onPrimary: function () {
           var banner = document.getElementById("pbd-install-banner");
@@ -150,20 +168,38 @@
         if (wasDismissed() || document.getElementById("pbd-install-banner"))
           return;
         showBanner({
-          iconText: isDictPage ? "श" : "P",
-          title: isDictPage ? "Install Nepali Dictionary" : "Install PBD",
-          message:
-            "On iPhone: tap Share, then “Add to Home Screen” for offline access.",
+          iconText: tool.iconText,
+          title: tool.title,
+          message: tool.iosMessage,
           primaryLabel: null,
         });
       }, 2500);
     }
   }
 
-  function registerSW() {
+  function syncServiceWorkers(tool) {
     if (!("serviceWorker" in navigator)) return;
+
+    // Remove any legacy root-scoped site-wide service worker
+    if (navigator.serviceWorker.getRegistrations) {
+      navigator.serviceWorker
+        .getRegistrations()
+        .then(function (regs) {
+          for (var i = 0; i < regs.length; i++) {
+            var reg = regs[i];
+            var regScope = new URL(reg.scope).pathname;
+            if (regScope === "/" || (!tool && regScope !== "/tools/nepali-dictionary/")) {
+              reg.unregister().catch(function () {});
+            }
+          }
+        })
+        .catch(function () {});
+    }
+
+    if (!tool) return;
+
     navigator.serviceWorker
-      .register("/sw.js", { scope: "/" })
+      .register(tool.sw, { scope: tool.scope })
       .then(function (reg) {
         if (reg.update) {
           setInterval(function () {
@@ -176,13 +212,15 @@
       });
   }
 
-  setupInstallPrompt();
+  if (!activeTool) return;
+
+  setupInstallPrompt(activeTool);
 
   if (document.readyState === "complete") {
-    registerSW();
+    syncServiceWorkers(activeTool);
   } else {
     window.addEventListener("load", function () {
-      registerSW();
+      syncServiceWorkers(activeTool);
     });
   }
 })();

@@ -31,7 +31,7 @@ const ADSENSE_SCRIPT =
   `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}" crossorigin="anonymous"></script>`;
 
 /** Relative paths (from public/) that must not load AdSense */
-const ADSENSE_SKIP = new Set(["offline.html"]);
+const ADSENSE_SKIP = new Set();
 
 /** Canonical brand — keep identical on every page */
 const BRAND = `<a class="brand" href="/" aria-label="Powered By Digital (PBD) — Home"><span class="logo-mark" aria-hidden="true">P</span><span class="brand-text"><span class="brand-name">PBD</span><span class="brand-full">Powered By Digital</span></span></a>`;
@@ -380,7 +380,6 @@ function patchFile(file) {
 }
 
 const ROBOTS_SKIP = new Set([
-  "offline.html",
   "tools/nepal-invoice-generator/index.html",
 ]);
 
