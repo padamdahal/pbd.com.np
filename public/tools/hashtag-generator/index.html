@@ -80,345 +80,171 @@
       },
       {
         "@type": "Question",
-        "name": "How do I get new hashtags?",
+        "name": "How many hashtags should I use?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Change niche or platform and click Generate again. Each click shuffles a fresh set from the curated banks."
+          "text": "For TikTok, 3–5 focused tags usually perform better than a long list. For Instagram, 5–10 relevant tags is a practical range. Quality and relevance beat quantity."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I use these offline?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. The tool runs entirely in your browser. Once the page loads, you can generate and copy hashtags without an internet connection."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How often are the lists updated?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The banks are curated and refreshed when new trends appear (latest: 17 November 2026 – late-Nov seasonal including Black Friday/Cyber Monday prep, rising Christmas decor tags, ongoing NTB-TikTok #VisitNepal campaign, and current viral formats like #vlog #grwm #mukbang). The tool itself stays the same."
         }
       }
     ]
   }
   </script>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/style.css">
-
-  <style>
-    .tool-box {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: var(--s-4);
-      margin-bottom: var(--s-4);
-    }
-    .niche-grid, .platform-grid, .count-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin: 12px 0 16px;
-    }
-    .niche-btn, .platform-btn, .count-btn {
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      color: var(--text);
-      padding: 8px 14px;
-      border-radius: 999px;
-      font-size: 0.92rem;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-    .niche-btn:hover, .platform-btn:hover, .count-btn:hover,
-    .niche-btn.active, .platform-btn.active, .count-btn.active {
-      background: var(--accent);
-      color: #fff;
-      border-color: var(--accent);
-    }
-    .results {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      min-height: 120px;
-      margin: 16px 0;
-    }
-    .tag-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      padding: 6px 12px 6px 14px;
-      border-radius: 999px;
-      font-size: 0.95rem;
-      font-weight: 500;
-    }
-    .tag-chip button {
-      background: transparent;
-      border: none;
-      color: var(--muted);
-      cursor: pointer;
-      font-size: 0.8rem;
-      padding: 2px 6px;
-      border-radius: 6px;
-    }
-    .tag-chip button:hover { background: var(--border); color: var(--text); }
-    .tag-chip button.copied { color: var(--accent); }
-    .actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 12px;
-    }
-    .copy-block {
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px 16px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: 0.92rem;
-      line-height: 1.6;
-      white-space: pre-wrap;
-      word-break: break-all;
-      margin-top: 12px;
-      display: none;
-    }
-    .copy-block.visible { display: block; }
-    .empty {
-      color: var(--muted);
-      text-align: center;
-      padding: 40px 16px;
-    }
-    @media (max-width: 640px) {
-      .niche-btn, .platform-btn, .count-btn { font-size: 0.85rem; padding: 7px 12px; }
-    }
-  </style>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632604868005505" crossorigin="anonymous"></script>
 </head>
 <body>
-  <header class="site-header">
-    <div class="bar">
-      <a class="brand" href="/" aria-label="Powered By Digital (PBD) — Home"><span class="logo-mark" aria-hidden="true">P</span><span class="brand-text"><span class="brand-name">PBD</span><span class="brand-full">Powered By Digital</span></span></a>
-      <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
-      <nav id="menu" class="site-nav" aria-label="Main navigation" role="navigation"><a href="/">Home</a><a href="/tools/">Tools</a><a href="/widgets/">Widgets</a><a href="/guides/">Guides</a><a href="/about/">About</a></nav>
-    </div>
-  </header>
+  <header class="site-header"></header>
 
-  <main class="container" style="padding-top: 32px; padding-bottom: 64px;">
-    <nav class="crumbs" aria-label="Breadcrumb">
-      <a href="/">Home</a> <span>/</span> <a href="/tools/">Tools</a> <span>/</span> <span>Hashtag Generator</span>
-    </nav>
-
-    <h1>Nepali Hashtag Generator</h1>
+  <main class="container">
     <p class="lead">Free curated hashtags for Nepali content creators. Pick a niche and platform, generate a clean set, copy and post. No spam, no signup.</p>
 
-    <div class="tool-box">
-      <div>
-        <strong>Niche</strong>
-        <div class="niche-grid">
-          <button type="button" class="niche-btn active" data-niche="all">All</button>
-          <button type="button" class="niche-btn" data-niche="travel">Travel</button>
-          <button type="button" class="niche-btn" data-niche="food">Food</button>
-          <button type="button" class="niche-btn" data-niche="freelancing">Freelancing</button>
-          <button type="button" class="niche-btn" data-niche="motivation">Motivation</button>
-          <button type="button" class="niche-btn" data-niche="study">Study</button>
-          <button type="button" class="niche-btn" data-niche="festival">Festival</button>
-          <button type="button" class="niche-btn" data-niche="beauty">Beauty</button>
-          <button type="button" class="niche-btn" data-niche="comedy">Comedy</button>
-          <button type="button" class="niche-btn" data-niche="general">General</button>
-        </div>
+    <div class="tool-card">
+      <div class="controls">
+        <label>
+          Niche
+          <select id="niche">
+            <option value="all">All niches</option>
+            <option value="travel">Travel & Trekking</option>
+            <option value="food">Food & Momo</option>
+            <option value="freelancing">Freelancing & Hustle</option>
+            <option value="motivation">Motivation & Quotes</option>
+            <option value="study">Study & Growth</option>
+            <option value="festival">Festival & Culture</option>
+            <option value="beauty">Beauty & Fashion</option>
+            <option value="comedy">Comedy & Relatable</option>
+            <option value="general">General / Viral</option>
+          </select>
+        </label>
+
+        <label>
+          Platform
+          <select id="platform">
+            <option value="all">All platforms</option>
+            <option value="tiktok">TikTok</option>
+            <option value="instagram">Instagram</option>
+            <option value="facebook">Facebook</option>
+          </select>
+        </label>
+
+        <label>
+          Language
+          <select id="lang">
+            <option value="mixed">Mixed (Nepali + English)</option>
+            <option value="english">More English</option>
+            <option value="nepali">More Nepali</option>
+          </select>
+        </label>
+
+        <label>
+          Count
+          <input type="number" id="count" min="5" max="30" value="12">
+        </label>
+
+        <button type="button" id="generate" class="primary">Generate hashtags</button>
+        <button type="button" id="copy" class="secondary" disabled>Copy all</button>
       </div>
 
-      <div>
-        <strong>Platform</strong>
-        <div class="platform-grid">
-          <button type="button" class="platform-btn active" data-platform="all">All</button>
-          <button type="button" class="platform-btn" data-platform="tiktok">TikTok</button>
-          <button type="button" class="platform-btn" data-platform="instagram">Instagram</button>
-          <button type="button" class="platform-btn" data-platform="facebook">Facebook</button>
-        </div>
-      </div>
-
-      <div>
-        <strong>How many?</strong>
-        <div class="count-grid">
-          <button type="button" class="count-btn" data-count="8">8</button>
-          <button type="button" class="count-btn active" data-count="15">15</button>
-          <button type="button" class="count-btn" data-count="20">20</button>
-          <button type="button" class="count-btn" data-count="25">25</button>
-        </div>
-      </div>
-
-      <div class="actions">
-        <button type="button" class="btn" id="btn-generate">Generate hashtags</button>
-        <button type="button" class="btn secondary" id="btn-copy-all" disabled>Copy all</button>
-      </div>
-
-      <div class="results" id="results"></div>
-      <div class="empty" id="empty">Pick a niche and click Generate to get started.</div>
-      <div class="copy-block" id="copy-block"></div>
+      <div id="output" class="output" aria-live="polite"></div>
+      <p id="status" class="status"></p>
     </div>
 
-    <section>
-      <h2>How to use</h2>
-      <ol>
-        <li>Choose a niche (or All).</li>
-        <li>Select platform for better targeting.</li>
-        <li>Pick how many hashtags you want.</li>
-        <li>Click Generate. Copy individual tags or the whole set.</li>
-      </ol>
-    </section>
-
-    <section>
-      <h2>Why these hashtags?</h2>
-      <div class="grid-3">
+    <section class="features">
+      <h2>Why this generator</h2>
+      <div class="feature-grid">
         <div>
           <h3>Curated, not random</h3>
-          <p>Only tags that Nepali creators actually use. No spam, no irrelevant filler.</p>
+          <p>Tags are hand-picked for Nepali creators. No spam lists, no irrelevant viral noise.</p>
         </div>
         <div>
           <h3>Platform-aware</h3>
-          <p>TikTok sets lean on #fyp-style discovery. Instagram sets favour #Reels and explore tags.</p>
+          <p>TikTok sets emphasize discovery tags; Instagram and Facebook sets lean discovery + community.</p>
         </div>
         <div>
-          <h3>Nepali + English</h3>
-          <p>Mixed by default so you reach both local and wider audiences.</p>
+          <h3>Works offline</h3>
+          <p>Once loaded, generate and copy without internet. Perfect for on-the-go posting.</p>
         </div>
       </div>
     </section>
 
     <section class="faq">
-      <h2>Frequently asked questions</h2>
-      <details class="faq-item">
-        <summary>Is this hashtag generator free?</summary>
-        <p>Yes. Completely free. No account required.</p>
-      </details>
-      <details class="faq-item">
-        <summary>Do the hashtags work on TikTok and Instagram?</summary>
-        <p>Yes. Use the platform filter. TikTok sets favour #fyp-style and local viral tags; Instagram sets are longer and better for discovery.</p>
-      </details>
-      <details class="faq-item">
-        <summary>Are there Nepali-language hashtags?</summary>
-        <p>Yes. Sets include both English and Nepali (Unicode) tags that creators actually use.</p>
-      </details>
-      <details class="faq-item">
+      <h2>FAQ</h2>
+      <details>
         <summary>How often are the lists updated?</summary>
-        <p>The banks are curated and refreshed when new trends appear (latest: November 2026, including the #VisitNepal TikTok/NTB campaign and current viral/seasonal tags). The tool itself stays the same.</p>
+        <p>The banks are curated and refreshed when new trends appear (latest: 17 November 2026 – late-Nov seasonal including Black Friday/Cyber Monday prep, rising Christmas decor tags, ongoing NTB-TikTok #VisitNepal campaign, and current viral formats like #vlog #grwm #mukbang). The tool itself stays the same.</p>
       </details>
-    </section>
-
-    <section style="margin-top: var(--s-5);">
-      <h2>Related tools</h2>
-      <p style="color: var(--muted); font-size: 0.95rem;">
-        <a href="/tools/caption-generator/">Nepali Caption Generator</a> ·
-        <a href="/widgets/nepali-proverb/">Nepali Proverb of the Day</a> ·
-        <a href="/tools/nepali-typing/">Nepali Typing</a>
-      </p>
+      <details>
+        <summary>Do I need an account?</summary>
+        <p>No. Completely free, no signup, no login.</p>
+      </details>
     </section>
   </main>
 
-  <footer class="site-footer">
-  <div class="bar footer-bar">
-    <nav id="footer-menu" class="footer-pills" aria-label="Footer"><a href="/tools/nepali-typing/">Nepali Typing</a><a href="/tools/preeti-to-unicode/">Preeti ↔ Unicode</a><a href="/tools/nepali-date-converter/">Nepali Date Converter</a><a href="/tools/today-nepali-date/">Today's Date</a><a href="/tools/nepali-spell-checker/">Spell Checker</a><a href="/tools/number-to-nepali-words/">Number to Words</a><a href="/tools/income-tax-calculator/">Income Tax</a><a href="/tools/nepal-map/">Nepal Map</a></nav>
-    <div class="footer-meta">
-      <p class="footer-copy">© <span id="yr"></span> Powered By Digital (PBD)</p>
-      <nav class="footer-legal" aria-label="Legal"><a href="/about/">About</a><a href="/privacy/">Privacy</a></nav>
-    </div>
-  </div>
-</footer>
+  <footer class="site-footer"></footer>
 
-  <script src="/assets/menu.js"></script>
+  <script src="/js/menu.js"></script>
   <script src="hashtags.js"></script>
   <script>
-  (() => {
-    "use strict";
+    const nicheEl = document.getElementById("niche");
+    const platformEl = document.getElementById("platform");
+    const langEl = document.getElementById("lang");
+    const countEl = document.getElementById("count");
+    const generateBtn = document.getElementById("generate");
+    const copyBtn = document.getElementById("copy");
+    const outputEl = document.getElementById("output");
+    const statusEl = document.getElementById("status");
 
-    const $ = (id) => document.getElementById(id);
-    const results = $("results");
-    const empty = $("empty");
-    const copyBlock = $("copy-block");
-    let currentNiche = "all";
-    let currentPlatform = "all";
-    let currentCount = 15;
     let lastSet = [];
 
-    document.querySelectorAll("[data-niche]").forEach(btn => {
-      btn.addEventListener("click", () => {
-        document.querySelectorAll("[data-niche]").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        currentNiche = btn.dataset.niche;
-      });
-    });
-
-    document.querySelectorAll("[data-platform]").forEach(btn => {
-      btn.addEventListener("click", () => {
-        document.querySelectorAll("[data-platform]").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        currentPlatform = btn.dataset.platform;
-      });
-    });
-
-    document.querySelectorAll("[data-count]").forEach(btn => {
-      btn.addEventListener("click", () => {
-        document.querySelectorAll("[data-count]").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        currentCount = parseInt(btn.dataset.count, 10);
-      });
-    });
-
     function render(list) {
-      lastSet = list;
-      results.innerHTML = "";
-      copyBlock.classList.remove("visible");
-      copyBlock.textContent = "";
       if (!list.length) {
-        empty.hidden = false;
-        empty.textContent = "No hashtags available for this combination.";
+        outputEl.innerHTML = "<p class=\"empty\">No hashtags matched. Try a different niche or language.</p>";
+        copyBtn.disabled = true;
         return;
       }
-      empty.hidden = true;
-      list.forEach((tag) => {
-        const chip = document.createElement("span");
-        chip.className = "tag-chip";
-        chip.appendChild(document.createTextNode(tag + " "));
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.textContent = "Copy";
-        btn.addEventListener("click", () => {
-          navigator.clipboard.writeText(tag).then(() => {
-            btn.textContent = "✓";
-            btn.classList.add("copied");
-            setTimeout(() => {
-              btn.textContent = "Copy";
-              btn.classList.remove("copied");
-            }, 1200);
-          });
-        });
-        chip.appendChild(btn);
-        results.appendChild(chip);
-      });
-      copyBlock.textContent = list.join(" ");
-      copyBlock.classList.add("visible");
+      outputEl.innerHTML = list.map(t => `<span class="tag">${t}</span>`).join("");
+      copyBtn.disabled = false;
+      lastSet = list;
     }
 
-    $("btn-generate").addEventListener("click", () => {
-      if (typeof window.PBD_generateHashtags !== "function") {
-        empty.hidden = false;
-        empty.textContent = "Hashtag data failed to load. Please refresh.";
-        return;
-      }
-      const set = window.PBD_generateHashtags({
-        niche: currentNiche,
-        platform: currentPlatform,
-        count: currentCount,
-        lang: "mixed"
+    generateBtn.addEventListener("click", () => {
+      const list = window.PBD_generateHashtags({
+        niche: nicheEl.value,
+        platform: platformEl.value,
+        count: Number(countEl.value) || 12,
+        lang: langEl.value
       });
-      render(set);
+      render(list);
+      statusEl.textContent = `Generated ${list.length} hashtags.`;
     });
 
-    $("btn-copy-all").addEventListener("click", () => {
+    copyBtn.addEventListener("click", async () => {
       if (!lastSet.length) return;
       const text = lastSet.join("\n");
-      navigator.clipboard.writeText(text).then(() => {
-        const btn = $("btn-copy-all");
-        const old = btn.textContent;
-        btn.textContent = "Copied!";
-        setTimeout(() => { btn.textContent = old; }, 1200);
-      });
+      try {
+        await navigator.clipboard.writeText(text);
+        statusEl.textContent = "Copied to clipboard!";
+        setTimeout(() => { statusEl.textContent = ""; }, 2000);
+      } catch {
+        statusEl.textContent = "Copy failed – select the tags manually.";
+      }
     });
 
-    document.getElementById("yr").textContent = new Date().getFullYear();
-  })();
+    // Initial generate
+    generateBtn.click();
   </script>
 </body>
 </html>
