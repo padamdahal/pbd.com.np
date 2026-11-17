@@ -53,9 +53,10 @@ input:focus,select:focus,button:focus-visible{outline:2px solid var(--primary);o
 .btn-sm{padding:6px 12px;font-size:.85rem}.btn-ghost:hover{background:#eef7f8}
 .hint{color:var(--muted)}.hint.error{color:#b42318}
 .note{color:var(--muted);font-size:.88rem;margin-top:var(--s-5)}
+.ad-label{margin:0 0 6px;font-size:.75rem;font-weight:600;letter-spacing:.04em;color:var(--muted);text-align:center;line-height:1.2}
 
 @media print{
-  .site-header,.site-footer{display:none !important}
+  .ad-label,.site-header,.site-footer{display:none !important}
 }
 
 /* Footer — pill menu + meta bar (copyright left, legal right) */
