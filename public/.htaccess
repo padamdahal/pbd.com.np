@@ -1,0 +1,19 @@
+# 301 Redirects for tools merged into the unified Nepali Date Hub (/tools/nepali-date-converter/)
+# Merged tools:
+#   1. /tools/today-nepali-date/  -> /tools/nepali-date-converter/
+#   2. /tools/nepali-calendar/    -> /tools/nepali-date-converter/#calendar
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Today's Nepali Date -> Nepali Date Hub
+  RewriteRule ^tools/today-nepali-date(?:/(?:index\.html)?)?$ /tools/nepali-date-converter/ [R=301,L,NC]
+
+  # Nepali Calendar (BS) -> Nepali Date Hub (Calendar section)
+  RewriteRule ^tools/nepali-calendar(?:/(?:index\.html)?)?$ /tools/nepali-date-converter/#calendar [R=301,L,NC,NE]
+</IfModule>
+
+<IfModule !mod_rewrite.c>
+  RedirectMatch 301 (?i)^/tools/today-nepali-date(?:/(?:index\.html)?)?$ /tools/nepali-date-converter/
+  RedirectMatch 301 (?i)^/tools/nepali-calendar(?:/(?:index\.html)?)?$ /tools/nepali-date-converter/#calendar
+</IfModule>
