@@ -28,18 +28,11 @@ const TOOLS = [
   },
   {
     href: "/tools/nepali-date-converter/",
-    title: "Nepali Date Converter",
-    desc: "Convert between BS (Bikram Sambat) and AD (Gregorian) dates.",
+    title: "Nepali Date Converter & Calendar",
+    shortTitle: "Nepali Date Converter",
+    desc: "Convert BS ↔ AD dates, check today’s live Nepali date, and browse the interactive BS calendar (2000–2090).",
     category: "Nepali language",
     featured: true,
-    footer: true,
-  },
-  {
-    href: "/tools/today-nepali-date/",
-    title: "Today’s Nepali Date",
-    shortTitle: "Today's Date",
-    desc: "See today’s date in Bikram Sambat with day name and tithi.",
-    category: "Nepali language",
     footer: true,
   },
   {
@@ -47,13 +40,6 @@ const TOOLS = [
     title: "BS Age Calculator",
     desc: "Calculate age from Bikram Sambat birth date. Years, months, days.",
     category: "Nepali language",
-  },
-  {
-    href: "/tools/nepali-calendar/",
-    title: "Nepali Calendar (BS)",
-    desc: "Interactive Bikram Sambat month view. Click to copy ISO date or drag onto form fields.",
-    category: "Nepali language",
-    featured: true,
   },
   {
     href: "/tools/nepali-spell-checker/",

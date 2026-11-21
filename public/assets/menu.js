@@ -21,7 +21,6 @@
     { href: "/tools/income-tax-calculator/", label: "Income Tax" },
     { href: "/tools/number-to-nepali-words/", label: "Number to Words" },
     { href: "/tools/nepal-map/", label: "Nepal Map" },
-    { href: "/tools/today-nepali-date/", label: "Today's Date" },
     { href: "/tools/nepali-spell-checker/", label: "Spell Checker" },
   ];
 
