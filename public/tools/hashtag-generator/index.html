@@ -1,1 +1,312 @@
-PLACEHOLDER
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b7285">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>Nepali Hashtag Generator – Free for TikTok, Instagram & Facebook | Powered By Digital</title>
+  <meta name="description" content="Free Nepali hashtag generator for TikTok, Instagram and Facebook. Get curated, non-spammy hashtags by niche – travel, food, freelancing, motivation and more. Copy instantly, works offline.">
+  <link rel="canonical" href="https://pbd.com.np/tools/hashtag-generator/">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://pbd.com.np/tools/hashtag-generator/">
+  <meta property="og:title" content="Nepali Hashtag Generator – Free for TikTok, Instagram & Facebook">
+  <meta property="og:description" content="Free curated hashtags for Nepali creators. Travel, food, freelancing, motivation and more. Platform-aware sets.">
+  <meta property="og:site_name" content="Powered By Digital">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Nepali Hashtag Generator">
+  <meta name="twitter:description" content="Free curated Nepali + English hashtags by niche. Copy and post.">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Nepali Hashtag Generator",
+    "url": "https://pbd.com.np/tools/hashtag-generator/",
+    "description": "Free curated hashtag generator for Nepali content creators. Get relevant hashtags for TikTok, Instagram and Facebook by niche – travel, food, freelancing, motivation and more.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "NPR"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "Powered By Digital",
+      "url": "https://pbd.com.np"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Is this hashtag generator free?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Completely free. No signup or login required. Generate and copy as many sets as you need."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do the hashtags work on TikTok and Instagram?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Choose the platform filter for better-targeted sets. TikTok sets lean toward fewer viral tags; Instagram sets are longer and more discovery-focused."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are the hashtags in Nepali?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Mixed by default – both Nepali (Unicode) and English hashtags that Nepali creators actually use. You can prefer more Nepali or more English."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I get new hashtags?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Change niche or platform and click Generate again. Each click shuffles a fresh set from the curated banks."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+
+  <style>
+    .tool-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--s-4);
+      margin-bottom: var(--s-4);
+    }
+    .niche-grid, .platform-grid, .count-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 12px 0 16px;
+    }
+    .niche-btn, .platform-btn, .count-btn {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 0.92rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .niche-btn.active, .platform-btn.active, .count-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .result-box {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--s-3);
+      min-height: 120px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .btn-primary, .btn-secondary {
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      font-size: 0.95rem;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-secondary {
+      background: var(--surface-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .faq-item {
+      margin-bottom: 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .faq-item summary {
+      padding: 12px 14px;
+      cursor: pointer;
+      font-weight: 600;
+      background: var(--surface-2);
+    }
+    .faq-item p {
+      padding: 12px 14px;
+      margin: 0;
+      background: var(--surface);
+    }
+  </style>
+</head>
+<body>
+  <!-- builder injects header/nav -->
+  <main class="container" style="padding-top: var(--s-5); padding-bottom: var(--s-6);">
+    <h1>Nepali Hashtag Generator</h1>
+    <p class="lead">Free curated hashtags for Nepali content creators. Pick a niche and platform, generate a clean set, copy and post. No spam, no signup.</p>
+
+    <div class="tool-box">
+      <label style="font-weight:600;display:block;margin-bottom:6px;">Niche</label>
+      <div class="niche-grid" id="nicheGrid">
+        <button type="button" class="niche-btn active" data-niche="all">All</button>
+        <button type="button" class="niche-btn" data-niche="travel">Travel & Trekking</button>
+        <button type="button" class="niche-btn" data-niche="food">Food & Momo</button>
+        <button type="button" class="niche-btn" data-niche="freelancing">Freelancing & Hustle</button>
+        <button type="button" class="niche-btn" data-niche="motivation">Motivation</button>
+        <button type="button" class="niche-btn" data-niche="study">Study & Growth</button>
+        <button type="button" class="niche-btn" data-niche="festival">Festival & Culture</button>
+        <button type="button" class="niche-btn" data-niche="beauty">Beauty & Fashion</button>
+        <button type="button" class="niche-btn" data-niche="comedy">Comedy & Relatable</button>
+        <button type="button" class="niche-btn" data-niche="general">General / Viral</button>
+      </div>
+
+      <label style="font-weight:600;display:block;margin-bottom:6px;">Platform</label>
+      <div class="platform-grid" id="platformGrid">
+        <button type="button" class="platform-btn active" data-platform="all">All</button>
+        <button type="button" class="platform-btn" data-platform="tiktok">TikTok</button>
+        <button type="button" class="platform-btn" data-platform="instagram">Instagram</button>
+        <button type="button" class="platform-btn" data-platform="facebook">Facebook</button>
+      </div>
+
+      <label style="font-weight:600;display:block;margin-bottom:6px;">Count</label>
+      <div class="count-grid" id="countGrid">
+        <button type="button" class="count-btn" data-count="8">8</button>
+        <button type="button" class="count-btn active" data-count="15">15</button>
+        <button type="button" class="count-btn" data-count="20">20</button>
+        <button type="button" class="count-btn" data-count="25">25</button>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="btn-primary" id="generateBtn">Generate hashtags</button>
+        <button type="button" class="btn-secondary" id="copyBtn">Copy all</button>
+      </div>
+
+      <div style="margin-top:16px;">
+        <div class="result-box" id="resultBox" aria-live="polite">Click Generate to get a curated set of hashtags.</div>
+      </div>
+    </div>
+
+    <section style="margin-top: var(--s-5);">
+      <h2>How to use</h2>
+      <ol>
+        <li>Pick a niche that matches your content (or All).</li>
+        <li>Optionally choose TikTok, Instagram or Facebook for platform-tuned tags.</li>
+        <li>Hit Generate. Click again for a fresh shuffle.</li>
+        <li>Copy and paste into your caption or first comment.</li>
+      </ol>
+      <p>Tip: 3–5 highly relevant hashtags usually perform better than long lists of generic tags.</p>
+    </section>
+
+    <section style="margin-top: var(--s-5);">
+      <h2>FAQ</h2>
+      <details class="faq-item">
+        <summary>Is this free?</summary>
+        <p>Yes. Completely free, no signup, works offline after first load.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Are there Nepali-language hashtags?</summary>
+        <p>Yes. Sets include both English and Nepali (Unicode) tags that creators actually use.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How often are the lists updated?</summary>
+        <p>The banks are curated and refreshed when new trends appear (latest: 22 November 2026 – late-Nov holiday shopping season with Black Friday / Cyber Monday / Christmas tags, plus ongoing formats like #grwm, #vlog and #VisitNepal). The tool itself stays the same.</p>
+      </details>
+    </section>
+
+    <section style="margin-top: var(--s-5);">
+      <p style="font-size:0.9rem;color:var(--muted);">Powered By Digital · <a href="/">Home</a> · <a href="/tools/">All tools</a></p>
+      <p style="font-size:0.85rem;color:var(--muted);">&copy; <span id="yr"></span> Powered By Digital</p>
+    </section>
+  </main>
+
+  <script src="/tools/hashtag-generator/hashtags.js"></script>
+  <script>
+  (function () {
+    let niche = "all";
+    let platform = "all";
+    let count = 15;
+    let lastSet = [];
+
+    const nicheGrid = document.getElementById("nicheGrid");
+    const platformGrid = document.getElementById("platformGrid");
+    const countGrid = document.getElementById("countGrid");
+    const resultBox = document.getElementById("resultBox");
+    const generateBtn = document.getElementById("generateBtn");
+    const copyBtn = document.getElementById("copyBtn");
+
+    nicheGrid.addEventListener("click", (e) => {
+      const btn = e.target.closest(".niche-btn");
+      if (!btn) return;
+      nicheGrid.querySelectorAll(".niche-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      niche = btn.dataset.niche;
+    });
+    platformGrid.addEventListener("click", (e) => {
+      const btn = e.target.closest(".platform-btn");
+      if (!btn) return;
+      platformGrid.querySelectorAll(".platform-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      platform = btn.dataset.platform;
+    });
+    countGrid.addEventListener("click", (e) => {
+      const btn = e.target.closest(".count-btn");
+      if (!btn) return;
+      countGrid.querySelectorAll(".count-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      count = parseInt(btn.dataset.count, 10);
+    });
+
+    generateBtn.addEventListener("click", () => {
+      if (typeof window.PBD_generateHashtags !== "function") {
+        resultBox.textContent = "Hashtag data failed to load. Please refresh.";
+        return;
+      }
+      const list = window.PBD_generateHashtags({ niche, platform, count });
+      lastSet = list;
+      resultBox.textContent = list.join(" ");
+    });
+
+    copyBtn.addEventListener("click", async () => {
+      if (!lastSet.length) return;
+      const text = lastSet.join("\n");
+      try {
+        await navigator.clipboard.writeText(text);
+        copyBtn.textContent = "Copied!";
+        setTimeout(() => { copyBtn.textContent = "Copy all"; }, 1500);
+      } catch (err) {
+        resultBox.textContent = text;
+      }
+    });
+
+    document.getElementById("yr").textContent = new Date().getFullYear();
+  })();
+  </script>
+</body>
+</html>
