@@ -1,37 +1,38 @@
 /**
- * builder.cjs — injects static site chrome and catalog cards at build time.
+ * builder.cjs — compiles src/ into a clean, minified public/ directory.
  * Run:  node builder.cjs
  *
  * Single source of truth for:
- *   - Logo mark + site title (PBD / Powered By Digital)
- *   - Top nav links
- *   - Footer pills (from catalog footer:true) + copyright / legal
- *   - Tools / Widgets / Guides catalog cards (index pages)
- *   - Homepage featured tools / widgets / guides grids
- *   - AdSense script presence (check + fix mode)
- *
- * Source HTML pages should keep only structural placeholders:
- *   <header class="site-header"><div class="bar"></div></header>
- *   <main id="tools|widgets|guides">…</main>   (catalog pages only)
- *   <div class="tool-grid" data-builder="featured-tools|featured-widgets|featured-guides"></div>
- *   <footer class="site-footer"></footer>
- *
- * AdSense: builder ensures the canonical client script is in <head> on every
- * page except the skip list (offline.html). Missing or broken tags are fixed.
+ *   - Reading unminified authored source from src/ (never mutating src/)
+ *   - Cleanly wiping and rebuilding public/ on every run
+ *   - Injecting canonical header, footer, catalog pages, featured grids,
+ *     robots/canonical tags, and AdSense loader
+ *   - Zero-dependency minification of HTML, CSS, JS, inline <style>/<script>,
+ *     and JSON-LD blocks
+ *   - Fail-fast Node vm.Script & JSON.parse verification gate on all minified
+ *     JS and JSON-LD output
+ *   - Generating public/sitemap.xml
  */
 
 const fs = require("fs");
 const path = require("path");
+const vm = require("vm");
 
-const ROOT = path.join(__dirname, "public");
+const SRC_ROOT = path.join(__dirname, "src");
+const OUT_ROOT = path.join(__dirname, "public");
 
 /** Google AdSense publisher client — keep identical on every monetized page */
 const ADSENSE_CLIENT = "ca-pub-6632604868005505";
 const ADSENSE_SCRIPT =
   `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}" crossorigin="anonymous"></script>`;
 
-/** Relative paths (from public/) that must not load AdSense */
+/** Relative paths (from src/) that must not load AdSense */
 const ADSENSE_SKIP = new Set();
+
+/** Relative paths (from src/) skipped for robots/canonical auto-injection */
+const ROBOTS_SKIP = new Set([
+  "tools/nepal-invoice-generator/index.html",
+]);
 
 /** Canonical brand — keep identical on every page */
 const BRAND = `<a class="brand" href="/" aria-label="Powered By Digital (PBD) — Home"><span class="logo-mark" aria-hidden="true">P</span><span class="brand-text"><span class="brand-name">PBD</span><span class="brand-full">Powered By Digital</span></span></a>`;
@@ -40,14 +41,11 @@ const NAV_TOGGLE = `<button type="button" id="nav-toggle" class="nav-toggle" ari
 
 const HEADER_NAV = `<nav id="menu" class="site-nav" aria-label="Main navigation" role="navigation"><a href="/">Home</a><a href="/tools/">Tools</a><a href="/widgets/">Widgets</a><a href="/guides/">Guides</a><a href="/about/">About</a></nav>`;
 
-/** Full header bar contents (brand + toggle + nav) */
-const HEADER_BAR_INNER = `${BRAND}
-      ${NAV_TOGGLE}
-      ${HEADER_NAV}`;
-
 const HEADER_BLOCK = `<header class="site-header">
     <div class="bar">
-      ${HEADER_BAR_INNER}
+      ${BRAND}
+      ${NAV_TOGGLE}
+      ${HEADER_NAV}
     </div>
   </header>`;
 
@@ -164,12 +162,12 @@ ${cards}
   </main>`;
 }
 
-function walk(dir, out = []) {
+function walkAll(dir, out = []) {
   for (const name of fs.readdirSync(dir)) {
     const full = path.join(dir, name);
     const st = fs.statSync(full);
-    if (st.isDirectory()) walk(full, out);
-    else if (name === "index.html" || name.endsWith(".html")) out.push(full);
+    if (st.isDirectory()) walkAll(full, out);
+    else if (st.isFile()) out.push(full);
   }
   return out;
 }
@@ -246,18 +244,12 @@ function injectFeaturedByHeading(html, heading, items) {
   return replaceBalancedToolGridAfter(html, pos, items);
 }
 
-/** True when the file looks like a real HTML document (not a stub/placeholder). */
 function isRealHtml(html) {
   return /<html\b/i.test(html) || /<head\b/i.test(html);
 }
 
-/**
- * AdSense status for a page.
- * @returns {"skip"|"ok"|"broken"|"missing"}
- */
 function detectAdSense(html, rel) {
   if (ADSENSE_SKIP.has(rel)) return "skip";
-  // Non-HTML stubs (e.g. "PLACEHOLDER") — do not touch
   if (!isRealHtml(html)) return "skip";
 
   const hasClient = html.includes(ADSENSE_CLIENT);
@@ -270,19 +262,12 @@ function detectAdSense(html, rel) {
   return "missing";
 }
 
-/**
- * Ensure canonical AdSense script is present in <head>.
- * Replaces broken adsbygoogle loader tags; injects when missing.
- * Only operates on real HTML documents.
- * @returns {{ html: string, status: string, fixed: boolean }}
- */
 function ensureAdSense(html, rel) {
   const status = detectAdSense(html, rel);
   if (status === "skip" || status === "ok") {
     return { html, status, fixed: false };
   }
 
-  // Remove any existing adsbygoogle / pagead loader scripts (broken or partial)
   let next = html.replace(
     /<script\b[^>]*\bsrc=["'][^"']*adsbygoogle\.js[^"']*["'][^>]*>\s*<\/script>/gi,
     ""
@@ -291,7 +276,6 @@ function ensureAdSense(html, rel) {
     /<script\b[^>]*\bsrc=["'][^"']*pagead2\.googlesyndication\.com[^"']*["'][^>]*>\s*<\/script>/gi,
     ""
   );
-  // Also strip self-closing or unclosed variants that only have the opening tag
   next = next.replace(
     /<script\b[^>]*\bsrc=["'][^"']*(?:adsbygoogle\.js|pagead2\.googlesyndication\.com)[^"']*["'][^>]*\/?>/gi,
     ""
@@ -302,17 +286,630 @@ function ensureAdSense(html, rel) {
   } else if (/<head\b[^>]*>/i.test(next)) {
     next = next.replace(/<head\b[^>]*>/i, (m) => `${m}\n  ${ADSENSE_SCRIPT}`);
   } else {
-    // Real HTML but no head tag — leave unchanged, report as broken
     return { html, status: "broken", fixed: false };
   }
 
   return { html: next, status, fixed: true };
 }
 
-function patchFile(file) {
-  let html = fs.readFileSync(file, "utf8");
-  const before = html;
-  const rel = path.relative(ROOT, file).replace(/\\/g, "/");
+function ensureRobotsMeta(html, rel) {
+  if (ROBOTS_SKIP.has(rel) || !isRealHtml(html)) return html;
+  if (/<meta\s+name=["']robots["']/i.test(html)) return html;
+  const tag = '  <meta name="robots" content="index, follow, max-image-preview:large">\n';
+  if (/<\/title>/i.test(html)) {
+    return html.replace(/<\/title>/i, `</title>\n${tag}`);
+  }
+  if (/<head\b[^>]*>/i.test(html)) {
+    return html.replace(/<head\b[^>]*>/i, (m) => `${m}\n${tag}`);
+  }
+  return html;
+}
+
+function ensureCanonical(html, rel) {
+  if (ROBOTS_SKIP.has(rel) || !isRealHtml(html)) return html;
+  if (/<link\s+rel=["']canonical["']/i.test(html)) return html;
+  let canonicalPath = rel.replace(/index\.html$/i, "");
+  if (canonicalPath && !canonicalPath.endsWith("/")) canonicalPath += "/";
+  const tag = `  <link rel="canonical" href="https://pbd.com.np/${canonicalPath}">\n`;
+  if (/<\/title>/i.test(html)) {
+    return html.replace(/<\/title>/i, `</title>\n${tag}`);
+  }
+  if (/<head\b[^>]*>/i.test(html)) {
+    return html.replace(/<head\b[^>]*>/i, (m) => `${m}\n${tag}`);
+  }
+  return html;
+}
+
+/* ========================================================================== *
+ * Zero-Dependency Minifiers (CSS, JS Lexer, Protected-Block HTML + JSON-LD)  *
+ * ========================================================================== */
+
+/**
+ * Calc-safe, string-safe, url()-safe CSS minifier.
+ * Strips comments and redundant whitespace while preserving spaces inside
+ * strings, url(...), calc(...) math operators, and media query keywords.
+ */
+function minifyCss(css) {
+  if (!css) return "";
+  let out = "";
+  let i = 0;
+  const len = css.length;
+  let pendingSpace = false;
+
+  const isSpace = (c) => c === " " || c === "\t" || c === "\n" || c === "\r" || c === "\f";
+  const lastOut = () => (out.length ? out[out.length - 1] : "");
+
+  while (i < len) {
+    const ch = css[i];
+
+    // Block comments /* ... */
+    if (ch === "/" && css[i + 1] === "*") {
+      i += 2;
+      while (i < len && !(css[i] === "*" && css[i + 1] === "/")) i++;
+      i += 2;
+      continue;
+    }
+
+    // Quoted strings '...' or "..."
+    if (ch === '"' || ch === "'") {
+      if (pendingSpace) {
+        const prev = lastOut();
+        if (prev && !"{};,:(".includes(prev)) out += " ";
+        pendingSpace = false;
+      }
+      const quote = ch;
+      out += ch;
+      i++;
+      while (i < len) {
+        const c = css[i];
+        out += c;
+        i++;
+        if (c === "\\" && i < len) {
+          out += css[i];
+          i++;
+        } else if (c === quote) {
+          break;
+        }
+      }
+      continue;
+    }
+
+    // url(...) — preserve inner URL verbatim
+    if (
+      (ch === "u" || ch === "U") &&
+      css.slice(i, i + 4).toLowerCase() === "url("
+    ) {
+      if (pendingSpace) {
+        const prev = lastOut();
+        if (prev && !"{};,:(".includes(prev)) out += " ";
+        pendingSpace = false;
+      }
+      out += "url(";
+      i += 4;
+      while (i < len && isSpace(css[i])) i++;
+      if (css[i] === '"' || css[i] === "'") {
+        const q = css[i];
+        out += q;
+        i++;
+        while (i < len) {
+          const c = css[i];
+          out += c;
+          i++;
+          if (c === "\\" && i < len) {
+            out += css[i];
+            i++;
+          } else if (c === q) {
+            break;
+          }
+        }
+        while (i < len && isSpace(css[i])) i++;
+        if (css[i] === ")") {
+          out += ")";
+          i++;
+        }
+      } else {
+        let rawUrl = "";
+        while (i < len && css[i] !== ")") {
+          rawUrl += css[i];
+          i++;
+        }
+        out += rawUrl.trim();
+        if (css[i] === ")") {
+          out += ")";
+          i++;
+        }
+      }
+      continue;
+    }
+
+    // Whitespace runs
+    if (isSpace(ch)) {
+      pendingSpace = true;
+      while (i < len && isSpace(css[i])) i++;
+      continue;
+    }
+
+    // Structural punctuation where surrounding/preceding spaces are safely removable
+    if (ch === "{" || ch === "}" || ch === ";" || ch === ",") {
+      pendingSpace = false;
+      // Drop redundant semicolon right before '}'
+      if (ch === "}" && lastOut() === ";") {
+        out = out.slice(0, -1);
+      }
+      out += ch;
+      i++;
+      continue;
+    }
+
+    if (ch === ")") {
+      pendingSpace = false;
+      out += ch;
+      i++;
+      continue;
+    }
+
+    if (ch === "(") {
+      // Preserve space before '(' after media/supports keywords like `and (`, `not (`, `or (`
+      if (pendingSpace) {
+        const prev = lastOut();
+        if (prev && /[A-Za-z0-9_-]/.test(prev)) out += " ";
+        pendingSpace = false;
+      }
+      out += ch;
+      i++;
+      continue;
+    }
+
+    if (ch === ":") {
+      // Keep space before ':' if it might be a descendant pseudo-selector (e.g. `div :focus`)
+      if (pendingSpace) {
+        const prev = lastOut();
+        if (prev && /[A-Za-z0-9_.*\]\)]/.test(prev)) {
+          // Only keep space if we're likely in a selector (last '{' or '}' or ';' check)
+          const lastOpen = out.lastIndexOf("{");
+          const lastClose = out.lastIndexOf("}");
+          const inBlock = lastOpen > lastClose;
+          if (!inBlock) out += " ";
+        }
+        pendingSpace = false;
+      }
+      out += ch;
+      i++;
+      continue;
+    }
+
+    if (pendingSpace) {
+      const prev = lastOut();
+      if (prev && !"{};,:(".includes(prev)) {
+        out += " ";
+      }
+      pendingSpace = false;
+    }
+
+    out += ch;
+    i++;
+  }
+
+  return out.trim();
+}
+
+/* ---- Lexer-Driven, Regex/Template/ASI-Safe JavaScript Minifier ---- */
+
+const JS_REGEX_PRECEDING_KW = new Set([
+  "return", "case", "throw", "typeof", "void", "delete",
+  "in", "instanceof", "new", "of", "else", "do", "yield", "await",
+]);
+
+const JS_NO_ASI_AFTER_PUNCT = new Set([
+  "(", "[", "{", ",", ";", ":", "?", "=",
+  "==", "!=", "===", "!==", "<", ">", "<=", ">=",
+  "&&", "||", "??", "=>", ".", "?.",
+  "+", "-", "*", "/", "%", "**",
+  "&", "|", "^", "~", "!",
+  "+=", "-=", "*=", "/=", "%=", "**=",
+  "<<", ">>", ">>>", "<<=", ">>=", ">>>=",
+  "&=", "|=", "^=", "&&=", "||=", "??=", "...",
+]);
+
+const JS_RESTRICTED_NEWLINE_KW = new Set([
+  "return", "throw", "break", "continue", "yield",
+]);
+
+const JS_MULTI_OPS = [
+  ">>>=", "===", "!==", ">>>", "**=", "&&=", "||=", "??=", "<<=", ">>=", "...",
+  "==", "!=", "<=", ">=", "&&", "||", "??", "=>", "++", "--", "**",
+  "<<", ">>", "+=", "-=", "*=", "/=", "%=", "&=", "|=", "^=", "?.",
+];
+
+function isJsWordChar(ch) {
+  if (!ch) return false;
+  const code = ch.charCodeAt(0);
+  return (
+    (code >= 48 && code <= 57) || // 0-9
+    (code >= 65 && code <= 90) || // A-Z
+    (code >= 97 && code <= 122) || // a-z
+    code === 36 || // $
+    code === 95 || // _
+    code > 127 // Unicode identifiers
+  );
+}
+
+function canPrecedeRegex(prev) {
+  if (!prev) return true;
+  if (prev.type === "ident" && JS_REGEX_PRECEDING_KW.has(prev.value)) return true;
+  if (prev.type === "punct") {
+    return (
+      prev.value !== ")" &&
+      prev.value !== "]" &&
+      prev.value !== "++" &&
+      prev.value !== "--"
+    );
+  }
+  return false;
+}
+
+/**
+ * Tokenizes JS cleanly (handling strings, nested template literals, regexes,
+ * line/block comments) and re-emits compact, ASI-safe JavaScript.
+ */
+function minifyJsCore(code) {
+  const len = code.length;
+  let i = 0;
+  let out = "";
+  let prev = null; // { type, value }
+  let hadNewline = false;
+  // Stack tracking `${ ... }` brace nesting inside template literals
+  const tplBraceStack = [];
+
+  function emit(tok) {
+    if (prev) {
+      let sep = "";
+      const pVal = prev.value;
+      const cVal = tok.value;
+
+      if (hadNewline) {
+        const mustKeepNewline =
+          (prev.type === "ident" && JS_RESTRICTED_NEWLINE_KW.has(pVal)) ||
+          (cVal === "++" || cVal === "--") ||
+          !(
+            (prev.type === "punct" && JS_NO_ASI_AFTER_PUNCT.has(pVal)) ||
+            (tok.type === "punct" && (cVal === "}" || cVal === ")" || cVal === "]" || cVal === "," || cVal === ";" || cVal === "."))
+          );
+        if (mustKeepNewline) {
+          sep = "\n";
+        }
+      }
+
+      if (!sep) {
+        const pLast = pVal[pVal.length - 1];
+        const cFirst = cVal[0];
+        if (
+          (isJsWordChar(pLast) && isJsWordChar(cFirst)) ||
+          (pLast === "+" && cFirst === "+") ||
+          (pLast === "-" && cFirst === "-") ||
+          (pLast === "/" && (cFirst === "/" || cFirst === "*")) ||
+          (pLast === "<" && cVal === "!--") ||
+          (pVal === "--" && cFirst === ">")
+        ) {
+          sep = " ";
+        }
+      }
+
+      out += sep;
+    }
+
+    out += tok.value;
+    prev = tok;
+    hadNewline = false;
+  }
+
+  function scanTemplateChunk(startChar) {
+    let raw = startChar;
+    while (i < len) {
+      const c = code[i];
+      if (c === "\\") {
+        raw += c;
+        i++;
+        if (i < len) {
+          raw += code[i];
+          i++;
+        }
+      } else if (c === "`") {
+        raw += "`";
+        i++;
+        return { text: raw, opensExpr: false };
+      } else if (c === "$" && code[i + 1] === "{") {
+        raw += "${";
+        i += 2;
+        return { text: raw, opensExpr: true };
+      } else {
+        raw += c;
+        i++;
+      }
+    }
+    return { text: raw, opensExpr: false };
+  }
+
+  while (i < len) {
+    const ch = code[i];
+
+    // Whitespace
+    if (ch === " " || ch === "\t" || ch === "\f" || ch === "\v" || ch === "\uFEFF") {
+      i++;
+      continue;
+    }
+    if (ch === "\r" || ch === "\n" || ch === "\u2028" || ch === "\u2029") {
+      hadNewline = true;
+      i++;
+      continue;
+    }
+
+    // Line comment //
+    if (ch === "/" && code[i + 1] === "/") {
+      i += 2;
+      while (i < len && code[i] !== "\n" && code[i] !== "\r" && code[i] !== "\u2028" && code[i] !== "\u2029") {
+        i++;
+      }
+      continue;
+    }
+
+    // Block comment /* ... */
+    if (ch === "/" && code[i + 1] === "*") {
+      i += 2;
+      while (i < len && !(code[i] === "*" && code[i + 1] === "/")) {
+        if (code[i] === "\n" || code[i] === "\r") hadNewline = true;
+        i++;
+      }
+      i += 2;
+      continue;
+    }
+
+    // String literal '...' or "..."
+    if (ch === "'" || ch === '"') {
+      const quote = ch;
+      let val = ch;
+      i++;
+      while (i < len) {
+        const c = code[i];
+        val += c;
+        i++;
+        if (c === "\\" && i < len) {
+          val += code[i];
+          i++;
+        } else if (c === quote) {
+          break;
+        }
+      }
+      emit({ type: "string", value: val });
+      continue;
+    }
+
+    // Template literal `...`
+    if (ch === "`") {
+      i++;
+      const chunk = scanTemplateChunk("`");
+      if (chunk.opensExpr) {
+        emit({ type: "punct", value: chunk.text });
+        tplBraceStack.push(0);
+      } else {
+        emit({ type: "template", value: chunk.text });
+      }
+      continue;
+    }
+
+    // Track braces when inside a template literal `${ ... }`
+    if (ch === "{" && tplBraceStack.length > 0) {
+      tplBraceStack[tplBraceStack.length - 1]++;
+      emit({ type: "punct", value: "{" });
+      i++;
+      continue;
+    }
+    if (ch === "}" && tplBraceStack.length > 0) {
+      if (tplBraceStack[tplBraceStack.length - 1] === 0) {
+        tplBraceStack.pop();
+        i++;
+        const chunk = scanTemplateChunk("}");
+        out += chunk.text;
+        hadNewline = false;
+        if (chunk.opensExpr) {
+          prev = { type: "punct", value: "${" };
+          tplBraceStack.push(0);
+        } else {
+          prev = { type: "template", value: chunk.text };
+        }
+        continue;
+      } else {
+        tplBraceStack[tplBraceStack.length - 1]--;
+        emit({ type: "punct", value: "}" });
+        i++;
+        continue;
+      }
+    }
+
+    // Regex literal /pattern/flags
+    if (ch === "/" && canPrecedeRegex(prev)) {
+      let val = "/";
+      i++;
+      let inClass = false;
+      while (i < len) {
+        const c = code[i];
+        val += c;
+        i++;
+        if (c === "\\" && i < len) {
+          val += code[i];
+          i++;
+        } else if (c === "[") {
+          inClass = true;
+        } else if (c === "]") {
+          inClass = false;
+        } else if (c === "/" && !inClass) {
+          break;
+        }
+      }
+      while (i < len && /[a-zA-Z]/.test(code[i])) {
+        val += code[i];
+        i++;
+      }
+      emit({ type: "regex", value: val });
+      continue;
+    }
+
+    // Numbers (including hex, binary, scientific notation like 1e-5, decimals)
+    if (
+      (ch >= "0" && ch <= "9") ||
+      (ch === "." && code[i + 1] >= "0" && code[i + 1] <= "9")
+    ) {
+      let val = "";
+      if (ch === "0" && (code[i + 1] === "x" || code[i + 1] === "X" || code[i + 1] === "b" || code[i + 1] === "B" || code[i + 1] === "o" || code[i + 1] === "O")) {
+        val += code[i] + code[i + 1];
+        i += 2;
+        while (i < len && /[0-9a-fA-F_n]/.test(code[i])) {
+          val += code[i++];
+        }
+      } else {
+        while (i < len && /[0-9_.]/.test(code[i])) {
+          val += code[i++];
+        }
+        if (i < len && (code[i] === "e" || code[i] === "E")) {
+          val += code[i++];
+          if (i < len && (code[i] === "+" || code[i] === "-")) val += code[i++];
+          while (i < len && /[0-9_]/.test(code[i])) val += code[i++];
+        }
+        if (i < len && code[i] === "n") val += code[i++];
+      }
+      emit({ type: "number", value: val });
+      continue;
+    }
+
+    // Identifiers / keywords
+    if (isJsWordChar(ch)) {
+      let val = "";
+      while (i < len && isJsWordChar(code[i])) {
+        val += code[i++];
+      }
+      emit({ type: "ident", value: val });
+      continue;
+    }
+
+    // Multi-char operators
+    let matchedOp = null;
+    for (let k = 0; k < JS_MULTI_OPS.length; k++) {
+      const op = JS_MULTI_OPS[k];
+      if (code.startsWith(op, i)) {
+        matchedOp = op;
+        break;
+      }
+    }
+    if (matchedOp) {
+      emit({ type: "punct", value: matchedOp });
+      i += matchedOp.length;
+      continue;
+    }
+
+    // Single-char punctuation
+    emit({ type: "punct", value: ch });
+    i++;
+  }
+
+  return out;
+}
+
+const verificationStats = { jsValidated: 0, jsonLdValidated: 0 };
+
+function minifyJs(code, label) {
+  if (!code || !code.trim()) return "";
+  const minified = minifyJsCore(code);
+  try {
+    new vm.Script(minified, { filename: label });
+    verificationStats.jsValidated++;
+  } catch (err) {
+    throw new Error(`JS syntax verification failed after minifying ${label}: ${err.message}`);
+  }
+  return minified;
+}
+
+const HTML_BLOCK_TAGS =
+  "(?:html|head|body|meta|link|title|base|header|footer|main|nav|section|article|aside|div|p|ul|ol|li|table|thead|tbody|tfoot|tr|th|td|caption|colgroup|col|h[1-6]|form|fieldset|legend|details|summary|hr|br|option|select|optgroup|script|style|noscript|figure|figcaption|blockquote|dl|dt|dd|template)";
+const RE_SPACE_BEFORE_BLOCK = new RegExp(`>\\s+(?=<\\/?${HTML_BLOCK_TAGS}\\b)`, "gi");
+const RE_SPACE_AFTER_BLOCK = new RegExp(`(<\\/?${HTML_BLOCK_TAGS}\\b[^>]*>)\\s+(?=<)`, "gi");
+
+/**
+ * Protected-block HTML minifier:
+ * - Preserves <pre>, <textarea>, <code> verbatim
+ * - Minifies inline <style>, inline <script>, and JSON-LD blocks
+ * - Strips non-conditional HTML comments & collapses inter-tag block whitespace
+ */
+function minifyHtml(html, relPath) {
+  if (!html) return "";
+  const holds = [];
+  const hold = (content) => {
+    const idx = holds.length;
+    holds.push(content);
+    return `\u0000PBD_HOLD_${idx}\u0000`;
+  };
+
+  let work = html;
+
+  // 1. Protect <pre>, <textarea>, <code> verbatim
+  work = work.replace(/<(pre|textarea|code)\b[^>]*>[\s\S]*?<\/\1\s*>/gi, (m) => hold(m));
+
+  // 2. Extract and minify <style> blocks
+  work = work.replace(/(<style\b[^>]*>)([\s\S]*?)(<\/style\s*>)/gi, (_m, open, body, close) => {
+    return hold(open + minifyCss(body) + close);
+  });
+
+  // 3. Extract and minify <script> blocks
+  let inlineIdx = 0;
+  work = work.replace(/(<script\b([^>]*)>)([\s\S]*?)(<\/script\s*>)/gi, (full, open, attrs, body, close) => {
+    const hasSrc = /\bsrc\s*=/i.test(attrs);
+    if (hasSrc || !body.trim()) {
+      return hold(full.replace(/>\s+<\/script/i, "></script"));
+    }
+
+    const typeMatch = /\btype\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/i.exec(attrs);
+    const scriptType = typeMatch ? (typeMatch[1] || typeMatch[2] || typeMatch[3] || "").trim().toLowerCase() : "";
+
+    if (scriptType === "application/ld+json") {
+      try {
+        const compact = JSON.stringify(JSON.parse(body)).replace(/<\/script/gi, "<\\/script");
+        verificationStats.jsonLdValidated++;
+        return hold(open + compact + close);
+      } catch (err) {
+        throw new Error(`Invalid JSON-LD in ${relPath}: ${err.message}`);
+      }
+    }
+
+    if (scriptType && scriptType !== "text/javascript" && scriptType !== "application/javascript") {
+      return hold(full);
+    }
+
+    inlineIdx++;
+    const minified = minifyJs(body, `${relPath}#inline-script-${inlineIdx}`);
+    return hold(open + minified + close);
+  });
+
+  // 4. Strip non-conditional HTML comments
+  work = work.replace(/<!--(?!\s*\[if\b)[\s\S]*?-->/g, "");
+
+  // 5. Collapse whitespace runs and trim whitespace around block-level tags
+  work = work.replace(/\s+/g, " ");
+  work = work.replace(RE_SPACE_BEFORE_BLOCK, ">");
+  work = work.replace(RE_SPACE_AFTER_BLOCK, "$1");
+  work = work.replace(/<!doctype\s+html>\s+/i, "<!doctype html>");
+  work = work.trim();
+
+  // 6. Restore protected blocks (loop handles any nested code inside pre)
+  work = work.replace(/\u0000PBD_HOLD_(\d+)\u0000/g, (_m, idx) => holds[Number(idx)]);
+
+  return work;
+}
+
+/* ========================================================================== *
+ * HTML Compilation Pipeline                                                  *
+ * ========================================================================== */
+
+function compileHtml(rawHtml, rel) {
+  let html = rawHtml;
   let adsenseNote = null;
 
   if (/<header\b[^>]*class=["'][^"']*site-header[^"']*["'][^>]*>[\s\S]*?<\/header>/i.test(html)) {
@@ -350,65 +947,32 @@ function patchFile(file) {
     html = injectFeaturedGrid(html, "featured-tools", TOOLS);
     html = injectFeaturedGrid(html, "featured-widgets", WIDGETS);
     html = injectFeaturedGrid(html, "featured-guides", GUIDES);
-    // Fallbacks when source still has hard-coded grids (no data-builder yet)
     html = injectFeaturedBySection(html, "featured", TOOLS);
     html = injectFeaturedByHeading(html, "Widgets", WIDGETS);
     html = injectFeaturedByHeading(html, "Guides", GUIDES);
   }
 
-  // Robots & Canonical check + fix (runs on indexable HTML pages)
   html = ensureRobotsMeta(html, rel);
   html = ensureCanonical(html, rel);
 
-  // AdSense check + fix (runs on every HTML page)
   const ads = ensureAdSense(html, rel);
   html = ads.html;
   if (ads.fixed) {
-    adsenseNote = ads.status; // "missing" or "broken"
+    adsenseNote = ads.status;
   }
 
-  if (html === before) {
-    return { changed: false, adsense: ads.status, adsenseFixed: false };
-  }
-  fs.writeFileSync(file, html);
+  const compiledBytes = Buffer.byteLength(html, "utf8");
+  const minified = isRealHtml(html) ? minifyHtml(html, rel) : html;
+  const outputBytes = Buffer.byteLength(minified, "utf8");
+
   return {
-    changed: true,
+    output: minified,
     adsense: ads.status,
     adsenseFixed: ads.fixed,
     adsenseNote,
+    compiledBytes,
+    outputBytes,
   };
-}
-
-const ROBOTS_SKIP = new Set([
-  "tools/nepal-invoice-generator/index.html",
-]);
-
-function ensureRobotsMeta(html, rel) {
-  if (ROBOTS_SKIP.has(rel) || !isRealHtml(html)) return html;
-  if (/<meta\s+name=["']robots["']/i.test(html)) return html;
-  const tag = '  <meta name="robots" content="index, follow, max-image-preview:large">\n';
-  if (/<\/title>/i.test(html)) {
-    return html.replace(/<\/title>/i, `</title>\n${tag}`);
-  }
-  if (/<head\b[^>]*>/i.test(html)) {
-    return html.replace(/<head\b[^>]*>/i, (m) => `${m}\n${tag}`);
-  }
-  return html;
-}
-
-function ensureCanonical(html, rel) {
-  if (ROBOTS_SKIP.has(rel) || !isRealHtml(html)) return html;
-  if (/<link\s+rel=["']canonical["']/i.test(html)) return html;
-  let canonicalPath = rel.replace(/index\.html$/i, "");
-  if (canonicalPath && !canonicalPath.endsWith("/")) canonicalPath += "/";
-  const tag = `  <link rel="canonical" href="https://pbd.com.np/${canonicalPath}">\n`;
-  if (/<\/title>/i.test(html)) {
-    return html.replace(/<\/title>/i, `</title>\n${tag}`);
-  }
-  if (/<head\b[^>]*>/i.test(html)) {
-    return html.replace(/<head\b[^>]*>/i, (m) => `${m}\n${tag}`);
-  }
-  return html;
 }
 
 function generateSitemap() {
@@ -469,41 +1033,101 @@ ${urls
   .join("\n")}
 </urlset>\n`;
 
-  const sitemapPath = path.join(ROOT, "sitemap.xml");
+  const sitemapPath = path.join(OUT_ROOT, "sitemap.xml");
   fs.writeFileSync(sitemapPath, xml, "utf8");
-  console.log(`Generated sitemap.xml with ${urls.length} URLs (lastmod: ${today}).`);
+  console.log(`Generated public/sitemap.xml with ${urls.length} URLs (lastmod: ${today}).`);
 }
 
-const files = walk(ROOT);
-let changed = 0;
-const adsenseStats = { ok: 0, fixed: 0, skipped: 0, brokenLeft: 0 };
-const adsenseFixedFiles = [];
+/* ========================================================================== *
+ * Main Build Execution (Clean Rebuild: src/ -> public/)                      *
+ * ========================================================================== */
 
-for (const f of files) {
-  const rel = path.relative(ROOT, f).replace(/\\/g, "/");
-  const result = patchFile(f);
-  if (result.changed) {
-    changed++;
-    const extra = result.adsenseFixed
-      ? ` [adsense ${result.adsenseNote} → fixed]`
-      : "";
-    console.log("updated", rel + extra);
+function formatKB(bytes) {
+  return (bytes / 1024).toFixed(1) + " KB";
+}
+
+function main() {
+  if (!fs.existsSync(SRC_ROOT)) {
+    console.error("Error: src/ directory not found. Aborting to protect public/.");
+    process.exit(1);
   }
-  if (result.adsense === "skip") adsenseStats.skipped++;
-  else if (result.adsenseFixed) {
-    adsenseStats.fixed++;
-    adsenseFixedFiles.push(rel);
-  } else if (result.adsense === "ok") adsenseStats.ok++;
-  else adsenseStats.brokenLeft++;
+
+  const startTime = Date.now();
+
+  // 1. Clean output directory
+  fs.rmSync(OUT_ROOT, { recursive: true, force: true });
+  fs.mkdirSync(OUT_ROOT, { recursive: true });
+
+  const srcFiles = walkAll(SRC_ROOT);
+  const counts = { html: 0, css: 0, js: 0, copied: 0 };
+  const bytes = { raw: 0, out: 0 };
+  const adsenseStats = { ok: 0, fixed: 0, skipped: 0, brokenLeft: 0 };
+  const adsenseFixedFiles = [];
+
+  for (const srcFile of srcFiles) {
+    const rel = path.relative(SRC_ROOT, srcFile).replace(/\\/g, "/");
+    if (rel === "sitemap.xml") continue;
+
+    const outFile = path.join(OUT_ROOT, rel);
+    fs.mkdirSync(path.dirname(outFile), { recursive: true });
+    const ext = path.extname(rel).toLowerCase();
+
+    if (ext === ".html") {
+      const raw = fs.readFileSync(srcFile, "utf8");
+      const res = compileHtml(raw, rel);
+      fs.writeFileSync(outFile, res.output, "utf8");
+      counts.html++;
+      bytes.raw += res.compiledBytes;
+      bytes.out += res.outputBytes;
+
+      if (res.adsense === "skip") adsenseStats.skipped++;
+      else if (res.adsenseFixed) {
+        adsenseStats.fixed++;
+        adsenseFixedFiles.push(rel);
+      } else if (res.adsense === "ok") adsenseStats.ok++;
+      else adsenseStats.brokenLeft++;
+    } else if (ext === ".css") {
+      const raw = fs.readFileSync(srcFile, "utf8");
+      const min = minifyCss(raw);
+      fs.writeFileSync(outFile, min, "utf8");
+      counts.css++;
+      bytes.raw += Buffer.byteLength(raw, "utf8");
+      bytes.out += Buffer.byteLength(min, "utf8");
+    } else if (ext === ".js") {
+      const raw = fs.readFileSync(srcFile, "utf8");
+      const min = minifyJs(raw, rel);
+      fs.writeFileSync(outFile, min, "utf8");
+      counts.js++;
+      bytes.raw += Buffer.byteLength(raw, "utf8");
+      bytes.out += Buffer.byteLength(min, "utf8");
+    } else {
+      fs.copyFileSync(srcFile, outFile);
+      counts.copied++;
+    }
+  }
+
+  generateSitemap();
+
+  const saved = bytes.raw - bytes.out;
+  const pct = bytes.raw ? ((saved / bytes.raw) * 100).toFixed(1) : "0.0";
+  const elapsed = Date.now() - startTime;
+
+  console.log(
+    `Built public/ from src/ in ${elapsed}ms: ${counts.html} HTML, ${counts.css} CSS, ${counts.js} JS, ${counts.copied} static files copied.`
+  );
+  console.log(
+    `Minified text assets: ${formatKB(bytes.raw)} → ${formatKB(bytes.out)} (saved ${formatKB(saved)}, ${pct}%).`
+  );
+  console.log(
+    `Verified: ${verificationStats.jsValidated} JS scripts/blocks (vm.Script), ${verificationStats.jsonLdValidated} JSON-LD blocks (JSON.parse).`
+  );
+  console.log(
+    `AdSense: ${adsenseStats.ok} OK, ${adsenseStats.fixed} fixed, ${adsenseStats.skipped} skipped` +
+      (adsenseStats.brokenLeft ? `, ${adsenseStats.brokenLeft} still broken` : "")
+  );
+  if (adsenseFixedFiles.length) {
+    console.log("  fixed:", adsenseFixedFiles.join(", "));
+  }
 }
 
-generateSitemap();
-
-console.log(`Done. ${changed}/${files.length} files updated.`);
-console.log(
-  `AdSense: ${adsenseStats.ok} OK, ${adsenseStats.fixed} fixed, ${adsenseStats.skipped} skipped` +
-    (adsenseStats.brokenLeft ? `, ${adsenseStats.brokenLeft} still broken` : "")
-);
-if (adsenseFixedFiles.length) {
-  console.log("  fixed:", adsenseFixedFiles.join(", "));
-}
+main();

@@ -1,0 +1,10 @@
+# Cloudflare Pages / Workers Assets 301 Redirects
+# Tools merged into the unified Nepali Date Hub (/tools/nepali-date-converter/)
+
+/tools/today-nepali-date            /tools/nepali-date-converter/          301
+/tools/today-nepali-date/           /tools/nepali-date-converter/          301
+/tools/today-nepali-date/index.html /tools/nepali-date-converter/          301
+
+/tools/nepali-calendar              /tools/nepali-date-converter/#calendar 301
+/tools/nepali-calendar/             /tools/nepali-date-converter/#calendar 301
+/tools/nepali-calendar/index.html   /tools/nepali-date-converter/#calendar 301

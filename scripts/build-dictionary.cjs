@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Builds chunked Brihat Sabdakosh JSON files in public/tools/nepali-dictionary/
+ * Builds chunked Brihat Sabdakosh JSON files in src/tools/nepali-dictionary/
  * Source: https://github.com/bikashpadhikari/nepali-brihat-sabdakosh-json (MIT License)
  */
 const fs = require("fs");
@@ -10,7 +10,7 @@ const https = require("https");
 
 const SOURCE_URL =
   "https://raw.githubusercontent.com/bikashpadhikari/nepali-brihat-sabdakosh-json/main/sabdakosh.json.gz";
-const OUT_DIR = path.join(__dirname, "..", "public", "tools", "nepali-dictionary");
+const OUT_DIR = path.join(__dirname, "..", "src", "tools", "nepali-dictionary");
 const TMP_GZ = "/tmp/sabdakosh.json.gz";
 const CHUNK_SIZE = 4000;
 
