@@ -1,19 +1,19 @@
 // Nepali Hashtag Generator – curated static banks
 // Easy to update later: just edit arrays. Prefer quality over quantity.
-// Last curated: 17 November 2026
-// Refresh notes: late-Nov 2026 – Black Friday / Cyber Monday approaching (27/30 Nov),
-// Christmas decor & lights rising hard (#christmasdecor, #christmaslights, #diychristmasdecor),
-// ongoing NTB-TikTok #VisitNepal campaign (through end of 2026) with #NepalCalling #photoNepal,
-// rising formats (#vlog, #dayinmylife, #grwm, #mukbang, #skincare, #hairtok, #dancechallenge, #chatgpt).
-// Core viral still #fyp #foryou #foryoupage. Avoided pure one-off brand/campaign noise.
-// Confirmed via live trend checks 16–17 Nov 2026.
+// Last curated: 24 November 2026
+// Refresh notes: 24 Nov 2026 – late-Nov holiday peak continues (Black Friday 27 Nov → Cyber Monday 30 Nov → Christmas),
+// Christmas decor/lights/gifts/vlogs rising (#christmasdecor #christmaslights #christmasgifts #christmasvlog #diychristmasdecor),
+// ongoing NTB-TikTok #VisitNepal campaign (through end-2026) with #NepalCalling #photoNepal,
+// evergreen/rising formats (#vlog #dayinmylife #grwm #mukbang #skincare #hairtok #dancechallenge #chatgpt #relatable #storytime).
+// Core viral still #fyp #foryou #foryoupage #fypシ. Avoided pure one-off brand/campaign noise (e.g. heavy #gta6 unless niche-fit).
+// Confirmed via live trend checks 23–24 Nov 2026.
 
 window.PBD_HASHTAGS = {
   base: {
     nepal: ["#Nepal", "#नेपाल", "#Nepali", "#नेपाली", "#Kathmandu", "#Pokhara", "#Nepalese", "#VisitNepal", "#NepalTourism", "#NepalCalling"],
-    viralTikTok: ["#fyp", "#foryou", "#foryoupage", "#viral", "#trending", "#fypnepal", "#NepaliTikTok", "#TikTokNepal", "#relatable", "#fypシ", "#dayinmylife", "#vlog", "#grwm", "#dancechallenge", "#mukbang"],
+    viralTikTok: ["#fyp", "#foryou", "#foryoupage", "#viral", "#trending", "#fypnepal", "#NepaliTikTok", "#TikTokNepal", "#relatable", "#fypシ", "#dayinmylife", "#vlog", "#grwm", "#dancechallenge", "#mukbang", "#storytime"],
     viralIG: ["#Reels", "#InstagramReels", "#ExplorePage", "#InstaNepal", "#NepaliInstagrammer", "#viralreels", "#ReelsNepal"],
-    general: ["#NepalNow", "#ExploreNepal", "#VisitNepal", "#MadeInNepal", "#NepaliCreator", "#VisitNepal2026", "#photoNepal", "#cozyseason", "#BlackFriday"]
+    general: ["#NepalNow", "#ExploreNepal", "#VisitNepal", "#MadeInNepal", "#NepaliCreator", "#VisitNepal2026", "#photoNepal", "#cozyseason", "#BlackFriday", "#christmas"]
   },
   niches: {
     travel: {
@@ -26,7 +26,7 @@ window.PBD_HASHTAGS = {
     },
     freelancing: {
       label: "Freelancing & Hustle",
-      tags: ["#FreelanceNepal", "#NepaliFreelancer", "#WorkFromNepal", "#DigitalNomadNepal", "#RemoteWorkNepal", "#FreelanceLife", "#SideHustleNepal", "#OnlineIncomeNepal", "#ContentCreatorNepal", "#NepaliCreator", "#EarnOnlineNepal", "#SkillNepal", "#FreelancerLife", "#WorkFromHomeNepal", "#NepalStartup", "#MadeInNepal", "#फ्रीलान्स", "#अनलाइनकाम", "#नेपालीफ्रीलान्सर", "#डिजिटलनेपाल", "#chatgpt", "#LearnOnTikTok", "#personalfinance"]
+      tags: ["#FreelanceNepal", "#NepaliFreelancer", "#WorkFromNepal", "#DigitalNomadNepal", "#RemoteWorkNepal", "#FreelanceLife", "#SideHustleNepal", "#OnlineIncomeNepal", "#ContentCreatorNepal", "#NepaliCreator", "#EarnOnlineNepal", "#SkillNepal", "#FreelancerLife", "#WorkFromHomeNepal", "#NepalStartup", "#MadeInNepal", "#फ्रीलान्स", "#अनलाइनकाम", "#नेपालीफ्रीलान्सर", "#डिजिटलनेपाल", "#chatgpt", "#LearnOnTikTok", "#personalfinance", "#sidehustle"]
     },
     motivation: {
       label: "Motivation & Quotes",
@@ -38,7 +38,7 @@ window.PBD_HASHTAGS = {
     },
     festival: {
       label: "Festival & Culture",
-      tags: ["#Dashain", "#Tihar", "#Dashain2026", "#Tihar2026", "#NepaliFestival", "#NepalCulture", "#HinduFestival", "#DashainTihar", "#FestivalNepal", "#NepaliTradition", "#CulturalNepal", "#HappyDashain", "#HappyTihar", "#दशैं", "#तिहार", "#नेपालीचाड", "#संस्कृति", "#NepaliNewYear", "#Teej", "#HoliNepal", "#BuddhaJayanti", "#christmas", "#ChristmasVibes", "#cozyseason", "#friendsgiving", "#holidayprep", "#blackfriday", "#BlackFriday", "#CyberMonday", "#ChristmasDecor", "#ChristmasLights", "#HolidayShopping", "#GiftGuide"]
+      tags: ["#Dashain", "#Tihar", "#Dashain2026", "#Tihar2026", "#NepaliFestival", "#NepalCulture", "#HinduFestival", "#DashainTihar", "#FestivalNepal", "#NepaliTradition", "#CulturalNepal", "#HappyDashain", "#HappyTihar", "#दशैं", "#तिहार", "#नेपालीचाड", "#संस्कृति", "#NepaliNewYear", "#Teej", "#HoliNepal", "#BuddhaJayanti", "#christmas", "#ChristmasVibes", "#cozyseason", "#friendsgiving", "#holidayprep", "#blackfriday", "#BlackFriday", "#CyberMonday", "#ChristmasDecor", "#ChristmasLights", "#HolidayShopping", "#GiftGuide", "#christmasgifts", "#christmasvlog", "#MerryChristmas", "#holidaygifts", "#giftideas", "#diychristmasdecor"]
     },
     beauty: {
       label: "Beauty & Fashion",
@@ -46,15 +46,15 @@ window.PBD_HASHTAGS = {
     },
     comedy: {
       label: "Comedy & Relatable",
-      tags: ["#NepaliComedy", "#FunnyNepali", "#NepaliMeme", "#RelatableNepali", "#ComedyNepal", "#NepaliHumor", "#LaughNepal", "#ViralComedy", "#नेपालीकमेडी", "#मजाक", "#हँसाउने", "#FunnyVideos", "#NepaliTikTokComedy", "#DailyComedy", "#relatable", "#funny", "#dayinmylife", "#dancechallenge", "#vlog"]
+      tags: ["#NepaliComedy", "#FunnyNepali", "#NepaliMeme", "#RelatableNepali", "#ComedyNepal", "#NepaliHumor", "#LaughNepal", "#ViralComedy", "#नेपालीकमेडी", "#मजाक", "#हँसाउने", "#FunnyVideos", "#NepaliTikTokComedy", "#DailyComedy", "#relatable", "#funny", "#dayinmylife", "#dancechallenge", "#vlog", "#storytime"]
     },
     general: {
       label: "General / Viral",
-      tags: ["#Nepal", "#Nepali", "#Kathmandu", "#Pokhara", "#Nepalese", "#NepaliTikTok", "#TikTokNepal", "#NepaliCreator", "#InstaNepal", "#NepalNow", "#ExploreNepal", "#VisitNepal", "#NepaliInstagrammer", "#नेपाल", "#नेपाली", "#काठमाडौं", "#पोखरा", "#fyp", "#foryoupage", "#viral", "#trending", "#Reels", "#relatable", "#christmas", "#dayinmylife", "#vlog", "#photoNepal", "#grwm", "#cozyseason", "#BlackFriday", "#mukbang"]
+      tags: ["#Nepal", "#Nepali", "#Kathmandu", "#Pokhara", "#Nepalese", "#NepaliTikTok", "#TikTokNepal", "#NepaliCreator", "#InstaNepal", "#NepalNow", "#ExploreNepal", "#VisitNepal", "#NepaliInstagrammer", "#नेपाल", "#नेपाली", "#काठमाडौं", "#पोखरा", "#fyp", "#foryoupage", "#viral", "#trending", "#Reels", "#relatable", "#christmas", "#dayinmylife", "#vlog", "#photoNepal", "#grwm", "#cozyseason", "#BlackFriday", "#mukbang", "#skincare", "#chatgpt"]
     }
   },
   platformBoost: {
-    tiktok: ["#fyp", "#foryou", "#foryoupage", "#fypnepal", "#NepaliTikTok", "#TikTokNepal", "#viral", "#trending", "#relatable", "#fypシ", "#dayinmylife", "#vlog", "#grwm", "#dancechallenge", "#mukbang"],
+    tiktok: ["#fyp", "#foryou", "#foryoupage", "#fypnepal", "#NepaliTikTok", "#TikTokNepal", "#viral", "#trending", "#relatable", "#fypシ", "#dayinmylife", "#vlog", "#grwm", "#dancechallenge", "#mukbang", "#storytime"],
     instagram: ["#Reels", "#InstagramReels", "#ExplorePage", "#InstaNepal", "#NepaliInstagrammer", "#NepalGram", "#viralreels", "#ReelsNepal"],
     facebook: ["#Nepal", "#Nepali", "#Kathmandu", "#VisitNepal", "#NepalCalling"]
   }
