@@ -20,6 +20,7 @@ const vm = require("vm");
 
 const SRC_ROOT = path.join(__dirname, "src");
 const OUT_ROOT = path.join(__dirname, "public");
+const FUNCTIONS_ROOT = path.join(__dirname, "functions");
 
 /** Google AdSense publisher client — keep identical on every monetized page */
 const ADSENSE_CLIENT = "ca-pub-6632604868005505";
@@ -1393,7 +1394,10 @@ function main() {
     fs.mkdirSync(path.dirname(outFile), { recursive: true });
     const ext = path.extname(rel).toLowerCase();
 
-    if (ext === ".html") {
+    if (rel.startsWith("functions/")) {
+      fs.copyFileSync(srcFile, outFile);
+      counts.copied++;
+    } else if (ext === ".html") {
       const raw = fs.readFileSync(srcFile, "utf8");
       const res = compileHtml(raw, rel);
       fs.writeFileSync(outFile, res.output, "utf8");
@@ -1426,6 +1430,18 @@ function main() {
       fs.copyFileSync(srcFile, outFile);
       counts.copied++;
     }
+  }
+
+  if (fs.existsSync(FUNCTIONS_ROOT)) {
+    const fnFiles = walkAll(FUNCTIONS_ROOT);
+    for (const fnFile of fnFiles) {
+      const rel = path.relative(FUNCTIONS_ROOT, fnFile).replace(/\\/g, "/");
+      const outFile = path.join(OUT_ROOT, "functions", rel);
+      fs.mkdirSync(path.dirname(outFile), { recursive: true });
+      fs.copyFileSync(fnFile, outFile);
+      counts.copied++;
+    }
+    console.log(`Copied ${fnFiles.length} function file(s) from functions/ → public/functions/.`);
   }
 
   const sitemapUrls = generateSitemap();
