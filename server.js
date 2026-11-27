@@ -1,7 +1,7 @@
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { onRequestGet as handleFeedGet, onRequestOptions as handleFeedOptions } from './functions/api/feed.js';
+import { onRequestGet as handleFeedGet, onRequestOptions as handleFeedOptions } from './src/functions/api/feed.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

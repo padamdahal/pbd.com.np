@@ -1,9 +1,9 @@
 /**
  * Cloudflare Worker entrypoint for pbd.com.np
- * Routes /api/feed to the RSS aggregator handler in functions/api/feed.js
+ * Routes /api/feed to the RSS aggregator handler in src/functions/api/feed.js
  * and delegates all other requests to Cloudflare Static Assets (./public).
  */
-import { onRequestGet, onRequestOptions } from "./functions/api/feed.js";
+import { onRequestGet, onRequestOptions } from "./src/functions/api/feed.js";
 
 const EDGE_CACHE_TTL_SECONDS = 300;
 

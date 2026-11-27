@@ -6,7 +6,7 @@
     "build": "node builder.cjs",
     "dev": "node builder.cjs && exec node server.js",
     "start": "node server.js",
-    "lint": "node -c server.js worker.js functions/api/feed.js builder.cjs builder-catalog.cjs"
+    "lint": "node -c server.js worker.js src/functions/api/feed.js builder.cjs builder-catalog.cjs"
   },
   "dependencies": {
     "express": "^5.3.0"

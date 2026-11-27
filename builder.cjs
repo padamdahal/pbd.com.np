@@ -1053,33 +1053,7 @@ function generateSitemap() {
   const today = new Date().toISOString().split("T")[0];
   const urls = [
     { loc: `${SITE_ORIGIN}/`, changefreq: "daily", priority: "1.0", lastmod: today },
-    { loc: `${SITE_ORIGIN}/guides/`, changefreq: "weekly", priority: "0.8", lastmod: today },
-    { loc: `${SITE_ORIGIN}/widgets/`, changefreq: "weekly", priority: "0.8", lastmod: today },
-    { loc: `${SITE_ORIGIN}/about/`, changefreq: "monthly", priority: "0.6", lastmod: today },
-    { loc: `${SITE_ORIGIN}/privacy/`, changefreq: "monthly", priority: "0.4", lastmod: today },
   ];
-
-  for (const w of WIDGETS) {
-    if (w.href && !w.movedTo) {
-      urls.push({
-        loc: `${SITE_ORIGIN}${w.href}`,
-        changefreq: "weekly",
-        priority: "0.8",
-        lastmod: today,
-      });
-    }
-  }
-
-  for (const g of GUIDES) {
-    if (g.href && !g.movedTo) {
-      urls.push({
-        loc: `${SITE_ORIGIN}${g.href}`,
-        changefreq: "monthly",
-        priority: "0.8",
-        lastmod: today,
-      });
-    }
-  }
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -1097,7 +1071,7 @@ ${urls
 
   const sitemapPath = path.join(OUT_ROOT, "sitemap.xml");
   fs.writeFileSync(sitemapPath, xml, "utf8");
-  console.log(`Generated public/sitemap.xml with ${urls.length} URLs (lastmod: ${today}).`);
+  console.log(`Generated public/sitemap.xml with ${urls.length} URL (lastmod: ${today}).`);
   return urls;
 }
 
@@ -1234,7 +1208,10 @@ function main() {
     fs.mkdirSync(path.dirname(outFile), { recursive: true });
     const ext = path.extname(rel).toLowerCase();
 
-    if (ext === ".html") {
+    if (rel.startsWith("functions/")) {
+      fs.copyFileSync(srcFile, outFile);
+      counts.copied++;
+    } else if (ext === ".html") {
       const raw = fs.readFileSync(srcFile, "utf8");
       const res = compileHtml(raw, rel);
       fs.writeFileSync(outFile, res.output, "utf8");
