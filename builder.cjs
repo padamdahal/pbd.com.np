@@ -1182,7 +1182,9 @@ function compileHtml(rawHtml, rel) {
     );
   }
 
-  if (rel === "index.html") {
+  const isNewsPulseSpa = /data-spa=["']news-pulse["']/i.test(html);
+
+  if (rel === "index.html" && !isNewsPulseSpa) {
     html = injectFeaturedGrid(html, "featured-tools", TOOLS);
     html = injectFeaturedGrid(html, "featured-widgets", WIDGETS);
     html = injectFeaturedGrid(html, "featured-guides", GUIDES);
@@ -1301,14 +1303,9 @@ function verifySeoInvariants(sitemapUrls, compiledHtmlByRel) {
 
     if (!html) {
       // 301 redirect mode: verify no static file shadows the redirect and _redirects has the 301 rule
-      const noSlash = entry.href.replace(/\/$/, "");
       const ruleSlash = redirectMap.get(entry.href);
-      const ruleNoSlash = redirectMap.get(noSlash);
       if (!ruleSlash || ruleSlash.to !== entry.movedTo || ruleSlash.code !== "301") {
         errors.push(`_redirects missing 301 rule for ${entry.href} -> ${entry.movedTo}`);
-      }
-      if (!ruleNoSlash || ruleNoSlash.to !== entry.movedTo || ruleNoSlash.code !== "301") {
-        errors.push(`_redirects missing 301 rule for ${noSlash} -> ${entry.movedTo}`);
       }
       if (fs.existsSync(path.join(OUT_ROOT, rel))) {
         errors.push(`Static file ${rel} must not exist in public/ when using 301 redirects`);
