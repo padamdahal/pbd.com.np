@@ -1273,6 +1273,19 @@ ${urls
 function verifySeoInvariants(sitemapUrls, compiledHtmlByRel) {
   const errors = [];
   const sitemapSet = new Set(sitemapUrls.map((u) => u.loc));
+  const redirectsPath = path.join(OUT_ROOT, "_redirects");
+  const redirectsText = fs.existsSync(redirectsPath)
+    ? fs.readFileSync(redirectsPath, "utf8")
+    : "";
+  const redirectMap = new Map();
+  for (const line of redirectsText.split(/\r?\n/)) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) continue;
+    const parts = trimmed.split(/\s+/);
+    if (parts.length >= 3) {
+      redirectMap.set(parts[0], { to: parts[1], code: parts[2] });
+    }
+  }
 
   for (const u of sitemapUrls) {
     if (/\/tools(?:\/|$)/i.test(u.loc)) {
@@ -1280,30 +1293,48 @@ function verifySeoInvariants(sitemapUrls, compiledHtmlByRel) {
     }
   }
 
+  let redirectedCount = 0;
+  let canonicalizedCount = 0;
+
   for (const [rel, entry] of MOVED_BY_REL.entries()) {
     const html = compiledHtmlByRel.get(rel);
+
     if (!html) {
-      errors.push(`Moved page missing from build output: ${rel}`);
-      continue;
-    }
+      // 301 redirect mode: verify no static file shadows the redirect and _redirects has the 301 rule
+      const noSlash = entry.href.replace(/\/$/, "");
+      const ruleSlash = redirectMap.get(entry.href);
+      const ruleNoSlash = redirectMap.get(noSlash);
+      if (!ruleSlash || ruleSlash.to !== entry.movedTo || ruleSlash.code !== "301") {
+        errors.push(`_redirects missing 301 rule for ${entry.href} -> ${entry.movedTo}`);
+      }
+      if (!ruleNoSlash || ruleNoSlash.to !== entry.movedTo || ruleNoSlash.code !== "301") {
+        errors.push(`_redirects missing 301 rule for ${noSlash} -> ${entry.movedTo}`);
+      }
+      if (fs.existsSync(path.join(OUT_ROOT, rel))) {
+        errors.push(`Static file ${rel} must not exist in public/ when using 301 redirects`);
+      }
+      redirectedCount++;
+    } else {
+      // Live cross-domain canonical mode
+      const canMatch = html.match(/<link\b(?=[^>]*\brel=["']canonical["'])[^>]*\bhref=["']([^"']+)["'][^>]*>/i);
+      if (!canMatch || canMatch[1] !== entry.movedTo) {
+        errors.push(`${rel}: canonical expected "${entry.movedTo}", got "${canMatch ? canMatch[1] : "NONE"}"`);
+      }
 
-    const canMatch = html.match(/<link\b(?=[^>]*\brel=["']canonical["'])[^>]*\bhref=["']([^"']+)["'][^>]*>/i);
-    if (!canMatch || canMatch[1] !== entry.movedTo) {
-      errors.push(`${rel}: canonical expected "${entry.movedTo}", got "${canMatch ? canMatch[1] : "NONE"}"`);
-    }
+      const ogMatch = html.match(/<meta\b(?=[^>]*\bproperty=["']og:url["'])[^>]*\bcontent=["']([^"']+)["'][^>]*>/i);
+      if (!ogMatch || ogMatch[1] !== entry.movedTo) {
+        errors.push(`${rel}: og:url expected "${entry.movedTo}", got "${ogMatch ? ogMatch[1] : "NONE"}"`);
+      }
 
-    const ogMatch = html.match(/<meta\b(?=[^>]*\bproperty=["']og:url["'])[^>]*\bcontent=["']([^"']+)["'][^>]*>/i);
-    if (!ogMatch || ogMatch[1] !== entry.movedTo) {
-      errors.push(`${rel}: og:url expected "${entry.movedTo}", got "${ogMatch ? ogMatch[1] : "NONE"}"`);
-    }
-
-    const robMatch = html.match(/<meta\b(?=[^>]*\bname=["']robots["'])[^>]*\bcontent=["']([^"']+)["'][^>]*>/i);
-    if (!robMatch || /\bnoindex\b/i.test(robMatch[1])) {
-      errors.push(`${rel}: robots meta must be indexable alongside cross-domain canonical (got "${robMatch ? robMatch[1] : "NONE"}")`);
+      const robMatch = html.match(/<meta\b(?=[^>]*\bname=["']robots["'])[^>]*\bcontent=["']([^"']+)["'][^>]*>/i);
+      if (!robMatch || /\bnoindex\b/i.test(robMatch[1])) {
+        errors.push(`${rel}: robots meta must be indexable alongside cross-domain canonical (got "${robMatch ? robMatch[1] : "NONE"}")`);
+      }
+      canonicalizedCount++;
     }
 
     if (sitemapSet.has(`${SITE_ORIGIN}${entry.href}`)) {
-      errors.push(`sitemap.xml must not include cross-domain canonicalized URL: ${SITE_ORIGIN}${entry.href}`);
+      errors.push(`sitemap.xml must not include moved URL: ${SITE_ORIGIN}${entry.href}`);
     }
   }
 
@@ -1326,7 +1357,7 @@ function verifySeoInvariants(sitemapUrls, compiledHtmlByRel) {
   }
 
   console.log(
-    `SEO Migration: ${MOVED_BY_REL.size} pages cross-domain canonicalized → ${MOVED_TOOLS_ORIGIN}, 0 sitemap conflicts, ${strayInternalLinks} stray internal links.`
+    `SEO Migration: ${redirectedCount} tools 301-redirected via _redirects, ${canonicalizedCount} live-canonicalized → ${MOVED_TOOLS_ORIGIN}, 0 sitemap conflicts, ${strayInternalLinks} stray internal links.`
   );
 }
 

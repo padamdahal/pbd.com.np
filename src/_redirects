@@ -1,10 +1,96 @@
 # Cloudflare Pages / Workers Assets 301 Redirects
-# Retired date/calendar aliases redirected directly (single-hop) to canonical Nepali Date Hub on nepaliwebtools.link
+# All 20 moved tools + 2 retired date/calendar aliases permanently redirected to https://nepaliwebtools.link
 
-/tools/today-nepali-date            https://nepaliwebtools.link/tools/nepali-date-converter/          301
-/tools/today-nepali-date/           https://nepaliwebtools.link/tools/nepali-date-converter/          301
-/tools/today-nepali-date/index.html https://nepaliwebtools.link/tools/nepali-date-converter/          301
+# Retired date/calendar aliases (single-hop to canonical Nepali Date Hub)
+/tools/today-nepali-date             https://nepaliwebtools.link/tools/nepali-date-converter/          301
+/tools/today-nepali-date/            https://nepaliwebtools.link/tools/nepali-date-converter/          301
+/tools/today-nepali-date/index.html  https://nepaliwebtools.link/tools/nepali-date-converter/          301
 
-/tools/nepali-calendar              https://nepaliwebtools.link/tools/nepali-date-converter/#calendar 301
-/tools/nepali-calendar/             https://nepaliwebtools.link/tools/nepali-date-converter/#calendar 301
-/tools/nepali-calendar/index.html   https://nepaliwebtools.link/tools/nepali-date-converter/#calendar 301
+/tools/nepali-calendar               https://nepaliwebtools.link/tools/nepali-date-converter/#calendar 301
+/tools/nepali-calendar/              https://nepaliwebtools.link/tools/nepali-date-converter/#calendar 301
+/tools/nepali-calendar/index.html    https://nepaliwebtools.link/tools/nepali-date-converter/#calendar 301
+
+# Moved tools — Nepali language
+/tools/nepali-typing                 https://nepaliwebtools.link/tools/nepali-typing/                  301
+/tools/nepali-typing/                https://nepaliwebtools.link/tools/nepali-typing/                  301
+/tools/nepali-typing/index.html      https://nepaliwebtools.link/tools/nepali-typing/                  301
+
+/tools/preeti-to-unicode             https://nepaliwebtools.link/tools/preeti-to-unicode/              301
+/tools/preeti-to-unicode/            https://nepaliwebtools.link/tools/preeti-to-unicode/              301
+/tools/preeti-to-unicode/index.html  https://nepaliwebtools.link/tools/preeti-to-unicode/              301
+
+/tools/nepali-date-converter            https://nepaliwebtools.link/tools/nepali-date-converter/       301
+/tools/nepali-date-converter/           https://nepaliwebtools.link/tools/nepali-date-converter/       301
+/tools/nepali-date-converter/index.html https://nepaliwebtools.link/tools/nepali-date-converter/       301
+
+/tools/bs-age-calculator             https://nepaliwebtools.link/tools/bs-age-calculator/              301
+/tools/bs-age-calculator/            https://nepaliwebtools.link/tools/bs-age-calculator/              301
+/tools/bs-age-calculator/index.html  https://nepaliwebtools.link/tools/bs-age-calculator/              301
+
+/tools/nepali-spell-checker            https://nepaliwebtools.link/tools/nepali-spell-checker/         301
+/tools/nepali-spell-checker/           https://nepaliwebtools.link/tools/nepali-spell-checker/         301
+/tools/nepali-spell-checker/index.html https://nepaliwebtools.link/tools/nepali-spell-checker/         301
+
+/tools/nepali-dictionary             https://nepaliwebtools.link/tools/nepali-dictionary/              301
+/tools/nepali-dictionary/            https://nepaliwebtools.link/tools/nepali-dictionary/              301
+/tools/nepali-dictionary/index.html  https://nepaliwebtools.link/tools/nepali-dictionary/              301
+
+/tools/nepali-name-generator            https://nepaliwebtools.link/tools/nepali-name-generator/       301
+/tools/nepali-name-generator/           https://nepaliwebtools.link/tools/nepali-name-generator/       301
+/tools/nepali-name-generator/index.html https://nepaliwebtools.link/tools/nepali-name-generator/       301
+
+/tools/number-to-nepali-words            https://nepaliwebtools.link/tools/number-to-nepali-words/     301
+/tools/number-to-nepali-words/           https://nepaliwebtools.link/tools/number-to-nepali-words/     301
+/tools/number-to-nepali-words/index.html https://nepaliwebtools.link/tools/number-to-nepali-words/     301
+
+/tools/nepali-wordle                 https://nepaliwebtools.link/tools/nepali-wordle/                  301
+/tools/nepali-wordle/                https://nepaliwebtools.link/tools/nepali-wordle/                  301
+/tools/nepali-wordle/index.html      https://nepaliwebtools.link/tools/nepali-wordle/                  301
+
+# Moved tools — Finance
+/tools/income-tax-calculator            https://nepaliwebtools.link/tools/income-tax-calculator/       301
+/tools/income-tax-calculator/           https://nepaliwebtools.link/tools/income-tax-calculator/       301
+/tools/income-tax-calculator/index.html https://nepaliwebtools.link/tools/income-tax-calculator/       301
+
+/tools/vehicle-tax-calculator            https://nepaliwebtools.link/tools/vehicle-tax-calculator/     301
+/tools/vehicle-tax-calculator/           https://nepaliwebtools.link/tools/vehicle-tax-calculator/     301
+/tools/vehicle-tax-calculator/index.html https://nepaliwebtools.link/tools/vehicle-tax-calculator/     301
+
+/tools/nea-bill-calculator            https://nepaliwebtools.link/tools/nea-bill-calculator/           301
+/tools/nea-bill-calculator/           https://nepaliwebtools.link/tools/nea-bill-calculator/           301
+/tools/nea-bill-calculator/index.html https://nepaliwebtools.link/tools/nea-bill-calculator/           301
+
+# Moved tools — Maps & location
+/tools/nepal-map                     https://nepaliwebtools.link/tools/nepal-map/                      301
+/tools/nepal-map/                    https://nepaliwebtools.link/tools/nepal-map/                      301
+/tools/nepal-map/index.html          https://nepaliwebtools.link/tools/nepal-map/                      301
+
+/tools/ev-charging-stations            https://nepaliwebtools.link/tools/ev-charging-stations/         301
+/tools/ev-charging-stations/           https://nepaliwebtools.link/tools/ev-charging-stations/         301
+/tools/ev-charging-stations/index.html https://nepaliwebtools.link/tools/ev-charging-stations/         301
+
+/tools/local-weather                 https://nepaliwebtools.link/tools/local-weather/                  301
+/tools/local-weather/                https://nepaliwebtools.link/tools/local-weather/                  301
+/tools/local-weather/index.html      https://nepaliwebtools.link/tools/local-weather/                  301
+
+# Moved tools — Content creation
+/tools/caption-generator             https://nepaliwebtools.link/tools/caption-generator/              301
+/tools/caption-generator/            https://nepaliwebtools.link/tools/caption-generator/              301
+/tools/caption-generator/index.html  https://nepaliwebtools.link/tools/caption-generator/              301
+
+/tools/hashtag-generator             https://nepaliwebtools.link/tools/hashtag-generator/              301
+/tools/hashtag-generator/            https://nepaliwebtools.link/tools/hashtag-generator/              301
+/tools/hashtag-generator/index.html  https://nepaliwebtools.link/tools/hashtag-generator/              301
+
+# Moved tools — Utilities
+/tools/land-unit-converter            https://nepaliwebtools.link/tools/land-unit-converter/           301
+/tools/land-unit-converter/           https://nepaliwebtools.link/tools/land-unit-converter/           301
+/tools/land-unit-converter/index.html https://nepaliwebtools.link/tools/land-unit-converter/           301
+
+/tools/image-compressor              https://nepaliwebtools.link/tools/image-compressor/               301
+/tools/image-compressor/             https://nepaliwebtools.link/tools/image-compressor/               301
+/tools/image-compressor/index.html   https://nepaliwebtools.link/tools/image-compressor/               301
+
+/tools/name-badge-generator            https://nepaliwebtools.link/tools/name-badge-generator/         301
+/tools/name-badge-generator/           https://nepaliwebtools.link/tools/name-badge-generator/         301
+/tools/name-badge-generator/index.html https://nepaliwebtools.link/tools/name-badge-generator/         301
