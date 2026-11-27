@@ -1,42 +1,265 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0b7285">
-  <title>Privacy — Powered By Digital (PBD)</title>
-  <meta name="description" content="Privacy policy for Powered By Digital (PBD). Tools run in your browser; we do not store your personal data from tool usage.">
-  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#9f231b">
+  <title>Privacy Policy | Powered By Digital</title>
+  <meta name="description" content="Privacy Policy for Powered By Digital (pbd.com.np): local browser storage for bookmarks and theme preferences, live RSS headline caching, external publisher links, and Google AdSense disclosures.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
   <link rel="canonical" href="https://pbd.com.np/privacy/">
-  <link rel="stylesheet" href="/assets/style.css">
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632604868005505"
-     crossorigin="anonymous"></script>
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Privacy Policy | Powered By Digital">
+  <meta property="og:description" content="How Powered By Digital (pbd.com.np) handles local browser preferences, live headline fetching, and Google AdSense advertising.">
+  <meta property="og:url" content="https://pbd.com.np/privacy/">
+  <meta property="og:site_name" content="Powered By Digital">
+  <meta property="og:image" content="https://pbd.com.np/assets/og-default.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Privacy Policy | Powered By Digital">
+  <meta name="twitter:description" content="Privacy practices, local storage usage, and advertising disclosures for Powered By Digital (pbd.com.np).">
+  <meta name="twitter:image" content="https://pbd.com.np/assets/og-default.svg">
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6632604868005505" crossorigin="anonymous"></script>
+  <script>
+    (function(){try{var t=localStorage.getItem("pbd_theme");if(t==="dark"||(!t&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://pbd.com.np/privacy/#webpage",
+        "url": "https://pbd.com.np/privacy/",
+        "name": "Privacy Policy — Powered By Digital",
+        "description": "Privacy practices, local storage usage, and Google AdSense disclosures for Powered By Digital (pbd.com.np).",
+        "isPartOf": {
+          "@type": "WebSite",
+          "@id": "https://pbd.com.np/#website",
+          "name": "Powered By Digital — Nepal News & Tech Pulse",
+          "url": "https://pbd.com.np/"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://pbd.com.np/" },
+          { "@type": "ListItem", "position": 2, "name": "Privacy Policy", "item": "https://pbd.com.np/privacy/" }
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
-  <header class="site-header">
-    <div class="bar">
-      <a class="brand" href="/" aria-label="Powered By Digital (PBD) — Home"><span class="logo-mark" aria-hidden="true">P</span><span class="brand-text"><span class="brand-name">PBD</span><span class="brand-full">Powered By Digital</span></span></a>
-      <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
-      <nav id="menu" class="site-nav" aria-label="Main navigation" role="navigation"><a href="/">Home</a><a href="/tools/">Tools</a><a href="/widgets/">Widgets</a><a href="/guides/">Guides</a><a href="/about/">About</a></nav>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <header class="masthead">
+    <div class="container masthead-inner">
+      <a class="brand" href="/" aria-label="Powered By Digital — Home">
+        <span class="brand-mark" aria-hidden="true">P</span>
+        <span class="brand-title">Powered By Digital</span>
+      </a>
+
+      <nav class="masthead-nav" aria-label="Primary navigation">
+        <a href="/">Headlines</a>
+        <a href="/about/">About</a>
+        <a href="/privacy/" aria-current="page">Privacy</a>
+      </nav>
+
+      <div class="masthead-actions">
+        <div class="npt-clock" aria-label="Nepal Standard Time">
+          <span>NPT (UTC+5:45)</span>
+          <strong id="npt-time">--:--:--</strong>
+        </div>
+
+        <button
+          type="button"
+          id="theme-toggle"
+          class="btn-header btn-icon"
+          aria-pressed="false"
+          aria-label="Switch to dark theme"
+        >
+          Dark
+        </button>
+      </div>
     </div>
   </header>
-  <main class="narrow">
-    <div class="page-intro"><h1>Privacy</h1>
-      <p class="lead">Simple tools. Your data stays with you.</p>
-    </div>
-    <p>Powered By Digital (PBD) tools run in your browser. We do not collect or store the text, dates, or other inputs you enter into tools.</p>
-    <p>The site may use privacy-friendly analytics or ads that load third-party scripts. Tool calculation itself does not require an account and does not upload your inputs to our servers.</p>
-    <p>Questions: see the <a href="/about/">About</a> page.</p>
+
+  <main id="main-content">
+    <section class="pulse-hero">
+      <div class="container">
+        <p class="page-kicker">
+          <strong>Powered By Digital</strong>
+          <span aria-hidden="true">·</span>
+          <span>Legal &amp; Privacy</span>
+        </p>
+        <div class="pulse-hero-top">
+          <div>
+            <h1>Privacy Policy</h1>
+            <p class="pulse-subtitle">
+              Clear, plain-language explanation of how Powered By Digital (pbd.com.np) handles local browser preferences, headline fetching, third-party publisher links, and Google AdSense advertising.
+            </p>
+          </div>
+          <div class="pulse-meta-line">
+            <span>Last updated: November 2026</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-block" aria-labelledby="data-collection-heading">
+      <div class="container editorial-grid">
+        <article class="editorial-prose">
+          <div class="prose-section">
+            <h2 id="data-collection-heading">1. No Accounts &amp; No Personal Data Collection</h2>
+            <p>
+              <strong>Powered By Digital (https://pbd.com.np/)</strong> does not require user registration, login accounts, newsletters, or contact forms to browse headlines or use our media directory. We do not collect, store, or sell personally identifiable information such as your name, email address, phone number, or reading history on our servers.
+            </p>
+          </div>
+
+          <div class="prose-section">
+            <h2>2. Local Browser Storage</h2>
+            <p>
+              To provide a responsive reading experience without tracking you across servers, our site stores a small set of preferences strictly inside your browser:
+            </p>
+            <ul>
+              <li><strong>Theme Preference (<code>pbd_theme</code>):</strong> Saved in <code>localStorage</code> so your chosen Light or Dark mode persists between visits.</li>
+              <li><strong>Saved to Read Later (<code>pbd_saved_articles</code>):</strong> Bookmarked headlines are stored exclusively in your browser’s <code>localStorage</code>. You can remove individual items or clear the entire list at any time from the Saved drawer or your browser settings.</li>
+              <li><strong>Headline Feed Cache (<code>pbd_feed_cache_v1</code>):</strong> A temporary 10-minute copy of public RSS headlines stored in <code>sessionStorage</code> to speed up navigation and reduce repeated network requests.</li>
+            </ul>
+            <p>
+              None of these browser storage entries are uploaded to Powered By Digital or shared with other users.
+            </p>
+          </div>
+
+          <div class="prose-section">
+            <h2>3. Live Headline Fetching &amp; Edge Infrastructure</h2>
+            <p>
+              When the homepage loads live headlines from <code>/api/feed</code>, our edge function fetches publicly available RSS and Atom feeds from Nepali news and technology publishers and returns a cached JSON summary. Search queries and category filters run entirely inside your browser—we do not log what headlines you search for or bookmark.
+            </p>
+            <p>
+              Like standard websites hosted on Cloudflare infrastructure, basic network metadata (such as IP address, user agent, and requested URL) may be processed temporarily at the network edge to protect against abuse, DDoS traffic, and service outages.
+            </p>
+          </div>
+
+          <div class="prose-section">
+            <h2>4. Google AdSense &amp; Advertising Cookies</h2>
+            <p>
+              Powered By Digital displays advertisements served by <strong>Google AdSense</strong> to keep this service free. Third-party vendors, including Google, use cookies or similar identifiers to serve ads based on your prior visits to <code>pbd.com.np</code> and other websites across the internet.
+            </p>
+            <ul>
+              <li>Google’s use of advertising cookies enables it and its partners to serve ads tailored to your visits to this site and/or other sites on the web.</li>
+              <li>You may opt out of personalized advertising at any time by visiting <a href="https://adssettings.google.com/" target="_blank" rel="noopener noreferrer">Google Ads Settings ↗</a>.</li>
+              <li>You can review how Google uses data from partner sites at <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer">Google Privacy &amp; Terms ↗</a>.</li>
+            </ul>
+          </div>
+
+          <div class="prose-section">
+            <h2>5. External News Portals &amp; Sister Websites</h2>
+            <p>
+              Every headline and outlet listing on Powered By Digital links directly to external publishers (such as Nepali and English newsrooms) or to our sister utility portal at <a href="https://nepaliwebtools.link/" rel="noopener">nepaliwebtools.link</a>. Once you leave <code>pbd.com.np</code>, your visit is governed by the privacy policy and cookie practices of that destination website.
+            </p>
+          </div>
+
+          <div class="prose-section">
+            <h2>6. Changes to This Policy</h2>
+            <p>
+              We may update this Privacy Policy periodically if site features, hosting providers, or advertising configurations change. Material updates will be reflected on this page alongside a revised “Last updated” date. For more context about who operates this site, visit our <a href="/about/">About page</a>.
+            </p>
+          </div>
+        </article>
+
+        <aside class="sister-box" aria-labelledby="privacy-summary-heading">
+          <p class="sister-kicker">Quick Summary</p>
+          <h3 id="privacy-summary-heading">Your Privacy on PBD</h3>
+          <p>
+            A transparent overview of what stays on your device and what third-party services run on this domain.
+          </p>
+          <dl class="info-list">
+            <div class="info-row">
+              <dt>User Accounts</dt>
+              <dd>Not required</dd>
+            </div>
+            <div class="info-row">
+              <dt>Saved Bookmarks</dt>
+              <dd>Local browser only</dd>
+            </div>
+            <div class="info-row">
+              <dt>Search &amp; Filters</dt>
+              <dd>100% client-side</dd>
+            </div>
+            <div class="info-row">
+              <dt>Advertising</dt>
+              <dd>Google AdSense</dd>
+            </div>
+            <div class="info-row">
+              <dt>Outbound Links</dt>
+              <dd>Direct to publishers</dd>
+            </div>
+          </dl>
+          <a class="btn-primary" href="/">Return to Headlines</a>
+          <a class="btn-secondary" href="/about/">About Powered By Digital</a>
+        </aside>
+      </div>
+    </section>
   </main>
-  <footer class="site-footer">
-  <div class="bar footer-bar">
-    <nav id="footer-menu" class="footer-pills" aria-label="Footer"><a href="https://nepaliwebtools.link/tools/nepali-typing/" rel="noopener">Nepali Typing</a><a href="https://nepaliwebtools.link/tools/preeti-to-unicode/" rel="noopener">Preeti ↔ Unicode</a><a href="https://nepaliwebtools.link/tools/nepali-date-converter/" rel="noopener">Nepali Date Converter</a><a href="https://nepaliwebtools.link/tools/nepali-spell-checker/" rel="noopener">Spell Checker</a><a href="https://nepaliwebtools.link/tools/number-to-nepali-words/" rel="noopener">Number to Words</a><a href="https://nepaliwebtools.link/tools/income-tax-calculator/" rel="noopener">Income Tax</a><a href="https://nepaliwebtools.link/tools/nepal-map/" rel="noopener">Nepal Map</a></nav>
-    <div class="footer-meta">
-      <p class="footer-copy">© <span id="yr"></span> Powered By Digital (PBD)</p>
-      <nav class="footer-legal" aria-label="Legal"><a href="/about/">About</a><a href="/privacy/">Privacy</a></nav>
+
+  <footer class="site-foot">
+    <div class="container foot-inner">
+      <p class="foot-copy">© <span id="current-year">2026</span> Powered By Digital. Headlines link directly to their original publishers.</p>
+      <nav class="foot-links" aria-label="Footer links">
+        <a href="/">Home</a>
+        <a href="https://nepaliwebtools.link/" rel="noopener">Nepali Web Tools ↗</a>
+        <a href="/about/">About</a>
+        <a href="/privacy/">Privacy</a>
+      </nav>
     </div>
-  </div>
-</footer>
-  <script src="/assets/menu.js" defer></script>
+  </footer>
+
+  <script>
+    (function () {
+      var yr = document.getElementById("current-year");
+      if (yr) yr.textContent = String(new Date().getFullYear());
+
+      var themeBtn = document.getElementById("theme-toggle");
+      function syncThemeBtn(theme) {
+        if (!themeBtn) return;
+        var dark = theme === "dark";
+        themeBtn.textContent = dark ? "Light" : "Dark";
+        themeBtn.setAttribute("aria-pressed", String(dark));
+        themeBtn.setAttribute("aria-label", dark ? "Switch to light theme" : "Switch to dark theme");
+      }
+      var currentTheme = document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+      syncThemeBtn(currentTheme);
+      if (themeBtn) {
+        themeBtn.addEventListener("click", function () {
+          var next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+          document.documentElement.setAttribute("data-theme", next);
+          try { localStorage.setItem("pbd_theme", next); } catch (e) {}
+          syncThemeBtn(next);
+        });
+      }
+
+      var clockEl = document.getElementById("npt-time");
+      function updateClock() {
+        if (!clockEl) return;
+        var now = new Date();
+        var utcMs = now.getTime() + now.getTimezoneOffset() * 60000;
+        var npt = new Date(utcMs + (5 * 60 + 45) * 60000);
+        var hh = String(npt.getHours()).padStart(2, "0");
+        var mm = String(npt.getMinutes()).padStart(2, "0");
+        var ss = String(npt.getSeconds()).padStart(2, "0");
+        clockEl.textContent = hh + ":" + mm + ":" + ss;
+      }
+      updateClock();
+      setInterval(updateClock, 1000);
+    })();
+  </script>
 </body>
 </html>

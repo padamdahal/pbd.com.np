@@ -1,5 +1,5 @@
 /**
- * Cloudflare Pages Function — GET /api/feed
+ * Cloudflare Pages Function / Worker handler — GET /api/feed
  * Fetches public RSS/Atom feeds from major Nepali news & tech portals concurrently,
  * parses & sanitizes items with zero external dependencies, deduplicates, sorts
  * newest-first, and returns a CDN-cached JSON response.
@@ -127,10 +127,8 @@ function stripCdata(str) {
 
 function sanitizeText(raw, maxLength = 0) {
   if (!raw) return "";
-  // Decode entities twice to handle double-encoded RSS summaries safely
   let text = stripCdata(raw);
   text = decodeEntities(text);
-  // Remove embedded script/style blocks and all HTML tags
   text = text
     .replace(/<(script|style|noscript)[^>]*>[\s\S]*?<\/\1>/gi, " ")
     .replace(/<[^>]+>/g, " ");
@@ -163,7 +161,6 @@ function normalizeUrlForDedup(href) {
   try {
     const u = new URL(href);
     u.hash = "";
-    // Strip common tracking query params
     for (const key of [...u.searchParams.keys()]) {
       if (/^(utm_|fbclid|gclid|ref|source)/i.test(key)) {
         u.searchParams.delete(key);
@@ -189,7 +186,6 @@ function extractTag(block, tagNames) {
 }
 
 function extractAtomLink(block) {
-  // Prefer rel="alternate" link, fallback to first <link href="...">
   const linkTags = block.match(/<link\b[^>]*>/gi) || [];
   let fallback = "";
   for (const tag of linkTags) {
@@ -209,7 +205,6 @@ function parseTimestamp(rawDate) {
   const cleaned = sanitizeText(rawDate);
   const ms = Date.parse(cleaned);
   if (!Number.isFinite(ms)) return null;
-  // Guard against wildly future dates caused by misconfigured feed clocks
   const maxFuture = Date.now() + 24 * 60 * 60 * 1000;
   return new Date(Math.min(ms, maxFuture)).toISOString();
 }
@@ -218,7 +213,6 @@ function parseFeedXml(xml, meta) {
   if (!xml || typeof xml !== "string") return [];
   const items = [];
 
-  // Match RSS <item> blocks
   const rssBlocks = xml.match(/<item\b[^>]*>[\s\S]*?<\/item>/gi) || [];
   for (const block of rssBlocks) {
     const title = sanitizeText(extractTag(block, ["title"]), 180);
@@ -244,7 +238,6 @@ function parseFeedXml(xml, meta) {
     });
   }
 
-  // Fallback to Atom <entry> blocks when no RSS <item> elements were found
   if (items.length === 0) {
     const atomBlocks = xml.match(/<entry\b[^>]*>[\s\S]*?<\/entry>/gi) || [];
     for (const block of atomBlocks) {

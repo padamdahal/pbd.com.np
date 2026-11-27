@@ -186,6 +186,34 @@ a:hover {
   letter-spacing: -0.02em;
 }
 
+.masthead-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.masthead-nav a {
+  color: var(--ink-secondary);
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  padding-block: 4px;
+  transition: color 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.masthead-nav a:hover {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.masthead-nav a[aria-current="page"] {
+  color: var(--accent);
+  font-weight: 600;
+}
+
 .masthead-actions {
   display: flex;
   align-items: center;
@@ -873,6 +901,94 @@ a:hover {
   line-height: 1.65;
 }
 
+.editorial-prose code {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: var(--surface-subtle);
+  border: 1px solid var(--border);
+  color: var(--ink);
+}
+
+.page-kicker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 10px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ink-muted);
+}
+
+.page-kicker strong {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.prose-section + .prose-section {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.info-list {
+  margin: 0 0 20px;
+  padding: 0;
+  border-top: 1px solid var(--border);
+}
+
+.info-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+
+.info-row dt {
+  color: var(--ink-muted);
+  font-weight: 500;
+}
+
+.info-row dd {
+  margin: 0;
+  color: var(--ink);
+  font-weight: 600;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  min-height: 44px;
+  margin-top: 10px;
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: border-color 150ms cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-secondary:hover {
+  border-color: var(--ink-muted);
+  background: var(--surface-subtle);
+  color: var(--ink);
+  text-decoration: none;
+}
+
 .sister-box {
   padding: 24px;
   background: var(--surface);
@@ -1182,6 +1298,11 @@ a:hover {
   .masthead-inner {
     min-height: 56px;
     gap: 8px;
+  }
+
+  .masthead-nav {
+    gap: 12px;
+    font-size: 0.84rem;
   }
 
   .npt-clock {
