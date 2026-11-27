@@ -437,10 +437,8 @@ a:hover {
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   background: var(--surface-subtle);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  display: block;
+  text-align: center;
   overflow: hidden;
 }
 
@@ -453,6 +451,7 @@ a:hover {
 }
 
 .ad-label {
+  display: block;
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.06em;
@@ -462,10 +461,9 @@ a:hover {
 }
 
 .ad-frame {
+  display: block;
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  text-align: center;
 }
 
 .ad-slot-leaderboard .ad-frame {

@@ -274,27 +274,32 @@ function parseFeedXml(xml, meta) {
 }
 
 async function fetchSingleFeed(meta) {
-  const signal =
-    typeof AbortSignal !== "undefined" && typeof AbortSignal.timeout === "function"
-      ? AbortSignal.timeout(FEED_TIMEOUT_MS)
-      : undefined;
+  const controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+  const timer = controller
+    ? setTimeout(() => controller.abort(), FEED_TIMEOUT_MS)
+    : null;
 
-  const response = await fetch(meta.url, {
-    method: "GET",
-    headers: {
-      "User-Agent": "PBDNepalPulseBot/1.0 (+https://pbd.com.np/)",
-      Accept: "application/rss+xml, application/atom+xml, application/xml, text/xml;q=0.9, */*;q=0.1",
-    },
-    redirect: "follow",
-    signal,
-  });
+  try {
+    const response = await fetch(meta.url, {
+      method: "GET",
+      headers: {
+        "User-Agent": "Mozilla/5.0 (compatible; PBDNepalPulse/1.0; +https://pbd.com.np/)",
+        Accept: "application/rss+xml, application/atom+xml, application/xml, text/xml;q=0.9, */*;q=0.1",
+      },
+      redirect: "follow",
+      signal: controller ? controller.signal : undefined,
+      cf: { cacheTtl: 300, cacheEverything: true },
+    });
 
-  if (!response.ok) {
-    throw new Error(`HTTP ${response.status}`);
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+
+    const xml = await response.text();
+    return parseFeedXml(xml, meta);
+  } finally {
+    if (timer) clearTimeout(timer);
   }
-
-  const xml = await response.text();
-  return parseFeedXml(xml, meta);
 }
 
 const CORS_HEADERS = {

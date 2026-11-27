@@ -8,7 +8,7 @@
 
   const HEADER_LINKS = [
     { href: "/", label: "Home" },
-    { href: "/tools/", label: "Tools" },
+    { href: "https://nepaliwebtools.link/", label: "Tools" },
     { href: "/widgets/", label: "Widgets" },
     { href: "/guides/", label: "Guides" },
     { href: "/about/", label: "About" },

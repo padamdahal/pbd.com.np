@@ -20,7 +20,6 @@ const vm = require("vm");
 
 const SRC_ROOT = path.join(__dirname, "src");
 const OUT_ROOT = path.join(__dirname, "public");
-const FUNCTIONS_ROOT = path.join(__dirname, "functions");
 
 /** Google AdSense publisher client — keep identical on every monetized page */
 const ADSENSE_CLIENT = "ca-pub-6632604868005505";
@@ -31,16 +30,14 @@ const ADSENSE_SCRIPT =
 const ADSENSE_SKIP = new Set();
 
 /** Relative paths (from src/) skipped for robots/canonical auto-injection */
-const ROBOTS_SKIP = new Set([
-  "tools/nepal-invoice-generator/index.html",
-]);
+const ROBOTS_SKIP = new Set();
 
 /** Canonical brand — keep identical on every page */
 const BRAND = `<a class="brand" href="/" aria-label="Powered By Digital (PBD) — Home"><span class="logo-mark" aria-hidden="true">P</span><span class="brand-text"><span class="brand-name">PBD</span><span class="brand-full">Powered By Digital</span></span></a>`;
 
 const NAV_TOGGLE = `<button type="button" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>`;
 
-const HEADER_NAV = `<nav id="menu" class="site-nav" aria-label="Main navigation" role="navigation"><a href="/">Home</a><a href="/tools/">Tools</a><a href="/widgets/">Widgets</a><a href="/guides/">Guides</a><a href="/about/">About</a></nav>`;
+const HEADER_NAV = `<nav id="menu" class="site-nav" aria-label="Main navigation" role="navigation"><a href="/">Home</a><a href="https://nepaliwebtools.link/" rel="noopener">Tools</a><a href="/widgets/">Widgets</a><a href="/guides/">Guides</a><a href="/about/">About</a></nav>`;
 
 const HEADER_BLOCK = `<header class="site-header">
     <div class="bar">
@@ -132,68 +129,7 @@ function cardHtml(item) {
           </a>`;
 }
 
-function featuredGridHtml(items) {
-  const list = items.filter((i) => i.featured);
-  return (list.length ? list : items).map(cardHtml).join("\n");
-}
 
-function slugifyCategory(name) {
-  return String(name)
-    .toLowerCase()
-    .replace(/&/g, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-}
-
-/** Unique categories in first-seen order from TOOLS */
-function toolCategories() {
-  const seen = new Set();
-  const list = [];
-  for (const t of TOOLS) {
-    const c = t.category;
-    if (!c || seen.has(c)) continue;
-    seen.add(c);
-    list.push({ id: slugifyCategory(c), title: c });
-  }
-  return list;
-}
-
-function generateToolsMain() {
-  const cats = toolCategories();
-  const catNav = cats
-    .map((c) => `          <a href="#${c.id}">${c.title}</a>`)
-    .join("\n");
-
-  const sections = cats
-    .map((cat, idx) => {
-      const items = TOOLS.filter((t) => t.category === cat.title);
-      const cards = items.map(cardHtml).join("\n");
-      const alt = idx % 2 === 1 ? " section-alt" : "";
-      return `    <section id="${cat.id}" class="section${alt}">
-      <div class="container">
-        <h2>${cat.title}</h2>
-        <div class="tool-grid">
-${cards}
-        </div>
-      </div>
-    </section>`;
-    })
-    .join("\n\n");
-
-  return `<main id="tools">
-    <section class="page-hero">
-      <div class="container">
-        <h1>All tools</h1>
-        <p>Free, private, client-side utilities built for everyday tasks in Nepal. No sign-up required.</p>
-        <nav class="cat-nav" aria-label="Jump to category">
-${catNav}
-        </nav>
-      </div>
-    </section>
-
-${sections}
-  </main>`;
-}
 
 function generateWidgetsMain() {
   const cards = WIDGETS.map(cardHtml).join("\n");
@@ -225,77 +161,7 @@ function walkAll(dir, out = []) {
   return out;
 }
 
-function injectFeaturedGrid(html, key, items) {
-  const needle = 'data-builder="' + key + '"';
-  const alt = "data-builder='" + key + "'";
-  let openStart = html.indexOf(needle);
-  if (openStart === -1) openStart = html.indexOf(alt);
-  if (openStart === -1) return html;
-  openStart = html.lastIndexOf("<div", openStart);
-  if (openStart === -1) return html;
-  let i = html.indexOf(">", openStart) + 1;
-  let depth = 1;
-  while (i < html.length && depth > 0) {
-    const nextOpen = html.indexOf("<div", i);
-    const nextClose = html.indexOf("</div>", i);
-    if (nextClose === -1) break;
-    if (nextOpen !== -1 && nextOpen < nextClose) {
-      depth++;
-      i = nextOpen + 4;
-    } else {
-      depth--;
-      i = nextClose + 6;
-    }
-  }
-  const inner = featuredGridHtml(items);
-  const replacement =
-    '<div class="tool-grid" data-builder="' + key + '">\n' +
-    inner +
-    "\n        </div>";
-  return html.slice(0, openStart) + replacement + html.slice(i);
-}
 
-function replaceBalancedToolGridAfter(html, searchFrom, items) {
-  const chunk = html.slice(searchFrom);
-  const gm = /<div\s+class=["']tool-grid["'][^>]*>/i.exec(chunk);
-  if (!gm) return html;
-  const openStart = searchFrom + gm.index;
-  let i = openStart + gm[0].length;
-  let depth = 1;
-  while (i < html.length && depth > 0) {
-    const nextOpen = html.indexOf("<div", i);
-    const nextClose = html.indexOf("</div>", i);
-    if (nextClose === -1) break;
-    if (nextOpen !== -1 && nextOpen < nextClose) {
-      depth++;
-      i = nextOpen + 4;
-    } else {
-      depth--;
-      i = nextClose + 6;
-    }
-  }
-  const inner = featuredGridHtml(items);
-  const replacement = '<div class="tool-grid">\n' + inner + "\n        </div>";
-  return html.slice(0, openStart) + replacement + html.slice(i);
-}
-
-function injectFeaturedBySection(html, sectionId, items) {
-  const needle = 'id="' + sectionId + '"';
-  const pos = html.indexOf(needle);
-  if (pos === -1) return html;
-  const slice = html.slice(pos, pos + 3000);
-  if (slice.includes("data-builder=")) return html;
-  return replaceBalancedToolGridAfter(html, pos, items);
-}
-
-function injectFeaturedByHeading(html, heading, items) {
-  const marker = "<h2>" + heading + "</h2>";
-  const pos = html.indexOf(marker);
-  if (pos === -1) return html;
-  const slice = html.slice(pos, pos + 2500);
-  if (slice.includes("data-builder=")) return html;
-  return replaceBalancedToolGridAfter(html, pos, items);
-}
 
 function isRealHtml(html) {
   return /<html\b/i.test(html) || /<head\b/i.test(html);
@@ -537,28 +403,7 @@ function rewriteMovedAnchors(html, rel) {
   });
 }
 
-const MOVED_BANNER_CSS = `<style data-pbd-moved>.pbd-moved-banner{background:#eef7f8;border-bottom:1px solid #cce3e7;color:#13232b;font-size:.88rem;line-height:1.45}.pbd-moved-inner{width:min(calc(100% - 32px),1000px);margin:0 auto;padding:9px 0;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 14px}.pbd-moved-banner a{color:#075866;font-weight:700;text-decoration:underline;text-underline-offset:2px;white-space:nowrap}.pbd-moved-banner a:hover{color:#0b7285}@media print{.pbd-moved-banner{display:none!important}}</style>`;
 
-function injectMovedNotice(html, rel) {
-  const moved = MOVED_BY_REL.get(rel);
-  if (!moved || !isRealHtml(html)) return html;
-
-  let next = html;
-  if (!next.includes("data-pbd-moved") && /<\/head>/i.test(next)) {
-    next = next.replace(/<\/head>/i, `  ${MOVED_BANNER_CSS}\n</head>`);
-  }
-
-  if (!next.includes('class="pbd-moved-banner"')) {
-    const banner = `<div class="pbd-moved-banner" role="note" aria-label="Canonical tool location"><div class="pbd-moved-inner"><span>This tool is now officially maintained at <strong>${moved.host}</strong>.</span><a href="${moved.movedTo}" rel="noopener">Open on ${moved.host} ↗</a></div></div>`;
-    if (/<\/header>/i.test(next)) {
-      next = next.replace(/<\/header>/i, `</header>\n  ${banner}`);
-    } else if (/<body\b[^>]*>/i.test(next)) {
-      next = next.replace(/<body\b[^>]*>/i, (m) => `${m}\n  ${banner}`);
-    }
-  }
-
-  return next;
-}
 
 /* ========================================================================== *
  * Zero-Dependency Minifiers (CSS, JS Lexer, Protected-Block HTML + JSON-LD)  *
@@ -1166,12 +1011,7 @@ function compileHtml(rawHtml, rel) {
     );
   }
 
-  if (rel === "tools/index.html") {
-    html = html.replace(
-      /<main\b[^>]*\bid=["']tools["'][^>]*>[\s\S]*?<\/main>/i,
-      generateToolsMain()
-    );
-  } else if (rel === "widgets/index.html") {
+  if (rel === "widgets/index.html") {
     html = html.replace(
       /<main\b[^>]*\bid=["']widgets["'][^>]*>[\s\S]*?<\/main>/i,
       generateWidgetsMain()
@@ -1183,23 +1023,11 @@ function compileHtml(rawHtml, rel) {
     );
   }
 
-  const isNewsPulseSpa = /data-spa=["']news-pulse["']/i.test(html);
-
-  if (rel === "index.html" && !isNewsPulseSpa) {
-    html = injectFeaturedGrid(html, "featured-tools", TOOLS);
-    html = injectFeaturedGrid(html, "featured-widgets", WIDGETS);
-    html = injectFeaturedGrid(html, "featured-guides", GUIDES);
-    html = injectFeaturedBySection(html, "featured", TOOLS);
-    html = injectFeaturedByHeading(html, "Widgets", WIDGETS);
-    html = injectFeaturedByHeading(html, "Guides", GUIDES);
-  }
-
   html = ensureRobotsMeta(html, rel);
   html = ensureCanonical(html, rel);
   html = ensureOgUrl(html, rel);
   html = alignJsonLdMovedUrls(html, rel);
   html = rewriteMovedAnchors(html, rel);
-  html = injectMovedNotice(html, rel);
 
   const ads = ensureAdSense(html, rel);
   html = ads.html;
@@ -1348,6 +1176,18 @@ function verifySeoInvariants(sitemapUrls, compiledHtmlByRel) {
         errors.push(`${rel}: stray internal link to moved tool "${href}"`);
       }
     }
+
+    const insRe = /<ins\b[^>]*class=["'][^"']*adsbygoogle[^"']*["'][^>]*>/gi;
+    let insMatch;
+    while ((insMatch = insRe.exec(html)) !== null) {
+      const tag = insMatch[0];
+      if (!new RegExp(`data-ad-client=["']${ADSENSE_CLIENT}["']`, "i").test(tag)) {
+        errors.push(`${rel}: <ins class="adsbygoogle"> missing valid data-ad-client="${ADSENSE_CLIENT}"`);
+      }
+      if (!/data-ad-slot=["']\d+["']/i.test(tag)) {
+        errors.push(`${rel}: <ins class="adsbygoogle"> missing numeric data-ad-slot`);
+      }
+    }
   }
 
   if (errors.length) {
@@ -1394,10 +1234,7 @@ function main() {
     fs.mkdirSync(path.dirname(outFile), { recursive: true });
     const ext = path.extname(rel).toLowerCase();
 
-    if (rel.startsWith("functions/")) {
-      fs.copyFileSync(srcFile, outFile);
-      counts.copied++;
-    } else if (ext === ".html") {
+    if (ext === ".html") {
       const raw = fs.readFileSync(srcFile, "utf8");
       const res = compileHtml(raw, rel);
       fs.writeFileSync(outFile, res.output, "utf8");
@@ -1430,18 +1267,6 @@ function main() {
       fs.copyFileSync(srcFile, outFile);
       counts.copied++;
     }
-  }
-
-  if (fs.existsSync(FUNCTIONS_ROOT)) {
-    const fnFiles = walkAll(FUNCTIONS_ROOT);
-    for (const fnFile of fnFiles) {
-      const rel = path.relative(FUNCTIONS_ROOT, fnFile).replace(/\\/g, "/");
-      const outFile = path.join(OUT_ROOT, "functions", rel);
-      fs.mkdirSync(path.dirname(outFile), { recursive: true });
-      fs.copyFileSync(fnFile, outFile);
-      counts.copied++;
-    }
-    console.log(`Copied ${fnFiles.length} function file(s) from functions/ → public/functions/.`);
   }
 
   const sitemapUrls = generateSitemap();

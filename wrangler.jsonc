@@ -1,11 +1,13 @@
 {
-    "$schema": "node_modules/wrangler/config-schema.json",
-    "name": "pbd-com-np",
-    "compatibility_date": "2026-09-26",
-    "observability": {
-      "enabled": true
-    },
-    "assets": {
-      "directory": "./public"
-    }
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "pbd-com-np",
+  "main": "worker.js",
+  "compatibility_date": "2026-09-26",
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS"
   }
+}
