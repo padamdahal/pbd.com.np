@@ -15,13 +15,13 @@
   ];
 
   const FOOTER_LINKS = [
-    { href: "/tools/nepali-typing/", label: "Nepali Typing" },
-    { href: "/tools/preeti-to-unicode/", label: "Preeti ↔ Unicode" },
-    { href: "/tools/nepali-date-converter/", label: "BS ↔ AD" },
-    { href: "/tools/income-tax-calculator/", label: "Income Tax" },
-    { href: "/tools/number-to-nepali-words/", label: "Number to Words" },
-    { href: "/tools/nepal-map/", label: "Nepal Map" },
-    { href: "/tools/nepali-spell-checker/", label: "Spell Checker" },
+    { href: "https://nepaliwebtools.link/tools/nepali-typing/", label: "Nepali Typing" },
+    { href: "https://nepaliwebtools.link/tools/preeti-to-unicode/", label: "Preeti ↔ Unicode" },
+    { href: "https://nepaliwebtools.link/tools/nepali-date-converter/", label: "Nepali Date Converter" },
+    { href: "https://nepaliwebtools.link/tools/nepali-spell-checker/", label: "Spell Checker" },
+    { href: "https://nepaliwebtools.link/tools/number-to-nepali-words/", label: "Number to Words" },
+    { href: "https://nepaliwebtools.link/tools/income-tax-calculator/", label: "Income Tax" },
+    { href: "https://nepaliwebtools.link/tools/nepal-map/", label: "Nepal Map" },
   ];
 
 
@@ -50,11 +50,21 @@
     { href: "/privacy/", label: "Privacy" },
   ];
 
+  function isExternal(href) {
+    try {
+      return new URL(href, location.origin).origin !== location.origin;
+    } catch {
+      return false;
+    }
+  }
+
   function isCurrent(href) {
     if (href === "/") return here === "/";
     if (href.startsWith("/#")) return false;
     try {
-      const path = new URL(href, location.origin).pathname.replace(/index\.html$/, "");
+      const url = new URL(href, location.origin);
+      if (url.origin !== location.origin) return false;
+      const path = url.pathname.replace(/index\.html$/, "");
       return path === here || (path !== "/" && here.startsWith(path));
     } catch {
       return false;
@@ -65,7 +75,11 @@
     const a = document.createElement("a");
     a.href = href;
     a.textContent = label;
-    if (isCurrent(href)) a.setAttribute("aria-current", "page");
+    if (isExternal(href)) {
+      a.setAttribute("rel", "noopener");
+    } else if (isCurrent(href)) {
+      a.setAttribute("aria-current", "page");
+    }
     return a;
   }
 
@@ -84,10 +98,21 @@
 
   function injectFooter(nav) {
     if (!nav) return;
-    nav.innerHTML = "";
     nav.classList.add("footer-pills");
-    for (const item of FOOTER_LINKS) {
-      nav.appendChild(makeLink(item.href, item.label));
+    if (!nav.querySelector("a[href]")) {
+      nav.innerHTML = "";
+      for (const item of FOOTER_LINKS) {
+        nav.appendChild(makeLink(item.href, item.label));
+      }
+    } else {
+      nav.querySelectorAll("a[href]").forEach((a) => {
+        if (isExternal(a.getAttribute("href") || "")) {
+          const rel = a.getAttribute("rel") || "";
+          if (!/\bnoopener\b/i.test(rel)) {
+            a.setAttribute("rel", (rel ? rel + " " : "") + "noopener");
+          }
+        }
+      });
     }
 
     const bar = nav.closest(".bar") || nav.parentElement;

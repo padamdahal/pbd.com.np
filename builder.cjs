@@ -50,13 +50,52 @@ const HEADER_BLOCK = `<header class="site-header">
   </header>`;
 
 /* Catalog data loaded from builder-catalog.cjs */
-const { TOOLS, WIDGETS, GUIDES } = require("./builder-catalog.cjs");
+const {
+  SITE_ORIGIN = "https://pbd.com.np",
+  MOVED_TOOLS_ORIGIN = "https://nepaliwebtools.link",
+  TOOLS,
+  WIDGETS,
+  GUIDES,
+} = require("./builder-catalog.cjs");
+
+function normalizePathSlash(p) {
+  let s = String(p || "").trim();
+  if (!s.startsWith("/")) s = "/" + s;
+  s = s.replace(/index\.html$/i, "");
+  if (!s.endsWith("/")) s += "/";
+  return s;
+}
+
+const MOVED_BY_REL = new Map();
+const MOVED_BY_PATH = new Map();
+for (const item of [...TOOLS, ...WIDGETS, ...GUIDES]) {
+  if (!item.movedTo || !item.href) continue;
+  const normPath = normalizePathSlash(item.href);
+  const relPath = normPath.replace(/^\/+/, "") + "index.html";
+  let host = "nepaliwebtools.link";
+  try {
+    host = new URL(item.movedTo).host;
+  } catch {
+    // keep default host label
+  }
+  const entry = {
+    href: normPath,
+    movedTo: item.movedTo,
+    title: item.title,
+    host,
+    relPath,
+  };
+  MOVED_BY_REL.set(relPath, entry);
+  MOVED_BY_PATH.set(normPath, entry);
+}
 
 /** Footer pills from catalog items with footer: true (shortTitle optional) */
 function buildFooterNav() {
   const pills = TOOLS.filter((t) => t.footer).map((t) => {
     const label = t.shortTitle || t.title;
-    return `<a href="${t.href}">${label}</a>`;
+    const href = t.movedTo || t.href;
+    const extAttrs = t.movedTo ? ' rel="noopener"' : "";
+    return `<a href="${href}"${extAttrs}>${label}</a>`;
   });
   return `<nav id="footer-menu" class="footer-pills" aria-label="Footer">${pills.join("")}</nav>`;
 }
@@ -72,6 +111,19 @@ const FOOTER_BLOCK = `<footer class="site-footer">
 </footer>`;
 
 function cardHtml(item) {
+  if (item.movedTo) {
+    let host = "nepaliwebtools.link";
+    try {
+      host = new URL(item.movedTo).host;
+    } catch {
+      // keep default
+    }
+    return `          <a class="tool-card" href="${item.movedTo}" rel="noopener">
+            <h3>${item.title} <span aria-hidden="true">↗</span></h3>
+            <p>${item.desc}</p>
+            <div class="tool-meta">${item.category} · ${host}</div>
+          </a>`;
+  }
   return `          <a class="tool-card" href="${item.href}">
             <h3>${item.title}</h3>
             <p>${item.desc}</p>
@@ -294,8 +346,24 @@ function ensureAdSense(html, rel) {
 
 function ensureRobotsMeta(html, rel) {
   if (ROBOTS_SKIP.has(rel) || !isRealHtml(html)) return html;
-  if (/<meta\s+name=["']robots["']/i.test(html)) return html;
-  const tag = '  <meta name="robots" content="index, follow, max-image-preview:large">\n';
+  const moved = MOVED_BY_REL.get(rel);
+  const robotsRe = /<meta\b(?=[^>]*\bname=["']robots["'])[^>]*>/i;
+  const standardTag = '<meta name="robots" content="index, follow, max-image-preview:large">';
+
+  if (moved) {
+    // Cross-domain canonical pages must stay indexable (never mix noindex + canonical)
+    const existing = html.match(robotsRe);
+    if (existing) {
+      if (/\bnoindex\b/i.test(existing[0])) {
+        return html.replace(robotsRe, standardTag);
+      }
+      return html;
+    }
+  } else if (robotsRe.test(html)) {
+    return html;
+  }
+
+  const tag = `  ${standardTag}\n`;
   if (/<\/title>/i.test(html)) {
     return html.replace(/<\/title>/i, `</title>\n${tag}`);
   }
@@ -307,10 +375,27 @@ function ensureRobotsMeta(html, rel) {
 
 function ensureCanonical(html, rel) {
   if (ROBOTS_SKIP.has(rel) || !isRealHtml(html)) return html;
-  if (/<link\s+rel=["']canonical["']/i.test(html)) return html;
+  const moved = MOVED_BY_REL.get(rel);
+  const canonicalRe = /<link\b(?=[^>]*\brel=["']canonical["'])[^>]*>/i;
+
+  if (moved) {
+    const newTag = `<link rel="canonical" href="${moved.movedTo}">`;
+    if (canonicalRe.test(html)) {
+      return html.replace(canonicalRe, newTag);
+    }
+    if (/<\/title>/i.test(html)) {
+      return html.replace(/<\/title>/i, `</title>\n  ${newTag}`);
+    }
+    if (/<head\b[^>]*>/i.test(html)) {
+      return html.replace(/<head\b[^>]*>/i, (m) => `${m}\n  ${newTag}`);
+    }
+    return html;
+  }
+
+  if (canonicalRe.test(html)) return html;
   let canonicalPath = rel.replace(/index\.html$/i, "");
   if (canonicalPath && !canonicalPath.endsWith("/")) canonicalPath += "/";
-  const tag = `  <link rel="canonical" href="https://pbd.com.np/${canonicalPath}">\n`;
+  const tag = `  <link rel="canonical" href="${SITE_ORIGIN}/${canonicalPath}">\n`;
   if (/<\/title>/i.test(html)) {
     return html.replace(/<\/title>/i, `</title>\n${tag}`);
   }
@@ -318,6 +403,160 @@ function ensureCanonical(html, rel) {
     return html.replace(/<head\b[^>]*>/i, (m) => `${m}\n${tag}`);
   }
   return html;
+}
+
+function ensureOgUrl(html, rel) {
+  if (ROBOTS_SKIP.has(rel) || !isRealHtml(html)) return html;
+  const moved = MOVED_BY_REL.get(rel);
+  if (!moved) return html;
+
+  const ogUrlRe = /<meta\b(?=[^>]*\bproperty=["']og:url["'])[^>]*>/i;
+  const newTag = `<meta property="og:url" content="${moved.movedTo}">`;
+  if (ogUrlRe.test(html)) {
+    return html.replace(ogUrlRe, newTag);
+  }
+  if (/<link\b(?=[^>]*\brel=["']canonical["'])[^>]*>/i.test(html)) {
+    return html.replace(
+      /<link\b(?=[^>]*\brel=["']canonical["'])[^>]*>/i,
+      (m) => `${m}\n  ${newTag}`
+    );
+  }
+  if (/<\/head>/i.test(html)) {
+    return html.replace(/<\/head>/i, `  ${newTag}\n</head>`);
+  }
+  return html;
+}
+
+function resolveMovedPageUrl(rawUrl, baseUrl) {
+  if (!rawUrl) return null;
+  const trimmed = rawUrl.trim();
+  if (
+    !trimmed ||
+    trimmed.startsWith("#") ||
+    /^(?:mailto:|tel:|javascript:|data:)/i.test(trimmed)
+  ) {
+    return null;
+  }
+  let u;
+  try {
+    u = new URL(trimmed, baseUrl);
+  } catch {
+    return null;
+  }
+  if (u.origin !== SITE_ORIGIN) return null;
+
+  const rawPath = u.pathname;
+  const normPath = normalizePathSlash(rawPath);
+  const entry = MOVED_BY_PATH.get(normPath);
+  if (!entry) return null;
+
+  // Ensure this is the page route itself (not a sub-asset like /tools/slug/app.js or /icons/...)
+  const lowerRaw = rawPath.toLowerCase();
+  const isPageRoute =
+    rawPath === entry.href ||
+    rawPath + "/" === entry.href ||
+    lowerRaw === entry.href + "index.html";
+  if (!isPageRoute) return null;
+
+  return entry.movedTo + u.search + u.hash;
+}
+
+function alignJsonLdMovedUrls(html, rel) {
+  if (!MOVED_BY_PATH.size || !isRealHtml(html)) return html;
+  const baseUrl = `${SITE_ORIGIN}/${rel}`;
+
+  function walkVal(val) {
+    if (typeof val === "string") {
+      if (val.startsWith(SITE_ORIGIN + "/")) {
+        const replaced = resolveMovedPageUrl(val, baseUrl);
+        return replaced || val;
+      }
+      return val;
+    }
+    if (Array.isArray(val)) return val.map(walkVal);
+    if (val && typeof val === "object") {
+      const out = {};
+      for (const [k, v] of Object.entries(val)) {
+        out[k] = walkVal(v);
+      }
+      return out;
+    }
+    return val;
+  }
+
+  return html.replace(
+    /(<script\b[^>]*\btype=["']application\/ld\+json["'][^>]*>)([\s\S]*?)(<\/script\s*>)/gi,
+    (full, open, body, close) => {
+      try {
+        const parsed = JSON.parse(body);
+        const updated = walkVal(parsed);
+        const serialized = JSON.stringify(updated).replace(/<\/script/gi, "<\\/script");
+        return open + serialized + close;
+      } catch {
+        return full;
+      }
+    }
+  );
+}
+
+function rewriteMovedAnchors(html, rel) {
+  if (!MOVED_BY_PATH.size || !isRealHtml(html)) return html;
+  const baseUrl = `${SITE_ORIGIN}/${rel}`;
+
+  return html.replace(/<a\b([^>]*?)>/gi, (full, attrs) => {
+    const hrefMatch = /\bhref\s*=\s*(?:"([^"]*)"|'([^']*)')/i.exec(attrs);
+    if (!hrefMatch) return full;
+    const rawHref = hrefMatch[1] !== undefined ? hrefMatch[1] : hrefMatch[2];
+    const targetUrl = resolveMovedPageUrl(rawHref, baseUrl);
+    if (!targetUrl) return full;
+
+    let nextAttrs = attrs.replace(
+      /\bhref\s*=\s*(?:"[^"]*"|'[^']*')/i,
+      `href="${targetUrl}"`
+    );
+
+    if (/\brel\s*=\s*(?:"([^"]*)"|'([^']*)')/i.test(nextAttrs)) {
+      nextAttrs = nextAttrs.replace(
+        /\brel\s*=\s*(?:"([^"]*)"|'([^']*)')/i,
+        (_m, r1, r2) => {
+          const tokens = (r1 !== undefined ? r1 : r2)
+            .split(/\s+/)
+            .filter((t) => t && t.toLowerCase() !== "nofollow");
+          if (!tokens.some((t) => t.toLowerCase() === "noopener")) {
+            tokens.push("noopener");
+          }
+          return `rel="${tokens.join(" ")}"`;
+        }
+      );
+    } else {
+      nextAttrs += ' rel="noopener"';
+    }
+
+    return `<a${nextAttrs}>`;
+  });
+}
+
+const MOVED_BANNER_CSS = `<style data-pbd-moved>.pbd-moved-banner{background:#eef7f8;border-bottom:1px solid #cce3e7;color:#13232b;font-size:.88rem;line-height:1.45}.pbd-moved-inner{width:min(calc(100% - 32px),1000px);margin:0 auto;padding:9px 0;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 14px}.pbd-moved-banner a{color:#075866;font-weight:700;text-decoration:underline;text-underline-offset:2px;white-space:nowrap}.pbd-moved-banner a:hover{color:#0b7285}@media print{.pbd-moved-banner{display:none!important}}</style>`;
+
+function injectMovedNotice(html, rel) {
+  const moved = MOVED_BY_REL.get(rel);
+  if (!moved || !isRealHtml(html)) return html;
+
+  let next = html;
+  if (!next.includes("data-pbd-moved") && /<\/head>/i.test(next)) {
+    next = next.replace(/<\/head>/i, `  ${MOVED_BANNER_CSS}\n</head>`);
+  }
+
+  if (!next.includes('class="pbd-moved-banner"')) {
+    const banner = `<div class="pbd-moved-banner" role="note" aria-label="Canonical tool location"><div class="pbd-moved-inner"><span>This tool is now officially maintained at <strong>${moved.host}</strong>.</span><a href="${moved.movedTo}" rel="noopener">Open on ${moved.host} ↗</a></div></div>`;
+    if (/<\/header>/i.test(next)) {
+      next = next.replace(/<\/header>/i, `</header>\n  ${banner}`);
+    } else if (/<body\b[^>]*>/i.test(next)) {
+      next = next.replace(/<body\b[^>]*>/i, (m) => `${m}\n  ${banner}`);
+    }
+  }
+
+  return next;
 }
 
 /* ========================================================================== *
@@ -954,6 +1193,10 @@ function compileHtml(rawHtml, rel) {
 
   html = ensureRobotsMeta(html, rel);
   html = ensureCanonical(html, rel);
+  html = ensureOgUrl(html, rel);
+  html = alignJsonLdMovedUrls(html, rel);
+  html = rewriteMovedAnchors(html, rel);
+  html = injectMovedNotice(html, rel);
 
   const ads = ensureAdSense(html, rel);
   html = ads.html;
@@ -978,18 +1221,18 @@ function compileHtml(rawHtml, rel) {
 function generateSitemap() {
   const today = new Date().toISOString().split("T")[0];
   const urls = [
-    { loc: "https://pbd.com.np/", changefreq: "daily", priority: "1.0", lastmod: today },
-    { loc: "https://pbd.com.np/tools/", changefreq: "weekly", priority: "0.9", lastmod: today },
-    { loc: "https://pbd.com.np/guides/", changefreq: "weekly", priority: "0.8", lastmod: today },
-    { loc: "https://pbd.com.np/widgets/", changefreq: "weekly", priority: "0.8", lastmod: today },
-    { loc: "https://pbd.com.np/about/", changefreq: "monthly", priority: "0.6", lastmod: today },
-    { loc: "https://pbd.com.np/privacy/", changefreq: "monthly", priority: "0.4", lastmod: today },
+    { loc: `${SITE_ORIGIN}/`, changefreq: "daily", priority: "1.0", lastmod: today },
+    { loc: `${SITE_ORIGIN}/tools/`, changefreq: "weekly", priority: "0.9", lastmod: today },
+    { loc: `${SITE_ORIGIN}/guides/`, changefreq: "weekly", priority: "0.8", lastmod: today },
+    { loc: `${SITE_ORIGIN}/widgets/`, changefreq: "weekly", priority: "0.8", lastmod: today },
+    { loc: `${SITE_ORIGIN}/about/`, changefreq: "monthly", priority: "0.6", lastmod: today },
+    { loc: `${SITE_ORIGIN}/privacy/`, changefreq: "monthly", priority: "0.4", lastmod: today },
   ];
 
   for (const t of TOOLS) {
-    if (t.href) {
+    if (t.href && !t.movedTo) {
       urls.push({
-        loc: `https://pbd.com.np${t.href}`,
+        loc: `${SITE_ORIGIN}${t.href}`,
         changefreq: "weekly",
         priority: t.featured ? "0.9" : "0.8",
         lastmod: today,
@@ -998,9 +1241,9 @@ function generateSitemap() {
   }
 
   for (const w of WIDGETS) {
-    if (w.href) {
+    if (w.href && !w.movedTo) {
       urls.push({
-        loc: `https://pbd.com.np${w.href}`,
+        loc: `${SITE_ORIGIN}${w.href}`,
         changefreq: "weekly",
         priority: "0.8",
         lastmod: today,
@@ -1009,9 +1252,9 @@ function generateSitemap() {
   }
 
   for (const g of GUIDES) {
-    if (g.href) {
+    if (g.href && !g.movedTo) {
       urls.push({
-        loc: `https://pbd.com.np${g.href}`,
+        loc: `${SITE_ORIGIN}${g.href}`,
         changefreq: "monthly",
         priority: "0.8",
         lastmod: today,
@@ -1036,6 +1279,61 @@ ${urls
   const sitemapPath = path.join(OUT_ROOT, "sitemap.xml");
   fs.writeFileSync(sitemapPath, xml, "utf8");
   console.log(`Generated public/sitemap.xml with ${urls.length} URLs (lastmod: ${today}).`);
+  return urls;
+}
+
+function verifySeoInvariants(sitemapUrls, compiledHtmlByRel) {
+  const errors = [];
+  const sitemapSet = new Set(sitemapUrls.map((u) => u.loc));
+
+  for (const [rel, entry] of MOVED_BY_REL.entries()) {
+    const html = compiledHtmlByRel.get(rel);
+    if (!html) {
+      errors.push(`Moved page missing from build output: ${rel}`);
+      continue;
+    }
+
+    const canMatch = html.match(/<link\b(?=[^>]*\brel=["']canonical["'])[^>]*\bhref=["']([^"']+)["'][^>]*>/i);
+    if (!canMatch || canMatch[1] !== entry.movedTo) {
+      errors.push(`${rel}: canonical expected "${entry.movedTo}", got "${canMatch ? canMatch[1] : "NONE"}"`);
+    }
+
+    const ogMatch = html.match(/<meta\b(?=[^>]*\bproperty=["']og:url["'])[^>]*\bcontent=["']([^"']+)["'][^>]*>/i);
+    if (!ogMatch || ogMatch[1] !== entry.movedTo) {
+      errors.push(`${rel}: og:url expected "${entry.movedTo}", got "${ogMatch ? ogMatch[1] : "NONE"}"`);
+    }
+
+    const robMatch = html.match(/<meta\b(?=[^>]*\bname=["']robots["'])[^>]*\bcontent=["']([^"']+)["'][^>]*>/i);
+    if (!robMatch || /\bnoindex\b/i.test(robMatch[1])) {
+      errors.push(`${rel}: robots meta must be indexable alongside cross-domain canonical (got "${robMatch ? robMatch[1] : "NONE"}")`);
+    }
+
+    if (sitemapSet.has(`${SITE_ORIGIN}${entry.href}`)) {
+      errors.push(`sitemap.xml must not include cross-domain canonicalized URL: ${SITE_ORIGIN}${entry.href}`);
+    }
+  }
+
+  let strayInternalLinks = 0;
+  for (const [rel, html] of compiledHtmlByRel.entries()) {
+    const baseUrl = `${SITE_ORIGIN}/${rel}`;
+    const anchorRe = /<a\b[^>]*\bhref=(?:"([^"]*)"|'([^']*)')[^>]*>/gi;
+    let m;
+    while ((m = anchorRe.exec(html)) !== null) {
+      const href = m[1] !== undefined ? m[1] : m[2];
+      if (resolveMovedPageUrl(href, baseUrl)) {
+        strayInternalLinks++;
+        errors.push(`${rel}: stray internal link to moved tool "${href}"`);
+      }
+    }
+  }
+
+  if (errors.length) {
+    throw new Error(`SEO invariant audit failed (${errors.length} issue(s)):\n  - ${errors.join("\n  - ")}`);
+  }
+
+  console.log(
+    `SEO Migration: ${MOVED_BY_REL.size} pages cross-domain canonicalized → ${MOVED_TOOLS_ORIGIN}, 0 sitemap conflicts, ${strayInternalLinks} stray internal links.`
+  );
 }
 
 /* ========================================================================== *
@@ -1063,6 +1361,7 @@ function main() {
   const bytes = { raw: 0, out: 0 };
   const adsenseStats = { ok: 0, fixed: 0, skipped: 0, brokenLeft: 0 };
   const adsenseFixedFiles = [];
+  const compiledHtmlByRel = new Map();
 
   for (const srcFile of srcFiles) {
     const rel = path.relative(SRC_ROOT, srcFile).replace(/\\/g, "/");
@@ -1076,6 +1375,7 @@ function main() {
       const raw = fs.readFileSync(srcFile, "utf8");
       const res = compileHtml(raw, rel);
       fs.writeFileSync(outFile, res.output, "utf8");
+      compiledHtmlByRel.set(rel, res.output);
       counts.html++;
       bytes.raw += res.compiledBytes;
       bytes.out += res.outputBytes;
@@ -1106,7 +1406,8 @@ function main() {
     }
   }
 
-  generateSitemap();
+  const sitemapUrls = generateSitemap();
+  verifySeoInvariants(sitemapUrls, compiledHtmlByRel);
 
   const saved = bytes.raw - bytes.out;
   const pct = bytes.raw ? ((saved / bytes.raw) * 100).toFixed(1) : "0.0";
