@@ -1222,23 +1222,11 @@ function generateSitemap() {
   const today = new Date().toISOString().split("T")[0];
   const urls = [
     { loc: `${SITE_ORIGIN}/`, changefreq: "daily", priority: "1.0", lastmod: today },
-    { loc: `${SITE_ORIGIN}/tools/`, changefreq: "weekly", priority: "0.9", lastmod: today },
     { loc: `${SITE_ORIGIN}/guides/`, changefreq: "weekly", priority: "0.8", lastmod: today },
     { loc: `${SITE_ORIGIN}/widgets/`, changefreq: "weekly", priority: "0.8", lastmod: today },
     { loc: `${SITE_ORIGIN}/about/`, changefreq: "monthly", priority: "0.6", lastmod: today },
     { loc: `${SITE_ORIGIN}/privacy/`, changefreq: "monthly", priority: "0.4", lastmod: today },
   ];
-
-  for (const t of TOOLS) {
-    if (t.href && !t.movedTo) {
-      urls.push({
-        loc: `${SITE_ORIGIN}${t.href}`,
-        changefreq: "weekly",
-        priority: t.featured ? "0.9" : "0.8",
-        lastmod: today,
-      });
-    }
-  }
 
   for (const w of WIDGETS) {
     if (w.href && !w.movedTo) {
@@ -1285,6 +1273,12 @@ ${urls
 function verifySeoInvariants(sitemapUrls, compiledHtmlByRel) {
   const errors = [];
   const sitemapSet = new Set(sitemapUrls.map((u) => u.loc));
+
+  for (const u of sitemapUrls) {
+    if (/\/tools(?:\/|$)/i.test(u.loc)) {
+      errors.push(`sitemap.xml must not include /tools/ URL: ${u.loc}`);
+    }
+  }
 
   for (const [rel, entry] of MOVED_BY_REL.entries()) {
     const html = compiledHtmlByRel.get(rel);
